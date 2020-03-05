@@ -7,21 +7,27 @@
     "declarations": true
   },
   "dependencies": {
+    "@babel/core": "^7.8.7",
     "BlockChain-ui": "^1.0.32",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
     "egg-view-nunjucks": "^2.2.0",
-    "koa-compress": "^3.0.0",
-    "koa-conditional-get": "^2.0.0",
-    "koa-etag": "^3.0.0",
     "graphql-request": "^1.8.2",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-rev": "^9.0.0",
+    "gulp-stylus": "^2.7.0",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
+    "koa-compress": "^3.0.0",
+    "koa-conditional-get": "^2.0.0",
+    "koa-etag": "^3.0.0",
     "through2": "^3.0.1",
-    "tinify": "^1.6.0-beta.2"
+    "tinify": "^1.6.0-beta.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
