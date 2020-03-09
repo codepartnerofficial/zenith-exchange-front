@@ -1,10 +1,10 @@
 const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
-const { getLocale, getFileName, getPublicInfo } = require('../utils/index');
+const { getLocale, getFileName, getPublicInfo } = require('BlockChain-ui/node/utils');
 
 class StaticIndex extends Controller {
-  async get(ctx) {
+  async index(ctx) {
     const currenLan = this.ctx.cookies.get('lan', {
       signed: false,
     });
@@ -16,6 +16,7 @@ class StaticIndex extends Controller {
       nowHost = this.config.devUrlProxy.ex;
     }
     this.publicInfo = getPublicInfo(this);
+    this.setLan(fileName);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
     const { msg, lan } = this.publicInfo;
     const { header } = this.getLocalData(fileName, this.config.footerHeaderPath);
@@ -42,7 +43,6 @@ class StaticIndex extends Controller {
 
   getLocalData(fileName, fileBasePath) {
     let obj = {};
-    console.log(fileBasePath, fileName);
     try {
       obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
       // eslint-disable-next-line no-empty
@@ -126,6 +126,106 @@ class StaticIndex extends Controller {
       });
     }
     return arr;
+  }
+
+  async setLan(domain) {
+    // 取得client一级路由 clientUrlLan
+    const clientUrlLan = this.ctx.request.path.split('/')[1];
+    // 取得client cookie中语言 clientCookLan
+    const clientCookLan = this.ctx.cookies.get('lan');
+    const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
+    const dLan = 'en_US';
+    const reg = /^[a-z]{2}_[A-Z]{2}$/;
+    //console.log(this.publicInfo);
+    if (this.publicInfo.lan) {
+      // 针对 publicInfo => lan => defLan 兼容处理
+      let serverDefLan = dLan;
+      if (this.publicInfo.lan.defLan) {
+        serverDefLan = this.publicInfo.lan.defLan;
+      } else {
+        const errorData = {
+          domain,
+          message: `未拿到publicInfo.lan.defLan对象, 语言强制转为${serverDefLan}`,
+          key: 'publicInfo.lan.defLan',
+          data: this.publicInfo.lan.defLan,
+        };
+        if (!hostFilter.test(domain)) {
+          this.logger.error(JSON.stringify(errorData));
+        }
+      }
+
+      // 针对 publicInfo => lan => lanList 兼容处理
+      let severLanList = [];
+      console.log(this.publicInfo.lan)
+      if (this.publicInfo.lan.lanList instanceof Array) {
+        severLanList = this.publicInfo.lan.lanList;
+      } else {
+        const errorData = {
+          domain,
+          message: '未拿到publicInfo.lan.lanList对象, 转为[]',
+          key: 'publicInfo.lan.lanList',
+          data: this.publicInfo.lan.lanList,
+        };
+        if (!hostFilter.test(domain)) {
+          this.logger.error(JSON.stringify(errorData));
+        }
+      }
+
+      // 处理数据 lans
+      const lans = [];
+      if (severLanList.length) {
+        severLanList.forEach((item) => {
+          lans.push(item.id);
+        });
+      } else {
+        lans.push(serverDefLan);
+      }
+      // 如果url中的语言合法，则同步cookie
+      if (lans.indexOf(clientUrlLan) !== -1) {
+        this.ctx.cookies.set('lan', clientUrlLan, {
+          httpOnly: false,
+          domain: cookieDomain,
+        });
+      } else {
+        const lan = lans.indexOf(clientCookLan) !== -1 ? clientCookLan : serverDefLan;
+        let redirectUrl = '';
+        if (reg.test(clientUrlLan)) {
+          const vu = this.ctx.request.url.split(`/${clientUrlLan}`)[1];
+          redirectUrl = vu;
+        } else {
+          redirectUrl = this.ctx.request.url;
+        }
+        this.ctx.redirect(`/${lan}${redirectUrl}`);
+      }
+
+      this.lan = clientUrlLan;
+    } else {
+      const errorData = {
+        domain,
+        message: `未拿到publicInfo.lan对象, 语言强制转为${dLan}`,
+        key: 'publicInfo.lan',
+        data: this.publicInfo.data.lan,
+      };
+      if (!hostFilter.test(domain)) {
+        this.logger.error(JSON.stringify(errorData));
+      }
+      if (clientUrlLan === dLan) {
+        this.ctx.cookies.set('lan', dLan, {
+          httpOnly: false,
+          domain: cookieDomain,
+        });
+      } else {
+        let redirectUrl = '';
+        if (reg.test(clientUrlLan)) {
+          const vu = this.ctx.request.url.split(`/${clientUrlLan}`)[1];
+          redirectUrl = vu;
+        } else {
+          redirectUrl = this.ctx.request.url;
+        }
+        this.ctx.redirect(`/${dLan}${redirectUrl}`);
+      }
+      this.lan = clientUrlLan;
+    }
   }
 }
 

@@ -1,12 +1,7 @@
-const getDefaultLocale = require('../utils/getDefaultLocale');
+const { getDefaultLocale , getDefaultLocaleConfig }= require('BlockChain-ui/node/schedule/getDefault-locales');
 
 module.exports = {
-  schedule: {
-    interval: '600s', // 1 分钟间隔
-    immediate: true,
-    type: 'all', // 指定所有的 worker 都需要执行
-    env: 'prod',
-  },
+  schedule: getDefaultLocaleConfig,
   async task(ctx) {
     getDefaultLocale(this.schedule, ctx.app.config.localesPath, ctx.logger);
   },

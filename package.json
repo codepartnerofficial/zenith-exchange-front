@@ -50,6 +50,7 @@
     "autod": "autod",
     "lint": "eslint .",
     "dev": "egg-bin dev --port=9001",
+    "dev80": "egg-bin dev --port=80",
     "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",

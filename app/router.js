@@ -5,5 +5,5 @@
  */
 module.exports = (app) => {
   const { router, controller } = app;
-  router.get('/', controller.homePage.get);
+  router.get('/(.+)?/', controller.homePage.index);
 };

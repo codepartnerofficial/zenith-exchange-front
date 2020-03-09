@@ -2,22 +2,6 @@ const util = require('util');
 const Transport = require('egg-logger').Transport;
 const path = require('path');
 const fs = require('fs');
-const getDefaultLocale = require('./app/utils/getDefaultLocale');
-class RemoteErrorTransport extends Transport{
-  // 定义 log 方法，在此方法中把日志上报给远端服务
-  log(level, args) {
-    let log = args[0];
-    let data = {...log};
-    if(log.type){
-      data.type = log.type;
-    }else{
-      data.type = 'nodeCommon';
-    }
-    if(level === 'ERROR'){
-      this.options.app.curl(`https://chaindown-oss.oss-cn-hongkong.aliyuncs.com/static/cd.png?info=${JSON.stringify(data)}`).catch(console.error);
-    }
-  }
-}
 
 module.exports = (app) => {
   let argv = {};
@@ -31,9 +15,6 @@ module.exports = (app) => {
     app.config.buildEnv = argv.buildEnv;
   }
 
-/*  if(app.config.env !== 'local' && !argv.testEnv){
-    app.getLogger('errorLogger').set('remote', new RemoteErrorTransport({level: 'ERROR', app}));
-   }*/
    // 远程拉取数据 存储地址
   if (app.config.env === 'local') {
     app.config.staticPath = path.join(__dirname, './app/public/serverData/');

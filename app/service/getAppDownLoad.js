@@ -1,5 +1,5 @@
 const { Service } = require('egg');
-const getSetData = require('../utils/getSetData');
+const { getSetData } = require('BlockChain-ui/node/utils');
 
 class getAppDownLoad extends Service {
   async getdata(domainData, host) {
