@@ -1,6 +1,5 @@
-import { imgMap } from 'BlockChain-ui/utils';
-import imgMapObj from '@/utils/imgMap.json';
-
+import { imgMap } from 'BlockChain-ui/lib/utils';
+import imgMapObj from './imgMap.json';
 const imgMapSlove = imgMap(imgMapObj[1], process.env.BASE_URL);
 
 export { imgMapSlove as imgMap };
@@ -39,4 +38,4 @@ export {
   setCookie,
   getCookie,
   removeCookie,
-} from 'BlockChain-ui/utils';
+} from 'BlockChain-ui/lib/utils';

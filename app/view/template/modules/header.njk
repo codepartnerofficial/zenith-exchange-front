@@ -1,357 +1,103 @@
 <header class="common-header h-3-bd x-2-cl top-common-header c-2-bg" id="common-header">
-    <!-- 主流板块 -->
-    <ul class="common-header-linkList">
-        <!-- logo -->
-        <li class="linkList-logo-li">
-            <a class="linkList-logo" href="{{ headerLink.home }}">
-                <img src="{{ msg.logoUrl}}"/>
-            </a>
-        </li>
-        <li class="header-nav-ifl">
-            <svg class="icon icon-18" aria-hidden="true">
-                <use xlink:href="#icon-b_1"></use>
-            </svg>
-            <svg class="icon icon-18 hover" aria-hidden="true">
-                <use xlink:href="#icon-b_1_1"></use>
-            </svg>
-            <div
-                    class="header-sub-nav h-1-bg">
-                <ul class="header-user-text x-2-cl">
-                    <li class="g-3-cl-h ">
-                <a
-                        href ="/broker"
-                        :class="(langHover === 'broker') ? 'h-4-bg h-7-cl' : ''"
-                        @mouseenter="handMouseenter('broker')"
-                        @mouseout="handMouseleave('broker')"
-                >
-                <!-- 经纪人系统 -->
-                {{ locale.header.broker }}
-                </a>
-                    </li>
-                    <li
-                            v-if="publicInfo && publicInfo.switch.is_return_open === '1'"
-                            class="g-3-cl-h">
-                <span
-                        @click="btnLink('/mining')"
-                        :class="(langHover === 'minings') ? 'h-4-bg h-7-cl' : ''"
-                        @mouseenter="handMouseenter('minings')"
-                        @mouseout="handMouseleave('minings')"
-                >
-                <!-- 交易挖矿 -->
-                {{ locale.header.minings }}
-                </span>
-                    </li>
-                    <li
-                            v-if="publicInfo && publicInfo.switch.newcoinOpen === '1'"
-                            class="x-2-cl g-3-cl-h">
-                <span
-                        @click="btnLink('/innovation')"
-                        :class="(langHover === 'innov_tit') ? 'h-4-bg h-7-cl' : ''"
-                        @mouseenter="handMouseenter('innov_tit')"
-                        @mouseout="handMouseleave('innov_tit')"
-                >
-                  <!-- 创新试验区 -->
-                  {{ locale.header.innov_tit }}
-                </span>
-                    </li>
-                    <li
-                            v-if="publicInfo && publicInfo.switch.is_financing_open === '1'"
-                            class="x-2-cl g-3-cl-h">
-                <span
-                        @click="btnLink('/manageFinances')"
-                        :class="(langHover === 'manageFinances') ? 'h-4-bg h-7-cl' : ''"
-                        @mouseenter="handMouseenter('manageFinances')"
-                        @mouseout="handMouseleave('manageFinances')"
-                >
-                  <!-- 理财宝 -->
-                  {{ locale.manageFinances.manage_finances }}
-                </span>
-                    </li>
-                    <li class="x-2-cl g-3-cl-h">
-                <span
-                        @click="btnLink('/questions/init')"
-                        :class="(langHover === '/questions/init') ? 'h-4-bg h-7-cl' : ''"
-                        @mouseenter="handMouseenter('/questions/init')"
-                        @mouseout="handMouseleave('/questions/init')"
-                >
-                  <!-- 问题中心 -->
-                  {{ locale.questions.title }}
-                </span>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        {% for item in headerList %}
-        <li class="header-navEven">
-            {{ item.title }}
-        </li>
-        {% endfor %}
-        <!--  <li
-                  v-for="(item, index) in tradesList"
-                  :key="index"
-                  class="header-navEven"
-                  :class="getClass(item.activeId)"
-                  @mouseenter="evenHandMouseenter(item.activeId)"
-                  @mouseleave="evenHandMouseleave"
-                  @click="btnHref(item.link, false, { trades: true, id: item.activeId })">
-              {{ item.title }}
-          </li>-->
-        <!--  自定义导航 -->
-        {% for item in customHeaderList %}
-        <li class="header-navEven">
-            {{item.text}}
-            {% if item.new %}
-            <div class="new-label x-3-cl h-5-bg">NEW</div>
-            {% endif %}
-        </li>
-        {% endfor %}
-        <!-- <template v-if="headerTemplate.length">
-             <li
-                     class="header-navEven"
-                     :key="'info' + index"
-                     v-for="(item, index) in headerTemplate"
-                     :class="getClass(item.activeId)"
-                     @mouseenter="evenHandMouseenter(item.activeId)"
-                     @mouseleave="evenHandMouseleave"
-                     @click="btnHref(item.link, item.target)">
-                 {{item.text}}
-                 <div v-if="item.new" class="new-label x-3-cl h-5-bg">NEW</div>
-             </li>
-         </template>-->
-    </ul>
-    <!-- 公共版款 -->
-    <div class="common-header-optionList">
-        <!-- 未登录时 -->
-        <div class="header-guide h-2-bd" v-if="!isLogin && userInfoIsReady">
-            <button class="common-button
-             header-login-button
-              common-button-text-kind
-               u-11-cl"
-                    style="height: 30px; padding-left: 22px; padding-right: 22px; margin-top: 0px;">
-                <div class="common-button-slot">
-                    {{ locale.header.login }}
-                </div>
-            </button>
-            <button class="
-            common-button
-            header-reg-button
-            common-button-hollow-big
-            u-11-cl u-8-bd "
-                    style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px;">
-                <div class="common-button-slot">
-                    {{ locale.header.register }}
-                </div>
-            </button>
-        </div>
-        <div class="header-isLogin" style="display: none" v-if="isLogin && userInfoIsReady">
-            <!-- 资产 -->
-            <div class="header-isLogin-navEven"
-                 :class="getClass('assets')"
-                 @mouseenter="evenHandMouseenter('assets')"
-                 @mouseleave="evenHandMouseleave">
-                <div class="header-isLogin-navEven-title"
-                     @click="btnLink('/assets/exchangeAccount')">
-                    {{ locale.header.assets }}
-                </div>
-                <ul class="lang-list h-1-bg">
-                    <!--  || activeMark === item.link -->
-                    <li v-for="(item, index) in assetsList"
-                        class="b-2-cl"
-                        :class="(hoverMark === item.link)
-                  ?'h-4-bg h-7-cl'
-                  : ''"
-                        @mouseenter="markMouseenter(item.link)"
-                        @mouseleave="markMouseleave"
-                        @click="btnLink(item.link)"
-                        :key="index">{{ item.title }}
-                    </li>
-                </ul>
-            </div>
-            <!-- 订单 -->
-            <div class="header-isLogin-navEven"
-                 :class="getClass('order')"
-                 @mouseenter="evenHandMouseenter('order')"
-                 @mouseleave="evenHandMouseleave"
-            >
-                <div class="header-isLogin-navEven-title"
-                     @click="btnLink('/order/exchangeOrder')">
-                    {{ locale.header.order }}
-                </div>
-                <ul class="lang-list h-1-bg">
-                    <!--  || activeMark === item.link -->
-                    <li v-for="(item, index) in orderList"
-                        class="b-2-cl"
-                        :class="(hoverMark === item.link)
-                  ? 'h-4-bg h-7-cl'
-                  : ''"
-                        @mouseenter="markMouseenter(item.link)"
-                        @mouseleave="markMouseleave"
-                        @click="btnLink(item.link)"
-                        :key="index">{{ item.title }}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- app下载 -->
-        <div class="header-user h-2-bd">
-            <div class="header-user-apphove">
-                <div class="header-user-icon icon-info">
-                    <svg class="icon icon-18" aria-hidden="true">
-                        <use xlink:href="#icon-b_33"></use>
-                    </svg>
-                </div>
-                <div class="header-user-icon icon-active">
-                    <svg class="icon icon-18" aria-hidden="true">
-                        <use xlink:href="#icon-b_33_1"></use>
-                    </svg>
-                </div>
-            </div>
-            <div class="header-user-appdown h-1-bg">
-                <div class="code-box">
-                    <div class="download-options-code">
-                        <img src="{{ appDownLoad.app_page_url }}" alt="">
-                    </div>
-                    <!-- 扫描二维码下载 -->
-                    <p class="download-options-codeText">
-                        {{ locale.appDownLoad.headerCode }}
-                    </p>
-                </div>
-
-                <div class="download-options-buttons">
-                    <button class="
-                    common-button
-                     common-button-solid
-                      u-8-bg
-                      u-16-cl download-button"
-                            style="
-                            height: 40px;
-                             padding-left: 20px;
-                              padding-right: 20px; margin-top: 0px;">
-                        <div class="common-button-slot">
-                            <svg aria-hidden="true" class="icon icon-18">
-                                <use xlink:href="#icon-b_13"></use>
-                            </svg>
-                            &nbsp;
-                            {{ locale.appDownLoad.platform[0] }}
-                        </div>
-                    </button>
-                    <button class="
-                    common-button
-                     common-button-solid
-                      u-8-bg
-                       u-16-cl
-                        download-button"
-                            style="height: 40px;
-                             padding-left: 20px;
-                              padding-right: 20px;
-                               margin-top: 0px;">
-                        <div class="common-button-slot">
-                            <svg aria-hidden="true" class="icon icon-18">
-                                <use xlink:href="#icon-b_14"></use>
-                            </svg>
-                            &nbsp;
-                            {{ locale.appDownLoad.platform[1] }}
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- 设置 -->
-        <div class="header-user h-2-bd" v-if="colorList.length > 1">
-            <div class="header-user-icon icon-info">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_2"></use>
-                </svg>
-            </div>
-            <div class="header-user-icon icon-active">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_2_1"></use>
-                </svg>
-            </div>
-        </div>
-        <!-- 消息中心 -->
-        <div class="header-user h-2-bd" style="display: none" v-if="isLogin && userInfoIsReady">
-            <div class="messageCount" v-if="messageCount"></div>
-            <div @click="btnLink('/mesage')" class="header-user-icon icon-info">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_3"></use>
-                </svg>
-            </div>
-            <div @click="btnLink('/mesage')" class="header-user-icon icon-active">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_3_1"></use>
-                </svg>
-            </div>
-            <div v-if="messageCount" class="header-user-message h-1-bg">
-                <ul class="header-user-text">
-                    <li class="x-2-cl mesageNav"
-                        @click="btnLink('/mesage')"
-                        :key="index"
-                        v-for="(item, index) in userMessageList">
-                        {{item.messageContent}}
-                    </li>
-                    <!-- <li class="x-2-cl">账户状态：{{userStatus}}</li> -->
-                </ul>
-                <div class="header-user-out h-4-bg x-3-cl" @click="btnLink('/mesage')">
-                    <!-- 查看更多 -->
-                    {{ locale.header.more }}
-                </div>
-            </div>
-        </div>
-        <!-- 个人中心 -->
-        <div class="header-user h-2-bd" style="display: none" v-if="isLogin && userInfoIsReady">
-            <div @click="btnLink('/personal/userManagement')"
-                 class="header-user-icon icon-info">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_4"></use>
-                </svg>
-            </div>
-            <div @click="btnLink('/personal/userManagement')"
-                 class="header-user-icon icon-active">
-                <svg class="icon icon-18" aria-hidden="true">
-                    <use xlink:href="#icon-b_4_1"></use>
-                </svg>
-            </div>
-            <div class="header-user-market h-1-bg">
-                <ul class="header-user-text">
-                    <li class="h-7-cl userText"
-                        @click="btnLink('/personal/userManagement')">{{userText}}
-                    </li>
-                    <li class="x-2-cl">
-                        <!-- 账户状态 -->
-                        {{ locale.header.userStatus }}：{{userStatus}}
-                    </li>
-                </ul>
-                <div class="header-user-out h-4-bg h-7-cl" @click="out">
-                    <!-- 退出 -->
-                    {{ locale.header.out }}
-                </div>
-            </div>
-        </div>
-        <div class="h-2-bd header-lang x-2-cl">
-            <div class="show-lang">
-                Language
-                <svg class="icon icon-14" aria-hidden="true">
-                    <use xlink:href="#icon-a_13"></use>
-                </svg>
-            </div>
-            <ul class="lang-list h-1-bg">
-                {% for item in lanList %}
-                <li data-key="{{ item.id }}">
-                    {{ item.name}}
-                </li>
-                {% endfor %}
-                <!--  <li v-for="(item, index) in langArr"
-                      :class="(lan === item.id || langHover === item.id)
-                              ? 'h-4-bg h-7-cl' : ''"
-                      @mouseenter="handMouseenter(item.id)"
-                      @mouseout="handMouseleave(item.id)"
-                      @click="lanClick(item.id)"
-                      :key="index">{{ item.name }}</li>-->
-            </ul>
-        </div>
-    </div>
     <style>
+        .inx .solidBc{
+            display: none;
+        }
+        .inx .common-button:hover .bghover{
+            display: block;
+        }
+        .inx .common-button:active .bgactive{
+            display: block;
+        }
+        .solidBc {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .common-button-solid {
+            font-size: 14px;
+        }
+
+        .common-button-solid-disabled {
+            font-size: 14px;
+            cursor: not-allowed !important;
+        }
+
+        .common-button-solid-loading {
+            font-size: 14px;
+            cursor: wait !important;
+        }
+
+        .common-button-hollow,
+        .common-button-hollow-big {
+            border-width: 1px;
+            border-style: solid;
+        }
+
+        .common-button-hollow {
+            font-size: 12px;
+        }
+
+        .common-button-hollow-big {
+            font-size: 14px;
+        }
+
+        .common-button-text,
+        .common-button-text-kind {
+            font-size: 12px;
+        }
+
+        .common-button {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+        }
+
+        .common-button .common-button-slot {
+            position: relative;
+            display: inline;
+            vertical-align: middle;
+        }
+
+        .common-button .common-button-slot .common-button-loading {
+            position: absolute;
+            vertical-align: middle;
+            left: -14px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .common-button .button-background {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+        }
+
+        .button-canv {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            transform: scale(0);
+        }
+
+        .mmd-waves-effect {
+            border-radius: 100%;
+            background-color: #d8d8d8;
+        }
+
         .top-common-header {
             user-select: none;
             height: 60px;
@@ -370,7 +116,6 @@
             line-height: 30px;
             padding: 0 12px;
             border-radius: 2px;
-            display: inline-block;
         }
 
         .top-common-header .setBox {
@@ -441,7 +186,7 @@
 
         .top-common-header .common-header-linkList .linkList-logo img {
             max-height: 50px;
-            max-width: 160px;
+            max-width: 84px;
             vertical-align: middle;
         }
 
@@ -571,7 +316,7 @@
         }
 
         .top-common-header .common-header-optionList .header-user:hover .header-user-market,
-        .top-common-header .common-header-optionList .header-user:hover .header-user-message,
+        .top-common-header .common-header-optionList .header-user:hover .message-list,
         .top-common-header .common-header-optionList .header-user:hover .header-user-appdown,
         .top-common-header .common-header-optionList .header-user:hover .icon-active {
             display: block;
@@ -1003,24 +748,719 @@
             bottom: 0;
             margin: auto;
         }
+        .drop-enter-active {
+            animation: drop-in 0.3s;
+        }
+        .drop-leave-active {
+            animation: drop-in 0.3s reverse;
+        }
+        .common-dialog .btnClass {
+            margin-right: 10px;
+        }
+        .common-dialog .dialog-markAll {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            top: 0;
+            left: 0;
+        }
+        .common-dialog .dialog-frame {
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            width: 480px;
+            border-radius: 2px;
+        }
+        .common-dialog .dialog-frame-head {
+            box-sizing: border-box;
+            height: 60px;
+            width: 100%;
+            padding: 0 40px;
+            line-height: 60px;
+        }
+        .common-dialog .dialog-frame-head-text {
+            font-size: 16px;
+        }
+        .common-dialog .dialog-frame-head-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 12px;
+        }
+        .common-dialog .dialog-frame-head-close .icon{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        .common-dialog .dialog-frame-body {
+            width: 400px;
+            margin-left: 40px;
+        }
+        .common-dialog .closeBtnClass {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .common-dialog .dialog-frame-bottom {
+            margin-bottom: 40px;
+            height: 40px;
+            position: relative;
+        }
+        .common-dialog .dialog-frame-bottom .dialog-frame-options {
+            position: absolute;
+            right: 40px;
+        }
+        @-moz-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+        @-o-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+        @keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+        .colorList .checked .check{
+            display: inline-block;
+        }
+        .colorList .check{
+            display: none;
+        }
+        .colorList .checked .uncheck{
+            display: none;
+        }
+        .colorList .uncheck{
+            display: inline-block;
+        }
+        .common-redio {
+            display: inline-block;
+            cursor: pointer;
+        }
+        .common-iconButton {
+            width: 36px;
+            height: 36px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .common-iconButton .iconButton-icon {
+            width: 36px;
+            height: 36px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-align: center;
+            line-height: 36px;
+        }
+        .common-iconButton .iconButton-bg {
+            width: 36px;
+            height: 36px;
+        }
+        .common-iconButton:hover .iconButton-bg{
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            opacity: 0.15;
+        }
+        .common-iconButton:active .iconButton-bg{
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            opacity: 0.3;
+        }
     </style>
+    <!-- 主流板块 -->
+    <ul class="common-header-linkList" id="common-header-linkList">
+        <!-- logo -->
+        <li class="linkList-logo-li">
+            <a class="linkList-logo" href="{{ headerLink.home }}">
+                <img src="{{ msg.logoUrl}}"/>
+            </a>
+        </li>
+        <li class="header-nav-ifl">
+            <svg class="icon icon-18" aria-hidden="true">
+                <use xlink:href="#icon-b_1"></use>
+            </svg>
+            <svg class="icon icon-18 hover" aria-hidden="true">
+                <use xlink:href="#icon-b_1_1"></use>
+            </svg>
+            <div
+                    class="header-sub-nav h-1-bg">
+                <ul class="header-user-text x-2-cl" id="header-cus-nav">
+                    {% if number(switch.agentUserOpen) and userInfo.agentStatus%}
+                    <li class="g-3-cl-h ">
+                        <a class="x-2-cl g-3-cl-h"
+                           href="/broker"
+                        >
+                            <!-- 经纪人系统 -->
+                            {{ locale.header.broker }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if number(switch.is_return_open) %}
+                    <li class="g-3-cl-h">
+                        <a class="x-2-cl g-3-cl-h"
+                           href="/mining"
+                        >
+                            <!-- 交易挖矿 -->
+                            {{ locale.header.minings }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if number(switch.newcoinOpen) %}
+                    <li class="x-2-cl g-3-cl-h">
+                        <a class="x-2-cl g-3-cl-h"
+                           href="/innovation"
+                        >
+                            <!-- 创新试验区 -->
+                            {{ locale.header.innov_tit }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if number(switch.is_financing_open) %}
+                    <li class="x-2-cl g-3-cl-h">
+                        <a class="x-2-cl g-3-cl-h"
+                           href="/manageFinances"
+                        >
+                            <!-- 理财宝 -->
+                            {{ locale.manageFinances.manage_finances }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="x-2-cl g-3-cl-h">
+                        <a class="x-2-cl g-3-cl-h"
+                           href="/questions/init"
+                        >
+                            <!-- 问题中心 -->
+                            {{ locale.questions.title }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        {% for item in headerList %}
+        <li class="header-navEven"
+            data-link="{{item.link}}"
+            data-id="{{item.activeId}}"
+            data-trades=true
+            data-target=false>
+            {{ item.title }}
+        </li>
+        {% endfor %}
+        <!--  自定义导航 -->
+        {% for item in customHeaderList %}
+        <li class="header-navEven"
+            data-link="{{item.link}}"
+            data-id=""
+            data-target="{{item.target}}"
+        >
+            {{item.text}}
+            {% if item.new %}
+            <div class="new-label x-3-cl h-5-bg">NEW</div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- 公共版款 -->
+    <div class="common-header-optionList">
+        <!-- 未登录时 -->
+        <div class="header-guide h-2-bd unlogin-set">
+            <button class="common-button
+             header-login-button
+              common-button-text-kind
+               u-11-cl"
+                    style="height: 30px; padding-left: 22px; padding-right: 22px; margin-top: 0px;">
+                <div class="common-button-slot">
+                    {{ locale.header.login }}
+                </div>
+            </button>
+            <button class="
+            common-button
+            header-reg-button
+            common-button-hollow-big
+            u-11-cl u-8-bd "
+                    style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px;">
+                <div class="common-button-slot">
+                    {{ locale.header.register }}
+                </div>
+            </button>
+        </div>
+        <div class="header-isLogin login-set" style="display: none">
+            <!-- 资产 -->
+            <div class="header-isLogin-navEven"
+                 :class="getClass('assets')"
+                 @mouseenter="evenHandMouseenter('assets')"
+                 @mouseleave="evenHandMouseleave">
+                <div class="header-isLogin-navEven-title"
+                     @click="btnLink('/assets/exchangeAccount')">
+                    {{ locale.header.assets }}
+                </div>
+                <ul class="lang-list h-1-bg">
+                    {% for item in assetsList %}
+                    <li
+                            class="b-2-cl"
+                            data-link="{{item.link}}"
+                    >{{ item.title }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- 订单 -->
+            <div class="header-isLogin-navEven"
+                 :class="getClass('order')"
+                 @mouseenter="evenHandMouseenter('order')"
+                 @mouseleave="evenHandMouseleave"
+            >
+                <div class="header-isLogin-navEven-title"
+                     @click="btnLink('/order/exchangeOrder')">
+                    {{ locale.header.order }}
+                </div>
+                <ul class="lang-list h-1-bg">
+                    <!--  || activeMark === item.link -->
+                    {% for item in orderList %}
+                    <li
+                            class="b-2-cl"
+                            data-link="{{item.link}}"
+                    >{{ item.title }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <!-- app下载 -->
+        <div class="header-user h-2-bd">
+            <div class="header-user-apphove">
+                <div class="header-user-icon icon-info">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_33"></use>
+                    </svg>
+                </div>
+                <div class="header-user-icon icon-active">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_33_1"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="header-user-appdown h-1-bg">
+                <div class="code-box">
+                    <div class="download-options-code">
+                        <img src="{{ appDownLoad.app_page_url }}" alt="">
+                    </div>
+                    <!-- 扫描二维码下载 -->
+                    <p class="download-options-codeText">
+                        {{ locale.appDownLoad.headerCode }}
+                    </p>
+                </div>
+
+                <div class="download-options-buttons">
+                    <button class="
+                    common-button
+                     common-button-solid
+                      u-8-bg
+                      u-16-cl download-button"
+                            style="
+                            height: 40px;
+                             padding-left: 20px;
+                              padding-right: 20px; margin-top: 0px;">
+                        <div class="common-button-slot">
+                            <svg aria-hidden="true" class="icon icon-18">
+                                <use xlink:href="#icon-b_13"></use>
+                            </svg>
+                            &nbsp;
+                            {{ locale.appDownLoad.platform[0] }}
+                        </div>
+                        <div class='solidBc bghover u-14-bg'></div>
+                        <div class='solidBc bgactive u-15-bg'></div>
+                    </button>
+                    <button class="
+                    common-button
+                     common-button-solid
+                      u-8-bg
+                       u-16-cl
+                        download-button"
+                            style="height: 40px;
+                             padding-left: 20px;
+                              padding-right: 20px;
+                               margin-top: 0px;">
+                        <div class="common-button-slot">
+                            <svg aria-hidden="true" class="icon icon-18">
+                                <use xlink:href="#icon-b_14"></use>
+                            </svg>
+                            &nbsp;
+                            {{ locale.appDownLoad.platform[1] }}
+                        </div>
+                        <div class='solidBc bghover u-14-bg'></div>
+                        <div class='solidBc bgactive u-15-bg'></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 设置 -->
+        {% if colorList.length %}
+            <div class="header-user h-2-bd" id="color-set">
+                <div class="header-user-icon icon-info">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_2"></use>
+                    </svg>
+                </div>
+                <div class="header-user-icon icon-active">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_2_1"></use>
+                    </svg>
+                </div>
+            </div>
+        {% endif %}
+        <!-- 消息中心 -->
+        <div class="header-user h-2-bd login-set" style="display: none">
+            <div class="messageCount" id="messageMore" style="display: none"></div>
+            <div class="header-user-icon icon-info goMessage">
+                <svg class="icon icon-18" aria-hidden="true">
+                    <use xlink:href="#icon-b_3"></use>
+                </svg>
+            </div>
+            <div class="header-user-icon icon-active goMessage">
+                <svg class="icon icon-18" aria-hidden="true">
+                    <use xlink:href="#icon-b_3_1"></use>
+                </svg>
+            </div>
+            <div class="header-user-message h-1-bg goMessage">
+                <ul class="header-user-text">
+                </ul>
+                <div class="header-user-out h-4-bg x-3-cl">
+                    {{ locale.header.more }}
+                </div>
+            </div>
+        </div>
+        <!-- 个人中心 -->
+        <div class="header-user h-2-bd login-set" style="display: none">
+            <div class="header-user-icon icon-info goPersonal">
+                <svg class="icon icon-18" aria-hidden="true">
+                    <use xlink:href="#icon-b_4"></use>
+                </svg>
+            </div>
+            <div class="header-user-icon icon-active goPersonal">
+                <svg class="icon icon-18" aria-hidden="true">
+                    <use xlink:href="#icon-b_4_1"></use>
+                </svg>
+            </div>
+            <div class="header-user-market h-1-bg">
+                <ul class="header-user-text">
+                    <li class="h-7-cl userText goPersonal">
+                    </li>
+                    <li class="x-2-cl userStatus">
+                    </li>
+                </ul>
+                <div class="header-user-out h-4-bg h-7-cl" @click="out">
+                    <!-- 退出 -->
+                    {{ locale.header.out }}
+                </div>
+            </div>
+        </div>
+        <div class="h-2-bd header-lang x-2-cl">
+            <div class="show-lang">
+                Language
+                <svg class="icon icon-14" aria-hidden="true">
+                    <use xlink:href="#icon-a_13"></use>
+                </svg>
+            </div>
+            <ul class="lang-list h-1-bg">
+                {% for item in lanList %}
+                <li data-key="{{ item.id }}">
+                    {{ item.name}}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <ul id="colorList" style="display: none">
+        {% for item in colorList %}
+            <li data-checked="{{ item.checked }}" data-id="{{ item.skinId }}">
+                <section class="common-redio">
+                    <svg aria-hidden="true" class="icon icon-16 uncheck">
+                        <use xlink:href="#icon-c_14"></use>
+                    </svg>
+                    <svg aria-hidden="true" class="icon icon-16 check">
+                        <use xlink:href="#icon-c_14_1"></use></svg>
+                </section>
+                <span class="b-1-cl">{{ item.mainClor }}</span>
+            </li>
+        {% endfor %}
+    </ul>
     <script>
         (function () {
-            const commonHeader = document.querySelector('#common-header');
-            console.log(commonHeader)
+            const $commonHeader = document.querySelector('#common-header');
+            const $headerCusNav = document.querySelector('#header-cus-nav');
+            const $headerNavEven = document.querySelector('#common-header-linkList');
+            const headerNavEvenList = $headerNavEven.querySelectorAll('.header-navEven');
+            const {myStorage, getCookie, formatTime, setCookie } = window.BlockChainUtils;
+            const $lanList = $commonHeader.querySelectorAll('.lang-list');
+            const $loginBtn = $commonHeader.querySelector('.header-login-button');
+            const $registerBtn = $commonHeader.querySelector('.header-reg-button');
+            const $colorList = document.querySelectorAll('#colorList li');
+            const $colorSet = document.querySelector('#color-set');
+            let colorDialog = null;
 
-            fetch('/fe-ex-api/common/user_info', {
-                method: 'post'
-            }).then((res) => {
-                return res.json();
-            }).catch((error) => {
-                console.log(error);
-            })
-            .then((data) => {
-                if(!Number(data.code)){
-                    console.log(data);
-                }
-            });
+            const bindEvent = () => {
+
+                $colorSet.addEventListener('click', function () {
+                    colorDialog.show();
+                }, false);
+
+                $commonHeader.querySelectorAll('.goMessage').forEach((item) => {
+                    item.addEventListener('click', () => {
+                        location.href = '/mesage';
+                    }, false);
+                });
+
+                $commonHeader.querySelectorAll('.goPersonal').forEach((item) => {
+                    item.addEventListener('click', () => {
+                        location.href = '/personal/userManagement';
+                    }, false);
+                });
+                $loginBtn.addEventListener('click', (e) => {
+                    location.href = '/login';
+                });
+                $registerBtn.addEventListener('click', (e) => {
+                    location.href = '/register';
+                });
+
+                $registerBtn.addEventListener('mouseover', (e) => {
+                    $registerBtn.className = 'common-button header-reg-button common-button-hollow-big u-8-cl u-8-bd';
+                });
+                $registerBtn.addEventListener('mouseout', (e) => {
+                    $registerBtn.className = 'common-button header-reg-button common-button-hollow-big u-11-cl u-8-bd ';
+                });
+                $loginBtn.addEventListener('mouseover', (e) => {
+                    $loginBtn.className = 'common-button header-login-button common-button-text-kind u-11-cl u-12-bg';
+                });
+                $loginBtn.addEventListener('mouseout', (e) => {
+                    $loginBtn.className = 'common-button header-login-button common-button-text-kind u-11-cl';
+                });
+                $lanList.forEach((item) => {
+                    item.addEventListener('mouseover', (e) => {
+                        const target = e.target;
+                        if (target.tagName === 'LI') {
+                            target.className = 'h-4-bg h-7-cl';
+                        }
+                    });
+
+                    item.addEventListener('mouseout', (e) => {
+                        const target = e.target;
+                        if (target.tagName === 'LI') {
+                            target.className = 'b-2-cl';
+                        }
+                    });
+
+                    item.addEventListener('click', (e) => {
+                        const target = e.target;
+                        const data = target.dataset;
+                        if (target.tagName === 'LI') {
+                            location.href = data.link;
+                        }
+                    });
+                })
+
+
+                $headerNavEven.addEventListener('click', (e) => {
+                    const target = e.target;
+                    const data = target.dataset;
+                    const link = data.link;
+                    const tar = data.target;
+                    const trades = data.trades;
+                    const id = data.id;
+                    if (trades) {
+                        if (id === 'exTrade' && this.etfOpen) {
+                            myStorage.set('markTitle', '');
+                            myStorage.set('sSymbolName', '');
+                        }
+                    }
+                    if (tar === 'black') {
+                        window.open(link);
+                    } else {
+                        window.location.href = link;
+                    }
+                }, false);
+                $headerNavEven.addEventListener('mouseout', () => {
+                    headerNavEvenList.forEach((item) => {
+                        item.className = 'header-navEven';
+                    });
+                }, false);
+                $headerNavEven.addEventListener('mouseover', (e) => {
+                    const target = e.target;
+                    headerNavEvenList.forEach((item) => {
+                        item.className = 'header-navEven';
+                    });
+                    if (target.className === 'header-navEven') {
+                        target.className = 'header-navEven h-7-cl';
+                    }
+                }, false);
+
+                $headerCusNav.addEventListener('mouseover', (e) => {
+                    const target = e.target;
+                    if (target.tagName === 'A') {
+                        target.className = 'h-4-bg h-7-cl';
+                    }
+                }, false);
+                $headerCusNav.addEventListener('mouseout', (e) => {
+                    const target = e.target;
+                    if (target.tagName === 'A') {
+                        target.className = 'x-2-cl g-3-cl-h';
+                    }
+                }, false);
+            };
+
+            const login = () => {
+                fetch('/fe-ex-api/common/user_info', {
+                    method: 'post',
+                    headers: {
+                        "exchange-token": getCookie('token'),
+                        "exchange-language": getCookie('lan'),
+                    },
+                }).then((res) => {
+                    return res.json();
+                }).catch((error) => {
+                })
+                .then((data) => {
+                    if (data) {
+                        if (!Number(data.code)) {
+                            const $loginSet = $commonHeader.querySelectorAll('.login-set');
+                            $loginSet.forEach((target) => {
+                                target.style.display = 'block';
+                            });
+                            const $unloginSet = $commonHeader.querySelectorAll('.unlogin-set');
+                            $unloginSet.forEach((target) => {
+                                target.style.display = 'none';
+                            });
+                            $commonHeader.querySelector('.userText').innerHTML = data.data.userAccount;
+                            const userState = {
+                                0: "{{locale.header.userStatus1}}",
+                                1: "{{locale.header.userStatus2}}",
+                                2: "{{locale.header.userStatus3}}"
+                            };
+                            $commonHeader.querySelector('.userStatus').innerHTML = `{{locale.header.userStatus}}: ${userState[Number(data.data.accountStatus)]}`;
+                        }
+                    }
+                });
+            };
+
+            const getMessage = () => {
+                fetch('/fe-ex-api/message/v4/get_no_read_message_count', {
+                    method: 'post',
+                    headers: {
+                        "exchange-token": getCookie('token'),
+                        "exchange-language": getCookie('lan'),
+                        "content-type": 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uaTime: formatTime(new Date().getTime())
+                    })
+                }).then((res) => {
+                    return res.json();
+                }).catch((error) => {
+                })
+                    .then((data) => {
+                        if (!Number(data.code)) {
+                           if (data.data.noReadMsgCount){
+                               const $headerUserMessage = $commonHeader.querySelector('.header-user-message');
+                               $commonHeader.querySelector('#messageMore').style.display = 'block';
+                               $headerUserMessage.classList.add('message-list');
+                               const userMessageList = data.data.userMessageList;
+                               let _html = ''
+                               userMessageList.forEach((item) => {
+                                   _html += `<li class="x-2-cl mesageNav">
+                                    ${item.messageContent}
+                                </li>`;
+                               });
+                               $headerUserMessage.querySelector('.header-user-text').innerHTML = _html;
+                           }
+                        }
+                    });
+            };
+
+            const getData = () => {
+                login();
+                getMessage();
+            };
+
+            const initColorDiaolog = () => {
+                $colorList.forEach((item) => {
+                    if(item.dataset.checked){
+                        item.classList.add('checked');
+                    }
+                });
+                colorDialog = new BlockChainDialog({
+                    locale: {
+                        titleText: '{{locale.header.set}}',
+                        closeTextProps: '{{locale.components.dialog.closeText}}',
+                        confirmTextProps: '{{locale.components.dialog.confirmText}}'
+                    },
+                    content: `<div class="setBox">
+                            <div class="setColor clearfix">
+                                <div class="setColor-key x-2-cl">{{locale.header.color}}</div>
+                                <ul class="setColor-value colorList">
+                                   ${ document.querySelector('#colorList').innerHTML}
+                                </ul>
+                            </div>
+                        </div>`,
+                    confirm: function (){
+                        const $checked = this.dialog.querySelector('.checked');
+                        setCookie('cusSkin', $checked.dataset.id);
+                        window.location.reload();
+                    }
+                });
+
+                const $DialogColorList = colorDialog.dialog.querySelectorAll('.colorList li');
+                $DialogColorList.forEach((item, inx) => {
+                    item.addEventListener('click', (e) => {
+                        if (!item.classList.contains('checked')){
+                            $DialogColorList.forEach((el) => {
+                                el.classList.remove('checked');
+                            });
+                            item.classList.add('checked');
+                        }
+                    });
+                });
+            };
+            getData();
+            initColorDiaolog();
+            bindEvent();
+
+
         })();
     </script>
 </header>

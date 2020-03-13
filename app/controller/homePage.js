@@ -1,7 +1,7 @@
 const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
-const { getLocale, getFileName, getPublicInfo } = require('BlockChain-ui/node/utils');
+const { getLocale, getFileName, getPublicInfo,  compare } = require('BlockChain-ui/node/utils');
 
 class StaticIndex extends Controller {
   async index(ctx) {
@@ -15,36 +15,183 @@ class StaticIndex extends Controller {
     if (this.config.env === 'local') {
       nowHost = this.config.devUrlProxy.ex;
     }
-    this.publicInfo = getPublicInfo(this);
-    this.setLan(fileName);
-    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
-    const { msg, lan } = this.publicInfo;
-    const { header } = this.getLocalData(fileName, this.config.footerHeaderPath);
-    const customHeaderList = JSON.parse(header);
-    this.headerLink = this.getHeaderLink();
     if (!domainArr[fileName]) {
       domainArr[fileName] = {
         fileName,
         domainName: `${ctx.app.httpclient.agent.protocol}//${nowHost}`,
       };
     }
-    ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host);
-    ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host);
+    this.publicInfo = getPublicInfo(this, currenLan);
+    this.setLan(fileName);
+    //ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    //ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    //ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
+    const { msg, lan, skin } = this.publicInfo;
+    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
+    let customHeaderList = {};
+    if(headerFooter && headerFooter.header){
+      customHeaderList = JSON.parse(headerFooter.header);
+    }
+
+    this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
       headerList: this.getHeaderList(),
       customHeaderList,
-      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath),
+      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan.lanList,
+      switch: this.publicInfo.switch,
+      assetsList: this.assetsList(),
+      orderList: this.orderList(),
+      number: (item) => Number(item),
+      colorList: this.getColorList(),
     });
   }
 
-  getLocalData(fileName, fileBasePath) {
+  getColorList(){
+    const { skin } = this.publicInfo;
+    let sk = skin.default;
+    const cusSkin = this.ctx.cookies.get('cusSkin', {
+      signed: false,
+    });
+    if(cusSkin && cusSkin !== 'undefined'){
+      sk = cusSkin;
+    }
+    const list = [];
+    const lis = skin.listist;
+    lis.forEach((item) => {
+      const obj = {
+        mainClor: item.mainClor,
+        skinId: item.skinId,
+      };
+      console.log(item.skinId, sk)
+      if(item.skinId === sk){
+        obj['checked'] = "checked";
+      }
+      list.push(obj);
+    });
+    console.log(list);
+    return list;
+  }
+
+  __getLocale(val){
+    const arr = val.split('.');
+    let locale = this.locale;
+    let geted = true;
+    arr.forEach((item) => {
+      if(locale[item]){
+        locale = locale[item];
+      }else{
+        geted = false;
+      }
+    });
+    return geted ? locale : val;
+  }
+
+  orderList() {
+    const arr = [];
+    const pubSwitch = this.publicInfo.switch;
+    const { headerLink } = this;
+    if (headerLink.trade) {
+      arr.push({
+        title: this.__getLocale('order.index.exOrder'),
+        link: '/order/exchangeOrder',
+      });
+    }
+    const otcTitle = !pubSwitch.fiat_trade_open
+      ? this.__getLocale('order.index.otcOrder')
+      : this.__getLocale('assets.b2c.otcShow.otcOrder');
+
+    if (headerLink.otc) {
+      arr.push({
+        title: otcTitle,
+        link: '/order/otcOrder',
+      });
+    }
+    if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
+      arr.push({
+        title: otcTitle,
+        link: '/order/otcOrder',
+      });
+    }
+    if (headerLink.co) {
+      let url = `${headerLink.co}/order/coOrder`;
+      if (this.app.config.buildEnv === 'co') {
+        url = '/order/coOrder';
+      }
+      arr.push({
+        title: this.__getLocale('order.coOrder.coOrder'),
+        link: url,
+      });
+    }
+    if (Number(pubSwitch.lever_open)) {
+      arr.push({
+        title: this.__getLocale('order.index.leverage'),
+        link: '/order/leverageOrder',
+      });
+    }
+    return arr;
+  }
+
+  assetsList() {
+    const arr = [];
+    const { headerLink } = this;
+    const pubSwitch = this.publicInfo.switch;
+    if (headerLink.trade) {
+      arr.push({
+        title: this.__getLocale('assets.index.exchangeAccount'),
+        link: '/assets/exchangeAccount',
+      });
+    }
+
+    const otcTitle = !(pubSwitch.fiat_trade_open)
+      ? this.__getLocale('assets.index.otcAccount')
+      : this.__getLocale('assets.b2c.otcShow.otcAccount');
+
+    if (headerLink.otc) {
+      arr.push({
+        title: otcTitle,
+        link: '/assets/otcAccount',
+      });
+    }
+    if (Number(pubSwitch.fiat_trade_open)) {
+      arr.push({
+        title: this.__getLocale('assets.index.otcAccount'),
+        link: '/assets/b2cAccount',
+      });
+    }
+    if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
+      arr.push({
+        title: otcTitle,
+        link: '/assets/otcAccount',
+      });
+    }
+    if (headerLink.co) {
+      let url = `${headerLink.co}/assets/coAccount`;
+      if (this.app.config.buildEnv === 'co') {
+        url = '/assets/coAccount';
+      }
+      arr.push({
+        title: this.__getLocale('assets.index.coAccount'),
+        link: url,
+      });
+    }
+    if (Number(pubSwitch.lever_open)) {
+      arr.push({
+        title: this.__getLocale('assets.index.leverage'),
+        link: '/assets/leverageAccount',
+      });
+    }
+    return arr;
+  }
+
+  getLocalData(fileName, fileBasePath, lan) {
     let obj = {};
     try {
-      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
+      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${lan}-${fileName}.json`), 'utf-8'));
       // eslint-disable-next-line no-empty
     } catch (err) {
 
@@ -66,69 +213,88 @@ class StaticIndex extends Controller {
 
   getHeaderList() {
     const arr = [];
-    const { header, etfAdd, mobilityTrade } = this.locale;
+    const pubSwitch = this.publicInfo.switch;
+    const { headerLink } = this;
     // 行情
-    if (this.publicInfo.switch.index_kline_switch === '1') {
+    if (pubSwitch.index_kline_switch === '1') {
       arr.push({
-        title: header.market,
+        title: this.__getLocale('header.market'),
         activeId: 'market',
-        link: this.headerLink.market,
+        link: headerLink.market,
       });
     }
 
     // 币币交易
-    if (this.headerLink.trade) {
+    if (headerLink.trade) {
       arr.push({
-        title: header.trade,
+        title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
-        link: this.headerLink.trade,
+        link: headerLink.trade,
       });
     }
     // 法币
-    if (this.headerLink.otc) {
+    if (headerLink.otc) {
       arr.push({
-        title: header.otc,
+        title: Number(pubSwitch.fiatTradeOpen) ?
+          this.__getLocale('assets.b2c.otcShow.header') : this.__getLocale('header.otc'),
         activeId: 'otcTrade',
-        link: this.headerLink.otc,
+        link: headerLink.otc,
       });
     }
     // 一键买币
-    if (!this.headerLink.otc && this.saasOtcFlowConfig) {
+    if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
       arr.push({
-        title: mobilityTrade.immediately,
+        title: this.__getLocale('mobilityTrade.immediately'),
         activeId: 'otcTrade',
         link: '/mobility',
       });
     }
     // 合约
-    if (this.headerLink.co) {
+    if (headerLink.co) {
       arr.push({
-        title: header.co,
+        title: this.__getLocale('header.co'),
         activeId: 'coTrade',
-        link: this.headerLink.co,
+        link: headerLink.co,
       });
     }
     // 杠杆
-    if (this.leverFlag) {
+    if (Number(pubSwitch.lever_open)) {
       arr.push({
-        title: header.lever,
+        title: this.__getLocale('header.lever'),
         activeId: 'marginTrade',
-        link: this.headerLink.lever,
+        link: headerLink.lever,
       });
     }
     // etf
     // 币币交易
-    if (this.etfOpen) {
+    if (Number(pubSwitch.etfOpen)) {
       arr.push({
-        title: etfAdd.title,
+        title: this.__getLocale('etfAdd.title'),
         activeId: 'etf',
-        link: this.etfUrl,
+        link: this.etfUrl(),
       });
     }
+
     return arr;
   }
 
+  etfUrl(){
+    let str = '';
+    const { market } = this.publicInfo;
+    if (market) {
+      const etfArr = [];
+      Object.keys(market.market.ETF).forEach((ci) => {
+        etfArr.push(market.market.ETF[ci]);
+      });
+      const symbol = etfArr.sort(compare('sort'))[0];
+      const name = symbol.showName || symbol.name;
+      str = name.replace('/', '_');
+    }
+    return `${this.headerLink.trade}/${str}`;
+  }
+
   async setLan(domain) {
+    const { lan } = this.publicInfo;
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
     // 取得client cookie中语言 clientCookLan
@@ -137,17 +303,17 @@ class StaticIndex extends Controller {
     const dLan = 'en_US';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     //console.log(this.publicInfo);
-    if (this.publicInfo.lan) {
+    if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
       let serverDefLan = dLan;
-      if (this.publicInfo.lan.defLan) {
+      if (lan.defLan) {
         serverDefLan = this.publicInfo.lan.defLan;
       } else {
         const errorData = {
           domain,
           message: `未拿到publicInfo.lan.defLan对象, 语言强制转为${serverDefLan}`,
           key: 'publicInfo.lan.defLan',
-          data: this.publicInfo.lan.defLan,
+          data: lan.defLan,
         };
         if (!hostFilter.test(domain)) {
           this.logger.error(JSON.stringify(errorData));
@@ -156,15 +322,14 @@ class StaticIndex extends Controller {
 
       // 针对 publicInfo => lan => lanList 兼容处理
       let severLanList = [];
-      console.log(this.publicInfo.lan)
-      if (this.publicInfo.lan.lanList instanceof Array) {
-        severLanList = this.publicInfo.lan.lanList;
+      if (lan.lanList instanceof Array) {
+        severLanList = lan.lanList;
       } else {
         const errorData = {
           domain,
           message: '未拿到publicInfo.lan.lanList对象, 转为[]',
           key: 'publicInfo.lan.lanList',
-          data: this.publicInfo.lan.lanList,
+          data: lan.lanList,
         };
         if (!hostFilter.test(domain)) {
           this.logger.error(JSON.stringify(errorData));

@@ -30,13 +30,16 @@ module.exports = (appInfo) => {
     dir: path.join(__dirname, '../app/dist'),
   };
 
+  let templatePath = 'build';
+ /* if (appInfo.env === 'local'){
+    templatePath = 'view';
+  }*/
+
   config.view = {
     root: [
-      path.join(__dirname, '../app/dist'),
-      path.join(__dirname, '../app/view/template'),
+      path.join(__dirname, `../app/${templatePath}/template`),
     ].join(','),
     mapping: {
-      '.html': 'nunjucks',
       '.njk':'nunjucks',
     },
   };

@@ -8,7 +8,12 @@
   },
   "dependencies": {
     "@babel/core": "^7.8.7",
+    "@babel/helper-module-imports": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-stage-0": "^7.8.3",
+    "@vue/babel-preset-app": "^4.2.3",
     "BlockChain-ui": "^1.0.32",
+    "babel-preset-es2015": "^6.24.1",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "egg": "^2.15.1",
@@ -30,7 +35,10 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "autod": "^3.0.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "egg-bin": "^4.3.7",
     "egg-ci": "^1.8.0",
     "eslint": "^5.13.0",
@@ -47,6 +55,7 @@
     "node": ">=10.0.0"
   },
   "scripts": {
+    "build": "gulp test",
     "autod": "autod",
     "lint": "eslint .",
     "dev": "egg-bin dev --port=9001",
@@ -68,19 +77,10 @@
     "type": "git",
     "url": ""
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "files": [
     "lib",
     "index.js"
   ],
   "author": "huangjin",
   "license": "MIT",
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  }
 }

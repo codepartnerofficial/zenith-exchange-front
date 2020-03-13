@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   presets: [
-    '@vue/app',
+    '@babel/preset-env',
   ],
   plugins: [
     ...transformRemoveConsolePlugin,
