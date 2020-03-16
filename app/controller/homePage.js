@@ -73,7 +73,6 @@ class StaticIndex extends Controller {
       }
       list.push(obj);
     });
-    console.log(list);
     return list;
   }
 
