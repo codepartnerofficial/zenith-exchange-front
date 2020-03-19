@@ -22,11 +22,13 @@ module.exports = (app) => {
     app.config.localesPath = path.join(__dirname, './app/public/Locales/');
     app.config.footerHeaderPath = path.join(__dirname, './app/public/footerHeader/');
     app.config.appDownLoadPath = path.join(__dirname, './app/public/appDownLoadPath/');
+    app.config.bannerIndexPath = path.join(__dirname, './app/public/bannerIndex/');
   } else {
     app.config.staticPath = path.join(__dirname, './../exchange-fe-server-static/publicInfo/');
     app.config.skinsPath = path.join(__dirname, './../exchange-fe-server-static/skinData/');
     app.config.footerHeaderPath = path.join(__dirname, './../exchange-fe-server-static/footerHeader/');
     app.config.appDownLoadPath = path.join(__dirname, './../exchange-fe-server-static/appDownLoadPath/');
+    app.config.bannerIndexPath = path.join(__dirname, './../exchange-fe-server-static/bannerIndex/');
   }
 
   // 域名配置文件

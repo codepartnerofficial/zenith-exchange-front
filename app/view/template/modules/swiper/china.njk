@@ -1,0 +1,204 @@
+{% macro boxStyle(height ,width, bgColor, slideList) %}
+<div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}" data-bgColor="{{bgColor}}">
+    <style>
+        .carousel-wrap {
+            width: 100%;
+            overflow: hidden;
+        }
+        .slide-ul {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .slide-ul li {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 1s ease;
+        }
+        .slide-ul .show {
+            transition: all 1s ease;
+            opacity: 1;
+            z-index: 2;
+        }
+        .slide-ul .left {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .slide-ul .right {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .slide-ul li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: center top;
+        }
+        .carousel-items {
+            position: absolute;
+            z-index: 10;
+            top: 558px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 2px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0;
+            z-index: 5;
+        }
+        .carousel-items span {
+            display: inline-block;
+            height: 2px;
+            cursor: pointer;
+        }
+        .list-enter-to {
+            transition: all 1s ease;
+            opacity: 1;
+            z-index: 9;
+        }
+        .list-leave-active {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .list-enter {
+            opacity: 0;
+            z-index: 1;
+        }
+        .list-leave {
+            opacity: 1;
+            z-index: 9;
+        }
+
+    </style>
+    <div class='carousel-wrap' >
+        <ul class='slide-ul'>
+            {% for item in slideList %}
+                <li data-index="{{loop.index0}}">
+                    <a data-img="{{ item.imageUrl }}"
+                            href="{{ item.httpUrl }}">
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if slideList.length %}
+            <div class="carousel-items a-5-bg">
+                {% for item in slideList %}
+                    <span data-index="{{loop.index0}}"></span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        </div>
+        <script>
+            const $swiper = document.querySelector('#swipers');
+            const $carouselWrap = $swiper.querySelector('.carousel-wrap');
+            const $slideUl = $swiper.querySelector('.slide-ul');
+            const $carouselItems = $swiper.querySelector('.carousel-items');
+            const lineWidth = 300;
+            const $slideListA = $slideUl.querySelectorAll('a');
+            const $slideList = $slideUl.querySelectorAll('li');
+            const $carouselItemsSapn = $carouselItems.querySelectorAll('span');
+            let currentIndex = 0;
+            let timer = null;
+
+            const resetClass = (inx) => {
+                $slideList.forEach((item) => {
+                    const index = Number(item.dataset.index);
+                    let className = '';
+                    if (index === inx) {
+                        className = 'show';
+                    }
+                    if (index > inx) {
+                        className = 'left';
+                    }
+                    if (index < inx) {
+                        className = 'right';
+                    }
+                    item.className = className;
+                });
+            };
+
+
+            const change = (inx) => {
+                currentIndex = inx;
+                $carouselItemsSapn.forEach((item) => {
+                    item.className = '';
+                });
+                $slideList.forEach((item) => {
+                    item.className = '';
+                });
+                $carouselItemsSapn[inx].className = 'active a-12-bg';
+                resetClass(inx);
+            };
+
+            const stop = () => {
+                clearTimeout(timer);
+                timer = null;
+            };
+
+            const go = () => {
+                clearTimeout(timer);
+                timer = null;
+                timer = setTimeout(() => {
+                    if($slideList.length){
+                        currentIndex += 1;
+                        if (currentIndex > $slideList.length - 1) {
+                            currentIndex = 0;
+                        }
+                        change(currentIndex);
+                        go();
+                    }
+                }, 4000);
+            };
+
+            const init = () => {
+                const styleBox = $swiper.dataset;
+                $swiper.style.height = styleBox.height;
+                $swiper.style.width = styleBox.width;
+                $swiper.classList.add(styleBox.bgcolor);
+                $carouselWrap.style.height = styleBox.height;
+                resetClass(currentIndex);
+                $slideListA.forEach(( item ) => {
+                    item.style.backgroundImage = `url(${item.dataset.img})`;
+                });
+                $carouselItemsSapn.forEach((item, inx) => {
+                    let width = lineWidth / $slideList.length;
+                    item.style.width = width + 'px';
+                    if (!inx){
+                        item.className = 'active a-12-bg';
+                    }
+                });
+                bindEvent();
+                go();
+            };
+
+            const bindEvent = () => {
+                $carouselItemsSapn.forEach((item) => {
+                    item.addEventListener('mouseover', (e) => {
+                        const target = e.target;
+                        const inx = target.dataset.index;
+                        change(inx);
+                    }, false);
+                });
+                $slideList.forEach((item) => {
+                    item.addEventListener('mouseover', () => {
+                        stop();
+                    }, false);
+                });
+                $slideList.forEach((item) => {
+                    item.addEventListener('mouseout', () => {
+                        go();
+                    }, false);
+                });
+            };
+
+
+            init();
+        </script>
+    </div>
+</div>
+{% endmacro %}

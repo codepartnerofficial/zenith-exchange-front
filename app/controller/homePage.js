@@ -2,6 +2,7 @@ const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
 const { getLocale, getFileName, getPublicInfo,  compare } = require('BlockChain-ui/node/utils');
+const webWorkerMap = JSON.stringify(require('../view/src/assets/js/webworker-map'));
 
 class StaticIndex extends Controller {
   async index(ctx) {
@@ -26,21 +27,23 @@ class StaticIndex extends Controller {
     //ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    //ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    const { noticeInfoList, cmsAdvertList } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
-    const { msg, lan, skin } = this.publicInfo;
+    const { msg, lan, skin, market, symbolAll } = this.publicInfo;
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
     let customHeaderList = {};
     if(headerFooter && headerFooter.header){
       customHeaderList = JSON.parse(headerFooter.header);
     }
-
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
-      headerList: this.getHeaderList(),
+      headerList: this.getHeaderList().slice(0, 2),
       customHeaderList,
+      headerSymbol: market.headerSymbol,
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan.lanList,
       switch: this.publicInfo.switch,
@@ -48,11 +51,37 @@ class StaticIndex extends Controller {
       orderList: this.orderList(),
       number: (item) => Number(item),
       colorList: this.getColorList(),
+      noticeList: this.getNoticeList(noticeInfoList).slice(0, 4),
+      cmsAdvertList: cmsAdvertList.slice(0, 4),
+      symbolAll,
+      webWorkerMap,
     });
+  }
+
+  getNoticeList(noticeInfoList) {
+    const { index_international_open } = this.publicInfo.switch;
+    if (noticeInfoList && noticeInfoList.length) {
+      const arr = [];
+      let length = 18;
+      if (index_international_open === 1) {
+        length = 50;
+      }
+      noticeInfoList.forEach((item) => {
+        const space = item.title.length > length ? '...' : '';
+        arr.push({
+          noticeText: `${item.title.substr(0, length)}${space}`,
+          id: item.id,
+        });
+      });
+      return arr;
+    }
   }
 
   getColorList(){
     const { skin } = this.publicInfo;
+    if (!skin){
+      return [];
+    }
     let sk = skin.default;
     const cusSkin = this.ctx.cookies.get('cusSkin', {
       signed: false,
@@ -67,7 +96,6 @@ class StaticIndex extends Controller {
         mainClor: item.mainClor,
         skinId: item.skinId,
       };
-      console.log(item.skinId, sk)
       if(item.skinId === sk){
         obj['checked'] = "checked";
       }
@@ -282,12 +310,14 @@ class StaticIndex extends Controller {
     const { market } = this.publicInfo;
     if (market) {
       const etfArr = [];
-      Object.keys(market.market.ETF).forEach((ci) => {
-        etfArr.push(market.market.ETF[ci]);
-      });
-      const symbol = etfArr.sort(compare('sort'))[0];
-      const name = symbol.showName || symbol.name;
-      str = name.replace('/', '_');
+      if (market.market.ETF){
+        Object.keys(market.market.ETF).forEach((ci) => {
+          etfArr.push(market.market.ETF[ci]);
+        });
+        const symbol = etfArr.sort(compare('sort'))[0];
+        const name = symbol.showName || symbol.name;
+        str = name.replace('/', '_');
+      }
     }
     return `${this.headerLink.trade}/${str}`;
   }
@@ -301,7 +331,6 @@ class StaticIndex extends Controller {
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
     const dLan = 'en_US';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
-    //console.log(this.publicInfo);
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
       let serverDefLan = dLan;

@@ -1,0 +1,488 @@
+<div class="recommend" id="recommend">
+    <style>
+        .recommend {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            z-index: 9;
+            margin-top: 24px;
+        }
+
+        .recommend .recommendType {
+            position: relative;
+            display: inline-block;
+        }
+
+        .recommend .recommendType .coin-label {
+            position: absolute;
+            right: -6px;
+            transform: translateX(100%);
+            top: -9px;
+            white-space: nowrap;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 0 4px;
+            border-radius: 2px;
+            line-height: 17px;
+        }
+
+        .recommend .recommendType .coin-label .coin-label {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .recommend .recommendType .coin-label .coin-bg {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.2;
+        }
+
+        .recommend .recommend-wrap {
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .recommend .recommend-wrap .recommend-content {
+            width: 280px;
+            height: 150px;
+            box-shadow: 0 5px 5px 2px rgba(0, 0, 0, 0.04);
+            float: left;
+            position: relative;
+            margin-right: 20px;
+            border-radius: 2px;
+        }
+
+        .recommend .recommend-wrap .recommend-content:last-child {
+            margin-right: 0;
+        }
+
+        .recommend .recommend-wrap .recommend-content .hvol {
+            padding: 16px 20px 0 18px;
+        }
+
+        .recommend .recommend-wrap .recommend-content .hvol.links {
+            cursor: pointer;
+        }
+
+        .recommend .recommend-wrap .recommend-content .recommendTop {
+            display: flex;
+            justify-content: space-between;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .recommend .recommend-wrap .recommend-content .recommendPrice {
+            font-family: PingFangSC-Regular;
+            font-size: 22px;
+            line-height: 38px;
+        }
+
+        .recommend .recommend-wrap .recommend-content .recommendTime {
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .recommend .scroll-btn {
+            position: absolute;
+            top: 50%;
+            margin-top: -35px;
+            width: 40px;
+            height: 70px;
+            text-align: left;
+            line-height: 70px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .recommend .scroll-btn em {
+            position: relative;
+            z-index: 10;
+            margin: 0 0 0 4px;
+            vertical-align: sub;
+        }
+
+        .recommend .scroll-btn .bg {
+            display: block;
+            width: 70px;
+            height: 70px;
+            top: 0;
+            position: absolute;
+            opacity: 0.8;
+            border-radius: 100%;
+        }
+
+        .recommend .scroll-btn:hover .bg {
+            opacity: 1;
+        }
+
+        .recommend .scroll-btn.next {
+            right: 0;
+            text-align: right;
+        }
+
+        .recommend .scroll-btn.next em {
+            margin: 0 4px 0 0;
+        }
+
+        .recommend .scroll-btn.next .bg {
+            left: 0;
+        }
+
+        .recommend .scroll-btn.next .icon {
+            transform: rotate(180deg)translate(0, -20px);
+            display: inline-block;
+        }
+
+        .recommend .scroll-btn.prev .icon {
+            transform: translate(0, 20px);
+        }
+
+        .recommend .scroll-btn.prev {
+            left: 0;
+        }
+
+        .recommend .scroll-btn.prev .bg {
+            right: 0;
+        }
+    </style>
+    <div class="recommend-wrap" data-style="{{helper.recommend.itemWidth(headerSymbol.length) }}" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 600ms; transform: translate3d(0px, 0px, 0px);">
+            {% for item in headerSymbol %}
+            <div class="recommend-content c-4-bg c-3-cl-h" data-coin="{{item}}">
+                <div class="hvol links f-2-cl">
+                    <div class="recommendTop">
+                        <div class="recommendType">
+                            {{helper.recommend.getCoinShowName(item, symbolAll)}}
+                            <div class="coin-label" style="display: none">
+                                <span class="coin-text a-12-cl"></span>
+                                <span class="coin-bg a-12-bg"></span>
+                            </div>
+                        </div>
+                        <span class="percentage">--</span>
+                    </div>
+                    <div class="recommendPrice f-1-cl">--</div>
+                    <p class="recommendTime">--</p>
+                </div>
+                <div>
+                    <div class="echart-box" style="height: 50px"></div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+    <span @click="scrollRecommend('prev')"
+            class="scroll-btn prev">
+      <em>
+        <svg class="icon icon-24" aria-hidden="true">
+          <use xlink:href="#icon-e_11"></use>
+        </svg>
+      </em>
+      <i class="bg c-1-bg"></i>
+    </span>
+    <span @click="scrollRecommend('next')"
+            class="scroll-btn next">
+      <em>
+        <svg class="icon icon-24" aria-hidden="true">
+          <use xlink:href="#icon-e_11"></use>
+        </svg>
+      </em>
+      <i class="bg c-1-bg"></i>
+    </span>
+    <script>
+        (function () {
+            const { getScript, myStorage } = window.BlockChainUtils;
+            const $recommend = document.querySelector('#recommend');
+            const $recommendWrap = $recommend.querySelector('.recommend-wrap');
+            const $recommendContent = $recommend.querySelectorAll('.recommend-content');
+            const len = $recommendContent.length;
+            const klineColor = '#24a0f5';
+            const lineWidth = 2;
+            let dataList = [];
+            const myEcharts = {};
+            let kLineIniting = {};
+            let labelisShow = false;
+            let klinkInit = {};
+            let echartReady = {};
+            let klineDataList = {};
+            const klineTimer = {};
+            const domTree = {};
+            const $prev = $recommend.querySelector('.prev');
+            const $next = $recommend.querySelector('.next');
+            let clientWidths = document.body.clientWidth;
+            const scrollMax = len * 300 - clientWidths;
+            const itemWidth = len * 300 - 20;
+
+            window.emitter.on('resize', () => {
+                clientWidths = document.body.clientWidth;
+            });
+
+            if (!window.echarts) {
+                getScript('https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js').then(() => {
+                    if (!Object.keys(myEcharts).length) {
+                        const keys = Object.keys(klineDataList);
+                        if (keys.length){
+                           keys.forEach((coin) => {
+                               if (!klineTimer[coin]) {
+                                   klineTimer[coin] = null;
+                               }
+                               klineTimer[coin] = setTimeout(() => {
+                                   initEcharts(coin);
+                               }, 0);
+                           });
+
+                        }
+                    }
+                });
+            }
+            (() => {
+                $recommendContent.forEach((item) => {
+                    const coin = item.dataset.coin;
+                    if (!domTree[coin]) {
+                        domTree[coin] = {};
+                    }
+                    domTree[coin]['percentage'] = item.querySelector('.percentage');
+                    domTree[coin]['recommendPrice'] = item.querySelector('.recommendPrice');
+                    domTree[coin]['recommendTime'] = item.querySelector('.recommendTime');
+                    domTree[coin]['coin-text'] = item.querySelector('.coin-text');
+                    domTree[coin]['coin-label'] = item.querySelector('.coin-label');
+                    domTree[coin]['echart-box'] = item.querySelector('.echart-box');
+                });
+            })();
+
+            const init = () => {
+                const dataStyle = JSON.parse($recommendWrap.dataset.style);
+                Object.keys(dataStyle).forEach((item) => {
+                    $recommendWrap.style[item] = dataStyle[item];
+                });
+                if (itemWidth > clientWidths){
+                    $next.style.display = 'block';
+                }
+                bindEvent();
+            };
+
+            const goPage = (num) => {
+                $recommendWrap.style.transform = `translate3d(${num}px,0,0)`;
+            };
+
+            const bindEvent = () => {
+                $recommendContent.forEach((item) => {
+                    item.addEventListener('click', (e) => {
+                        const coin = item.dataset.coin;
+                        if (coin) {
+                            myStorage.set('sSymbolName', coin);
+                            myStorage.set('markTitle', coin.split('/')[1]);
+                        }
+                        location.href = '/trade';
+                    }, false);
+                });
+
+                $next.addEventListener('click', () => {
+                    let str = $recommendWrap.style.transform.match(/[(](.+)[)]/g)[0];
+                    str = str.replace('(', '');
+                    str = str.replace(')', '');
+                    const num = clientWidths / 2;
+                    const x = Math.abs(str.replace('px', '').split(',')[0]);
+                    let right = num + x;
+                    if (right > scrollMax){
+                        right = scrollMax;
+                    }
+                    if (right === scrollMax){
+                        $next.style.display = 'none';
+                        $prev.style.display = 'block';
+                    }
+                    goPage(-right);
+                    $prev.style.display = 'block';
+                }, false);
+
+                $prev.addEventListener('click', () => {
+                    let str = $recommendWrap.style.transform.match(/[(](.+)[)]/g)[0];
+                    str = str.replace('(', '');
+                    str = str.replace(')', '');
+                    const num = clientWidths / 2;
+                    const x = Math.abs(str.replace('px', '').split(',')[0]);
+                    let left = num - x;
+                    if (left > 0){
+                        left = 0;
+                    }
+                    if (left === 0){
+                        $prev.style.display = 'none';
+                        $next.style.display = 'block';
+                    }
+                    goPage(left);
+                }, false);
+            };
+
+            const setData = (coin) => {
+                myEcharts[coin].resize();
+                myEcharts[coin].setOption({
+                    series: [
+                        {
+                            data: klineDataList[coin],
+                            type: 'line',
+                            lineStyle: {
+                                normal: {
+                                    color: klineColor,
+                                    width: lineWidth,
+                                },
+                            },
+                        },
+                    ],
+                });
+            };
+
+            const initEcharts = (coin) => {
+                kLineIniting[coin] = true;
+                let bg;
+                bg = {
+                    normal: {
+                        color: new window.echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: 'rgba(36,160,245,0.2)'},
+                                {offset: 1, color: 'rgba(36,160,245,0.05)'},
+                            ],
+                        ),
+                    },
+                };
+                // 基于准备好的dom，初始化echarts实例
+                myEcharts[coin] = window.echarts.init(domTree[coin]['echart-box']);
+                // 绘制图表
+                myEcharts[coin].setOption({
+                    grid: {
+                        left: -10,
+                        bottom: 0,
+                        top: 0,
+                        right: -10,
+                    },
+                    xAxis: {
+                        show: false,
+                        type: 'category',
+                        min: 'dataMin',
+                        max: 'dataMax',
+                    },
+                    yAxis: {
+                        show: false,
+                        type: 'value',
+                        min: 'dataMin',
+                        max: 'dataMax',
+                    },
+                    series: [
+                        {
+                            data: [],
+                            type: 'line',
+                            symbol: 'none',
+                            lineStyle: {
+                                normal: {
+                                    color: klineColor,
+                                    width: 2,
+                                },
+                            },
+                            areaStyle: bg,
+                        },
+                    ],
+                });
+                klineTimer[coin] = setTimeout(() => {
+                    setData(coin);
+                }, 0);
+                kLineIniting[coin] = false;
+                klinkInit[coin] = true;
+                echartReady[coin] = true;
+            };
+
+            const getCoinLabel = (name, coinList = {}, coinTagLangs) => {
+                if (coinList && coinList[name.toUpperCase()]) {
+                    const {coinTag = ''} = coinList[name.toUpperCase()];
+                    return coinTag ? coinTagLangs[coinTag] : '';
+                }
+
+                return '';
+            };
+
+            const labelShow = (coinLabel, coin, len, index) => {
+                if (coinLabel) {
+                    domTree[coin]['coin-text'].innerHTML = coinLabel;
+                    domTree[coin]['coin-label'].style.display = 'inline-block';
+                }
+                if (index === len - 1) {
+                    labelisShow = true;
+                }
+            };
+
+            window.emitter.on('RECOMMEEND_KLINE_DATA', (data) => {
+                klineDataList = data;
+                const keys = Object.keys(klineDataList);
+                keys.forEach((coin) => {
+                    if (!klineTimer[coin]) {
+                        klineTimer[coin] = null;
+                    }
+                    if (echartReady[coin]) {
+                        klineTimer[coin] = setTimeout(() => {
+                            setData(coin);
+                        }, 0);
+                    } else {
+                        if (window.echarts && !klinkInit[coin] && !kLineIniting[coin]) {
+                            klineTimer[coin] = setTimeout(() => {
+                                initEcharts(coin);
+                            }, 0);
+                        }
+                    }
+                });
+
+            });
+            window.emitter.on('RECOMMEEND_DATA', (data) => {
+                const {recommendDataList, coinList, coinTagLangs} = data;
+                const keys = Object.keys(recommendDataList);
+                keys.forEach((item) => {
+                    const coinLabel = (recommendDataList[item] && recommendDataList[item].symbol)
+                        ? getCoinLabel(recommendDataList[item].symbol.symbol, coinList, coinTagLangs)
+                        : '';
+                    recommendDataList[item]['coinLabel'] = coinLabel
+                });
+                dataList = recommendDataList;
+                $recommendContent.forEach((item, index) => {
+                    const coin = item.dataset.coin;
+                    const coinLabel = dataList[coin].coinLabel;
+                    const len = $recommendContent.length;
+                    if (dataList[coin]) {
+                        const $percentage = domTree[coin]['percentage'];
+                        const $recommendType = domTree[coin]['recommendPrice'];
+                        const $recommendTime = domTree[coin]['recommendTime'];
+                        const recommendTimeVal = $recommendTime.innerHTML;
+                        const recommendTimeNVal = `24H Vol ${dataList[coin].vol}`;
+                        const recommendTypeVal = $recommendType.innerHTML;
+                        const recommendTypeNVal = dataList[coin].close ? dataList[coin].close.data : '';
+                        const percentageValue = $percentage.innerHTML;
+                        const percentageClass = $percentage.className;
+                        const percentageNValue = dataList[coin].rose ? dataList[coin].rose.data : '';
+                        const percentageNClass = `percentage ${dataList[coin].rose ? dataList[coin].rose.class : ''}`;
+
+                        if (recommendTimeVal !== recommendTimeNVal) {
+                            $recommendTime.innerHTML = recommendTimeNVal;
+                        }
+                        if (recommendTypeVal !== recommendTypeNVal) {
+                            $recommendType.innerHTML = recommendTypeNVal;
+                        }
+                        if (percentageValue !== percentageNValue) {
+                            $percentage.innerHTML = percentageNValue;
+                        }
+                        if (percentageClass !== percentageNClass) {
+                            $percentage.className = percentageNClass;
+                        }
+                    }
+                    if (!labelisShow) {
+                        labelShow(coinLabel, coin, len, index);
+                    }
+                });
+            });
+            init();
+        })();
+    </script>
+</div>

@@ -2,9 +2,20 @@
 <head>
     <link rel="stylesheet" href="/static/index/common.css"/>
     <script src="https://static.hiotc.pro/static/js/d16ebe284543427619996c31c7008ee6-iconfont.js"></script>
+    <script src="/static/js/event-emitter.min.js"></script>
+    <script>
+        window.webWorkerMap = {{webWorkerMap | safe}};
+        window.emitter = new EventEmitter();
+        window.addEventListener('resize', () => {
+            emitter.emit('resize');
+        });
+    </script>
     <script inline-html></script>
 </head>
-<body class="inx">
+<body class="inx c-2-bg">
 {% include "modules/header.njk" %}
+<div class="page-content page-content-chain" style="position: relative; min-height: 800px">
+    {% include "modules/china.njk" %}
+</div>
 </body>
 </html>

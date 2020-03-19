@@ -6,16 +6,37 @@ const camelCase = require('camelcase');
 const browserify = require('browserify');
 const fs = require('fs');
 const clean = require('gulp-clean');
+const copy = require('gulp-copy');
 const babelify = require('babelify');
 const stream = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const watch = require('gulp-watch');
+const crypto = require('crypto');
 const rev = require('gulp-rev');
 const uglify = require('gulp-uglify');
 const through = require('through2');
 const stylus = require('gulp-stylus');
 const {transform} = require('babel-core');
 const minify = require('html-minifier').minify;
+const webWorkerPath = path.join(__dirname, 'node_modules/BlockChain-ui/web-worker');
+const webWorkerMapPath = path.join(__dirname, 'app/view/src/assets/js/webworker-map.js');
+const webWorkerIntoPath = path.join(__dirname, 'app/dist/static/web-worker');
+const staticPath = path.join(__dirname, 'node_modules/BlockChain-ui/static');
+const staticIntoPath =  path.join(__dirname, 'app/dist/static');
+const { dirExists } = require('BlockChain-ui/node/utils');
+const webWorkerMap = {};
+if(!fs.existsSync(path.join(__dirname, 'app/dist'))){
+  fs.mkdirSync(path.join(__dirname, 'app/dist'));
+}
+if(!fs.existsSync(path.join(__dirname, 'app/dist/static'))){
+  fs.mkdirSync(path.join(__dirname, 'app/dist/static'));
+}
+
+if(!fs.existsSync(path.join(__dirname, 'app/dist/static/index'))){
+  fs.mkdirSync(path.join(__dirname, 'app/dist/static/index'));
+}
+
+
 let gitVersion = '';
 try {
   const gitHead = fs.readFileSync('.git/HEAD', 'utf-8').trim();
@@ -164,7 +185,8 @@ function compassFiles(paths, templatePath, outputPath) {
         const inlineJs = fs.readFileSync(JSPath, 'utf-8');
         const utilsJS = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/lib/utils.js'), 'utf-8');
         const dialogJS = fs.readFileSync(path.join(__dirname, 'app/view/src/modules/dialog.js'), 'utf-8');
-        const script = transform((inlineJs + utilsJS + dialogJS), {
+        const webSocket = fs.readFileSync(path.join(__dirname, 'app/view/src/modules/webSocket.js'), 'utf-8');
+        const script = transform((inlineJs + utilsJS + dialogJS + webSocket), {
           minified: true,
           comments: false,
         }).code;
@@ -182,11 +204,54 @@ async function buildTemplate() {
   compassFiles(dirs, templatePath, outputPath);
 };
 
+function createwebWrokerMap(dirPath, outPath) {
+  const files = fs.readdirSync(dirPath);
+  files.forEach((value) => {
+    const filePath = path.join(dirPath, value);
+    const intoPath = path.join(outPath, value);
+    if (fs.statSync(filePath).isDirectory()) {
+      if (!fs.existsSync(intoPath)) {
+        fs.mkdirSync(intoPath);
+      }
+      createwebWrokerMap(filePath, intoPath);
+    } else {
+      const fileSource = fs.readFileSync(filePath, 'UTF-8');
+      const md5sum = crypto.createHash('md5');
+      const compassFileSource = transform(fileSource, {
+        minified: true,
+        comments: false,
+        presets: ['env'],
+        plugins: ["transform-remove-strict-mode"],
+      }).code;
+      md5sum.update(compassFileSource);
+      const md5 = md5sum.digest('hex');
+      const hashValue = `${md5}-${value}`;
+      webWorkerMap[value.replace('.js', '')] = hashValue;
+      fs.writeFileSync(intoPath.replace(value, hashValue), compassFileSource);
+    }
+  });
+}
+
+async function compassWebWorker (){
+  if(!fs.existsSync(webWorkerIntoPath)){
+    fs.mkdirSync(webWorkerIntoPath);
+  }
+  createwebWrokerMap(webWorkerPath, webWorkerIntoPath);
+  fs.writeFileSync(webWorkerMapPath, `module.exports = ${JSON.stringify(webWorkerMap)}`);
+};
+
+
+
+async function copyStatic(){
+  src([path.join(staticPath, 'fonts/**'), path.join(staticPath, 'fonts/**'), path.join(staticPath, 'js/**')])
+    .pipe(copy(staticIntoPath, { prefix: 3 }))
+};
+
 
 /*exports.dev = parallel(js, watchFile);
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = parallel(buildTemplate);
-exports.dev = parallel(buildTemplate, watchFile);
+exports.test = parallel(compassWebWorker);
+exports.dev = parallel(buildTemplate,compassWebWorker, copyStatic, css, watchFile);
 exports.build = parallel(buildJS);
