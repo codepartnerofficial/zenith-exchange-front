@@ -62,7 +62,7 @@
       const { locale } = this;
       dialog.className = 'common-dialog';
       dialog.style.display = 'none';
-      const _html = `<div class="dialog-markAll u-7-bg"></div>
+      dialog.innerHTML = `<div class="dialog-markAll u-7-bg"></div>
                     <div class="dialog-frame a-5-bg">
                         <div class="dialog-frame-head a-4-bg">
                             <span class="dialog-frame-head-text b-1-cl">${locale.titleText}</span>
@@ -84,18 +84,17 @@
                         </div>
                         <div class="dialog-frame-bottom">
                             <div class="dialog-frame-options">
-                                <button class="common-button common-button-text u-8-cl closeBtnClass" style="height: 40px; padding-left: 31px; padding-right: 31px; margin-top: 0px;">
+                                <button class="common-button common-button-text u-8-cl closeBtnClass" style="height: 40px; padding-left: 31px; padding-right: 31px; margin-top: 0;">
                                     <div class="common-button-slot">${locale.closeTextProps}</div>
                                 </button>
-                                <button class="common-button common-button-solid u-8-bg u-16-cl confirm" style="height: 40px; padding-left: 31px; padding-right: 31px; margin-top: 0px;">
-                                    <div class="common-button-slot"><!---->${locale.confirmTextProps}</div><!---->
+                                <button class="common-button common-button-solid u-8-bg u-16-cl confirm" style="height: 40px; padding-left: 31px; padding-right: 31px; margin-top: 0;">
+                                    <div class="common-button-slot">${locale.confirmTextProps}</div>
                                     <div class='solidBc bghover u-14-bg'></div>
                                     <div class='solidBc bgactive u-15-bg'></div>
                                 </button>
                             </div>
                         </div>
                     </div>`;
-      dialog.innerHTML = _html;
       const body = document.querySelector('body');
       this.dialog = body.appendChild(dialog);
     }

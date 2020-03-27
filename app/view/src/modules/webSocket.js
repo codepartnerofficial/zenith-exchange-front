@@ -1,13 +1,19 @@
 (function () {
-  const { myStorage, setDefaultMarket } = BlockChainUtils;
+  if ( window.selfSocket) return;
+  const { myStorage, setDefaultMarket, getCoinShowName } = BlockChainUtils;
   const lang = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-  const listenMap = [];
   const recommendDataList = {};
   let marketDataObj = [];
   const klineDataList = {};
+  let mySymbolList = myStorage.get('mySymbol') || [];
+  const coinTagOpen = '{{ switch.coin_tag_open }}';
+  let symbolList = [];
+  let coinTagLangs = null;
+  let marketCurrent = myStorage.get('homeMarkTitle');
   webWorkerMap.baseUrl = '/';
+  webWorkerMap.baseDir = 'home/static/';
   if (!window.workers) {
-    window.workers = new Worker(`/static/web-worker/${webWorkerMap.websocket}?fileMap=${JSON.stringify(webWorkerMap)}`);
+    window.workers = new Worker(`/home/static/web-worker/${webWorkerMap.websocket}?fileMap=${JSON.stringify(webWorkerMap)}`);
   }
 
   const webSocketSend = (type, sendType, symbolData, symbolList) => {
@@ -37,14 +43,132 @@
         coinTagLangs: coinTagLangs[lang],
       });
     }
-  }
+  };
 
-  const listenWSData = (data , headerSymbol, coinList, coinTagLangs) => {
+  // 设置币对是否收藏的ICON
+  const myMarketIcon = (symbol) => {
+    if (mySymbolList.indexOf(symbol) === -1) {
+      return `<svg class="icon icon-16" aria-hidden="true">
+                <use xlink:href="#icon-c_11">
+              </use></svg>`;
+    }
+    return `<svg class="icon icon-16" aria-hidden="true">
+                <use xlink:href="#icon-c_11_1">
+              </use></svg>`;
+  };
+
+  const getCoinLabel = (name, coinList = {}, coinTagLangs) => {
+    if (coinList && coinList[name.toUpperCase()]) {
+      const { coinTag = '' } = coinList[name.toUpperCase()];
+      return coinTag ? coinTagLangs[coinTag] : '';
+    }
+
+    return '';
+  };
+
+  // 24小时行情 涨跌幅 的背景、样色的class
+  const itemRoseClass = (rose) => {
+    let bgClass = null;
+    if (rose.class === 'u-1-cl') {
+      bgClass = 'rose-label u-3-bg';
+    } else if (rose.class === 'u-4-cl') {
+      bgClass = 'rose-label u-6-bg';
+    }
+    return [rose.class, bgClass];
+  };
+
+  // 格式化 推荐位的24小时行情数据
+  const setMarketData = (coinList, symbolAll, init) => {
+    if (!symbolList) return;
+    const marketDataList = [];
+    const keyarr = Object.keys(symbolList);
+    keyarr.forEach((item) => {
+      const itemData = marketDataObj[item];
+      if (itemData) {
+        const showName = getCoinShowName(itemData.name, symbolAll);
+        const coinLabel = getCoinLabel(itemData.symbol.symbol, coinList, coinTagLangs);
+        let iconSvg = `<span>${showName}</span>`;
+        if (coinLabel && Number(coinTagOpen)) {
+          const str = `<div class="coin-label">
+              <span class="coin-text a-12-cl">${coinLabel}</span>
+              <span class="coin-bg a-12-bg"></span>
+            </div>`;
+          iconSvg = `${iconSvg}${str}`;
+        }
+        marketDataList.push({
+          isShow: symbolList[item].isShow,
+          id: itemData.name,
+          showName,
+          data: [
+            [
+              {
+                iconSvg: myMarketIcon(itemData.name),
+                type: 'icon',
+                eventType: 'store',
+              },
+              {
+                iconSvg,
+                type: 'icon',
+                eventType: 'symbol',
+                classes: 'symbolName',
+                sortVal: itemData.sort,
+                key: 'sort',
+              },
+            ],
+            [
+              {
+                text: itemData.close.data,
+                classes: ['fontSize14'],
+                sortVal: itemData.closes,
+                key: 'closes',
+                subContent: {
+                  text: itemData.close.price !== '--' ? `≈ ${itemData.close.price}` : itemData.close.price,
+                  classes: ['b-2-cl'], // 默认没有
+                },
+              },
+            ],
+            [
+              {
+                type: 'label',
+                text: itemData.rose.data,
+                sortVal: itemData.roses,
+                key: 'roses',
+                classes: itemRoseClass(itemData.rose),
+              },
+            ],
+            [
+              {
+                text: itemData.high,
+              },
+            ],
+            [
+              {
+                text: itemData.low,
+              },
+            ],
+            [
+              {
+                text: itemData.vol,
+              },
+            ],
+            [
+              {
+                text: itemData.amount,
+              },
+            ],
+          ],
+        });
+      }
+    });
+    emitter.emit('MARKET-DATA', marketDataList.sort((a, b) => a.sort - b.sort), init);
+  };
+
+  const listenWSData = (data , headerSymbol, coinList, symbolAll) => {
     const { type, WsData } = data;
     // 24小时行情数据
     if (type === 'MARKET_DATA') {
       marketDataObj = WsData;
-      //this.setMarketData();
+      setMarketData( coinList, symbolAll);
       setRecommendData(headerSymbol, coinList, coinTagLangs);
     }
     if (type.indexOf('KLINE_DATA') > -1) {
@@ -89,10 +213,29 @@
     }
   };
 
+  const getSymbolList = (currentMarketList, symbolAll) => {
+    // 如果 当前市场 是 自选市场
+    if (marketCurrent === 'myMarket') {
+      const mySymbol = myStorage.get('mySymbol') || [];
+      const marketList = {};
+      if (mySymbol.length) {
+        mySymbol.forEach((item) => {
+          if (item && symbolAll[item]) {
+            marketList[item] = symbolAll[item];
+          }
+        });
+      }
+      return marketList;
+    }
+    if (currentMarketList && marketCurrent) {
+      return currentMarketList[marketCurrent];
+    }
+    return null;
+  };
+
   const initWorker = (data) => {
     const { market, symbolAll } = data;
     const { coinList, coinTagLangs } = market;
-    const marketCurrent = myStorage.get('homeMarkTitle');
     const symbolCurrent = myStorage.get('sSymbolName');
     workers.postMessage({
       type: 'CREAT_WEBSOCKET',
@@ -104,31 +247,9 @@
       },
     });
 
-    const getSymbolList = (currentMarketList) => {
-      // 如果 当前市场 是 自选市场
-      if (marketCurrent === 'myMarket') {
-        const mySymbol = myStorage.get('mySymbol') || [];
-        const marketList = {};
-        if (mySymbol.length) {
-          mySymbol.forEach((item) => {
-            if (item && symbolAll[item]) {
-              marketList[item] = symbolAll[item];
-            }
-          });
-        }
-        return marketList;
-      }
-      if (currentMarketList && marketCurrent) {
-        return currentMarketList[marketCurrent];
-      }
-      return null;
-    };
-
-
     workers.onmessage = (event) => {
       const { data } = event;
       const { headerSymbol } = market;
-      const symbolList = getSymbolList(market.market);
       // 监听 WebSocket 链接成功
       if (data.type === 'WEBSOCKET_ON_OPEN') {
         const symbolListKey = Object.keys(symbolList);
@@ -176,12 +297,23 @@
       }
       // 监听 WS 数据
       if (data.type === 'WEBSOCKET_DATA') {
-        listenWSData(data.data, headerSymbol, coinList, coinTagLangs);
+        listenWSData(data.data, headerSymbol, coinList, symbolAll);
       }
     };
   };
   fetch('/getMarket').then(res => res.json()).then((data) => {
     setDefaultMarket(data.market);
+    marketCurrent = myStorage.get('homeMarkTitle');
+    symbolList = getSymbolList(data.market.market, data.symbolAll);
+    coinTagLangs = data.market.coinTagLangs;
+    emitter.emit('send_market', data);
     initWorker(data);
+    emitter.on('SWITCH-MARKET', (val) => {
+      mySymbolList = myStorage.get('mySymbol') || [];
+      marketCurrent = val;
+      symbolList = getSymbolList(data.market.market, data.symbolAll);
+      setMarketData(data.market.coinList, data.symbolAll, true);
+    });
   });
+  window.selfSocket = true;
 })();

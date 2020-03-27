@@ -5,7 +5,6 @@ const path = require('path');
 const camelCase = require('camelcase');
 const browserify = require('browserify');
 const fs = require('fs');
-const clean = require('gulp-clean');
 const copy = require('gulp-copy');
 const babelify = require('babelify');
 const stream = require('vinyl-source-stream');
@@ -18,22 +17,33 @@ const through = require('through2');
 const stylus = require('gulp-stylus');
 const {transform} = require('babel-core');
 const minify = require('html-minifier').minify;
+const cleanCSS = require('gulp-clean-css');
+const cp = require('child_process');
+const rimraf = require('rimraf');
 const webWorkerPath = path.join(__dirname, 'node_modules/BlockChain-ui/web-worker');
 const webWorkerMapPath = path.join(__dirname, 'app/view/src/assets/js/webworker-map.js');
-const webWorkerIntoPath = path.join(__dirname, 'app/dist/static/web-worker');
+const webWorkerIntoPath = path.join(__dirname, 'app/dist/home/static/web-worker');
 const staticPath = path.join(__dirname, 'node_modules/BlockChain-ui/static');
-const staticIntoPath =  path.join(__dirname, 'app/dist/static');
+const staticIntoPath =  path.join(__dirname, 'app/dist/home/static/');
+const imgPath = path.join(__dirname, 'node_modules/BlockChain-ui/theme/imgTheme/1');
+const imgInPath = path.join(__dirname, 'app/dist/home/static/img');
 const { dirExists } = require('BlockChain-ui/node/utils');
+const sourceMapPath = path.join(__dirname, 'app/view/src/utils/imgMap.json');
+const iconFontPath = path.join(__dirname, 'node_modules/BlockChain-ui/theme/iconTheme/1.js');
+const modulesJSPath = path.join(__dirname, 'node_modules/BlockChain-ui/home/modules');
+const templateConfig = require('./templateConfig');
+const sourceMap = {};
 const webWorkerMap = {};
-if(!fs.existsSync(path.join(__dirname, 'app/dist'))){
-  fs.mkdirSync(path.join(__dirname, 'app/dist'));
-}
-if(!fs.existsSync(path.join(__dirname, 'app/dist/static'))){
-  fs.mkdirSync(path.join(__dirname, 'app/dist/static'));
-}
+const styleMap = {};
+Object.keys(templateConfig).forEach((item) => {
+  styleMap[item] = [];
+});
 
-if(!fs.existsSync(path.join(__dirname, 'app/dist/static/index'))){
-  fs.mkdirSync(path.join(__dirname, 'app/dist/static/index'));
+let env = '';
+try{
+  env = process.argv[3].split('=')[1];
+}catch (e) {
+
 }
 
 
@@ -56,91 +66,64 @@ if (!gitVersion) {
   }
 }
 
-task('clean', () => src([path.join(__dirname, '/app/public/dist'), path.join(__dirname, '/app/public/static/data/rev-manifest.json')], {
-  read: false,
-  allowEmpty: true
-})
-  .pipe(clean(
-    {force: true},
-  )));
+async function mkdir(){
+  if(!fs.existsSync(path.join(__dirname, 'app/dist'))){
+    fs.mkdirSync(path.join(__dirname, 'app/dist'));
+  }
+  if(!fs.existsSync(path.join(__dirname, 'app/dist/home'))){
+    fs.mkdirSync(path.join(__dirname, 'app/dist/home'));
+  }
+
+  if(!fs.existsSync(path.join(__dirname, 'app/dist/home/static'))){
+    fs.mkdirSync(path.join(__dirname, 'app/dist/home/static'));
+  }
+  if(!fs.existsSync(path.join(__dirname, 'app/build'))){
+    fs.mkdirSync(path.join(__dirname, 'app/build'));
+  }
+  if(!fs.existsSync(path.join(__dirname, 'app/build/template'))){
+    fs.mkdirSync(path.join(__dirname, 'app/build/template'));
+  }
+}
+
+async function clean(){
+  rimraf.sync(path.join(__dirname, 'app/dist'));
+}
 
 async function css() {
   const cssPath = path.join(__dirname, 'node_modules/BlockChain-ui/static/css/common.styl');
   src(cssPath)
     .pipe(stylus({}))
-    .pipe(dest(path.join(__dirname, 'app/dist/static/index')))
+    .pipe(cleanCSS())
+    .pipe(rev())
+    .pipe(slove())
+    .pipe(dest(path.join(__dirname, 'app/dist/home/static')));
+
 }
 
-async function js() {
-  const pagePath = path.join(__dirname, '/app/public/static/pages/');
-  const paths = fs.readdirSync(pagePath);
-  paths.forEach((item) => {
-    const fileName = item.replace('.js', '');
-    browserify({
-      entries: path.join(pagePath, item),
-      debug: true,
-    })
-      .transform(babelify.configure({
-        presets: ['@babel/preset-env'],
-      }))
-      .bundle()
-      .pipe(stream(`${camelCase(fileName)}.js`))
-      .pipe(buffer())
-      .pipe(dest(path.join(__dirname, '/app/public/dist')))
-      .pipe(slove());
-  });
-}
-
-const pages = path.join(__dirname, '/app/view/template/modules/**');
-const modules = path.join(__dirname, 'app/view/src/modules/*.js');
+const pages = path.join(__dirname, '/app/view/template/**');
+const modules = path.join(__dirname, 'node_modules/BlockChain-ui/home/modules/*.js');
 
 const watchFile = () => watch([pages, modules],
-  {}, series(buildTemplate));
+  {}, series(buildModulesJS, buildTemplate));
 
 function slove() {
   return through.obj((file, enc, cb) => {
     const fileName = file.relative;
+    let contents = file.contents.toString(enc || 'utf-8').replace(/[.]{2}/g, '/home/static');
     let manifest = {};
     try {
-      manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '/app/public/static/data/rev-manifest.json')), 'utf-8');
+      manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
     } catch (e) {
 
     }
-    manifest[fileName] = fileName;
-    fs.writeFileSync(path.join(__dirname, '/app/public/static/data/rev-manifest.json'), JSON.stringify(manifest));
-    cb();
+    manifest[fileName.replace(`-${file.revHash}`, '')] = fileName;
+    fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+    file.contents = Buffer.from(contents);
+    cb(null, file);
   });
 }
 
-async function buildJS() {
-  const modulesPath = path.join(__dirname, '/app/view/src/modules/');
-  const modulesPaths = fs.readdirSync(modulesPath);
-  modulesPaths.forEach((item) => {
-    const pagePath = path.join(modulesPath, item);
-    const paths = fs.readdirSync(pagePath);
-    paths.forEach((filePath) => {
-      const fileName = filePath.replace('.js', '');
-      browserify({
-        entries: path.join(pagePath, filePath),
-      })
-        .transform(babelify)
-        .bundle()
-        .pipe(stream(`${camelCase(fileName)}.js`))
-        .pipe(buffer())
-        //  .pipe(uglify())
-        //.pipe(rev())
-        .pipe(dest(path.join(__dirname, '/app/dist/static/index')))
-      /*  .pipe(rev.manifest({
-          path: path.join(__dirname, '/app/public/static/data/rev-manifest.json'),
-          merge: true,
-        }))
-        .pipe(dest(path.join(__dirname, '')));*/
-    });
-  });
-
-}
-
-function compassFiles(paths, templatePath, outputPath) {
+function compassFiles(paths, templatePath, outputPath, style) {
   paths.forEach((item) => {
     const intoPath = path.join(outputPath, item);
     const filePath = path.join(templatePath, item);
@@ -149,13 +132,19 @@ function compassFiles(paths, templatePath, outputPath) {
         fs.mkdirSync(intoPath);
       }
       const dirs = fs.readdirSync(filePath);
-      compassFiles(dirs, filePath, intoPath);
+      compassFiles(dirs, filePath, intoPath, style);
     } else {
       let content = fs.readFileSync(filePath, 'utf-8');
       if (item.indexOf('index') === -1) {
         const scriptStart = content.indexOf('<script>') + 8;
         const scriptEnd = content.indexOf('</script>');
         const scriptContent = content.substring(scriptStart, scriptEnd);
+/*        const styleStart = content.indexOf('<style>') + 7;
+        const styletEnd = content.indexOf('</style>');
+        const styletContent = content.substring(styleStart, styletEnd);
+        const miniCss = minify(styletContent, {removeComments: true,collapseWhitespace: true,minifyJS:true, minifyCSS:true});
+        styleMap.china.push(miniCss);
+        content = content.replace(styletContent, '');*/
         content = content.replace(scriptContent, transform(scriptContent, {
           minified: true,
           comments: false,
@@ -184,9 +173,8 @@ function compassFiles(paths, templatePath, outputPath) {
         const JSPath = path.join(__dirname, './node_modules/BlockChain-ui/static/js/html-init.js');
         const inlineJs = fs.readFileSync(JSPath, 'utf-8');
         const utilsJS = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/lib/utils.js'), 'utf-8');
-        const dialogJS = fs.readFileSync(path.join(__dirname, 'app/view/src/modules/dialog.js'), 'utf-8');
-        const webSocket = fs.readFileSync(path.join(__dirname, 'app/view/src/modules/webSocket.js'), 'utf-8');
-        const script = transform((inlineJs + utilsJS + dialogJS + webSocket), {
+        const fetchData = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/home/fetchData.js'), 'utf-8');
+        const script = transform((inlineJs + utilsJS + fetchData), {
           minified: true,
           comments: false,
         }).code;
@@ -247,11 +235,94 @@ async function copyStatic(){
     .pipe(copy(staticIntoPath, { prefix: 3 }))
 };
 
+function comassImg(imgPath, intoPath){
+  let manifest = {};
+  try {
+    manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
+  } catch (e) {
+
+  }
+  const files = fs.readdirSync(imgPath);
+  files.forEach((item) => {
+    const imgKeys = item.split('.');
+    const suffix = imgKeys[1];
+    const imgKey = imgKeys[0];
+    const source = fs.readFileSync(path.join(imgPath, item));
+    const md5sum = crypto.createHash('md5');
+    md5sum.update(source);
+    const md5 = md5sum.digest('hex');
+    manifest[imgKey] = `/home/static/img/${md5}.${suffix}`;
+    fs.writeFileSync(path.join(intoPath, `${md5}.${suffix}`), source);
+  });
+  fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+}
+
+async function copyImg(){
+  if(!fs.existsSync(imgInPath)){
+    fs.mkdirSync(imgInPath);
+  }
+  comassImg(imgPath, imgInPath);
+}
+
+async function iconJS(){
+  if(!fs.existsSync(staticIntoPath)){
+    fs.mkdirSync(staticIntoPath);
+  }
+  const source = fs.readFileSync(iconFontPath, 'utf-8');
+  const md5sum = crypto.createHash('md5');
+  md5sum.update(source);
+  const md5 = md5sum.digest('hex');
+  const hashValue = `${md5}-iconfont.js`;
+
+  fs.writeFileSync(path.join(staticIntoPath, hashValue), source);
+  let manifest = {};
+  try {
+    manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
+  } catch (e) {
+
+  }
+  manifest['iconfont'] = hashValue;
+  fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+}
+
+async function buildModulesJS(){
+  let manifest = {};
+  try {
+    manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
+  } catch (e) {
+
+  }
+  fs.readdirSync(modulesJSPath).forEach((item) => {
+    let source = fs.readFileSync(path.join(modulesJSPath, item), 'utf-8');
+    const imgKeys = item.split('.');
+    const imgKey = imgKeys[0];
+    let name = item;
+    if (process.env.NODE_ENV !== 'development'){
+      source = transform(source, {
+        minified: true,
+        comments: false,
+        presets: ['env'],
+        plugins: ["transform-remove-strict-mode"],
+      }).code;
+      const md5sum = crypto.createHash('md5');
+      md5sum.update(source);
+      const md5 = md5sum.digest('hex');
+      const hashValue = `${md5}-${item}`;
+      manifest[imgKey] = hashValue;
+      name = hashValue;
+    }
+    manifest[imgKey] = name;
+    fs.writeFileSync(path.join(staticIntoPath, name), source);
+  });
+  fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+
+
+}
 
 /*exports.dev = parallel(js, watchFile);
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = parallel(compassWebWorker);
-exports.dev = parallel(buildTemplate,compassWebWorker, copyStatic, css, watchFile);
-exports.build = parallel(buildJS);
+exports.test = series(buildModulesJS);
+exports.dev = series(mkdir, buildModulesJS, iconJS, copyImg, buildTemplate,compassWebWorker, copyStatic, css, watchFile);
+exports.build = series(clean, mkdir, buildModulesJS, iconJS, copyImg, buildTemplate,compassWebWorker, copyStatic, css);

@@ -1,4 +1,4 @@
-<div class="homes">
+<div class="homes b-2-cl c-2-bg Chainer">
     <style>
         .homes .home-alert .noclick {
             margin-left: 50%;
@@ -235,7 +235,7 @@
             text-align: left;
             border-radius: 2px;
         }
-        .homes .home-container .pro-item:last-child {
+        .homes .home-container .pro-item:last-child{
             margin-right: 0;
         }
         .homes .home-container .pro-item .pro-img {
@@ -614,10 +614,12 @@
         </div>
     </div>
     {% import "./swiper/china.njk" as swiper %}
-    {{ swiper.boxStyle(height='580px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList) }}
+    {{ swiper.boxStyle(height='580px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
     {% if headerSymbol.length %}
         {% include "./recommend/china.njk" %}
     {% endif %}
+    {% include "./market/china.njk" %}
+    {% include "./custom/china.njk" %}
     <script>
         (function () {
             const $noticeList = document.querySelector('#notice-list');

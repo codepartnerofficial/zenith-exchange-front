@@ -68,17 +68,13 @@
               </p>
             </template>
           </div>
-          <router-link class="more x-3-cl" to="noticeInfo"></router-link>
+          <a class="more x-3-cl" href="/noticeInfo"></a>
           <!-- 更多 -->
-          <c-button
-            class="button"
-            type = "text"
-            :class="'more x-3-cl'"
-            @click="btnLink"
-          >
-            <!-- 更多 -->
-            {{$t('home.more')}}
-          </c-button>
+          <button class="common-button button common-button-text u-8-cl  more x-3-cl" style="height: 24px; padding-left: 10px; padding-right: 10px; margin-top: 0px;">
+            <div class="common-button-slot">
+            {{ locale.home.more }}
+            </div>
+          </button>
         </template>
       </div>
       <!-- 轮播图 -->

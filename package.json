@@ -23,6 +23,8 @@
     "graphql-request": "^1.8.2",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-copy": "^4.0.1",
     "gulp-rev": "^9.0.0",
     "gulp-stylus": "^2.7.0",
     "gulp-uglify": "^3.0.2",
@@ -41,6 +43,7 @@
     "autod": "^3.0.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "cross-env": "^7.0.2",
     "egg-bin": "^4.3.7",
     "egg-ci": "^1.8.0",
     "eslint": "^5.13.0",
@@ -66,7 +69,8 @@
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
     "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov",
-    "pkgfiles": "egg-bin pkgfiles"
+    "pkgfiles": "egg-bin pkgfiles",
+    "gulpDev": "cross-env NODE_ENV=development gulp dev"
   },
   "ci": {
     "version": "10"

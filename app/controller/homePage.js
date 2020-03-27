@@ -28,7 +28,9 @@ class StaticIndex extends Controller {
     //ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    const { noticeInfoList, cmsAdvertList } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    //ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
     const { msg, lan, skin, market, symbolAll } = this.publicInfo;
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
@@ -55,7 +57,41 @@ class StaticIndex extends Controller {
       cmsAdvertList: cmsAdvertList.slice(0, 4),
       symbolAll,
       webWorkerMap,
+      footer_warm_prompt,
+      footerList,
+      imgMap: this.getImgMap(),
+      footerTemplate: headerFooter.footer,
+      sourceMap: this.getSourceMap(),
+      echartsPah: currenLan === 'zh_CN' ? 'https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js',
     });
+  }
+
+  getSourceMap(){
+    let sourceMap = {};
+    try{
+      sourceMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
+    }catch (e) {
+
+    }
+    return sourceMap;
+  }
+
+  getImgMap(){
+    const homeImgList = [
+      'home_edit_imga', 'home_edit_imgb', 'home_edit_bg', 'home_edit_icon', 'home_edit_icon1',
+      'home_edit_icon2', 'home_edit_icon3', 'home_edit_icon4', 'inforHeadBg', 'head', 'inforHeadBg',
+      'int_banner', 'int_logo', 'interAppBg', 'interBanner_1', 'interBanner_2', 'interBanner_3',
+      'interBanner_4', 'interCcustom1', 'interCcustom2', 'interCcustom3', 'interCcustom4', 'interHomeA',
+      'interPhone',
+    ];
+    const imgMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
+    const hImg = {};
+    homeImgList.forEach((item) => {
+      if (imgMap[item]){
+        hImg[item] = imgMap[item]
+      }
+    });
+    return JSON.stringify(hImg);
   }
 
   getNoticeList(noticeInfoList) {

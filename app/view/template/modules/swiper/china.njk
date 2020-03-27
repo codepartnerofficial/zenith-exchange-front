@@ -1,4 +1,4 @@
-{% macro boxStyle(height ,width, bgColor, slideList) %}
+{% macro boxStyle(height ,width, bgColor, slideList, extendPath) %}
 <div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}" data-bgColor="{{bgColor}}">
     <style>
         .carousel-wrap {
@@ -94,110 +94,21 @@
         {% endif %}
         </div>
         <script>
-            const $swiper = document.querySelector('#swipers');
-            const $carouselWrap = $swiper.querySelector('.carousel-wrap');
-            const $slideUl = $swiper.querySelector('.slide-ul');
-            const $carouselItems = $swiper.querySelector('.carousel-items');
-            const lineWidth = 300;
-            const $slideListA = $slideUl.querySelectorAll('a');
-            const $slideList = $slideUl.querySelectorAll('li');
-            const $carouselItemsSapn = $carouselItems.querySelectorAll('span');
-            let currentIndex = 0;
-            let timer = null;
-
-            const resetClass = (inx) => {
-                $slideList.forEach((item) => {
-                    const index = Number(item.dataset.index);
-                    let className = '';
-                    if (index === inx) {
-                        className = 'show';
-                    }
-                    if (index > inx) {
-                        className = 'left';
-                    }
-                    if (index < inx) {
-                        className = 'right';
-                    }
-                    item.className = className;
-                });
-            };
-
-
-            const change = (inx) => {
-                currentIndex = inx;
-                $carouselItemsSapn.forEach((item) => {
-                    item.className = '';
-                });
-                $slideList.forEach((item) => {
-                    item.className = '';
-                });
-                $carouselItemsSapn[inx].className = 'active a-12-bg';
-                resetClass(inx);
-            };
-
-            const stop = () => {
-                clearTimeout(timer);
-                timer = null;
-            };
-
-            const go = () => {
-                clearTimeout(timer);
-                timer = null;
-                timer = setTimeout(() => {
-                    if($slideList.length){
-                        currentIndex += 1;
-                        if (currentIndex > $slideList.length - 1) {
-                            currentIndex = 0;
+            (() => {
+                const {getScript} = window.BlockChainUtils;
+                const extendPath ="{{extendPath}}";
+                if (extendPath && !window.SwiperExtend){
+                    getScript(`/home/static/${extendPath}`).then(() => {
+                        class Swiper extends window.SwiperExtend{
+                            constructor() {
+                                super();
+                                this.init();
+                            }
                         }
-                        change(currentIndex);
-                        go();
-                    }
-                }, 4000);
-            };
-
-            const init = () => {
-                const styleBox = $swiper.dataset;
-                $swiper.style.height = styleBox.height;
-                $swiper.style.width = styleBox.width;
-                $swiper.classList.add(styleBox.bgcolor);
-                $carouselWrap.style.height = styleBox.height;
-                resetClass(currentIndex);
-                $slideListA.forEach(( item ) => {
-                    item.style.backgroundImage = `url(${item.dataset.img})`;
-                });
-                $carouselItemsSapn.forEach((item, inx) => {
-                    let width = lineWidth / $slideList.length;
-                    item.style.width = width + 'px';
-                    if (!inx){
-                        item.className = 'active a-12-bg';
-                    }
-                });
-                bindEvent();
-                go();
-            };
-
-            const bindEvent = () => {
-                $carouselItemsSapn.forEach((item) => {
-                    item.addEventListener('mouseover', (e) => {
-                        const target = e.target;
-                        const inx = target.dataset.index;
-                        change(inx);
-                    }, false);
-                });
-                $slideList.forEach((item) => {
-                    item.addEventListener('mouseover', () => {
-                        stop();
-                    }, false);
-                });
-                $slideList.forEach((item) => {
-                    item.addEventListener('mouseout', () => {
-                        go();
-                    }, false);
-                });
-            };
-
-
-            init();
+                        new Swiper();
+                    });
+                }
+            })();
         </script>
     </div>
 </div>

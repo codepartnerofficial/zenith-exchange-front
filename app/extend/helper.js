@@ -15,4 +15,12 @@ const recommend = {
   }
 };
 
+const footer = {
+  logo(msg){
+    return msg.footer_logo_path || msg.logoUrl;
+  }
+};
+
+exports.footer = footer;
+
 exports.recommend = recommend;
