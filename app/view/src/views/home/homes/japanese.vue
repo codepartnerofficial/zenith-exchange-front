@@ -81,17 +81,15 @@
       <div class="qa-region">
         <h1>{{ $t("japanese.qa.title") }}</h1>
         <p>{{ $t("japanese.qa.desc") }}</p>
-        <ul class="qa-list" v-if="qaList">
-          <li v-for="(item, inx) in qaList.q" :key="inx">
-            <div class="q-region clearfix" @click="showA(inx)">
+        <ul class="qa-list">
+          {% for item in locale.japanese.qa.q %}
+          <li>
+            <div class="q-region clearfix">
               {{ item }}
               <div class="arrow-region">
                 <svg
                   class="icon icon-24"
                   aria-hidden="true"
-                  v-if="
-                    (qShowList[inx] && !qShowList[inx].show) || !qShowList[inx]
-                  "
                   style="transform: rotateZ(180deg)"
                 >
                   <use xlink:href="#icon-c_19"></use>
@@ -99,16 +97,16 @@
                 <svg
                   class="icon icon-24"
                   aria-hidden="true"
-                  v-if="qShowList[inx] && qShowList[inx].show"
                 >
                   <use xlink:href="#icon-c_19"></use>
                 </svg>
               </div>
             </div>
-            <div class="a-region" v-if="qShowList[inx] && qShowList[inx].show">
-              {{ qaList.a[inx] }}
+            <div class="a-region">
+              {{ item }}
             </div>
           </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const { getLocale, getFileName, getPublicInfo,  compare } = require('BlockChain-ui/node/utils');
 const webWorkerMap = JSON.stringify(require('../view/src/assets/js/webworker-map'));
+const { hostFilter } = require('BlockChain-ui/node/utils');
+const templateConfig = require('../utils/template-config');
 
 class StaticIndex extends Controller {
   async index(ctx) {
@@ -29,15 +31,17 @@ class StaticIndex extends Controller {
     //ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     //ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
-    const { msg, lan, skin, market, symbolAll } = this.publicInfo;
+    const { msg, lan, market, symbolAll } = this.publicInfo;
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
     let customHeaderList = {};
     if(headerFooter && headerFooter.header){
       customHeaderList = JSON.parse(headerFooter.header);
     }
+    this.getSelectSkin();
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       locale: this.locale,
@@ -48,13 +52,16 @@ class StaticIndex extends Controller {
       headerSymbol: market.headerSymbol,
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan.lanList,
+      lan,
+      templateModule: this.getTemplate(),
+      coinList: market.coinList,
       switch: this.publicInfo.switch,
       assetsList: this.assetsList(),
       orderList: this.orderList(),
       number: (item) => Number(item),
-      colorList: this.getColorList(),
-      noticeList: this.getNoticeList(noticeInfoList).slice(0, 4),
-      cmsAdvertList: cmsAdvertList.slice(0, 4),
+      colorList: this.getColorList(currenLan),
+      noticeList: this.getNoticeList(noticeInfoList).slice(0, 3),
+      cmsAdvertList: cmsAdvertList,
       symbolAll,
       webWorkerMap,
       footer_warm_prompt,
@@ -62,8 +69,54 @@ class StaticIndex extends Controller {
       imgMap: this.getImgMap(),
       footerTemplate: headerFooter.footer,
       sourceMap: this.getSourceMap(),
+      skin: this.getSelectSkin(),
+      internationalTitle: {
+        title: index_international_title1,
+        subTitle: index_international_title2,
+      },
       echartsPah: currenLan === 'zh_CN' ? 'https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js',
     });
+  }
+
+  getTemplate(){
+    let template = templateConfig[this.publicInfo.switch.index_temp_type];
+    return `modules/${template}.njk`;
+  }
+
+  getSelectSkin(){
+    const id = this.ctx.cookies.get('cusSkin', {
+      signed: false,
+    }) || this.skin.default;
+    if (!this.skin){
+      return null;
+    }
+    const list = this.skin.listist;
+    const currentList = [];
+    list.forEach((item) => {
+      if (item.skinId === id){
+        currentList.push(item);
+      }
+    });
+    return {
+      "skinTypeId": this.skin.skinTypeId,
+      listist: currentList,
+      "default": this.skin.default
+    };
+  }
+
+  getSkin(fileName, fileBasePath){
+    let obj = {};
+    try {
+      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
+      // eslint-disable-next-line no-empty
+    } catch (err) {
+
+    }
+    if (!Object.keys(obj).length){
+      obj = this.publicInfo.skin;
+    }
+
+    return obj;
   }
 
   getSourceMap(){
@@ -113,8 +166,8 @@ class StaticIndex extends Controller {
     }
   }
 
-  getColorList(){
-    const { skin } = this.publicInfo;
+  getColorList(lan){
+    const { skin } = this;
     if (!skin){
       return [];
     }
@@ -128,8 +181,12 @@ class StaticIndex extends Controller {
     const list = [];
     const lis = skin.listist;
     lis.forEach((item) => {
+      let name = item.mainClor;
+      if (item.skinName && item.skinName[lan]){
+        name = item.skinName[lan];
+      }
       const obj = {
-        mainClor: item.mainClor,
+        mainClor: name,
         skinId: item.skinId,
       };
       if(item.skinId === sk){
@@ -253,12 +310,17 @@ class StaticIndex extends Controller {
 
   getLocalData(fileName, fileBasePath, lan) {
     let obj = {};
+    let fileLan = '';
+    if (lan){
+      fileLan = `${lan}-`;
+    }
     try {
-      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${lan}-${fileName}.json`), 'utf-8'));
+      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileLan}${fileName}.json`), 'utf-8'));
       // eslint-disable-next-line no-empty
     } catch (err) {
 
     }
+
     return obj.data;
   }
 
@@ -433,7 +495,7 @@ class StaticIndex extends Controller {
         domain,
         message: `未拿到publicInfo.lan对象, 语言强制转为${dLan}`,
         key: 'publicInfo.lan',
-        data: this.publicInfo.data.lan,
+        data: lan,
       };
       if (!hostFilter.test(domain)) {
         this.logger.error(JSON.stringify(errorData));

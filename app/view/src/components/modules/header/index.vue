@@ -10,7 +10,7 @@
     <i v-if="!logoUrl"></i>
     <template v-if="navigationType === '1' && headerTemplateReceived">
       <!-- 主流板块 -->
-      <ul class="common-header-linkList">
+      <ul class="common-eader-linkList">
         <!-- logo -->
         <li class="linkList-logo-li">
           <a class="linkList-logo" @click="btnHref(headerLink.home)">

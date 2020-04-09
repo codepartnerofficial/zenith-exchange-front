@@ -1,4 +1,4 @@
-<div class="tableContent c-2-bg" id="table-content">
+<div class="c-2-bg inter-tableContentBase international-market-container" id="table-content">
     <style>
         .home-table {
             min-width: 1100px;
@@ -92,6 +92,7 @@
         .home-table .home-tbody-box {
             transition: all 0.5s;
             overflow: hidden;
+            position: relative;
         }
 
         .home-table .home-tbody .home-tbody-title {
@@ -326,12 +327,101 @@
         .tableContent .fontSize14 {
             font-size: 14px;
         }
+        .international-market-container.inter-tableContentBase {
+            margin: 0 110px 0 110px;
+            position: relative;
+        }
+
+        .international-market-container.inter-tableContentBase .common-table {
+            background: none;
+        }
+
+        .international-market-container.inter-tableContentBase .market-title-box {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            height: 55px;
+            line-height: 53px;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .international-market-container.inter-tableContentBase .market-title {
+            text-align: center;
+        }
+
+        .international-market-container.inter-tableContentBase .market-title li {
+            float: left;
+            height: 53px;
+            line-height: 55px;
+            cursor: pointer;
+            user-select: none;
+            padding: 0 25px;
+        }
+
+        .international-market-container.inter-tableContentBase .market-title li.selected {
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+        }
+
+        .international-market-container.inter-tableContentBase .search {
+            position: absolute;
+            top: 12px;
+            right: 0;
+            height: 28px;
+            line-height: 26px;
+            width: 200px;
+            border-radius: 2px;
+        }
+
+        .international-market-container.inter-tableContentBase .search .icon-serach {
+            margin: 0 10px;
+        }
+
+        .international-market-container.inter-tableContentBase .search .search-input {
+            line-height: 26px;
+            border: none;
+            width: 162px;
+        }
+
+        .international-market-container.inter-tableContentBase .search input::-webkit-input-placeholder {
+            color: #515a6b;
+        }
+
+        .international-market-container.inter-tableContentBase .table-body td .rose-label {
+            display: inline-block;
+            width: 70px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            padding: 0;
+        }
+
+        .international-market-container.inter-tableContentBase .table-body td .symbolName,
+        .international-market-container.inter-tableContentBase .table-body td .icon-btn {
+            padding: 0;
+            vertical-align: inherit;
+            margin: 0;
+            display: inline-block;
+        }
+
+        .international-market-container.inter-tableContentBase .table-body td .symbolName {
+            width: 80%;
+            margin-left: 10px;
+        }
+
+        .international-market-container.inter-tableContentBase .fontSize14 {
+            font-size: 14px;
+        }
+
+        .international-market-container.inter-tableContent {
+            width: 1180px;
+            margin: 0 auto 0 auto;
+        }
 
     </style>
-    <div class="market-title-box c-3-bg c-5-bd">
+    <div class="market-title-box c-5-bd c-2-bg">
         <ul class="market-title f-2-cl">
         </ul>
-        <div class="search c-5-bd">
+        <div class="search c-4-bg">
             <i class="icon-serach f-2-cl">
                 <svg class="icon icon-14" aria-hidden="true">
                     <use xlink:href="#icon-a_12"></use>
@@ -362,7 +452,7 @@
                     {{locale.common.notData}}
                 </p>
             </div>
-            <div class="home-tbody-box c-4-bg" style="display: none">
+            <div class="home-tbody-box c-2-bg" style="display: none">
             </div>
         </div>
     </div>
@@ -386,6 +476,7 @@
                             this.optional_symbol_server_open = Number('{{switch.optional_symbol_server_open}}');
                             this.isLogin = window.isLogin;
                             this.hoverClass = 'a-12-bd f-1-cl';
+                            this.isScroll = true;
                             this.locale = {
                                 marketSet: "{{locale.home.marketSet}}",
                                 halving: "{{locale.trade.halving}}",
@@ -394,6 +485,7 @@
                                 seecon: '{{locale.trade.seecon}}',
                                 unseal: '{{locale.trade.unseal}}',
                             };
+                            this.tableBg = 'f-1-cl c-2-bg';
                             this.tableDataList = {};
                             this.listfilter = null;
                             this.symbolAll = [];
@@ -412,7 +504,6 @@
                             this.halveAreaFilter = []; // 减半区币种
                             this.createIng = false;
                             this.market = [];
-                            this.isScroll = true;
                             this.setMyMarketSwitch = true;
                             this.tableTreeData = null;
                             this.rebuild = false;

@@ -1,4 +1,4 @@
-{% macro boxStyle(height ,width, bgColor, slideList, extendPath) %}
+{% macro boxStyle(height ,width, bgColor, slideList, extendPath, activeClass) %}
 <div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}" data-bgColor="{{bgColor}}">
     <style>
         .carousel-wrap {
@@ -79,8 +79,7 @@
         <ul class='slide-ul'>
             {% for item in slideList %}
                 <li data-index="{{loop.index0}}">
-                    <a data-img="{{ item.imageUrl }}"
-                            href="{{ item.httpUrl }}">
+                    <a href="{{ item.httpUrl }}" data-img="{{item.imageUrl}}">
                     </a>
                 </li>
             {% endfor %}
@@ -102,6 +101,7 @@
                         class Swiper extends window.SwiperExtend{
                             constructor() {
                                 super();
+                                this.activeClass = "{{activeClass}}";
                                 this.init();
                             }
                         }

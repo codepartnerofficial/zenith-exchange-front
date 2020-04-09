@@ -36,6 +36,7 @@
         <h1>{{$t('japanese.registerStep.title')}}</h1>
         <p>{{$t('japanese.registerStep.desc')}}</p>
         <ul class="step-list clearfix">
+          {% for item in locale.%}
           <template v-for="(item, inx) in registerStepList">
             <li :key="inx">
               <img :src="registerImgs[inx]">
