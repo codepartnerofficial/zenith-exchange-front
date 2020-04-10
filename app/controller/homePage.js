@@ -2,7 +2,6 @@ const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
 const { getLocale, getFileName, getPublicInfo,  compare } = require('BlockChain-ui/node/utils');
-const webWorkerMap = JSON.stringify(require('../view/src/assets/js/webworker-map'));
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
 
@@ -63,7 +62,6 @@ class StaticIndex extends Controller {
       noticeList: this.getNoticeList(noticeInfoList).slice(0, 3),
       cmsAdvertList: cmsAdvertList,
       symbolAll,
-      webWorkerMap,
       footer_warm_prompt,
       footerList,
       imgMap: this.getImgMap(),
