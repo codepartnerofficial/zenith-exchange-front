@@ -12,7 +12,7 @@
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-stage-0": "^7.8.3",
     "@vue/babel-preset-app": "^4.2.3",
-    "BlockChain-ui": "^1.0.32",
+    "BlockChain-ui": "1.0.32@bate-jiraHome-2020-04-10",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^10.0.0",
@@ -60,7 +60,7 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "build": "gulp test",
+    "build": "gulp build",
     "autod": "autod",
     "lint": "eslint .",
     "dev": "egg-bin dev --port=9001",
@@ -70,7 +70,11 @@
     "cov": "egg-bin cov",
     "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov",
     "pkgfiles": "egg-bin pkgfiles",
-    "gulpDev": "cross-env NODE_ENV=development gulp dev"
+    "gulpDev": "cross-env NODE_ENV=development gulp dev",
+    "startTestHome": "egg-scripts start --daemon --testEnv=true --port=7007 --title=exchange-vue-server-Home --env=prod",
+    "stopTestHome": "egg-scripts stop --title=exchange-vue-server-Home",
+    "start-exchange-vue-server-home": "egg-scripts start --daemon --title=exchange-vue-server-home --port=8108 --env=prod",
+    "stop-exchange-vue-server-home": "egg-scripts stop --title=exchange-vue-server-home"
   },
   "ci": {
     "version": "10"

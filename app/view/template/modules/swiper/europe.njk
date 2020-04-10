@@ -188,23 +188,25 @@
                         }
 
                         cusBindEvent() {
-                            this.nextBtn.addEventListener('click', () => {
-                                const curleft = parseInt(this.imgPages.style.marginLeft, 10);
-                                let left = Math.abs(curleft - this.thumbItemWidth);
-                                const max = (this.imgList.length - 4) * this.thumbItemWidth;
-                                if (left > max) {
-                                    left = max;
-                                }
-                                this.imgPages.style.marginLeft = `${-left}px`;
-                            }, false);
-                            this.prevBtn.addEventListener('click', () => {
-                                const curleft = parseInt(this.imgPages.style.marginLeft, 10);
-                                let left = curleft + this.thumbItemWidth;
-                                if (left >= 0) {
-                                    left = 0;
-                                }
-                                this.imgPages.style.marginLeft = `${left}px`;
-                            }, false);
+                            if ( this.nextBtn){
+                                this.nextBtn.addEventListener('click', () => {
+                                    const curleft = parseInt(this.imgPages.style.marginLeft, 10);
+                                    let left = Math.abs(curleft - this.thumbItemWidth);
+                                    const max = (this.imgList.length - 4) * this.thumbItemWidth;
+                                    if (left > max) {
+                                        left = max;
+                                    }
+                                    this.imgPages.style.marginLeft = `${-left}px`;
+                                }, false);
+                                this.prevBtn.addEventListener('click', () => {
+                                    const curleft = parseInt(this.imgPages.style.marginLeft, 10);
+                                    let left = curleft + this.thumbItemWidth;
+                                    if (left >= 0) {
+                                        left = 0;
+                                    }
+                                    this.imgPages.style.marginLeft = `${left}px`;
+                                }, false);
+                            }
                         }
 
                         autoRun() {

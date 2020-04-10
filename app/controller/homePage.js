@@ -26,11 +26,11 @@ class StaticIndex extends Controller {
     }
     this.publicInfo = getPublicInfo(this, currenLan);
     this.setLan(fileName);
-    //ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    //ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    //ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    //ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    //ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
@@ -47,7 +47,7 @@ class StaticIndex extends Controller {
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
-      headerList: this.getHeaderList().slice(0, 2),
+      headerList: this.getHeaderList(),
       customHeaderList,
       headerSymbol: market.headerSymbol,
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),

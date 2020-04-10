@@ -20,6 +20,7 @@ const minify = require('html-minifier').minify;
 const cleanCSS = require('gulp-clean-css');
 const cp = require('child_process');
 const rimraf = require('rimraf');
+const websocketPath = path.join(__dirname, 'node_modules/BlockChain-ui/websocket');
 const webWorkerPath = path.join(__dirname, 'node_modules/BlockChain-ui/web-worker');
 const webWorkerMapPath = path.join(__dirname, 'app/view/src/assets/js/webworker-map.js');
 const webWorkerIntoPath = path.join(__dirname, 'app/dist/home/static/web-worker');
@@ -103,8 +104,8 @@ async function css() {
 const pages = path.join(__dirname, '/app/view/template/**');
 const modules = path.join(__dirname, 'node_modules/BlockChain-ui/home/modules/*.js');
 
-const watchFile = () => watch([pages, modules],
-  {}, series(buildModulesJS, buildTemplate));
+const watchFile = () => watch([pages, modules, path.join(__dirname, 'node_modules/BlockChain-ui/websocket/**')],
+  {}, series(buildModulesJS, buildTemplate, compassWebsocket));
 
 function slove() {
   return through.obj((file, enc, cb) => {
@@ -220,6 +221,41 @@ function createwebWrokerMap(dirPath, outPath) {
   });
 }
 
+function createWebSocket(dirPath, outPath){
+  let str = '';
+  let manifest = {};
+  const websocketPath = path.join(dirPath, '/websocket.js');
+  const imgKeys = 'websocket-work.js'.split('.');
+  const suffix = imgKeys[1];
+  const imgKey = imgKeys[0];
+  let name = imgKey;
+  try {
+    manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
+  } catch (e) {
+
+  }
+  fs.readdirSync(path.join(dirPath, '/modules')).forEach((filePath) => {
+    str += fs.readFileSync(path.join(dirPath, '/modules', filePath), 'utf-8');
+  });
+  str += fs.readFileSync(websocketPath, 'utf-8');
+  if (process.env.NODE_ENV !== 'development'){
+    str = transform(str, {
+      minified: true,
+      comments: false,
+      presets: ['env'],
+      plugins: ["transform-remove-strict-mode"],
+    }).code;
+    const md5sum = crypto.createHash('md5');
+    md5sum.update(str);
+    const md5 = md5sum.digest('hex');
+    name = `${md5}-websocket`;
+  }
+  str = `(() => {${str}})()`;
+  manifest[imgKey] = `/home/static/${name}.${suffix}`;
+  fs.writeFileSync(path.join(outPath, `${name}.${suffix}`), str);
+  fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+}
+
 async function compassWebWorker (){
   if(!fs.existsSync(webWorkerIntoPath)){
     fs.mkdirSync(webWorkerIntoPath);
@@ -227,6 +263,10 @@ async function compassWebWorker (){
   createwebWrokerMap(webWorkerPath, webWorkerIntoPath);
   fs.writeFileSync(webWorkerMapPath, `module.exports = ${JSON.stringify(webWorkerMap)}`);
 };
+
+async function compassWebsocket(){
+  createWebSocket(websocketPath, staticIntoPath);
+}
 
 
 
@@ -323,6 +363,6 @@ async function buildModulesJS(){
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = series(buildModulesJS);
-exports.dev = series(mkdir, buildModulesJS, iconJS, copyImg, buildTemplate,compassWebWorker, copyStatic, css, watchFile);
-exports.build = series(clean, mkdir, buildModulesJS, iconJS, copyImg, buildTemplate,compassWebWorker, copyStatic, css);
+exports.test = series(compassWebsocket);
+exports.dev = series(mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
+exports.build = series(clean, mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);

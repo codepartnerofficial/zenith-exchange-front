@@ -996,6 +996,7 @@
                 <img src="{{ msg.logoUrl}}"/>
             </a>
         </li>
+        {% if number(switch.newcoinOpen) %}
         <li class="header-nav-ifl">
             <svg class="icon icon-18" aria-hidden="true">
                 <use xlink:href="#icon-b_1"></use>
@@ -1048,8 +1049,7 @@
                     {% endif %}
                     <li class="x-2-cl g-3-cl-h">
                         <a class="x-2-cl g-3-cl-h"
-                           href="/questions/init"
-                        >
+                           href="/questions/init">
                             <!-- 问题中心 -->
                             {{ locale.questions.title }}
                         </a>
@@ -1057,6 +1057,7 @@
                 </ul>
             </div>
         </li>
+        {% endif %}
         {% for item in headerList %}
         <li class="header-navEven"
             data-link="{{item.link}}"
