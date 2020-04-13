@@ -24,6 +24,10 @@
                 defLan: "{{ lan.defLan }}"
             }
         }
+        fetch('/home/getMarket').then((res) => res.json()).then((data) => {
+           window.market = data;
+           emitter.emit('getMarket', data);
+        });
     </script>
     <script inline-html></script>
 </head>

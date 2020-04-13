@@ -122,6 +122,7 @@
                 });
             }
             if (websocketPath && !window.selfSocket){
+                window.selfSocket = true;
                 getScript(`/home/static/${websocketPath}`);
             }
         })();
