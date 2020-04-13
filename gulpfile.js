@@ -271,7 +271,7 @@ async function compassWebsocket(){
 
 
 async function copyStatic(){
-  src([path.join(staticPath, 'fonts/**'), path.join(staticPath, 'fonts/**'), path.join(staticPath, 'js/**')])
+  src([path.join(staticPath, 'fonts/**'), path.join(staticPath, 'fonts/**'), path.join(staticPath, 'js/*.js')])
     .pipe(copy(staticIntoPath, { prefix: 3 }))
 };
 
@@ -363,6 +363,6 @@ async function buildModulesJS(){
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = series(compassWebsocket);
+exports.test = series(copyStatic);
 exports.dev = series(mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
 exports.build = series(clean, mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);
