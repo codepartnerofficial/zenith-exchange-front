@@ -84,7 +84,7 @@
                 </li>
             {% endfor %}
         </ul>
-        {% if slideList.length %}
+        {% if slideList.length > 1 %}
             <div class="carousel-items a-5-bg">
                 {% for item in slideList %}
                     <span data-index="{{loop.index0}}"></span>
