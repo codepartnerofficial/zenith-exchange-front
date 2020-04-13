@@ -25,11 +25,11 @@ class StaticIndex extends Controller {
     }
     this.publicInfo = getPublicInfo(this, currenLan);
     this.setLan(fileName);
-    ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    /*ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);*/
     const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
@@ -52,6 +52,7 @@ class StaticIndex extends Controller {
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan.lanList,
       lan,
+      seo: this.getSEO(),
       templateModule: this.getTemplate(),
       coinList: market.coinList,
       switch: this.publicInfo.switch,
@@ -74,6 +75,16 @@ class StaticIndex extends Controller {
       },
       echartsPah: currenLan === 'zh_CN' ? 'https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js',
     });
+  }
+
+  getSEO(){
+    const seo = this.publicInfo.seo || {};
+    return {
+      keywords: seo.keywords || "",
+      description: seo.description || "",
+      pageContent: seo.pageContent || "",
+      title: seo.title || "",
+    }
   }
 
   getTemplate(){
