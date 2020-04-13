@@ -301,7 +301,7 @@
       }
     };
   };
-  fetch('/getMarket').then(res => res.json()).then((data) => {
+  fetch('/home/getMarket').then(res => res.json()).then((data) => {
     setDefaultMarket(data.market);
     marketCurrent = myStorage.get('homeMarkTitle');
     symbolList = getSymbolList(data.market.market, data.symbolAll);
