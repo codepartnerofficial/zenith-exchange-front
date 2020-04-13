@@ -5,6 +5,7 @@ const fs = require('fs');
 
 module.exports = (app) => {
   let argv = {};
+  const serverConfigPath = path.join(__dirname, './serverConfig.json');
   try {
     argv = JSON.parse(process.argv[2]);
   } catch (e) {
@@ -32,6 +33,10 @@ module.exports = (app) => {
     app.config.appDownLoadPath = path.join(__dirname, './../exchange-fe-server-static/appDownLoadPath/');
     app.config.bannerIndexPath = path.join(__dirname, './../exchange-fe-server-static/bannerIndex/');
     app.config.footerList = path.join(__dirname, './../exchange-fe-server-static/footerList/');
+  }
+  if (fs.existsSync(serverConfigPath)) {
+    const jsonData = JSON.parse(fs.readFileSync(serverConfigPath, 'utf8'));
+    app.config.serverUrlConfig = jsonData;
   }
 
   // 域名配置文件
