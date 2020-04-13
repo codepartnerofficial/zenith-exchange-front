@@ -47,6 +47,13 @@ try{
 
 }
 
+let staticDomain = '';
+try{
+  let domain = JSON.parse(process.env.npm_config_argv).remain[0].split('=')[1];
+  staticDomain = domain;
+}catch (e) {
+
+}
 
 let gitVersion = '';
 try {
@@ -355,8 +362,23 @@ async function buildModulesJS(){
     fs.writeFileSync(path.join(staticIntoPath, name), source);
   });
   fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
+}
+
+async function mkStaticDomain(){
+  let manifest = {};
+  try {
+    manifest = JSON.parse(fs.readFileSync(sourceMapPath), 'utf-8');
+  } catch (e) {
+
+  }
+  if (!staticDomain){
+    manifest.staticDomain = '';
+  }else{
+    manifest.staticDomain = staticDomain;
+  }
 
 
+  fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
 }
 
 /*exports.dev = parallel(js, watchFile);
@@ -364,5 +386,5 @@ async function buildModulesJS(){
 exports.build = parallel('clean', buildJS);*/
 
 exports.test = series(copyStatic);
-exports.dev = series(mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
-exports.build = series(clean, mkdir, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);
+exports.dev = series(mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
+exports.build = series(clean, mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);

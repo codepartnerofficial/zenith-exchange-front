@@ -372,7 +372,7 @@
             const extendPath = "{{sourceMap.marketExtend}}";
             const websocketPath = "{{sourceMap.webSocket}}";
             if (extendPath && !window.MarketExtend) {
-                getScript(`/home/static/${extendPath}`).then(() => {
+                getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
                     class Market extends window.MarketExtend {
                         constructor() {
                             super();
@@ -464,14 +464,14 @@
                     }
 
                     if (websocketPath && !window.selfSocket) {
-                        getScript(`/home/static/${websocketPath}`);
+                        getScript(`${window.staticDomain}/home/static/${websocketPath}`);
                     }
                     new Market();
                 });
             }
             if (websocketPath && !window.selfSocket) {
                 window.selfSocket = true;
-                getScript(`/home/static/${websocketPath}`);
+                getScript(`${window.staticDomain}/home/static/${websocketPath}`);
             }
         })();
 

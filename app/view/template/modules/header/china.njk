@@ -1312,7 +1312,7 @@
             const {getScript} = window.BlockChainUtils;
             const extendPath = "{{sourceMap.headerExtend}}";
             if (extendPath && !window.HeaderExtend) {
-                getScript(`/home/static/${extendPath}`).then(() => {
+                getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
                     class Header extends window.HeaderExtend {
                         constructor() {
                             super();

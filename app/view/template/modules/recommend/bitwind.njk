@@ -97,7 +97,7 @@
             const {getScript} = window.BlockChainUtils;
             const websocketPath = "{{sourceMap.webSocket}}";
             if (extendPath && !window.RecommendExtend){
-                getScript(`/home/static/${extendPath}`).then(() => {
+                getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
                     class Recommend extends window.RecommendExtend{
                         constructor() {
                             super();
@@ -163,7 +163,7 @@
             }
             if (websocketPath && !window.selfSocket){
                 window.selfSocket = true;
-                getScript(`/home/static/${websocketPath}`);
+                getScript(`${window.staticDomain}/home/static/${websocketPath}`);
             }
         })();
     </script>

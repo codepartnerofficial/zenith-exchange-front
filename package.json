@@ -60,8 +60,9 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "gulp build ||",
     "autod": "autod",
+    "gulpBuild": "",
     "lint": "eslint .",
     "dev": "egg-bin dev --port=7007",
     "dev80": "egg-bin dev --port=80",

@@ -254,7 +254,7 @@
             const {getScript} = window.BlockChainUtils;
             const extendPath = "{{extendPath}}";
             if (extendPath && !window.InternationSwiperExtend){
-                getScript(`/home/static/${extendPath}`).then(() => {
+                getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
                     class InternationSwiper extends window.InternationSwiperExtend{
                         constructor() {
                             super();

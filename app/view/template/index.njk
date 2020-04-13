@@ -19,11 +19,11 @@
     <meta name="twitter:description" content="{{seo.description}}">
     <link type="image/x-icon" rel="shortcut icon" href="{{msg.iconUrl}}">
     <title>{{seo.title}}</title>
-    <link rel="stylesheet" href="/home/static/{{sourceMap['common.css']}}"/>
-    <script src="/home/static/js/security.js"></script>
-    <script src="/home/static/{{sourceMap['iconfont']}}" async id="iconfont"></script>
-    <script src="/home/static/js/event-emitter.min.js"></script>
-    <script src="/home/static/{{sourceMap['tip']}}" async></script>
+    <link rel="stylesheet" href="{{sourceMap.staticDomain}}/home/static/{{sourceMap['common.css']}}"/>
+    <script src="{{sourceMap.staticDomain}}/home/static/js/security.js"></script>
+    <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['iconfont']}}" async id="iconfont"></script>
+    <script src="{{sourceMap.staticDomain}}/home/static/js/event-emitter.min.js"></script>
+    <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['tip']}}" async></script>
     <style>
         .iScrollVerticalScrollbar .iScrollIndicator{
             border: 0 !important;
@@ -36,6 +36,7 @@
         window.addEventListener('resize', () => {
             emitter.emit('resize');
         });
+        window.staticDomain = "{{sourceMap.staticDomain}}";
         window.coinTagOpen = '{{ switch.coin_tag_open }}';
         window.publicInfo = {
             skin: {{ skin | dump | safe}},
