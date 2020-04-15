@@ -12,6 +12,20 @@ class StaticIndex extends Controller {
     });
     const { domainArr } = this.config;
     const fileName = getFileName(this);
+    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))){
+      await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+    }else{
+      ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    }
+
     const fileBasePath = this.config.localesPath;
     let nowHost = this.ctx.request.header.host;
     if (this.config.env === 'local') {
@@ -24,12 +38,7 @@ class StaticIndex extends Controller {
       };
     }
     this.publicInfo = getPublicInfo(this, currenLan);
-    this.setLan(fileName);
-    ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+
     const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
