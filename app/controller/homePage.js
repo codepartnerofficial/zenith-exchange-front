@@ -13,6 +13,9 @@ class StaticIndex extends Controller {
     if (this.config.env === 'local') {
       nowHost = this.config.devUrlProxy.ex;
     }
+    const cusSkin = ctx.cookies.get('cusSkin', {
+      signed: false,
+    });
     const { domainArr } = this.config;
     const fileName = getFileName(this);
     if (!domainArr[fileName]) {
@@ -21,7 +24,7 @@ class StaticIndex extends Controller {
         domainName: `${ctx.app.httpclient.agent.protocol}//${nowHost}`,
       };
     }
-    this.publicInfo = getPublicInfo(this, currenLan);
+    this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
     if (!this.config.serverData[this.config.staticKey][`${currenLan}-${domainArr[fileName].fileName}.json`]){
       await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
@@ -29,7 +32,7 @@ class StaticIndex extends Controller {
       await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      this.publicInfo = getPublicInfo(this, currenLan);
+      this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
     }else{
       ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
       ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
