@@ -8,6 +8,7 @@ module.exports = {
   6: 'europe',
   7: 'international',
   8: 'bitWind',
+  716051868: 'lxg',
   20200216120030: 'king',
   20200220142030: 'momo',
   813338302: 'king',

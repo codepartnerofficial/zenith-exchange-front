@@ -35,7 +35,11 @@ const recommend = {
 
 const footer = {
   logo(msg){
-    return msg.footer_logo_path || msg.logoUrl;
+    if (msg){
+      return msg.footer_logo_path || msg.logoUrl;
+    }else{
+      return '';
+    }
   }
 };
 

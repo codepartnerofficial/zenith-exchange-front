@@ -7,30 +7,14 @@ const templateConfig = require('../utils/template-config');
 
 class StaticIndex extends Controller {
   async index(ctx) {
-    const currenLan = this.ctx.cookies.get('lan', {
-      signed: false,
-    });
-    const { domainArr } = this.config;
-    const fileName = getFileName(this);
-    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))){
-      await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-    }else{
-      ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    }
-
-    const fileBasePath = this.config.localesPath;
+    const currenLan = this.ctx.request.path.split('/')[1];
+    const reg = /^[a-z]{2}_[A-Z]{2}$/;
     let nowHost = this.ctx.request.header.host;
     if (this.config.env === 'local') {
       nowHost = this.config.devUrlProxy.ex;
     }
+    const { domainArr } = this.config;
+    const fileName = getFileName(this);
     if (!domainArr[fileName]) {
       domainArr[fileName] = {
         fileName,
@@ -38,13 +22,31 @@ class StaticIndex extends Controller {
       };
     }
     this.publicInfo = getPublicInfo(this, currenLan);
-
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
-    this.skin = this.getSkin(fileName, this.config.skinsPath);
-    const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
-    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger);
+    this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
+    if (!this.config.serverData[this.config.staticKey][`${currenLan}-${domainArr[fileName].fileName}.json`]){
+      await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
+      this.publicInfo = getPublicInfo(this, currenLan);
+    }else{
+      ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+      ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
+    }
+    if (!reg.test(currenLan)){
+      return;
+    }
+    const fileBasePath = this.config.localesPath;
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexKey, currenLan);
+    this.skin = this.getSkin(fileName, this.config.skinsKey);
+    const footerList = this.getLocalData(fileName, this.config.footerListKey, currenLan);
+    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.config);
     const { msg, lan, market, symbolAll } = this.publicInfo;
-    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
+    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderKey, currenLan);
     let customHeaderList = {};
     if(headerFooter && headerFooter.header){
       customHeaderList = JSON.parse(headerFooter.header);
@@ -52,24 +54,25 @@ class StaticIndex extends Controller {
     this.getSelectSkin();
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
+      env: this.config.env,
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
       headerList: this.getHeaderList(),
       customHeaderList,
-      headerSymbol: market.headerSymbol,
-      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
-      lanList: lan.lanList,
+      headerSymbol: market ? market.headerSymbol: [],
+      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadKey, currenLan),
+      lanList: lan? lan.lanList: [],
       lan,
       seo: this.getSEO(),
       templateModule: this.getTemplate(),
-      coinList: market.coinList,
+      coinList: market ? market.coinList: [],
       switch: this.publicInfo.switch,
       assetsList: this.assetsList(),
       orderList: this.orderList(),
       number: (item) => Number(item),
       colorList: this.getColorList(currenLan),
-      noticeList: this.getNoticeList(noticeInfoList).slice(0, 3),
+      noticeList: this.getNoticeList(noticeInfoList),
       cmsAdvertList: cmsAdvertList,
       symbolAll,
       footer_warm_prompt,
@@ -97,17 +100,20 @@ class StaticIndex extends Controller {
   }
 
   getTemplate(){
-    let template = templateConfig[this.publicInfo.switch.index_temp_type];
+    let template = 'international';
+    if (this.publicInfo.switch){
+      template = templateConfig[this.publicInfo.switch.index_temp_type];
+    }
     return `modules/${template}.njk`;
   }
 
   getSelectSkin(){
-    const id = this.ctx.cookies.get('cusSkin', {
-      signed: false,
-    }) || this.skin.default;
     if (!this.skin){
       return null;
     }
+    const id = this.ctx.cookies.get('cusSkin', {
+      signed: false,
+    }) || this.skin.default;
     const list = this.skin.listist;
     const currentList = [];
     list.forEach((item) => {
@@ -124,12 +130,10 @@ class StaticIndex extends Controller {
 
   getSkin(fileName, fileBasePath){
     let obj = {};
-    try {
-      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
-      // eslint-disable-next-line no-empty
-    } catch (err) {
-
+    if (this.config.serverData[fileBasePath][`${fileName}.json`]){
+      obj = this.config.serverData[fileBasePath][`${fileName}.json`];
     }
+
     if (!Object.keys(obj).length){
       obj = this.publicInfo.skin;
     }
@@ -166,6 +170,9 @@ class StaticIndex extends Controller {
   }
 
   getNoticeList(noticeInfoList) {
+    if(!this.publicInfo.switch){
+      return [];
+    }
     const { index_international_open } = this.publicInfo.switch;
     if (noticeInfoList && noticeInfoList.length) {
       const arr = [];
@@ -180,8 +187,9 @@ class StaticIndex extends Controller {
           id: item.id,
         });
       });
-      return arr;
+      return arr.slice(0, 3);
     }
+    return [];
   }
 
   getColorList(lan){
@@ -233,6 +241,9 @@ class StaticIndex extends Controller {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
+    if (!pubSwitch){
+      return arr;
+    }
     if (headerLink.trade) {
       arr.push({
         title: this.__getLocale('order.index.exOrder'),
@@ -278,6 +289,9 @@ class StaticIndex extends Controller {
     const arr = [];
     const { headerLink } = this;
     const pubSwitch = this.publicInfo.switch;
+    if (!this.publicInfo.switch){
+      return arr;
+    }
     if (headerLink.trade) {
       arr.push({
         title: this.__getLocale('assets.index.exchangeAccount'),
@@ -329,35 +343,39 @@ class StaticIndex extends Controller {
   getLocalData(fileName, fileBasePath, lan) {
     let obj = {};
     let fileLan = '';
+
     if (lan){
       fileLan = `${lan}-`;
     }
-    try {
-      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileLan}${fileName}.json`), 'utf-8'));
-      // eslint-disable-next-line no-empty
-    } catch (err) {
-
+    const data = this.config.serverData[fileBasePath][`${fileLan}${fileName}.json`];
+    if (data){
+      obj = data.data;
     }
-
-    return obj.data;
+    return obj;
   }
 
   getHeaderLink() {
     const { url } = this.publicInfo;
-    return {
-      home: url.exUrl,
-      trade: url.exUrl ? `${url.exUrl}/trade` : '',
-      market: url.exUrl ? `${url.exUrl}/market` : '',
-      otc: url.otcUrl,
-      lever: url.exUrl ? `${url.exUrl}/margin` : '',
-      co: url.coUrl,
-    };
+    if (url){
+      return {
+        home: url.exUrl,
+        trade: url.exUrl ? `${url.exUrl}/trade` : '',
+        market: url.exUrl ? `${url.exUrl}/market` : '',
+        otc: url.otcUrl,
+        lever: url.exUrl ? `${url.exUrl}/margin` : '',
+        co: url.coUrl,
+      };
+    }
+    return {};
   }
 
   getHeaderList() {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
+    if (!pubSwitch){
+      return arr;
+    }
     // 行情
     if (pubSwitch.index_kline_switch === '1') {
       arr.push({
@@ -376,13 +394,44 @@ class StaticIndex extends Controller {
       });
     }
     // 法币
-    if (headerLink.otc) {
+/*    if (headerLink.otc) {
       arr.push({
         title: Number(pubSwitch.fiatTradeOpen) ?
           this.__getLocale('assets.b2c.otcShow.header') : this.__getLocale('header.otc'),
         activeId: 'otcTrade',
         link: headerLink.otc,
       });
+    }*/
+    const otcArr = [];
+    const otcObj = {
+      title: this.__getLocale('header.otc'),
+      activeId: 'otcTrade',
+      link: headerLink.otc,
+    };
+    if (headerLink.otc) {
+      otcArr.push(otcObj);
+    }
+    // 信用卡
+    if (Number(pubSwitch.middleman_config_open)) {
+      otcArr.push({
+        title: this.__getLocale('creditCard.title'),
+        activeId: 'crad',
+        link: `/${this.lan}/creditCard`,
+      });
+    }
+    if (otcArr.length) {
+      let otcHeader = {};
+      if (otcArr.length > 1) {
+        otcHeader = otcObj;
+      } else {
+        const [vc] = otcArr;
+        otcHeader = vc;
+      }
+      if (otcArr.length > 1) {
+        otcHeader.selectList = JSON.parse(JSON.stringify(otcArr));
+        otcHeader.isOtcList = true;
+      }
+      arr.push(otcHeader);
     }
     // 一键买币
     if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
@@ -417,7 +466,6 @@ class StaticIndex extends Controller {
         link: this.etfUrl(),
       });
     }
-
     return arr;
   }
 
@@ -438,7 +486,7 @@ class StaticIndex extends Controller {
     return `${this.headerLink.trade}/${str}`;
   }
 
-  async setLan(domain) {
+  setLan(domain) {
     const { lan } = this.publicInfo;
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
@@ -504,7 +552,11 @@ class StaticIndex extends Controller {
         } else {
           redirectUrl = this.ctx.request.url;
         }
-        this.ctx.redirect(`/${lan}${redirectUrl}`);
+        this.ctx.cookies.set('lan', lan, {
+          httpOnly: false,
+          domain: cookieDomain,
+        });
+        this.ctx.redirect(`/${lan}${redirectUrl}`, 302);
       }
 
       this.lan = clientUrlLan;
@@ -531,7 +583,11 @@ class StaticIndex extends Controller {
         } else {
           redirectUrl = this.ctx.request.url;
         }
-        this.ctx.redirect(`/${dLan}${redirectUrl}`);
+        this.ctx.cookies.set('lan', dLan, {
+          httpOnly: false,
+          domain: cookieDomain,
+        });
+        this.ctx.redirect(`/${dLan}${redirectUrl}`, 302);
       }
       this.lan = clientUrlLan;
     }

@@ -29,7 +29,10 @@
             border: 0 !important;
         }
     </style>
+    <script inline-html></script>
     <script>
+        const { getScript } = window.BlockChainUtils;
+        window.env = "{{ env }}";
         window.imgMap = {{imgMap | safe}};
         window.websocketPath = "{{sourceMap['websocket-work']}}";
         window.emitter = new EventEmitter();
@@ -44,12 +47,18 @@
                 defLan: "{{ lan.defLan }}"
             }
         }
-        fetch('/home/getMarket').then((res) => res.json()).then((data) => {
+        var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
+        fetch('/home/getMarket/' + lan).then((res) => res.json()).then((data) => {
            window.market = data;
            emitter.emit('getMarket', data);
         });
+        const homeDialog = "{{sourceMap.homeDialog}}";
+        emitter.on('login', () => {
+            getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(() => {
+                new window.HomeDialog();
+            });
+        })
     </script>
-    <script inline-html></script>
 </head>
 <body class="inx b-2-cl c-2-bg Chainer">
 {% include "modules/header/china.njk" %}

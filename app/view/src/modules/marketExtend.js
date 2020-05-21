@@ -513,8 +513,8 @@
     }
 
     resloveData(val, isSearch) {
-      this.marketDataList_bar = val;
-      let data = val;
+      this.marketDataList_bar = JSON.parse(JSON.stringify(val));
+      let data = JSON.parse(JSON.stringify(val));;
       if (this.listfilter) {
         const reg = new RegExp(this.listfilter, 'gim');
         data = this.marketDataList_bar.filter((item) => item.showName.match(reg));

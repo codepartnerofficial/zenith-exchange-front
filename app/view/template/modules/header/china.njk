@@ -179,6 +179,49 @@
             height: 17px;
             line-height: 17px;
         }
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-title {
+            display: inline-block
+        }
+
+        .top-common-header .common-header-linkList .header-navEven:hover .header-navEven-list {
+            display: block
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-list {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            padding: 10px 0;
+            -webkit-box-shadow: 0 3px 4px 1px rgba(0,0,0,.28);
+            box-shadow: 0 3px 4px 1px rgba(0,0,0,.28)
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-list li {
+            cursor: pointer;
+            text-align: left;
+            min-width: 160px;
+            padding: 0 20px;
+            font-size: 14px;
+            line-height: 40px;
+            height: 40px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .new-label {
+            position: absolute;
+            right: -46px;
+            top: 9px;
+            -webkit-box-shadow: -2px 2px 4px 0 rgba(0,0,0,.3);
+            box-shadow: -2px 2px 4px 0 rgba(0,0,0,.3);
+            border-radius: 0 6px 0 6px;
+            font-size: 10px;
+            text-align: center;
+            width: 44px;
+            height: 17px;
+            line-height: 17px
+        }
 
         .top-common-header .common-header-linkList .linkList-logo {
             cursor: pointer;
@@ -986,6 +1029,16 @@
             line-height: 20px;
             vertical-align: middle;
         }
+        .common-iconButton .iconButton-bg {
+            width: 36px;
+            height: 36px;
+        }
+        .common-iconButton .icon{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
     </style>
     <!-- 主流板块 -->
@@ -1065,6 +1118,19 @@
             data-trades=true
             data-target=false>
             {{ item.title }}
+            {% if item.selectList %}
+            <ul class="header-navEven-list h-1-bg">
+                {% for i in item.selectList%}
+                <li
+                class="x-2-cl"
+                data-link="{{i.link}}"
+                data-id="{{i.activeId}}"
+                data-trades=true
+                data-target=false
+                >{{ i.title }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </li>
         {% endfor %}
         <!--  自定义导航 -->
@@ -1107,12 +1173,8 @@
         </div>
         <div class="header-isLogin login-set" style="display: none">
             <!-- 资产 -->
-            <div class="header-isLogin-navEven"
-                 :class="getClass('assets')"
-                 @mouseenter="evenHandMouseenter('assets')"
-                 @mouseleave="evenHandMouseleave">
-                <div class="header-isLogin-navEven-title"
-                     @click="btnLink('/assets/exchangeAccount')">
+            <div class="header-isLogin-navEven">
+                <div class="header-isLogin-navEven-title">
                     {{ locale.header.assets }}
                 </div>
                 <ul class="lang-list h-1-bg">
@@ -1126,13 +1188,8 @@
                 </ul>
             </div>
             <!-- 订单 -->
-            <div class="header-isLogin-navEven"
-                 :class="getClass('order')"
-                 @mouseenter="evenHandMouseenter('order')"
-                 @mouseleave="evenHandMouseleave"
-            >
-                <div class="header-isLogin-navEven-title"
-                     @click="btnLink('/order/exchangeOrder')">
+            <div class="header-isLogin-navEven">
+                <div class="header-isLogin-navEven-title">
                     {{ locale.header.order }}
                 </div>
                 <ul class="lang-list h-1-bg">
@@ -1265,12 +1322,12 @@
             </div>
             <div class="header-user-market h-1-bg">
                 <ul class="header-user-text">
-                    <li class="h-7-cl userText goPersonal">
+                    <li class="x-3-cl userText goPersonal">
                     </li>
                     <li class="x-2-cl userStatus">
                     </li>
                 </ul>
-                <div class="header-user-out h-4-bg h-7-cl logout">
+                <div class="header-user-out h-4-bg x-3-cl logout">
                     <!-- 退出 -->
                     {{ locale.header.out }}
                 </div>
@@ -1285,7 +1342,7 @@
             </div>
             <ul class="lang-list h-1-bg">
                 {% for item in lanList %}
-                <li data-key="{{ item.id }}">
+                <li data-key="/{{ item.id }}">
                     {{ item.name}}
                 </li>
                 {% endfor %}

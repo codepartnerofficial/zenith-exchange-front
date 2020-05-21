@@ -3,6 +3,6 @@ const { getDefaultLocale , getDefaultLocaleConfig }= require('BlockChain-ui/node
 module.exports = {
   schedule: getDefaultLocaleConfig,
   async task(ctx) {
-    getDefaultLocale(this.schedule, ctx.app.config.localesPath, ctx.logger);
+    getDefaultLocale(this.schedule, ctx.app.config.localesPath, ctx.logger, ctx.app);
   },
 };
