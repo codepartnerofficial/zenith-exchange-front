@@ -34,7 +34,7 @@ class AppBootHook {
     }
     app.config.staticPath = path.join(__dirname, app.config.staticDir, 'serverData/');
     app.config.skinsPath = path.join(__dirname, app.config.staticDir, 'siknData/');
-    app.config.localesPath = path.join(__dirname, app.config.staticDir, 'Locales/');
+    app.config.localesPath = path.join(__dirname, './node_modules/BlockChain-ui/Locales/web');
     app.config.footerHeaderPath = path.join(__dirname, app.config.staticDir, 'footerHeader/');
     app.config.appDownLoadPath = path.join(__dirname, app.config.staticDir, 'appDownLoadPath/');
     app.config.bannerIndexPath = path.join(__dirname, app.config.staticDir, 'bannerIndex/');
@@ -121,19 +121,8 @@ class AppBootHook {
     }
 
     if (fs.existsSync(app.config.localesPath)){
-      fs.readdirSync(app.config.localesPath).forEach((dir) => {
-        const dirPath = `${app.config.localesPath}/${dir}`;
-        if (!app.config.serverData.Locales[dir]){
-          app.config.serverData.Locales[dir] = {};
-        }
-        fs.readdirSync(dirPath).forEach((item) => {
-          let content = fs.readFileSync(`${dirPath}/${item}`, 'UTF-8');
-          try{
-            app.config.serverData.Locales[dir][item] = JSON.parse(content);
-          }catch (e) {
-            console.log('语言包转json失败');
-          }
-        })
+      fs.readdirSync(app.config.localesPath).forEach((fileName) => {
+        app.config.serverData.Locales['defaultLocales'][fileName] = require(`BlockChain-ui/locales/web/${fileName}`);
       });
     }
     app.config.LOCAL_IP = getIPAddress();
