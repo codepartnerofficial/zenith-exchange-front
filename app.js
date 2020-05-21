@@ -73,7 +73,7 @@ class AppBootHook {
       domainArr = JSON.parse(fs.readFileSync(domainArrPath, 'utf8'));
     }
 
-    app.config.serverData = {
+    app.serverData = {
       serverData: {},
       siknData: {},
       Locales: {
@@ -88,14 +88,14 @@ class AppBootHook {
     if (fs.existsSync(app.config.staticPath)){
       fs.readdirSync(app.config.staticPath).forEach((item) => {
         const content = fs.readFileSync(`${app.config.staticPath}/${item}`, 'utf-8');
-        app.config.serverData.serverData[item] = JSON.parse(content);
+        app.serverData.serverData[item] = JSON.parse(content);
       });
     }
 
     if (fs.existsSync(app.config.skinsPath)){
       fs.readdirSync(app.config.skinsPath).forEach((item) => {
         const content = fs.readFileSync(`${app.config.skinsPath}/${item}`, 'utf-8');
-        app.config.serverData.siknData[item] = JSON.parse(content);
+        app.serverData.siknData[item] = JSON.parse(content);
       });
     }
     if (fs.existsSync(app.config.footerHeaderPath)){
@@ -107,25 +107,25 @@ class AppBootHook {
     if (fs.existsSync(app.config.appDownLoadPath)){
       fs.readdirSync(app.config.appDownLoadPath).forEach((item) => {
         const content = fs.readFileSync(`${app.config.appDownLoadPath}/${item}`, 'utf-8');
-        app.config.serverData.appDownLoad[item] = JSON.parse(content);
+        app.serverData.appDownLoad[item] = JSON.parse(content);
       });
     }
     if (fs.existsSync(app.config.bannerIndexPath)){
       fs.readdirSync(app.config.bannerIndexPath).forEach((item) => {
         const content = fs.readFileSync(`${app.config.bannerIndexPath}/${item}`, 'utf-8');
-        app.config.serverData.bannerIndex[item] = JSON.parse(content);
+        app.serverData.bannerIndex[item] = JSON.parse(content);
       });
     }
     if (fs.existsSync(app.config.footerList)){
       fs.readdirSync(app.config.footerList).forEach((item) => {
         const content = fs.readFileSync(`${app.config.footerList}/${item}`, 'utf-8');
-        app.config.serverData.footerList[item] = JSON.parse(content);
+        app.serverData.footerList[item] = JSON.parse(content);
       });
     }
 
     if (fs.existsSync(app.config.localesPath)){
       fs.readdirSync(app.config.localesPath).forEach((fileName) => {
-        app.config.serverData.Locales['defaultLocales'][fileName] = require(`BlockChain-ui/locales/web/${fileName}`);
+        app.serverData.Locales['defaultLocales'][fileName] = require(`BlockChain-ui/locales/web/${fileName}`);
       });
     }
     app.config.LOCAL_IP = getIPAddress();

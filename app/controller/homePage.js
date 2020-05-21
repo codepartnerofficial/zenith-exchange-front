@@ -26,7 +26,7 @@ class StaticIndex extends Controller {
     }
     this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
-    if (!this.config.serverData[this.config.staticKey][`${currenLan}-${domainArr[fileName].fileName}.json`]){
+    if (!this.app.serverData[this.config.staticKey][`${currenLan}-${domainArr[fileName].fileName}.json`]){
       await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
@@ -47,7 +47,7 @@ class StaticIndex extends Controller {
     const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexKey, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsKey);
     const footerList = this.getLocalData(fileName, this.config.footerListKey, currenLan);
-    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.config);
+    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.app);
     const { msg, lan, market, symbolAll } = this.publicInfo;
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderKey, currenLan);
     let customHeaderList = {};
@@ -137,8 +137,8 @@ class StaticIndex extends Controller {
 
   getSkin(fileName, fileBasePath){
     let obj = {};
-    if (this.config.serverData[fileBasePath][`${fileName}.json`]){
-      obj = this.config.serverData[fileBasePath][`${fileName}.json`];
+    if (this.app.serverData[fileBasePath][`${fileName}.json`]){
+      obj = this.app.serverData[fileBasePath][`${fileName}.json`];
     }
 
     if (!Object.keys(obj).length){
@@ -354,7 +354,7 @@ class StaticIndex extends Controller {
     if (lan){
       fileLan = `${lan}-`;
     }
-    const data = this.config.serverData[fileBasePath][`${fileLan}${fileName}.json`];
+    const data = this.app.serverData[fileBasePath][`${fileLan}${fileName}.json`];
     if (data){
       obj = data.data;
     }

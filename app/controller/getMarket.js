@@ -11,7 +11,7 @@ class getMarket extends Controller {
     if (ctx.app.config.env === 'local') {
       nowHost = ctx.app.config.devUrlProxy.ex;
     }
-   const publicInfo = getPublicInfo(ctx.app, currenLan, cusSkin, nowHost);
+   const publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
    ctx.body = { market: publicInfo.market, symbolAll: publicInfo.symbolAll};
   }
 }
