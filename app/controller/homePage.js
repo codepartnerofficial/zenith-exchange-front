@@ -49,7 +49,11 @@ class StaticIndex extends Controller {
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderKey, currenLan);
     let customHeaderList = {};
     if(headerFooter && headerFooter.header){
-      customHeaderList = JSON.parse(headerFooter.header);
+      try{
+        customHeaderList = JSON.parse(headerFooter.header);
+      }catch (e) {
+        this.logger.error('自定义header不是json')
+      }
     }
     this.getSelectSkin();
     this.headerLink = this.getHeaderLink();

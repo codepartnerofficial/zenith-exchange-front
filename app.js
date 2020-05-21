@@ -47,6 +47,9 @@ class AppBootHook {
     app.config.filePathMap[app.config.appDownLoadKey] = app.config.appDownLoadPath;
     app.config.filePathMap[app.config.bannerIndexKey] = app.config.bannerIndexPath;
     app.config.filePathMap[app.config.footerListKey] = app.config.footerList;
+    if (fs.existsSync(app.config.staticDir)) {
+      fs.mkdirSync(app.config.staticDir);
+    }
     if (fs.existsSync(serverConfigPath)) {
       const jsonData = JSON.parse(fs.readFileSync(serverConfigPath, 'utf8'));
       app.config.serverUrlConfig = jsonData;
