@@ -278,8 +278,20 @@ async function compassWebsocket(){
 
 
 async function copyStatic(){
-  src([path.join(staticPath, 'fonts/**'), path.join(staticPath, 'fonts/**'), path.join(staticPath, 'js/*.js')])
-    .pipe(copy(staticIntoPath, { prefix: 3 }))
+  fs.readdirSync(staticPath).forEach((dir) => {
+    if (dir === 'js' || dir === 'fonts'){
+      const dirPath = path.join(staticPath, dir)
+      const dirInto = path.join(staticIntoPath, dir);
+      if (!fs.existsSync(dirInto)){
+        fs.mkdirSync(dirInto);
+      }
+      fs.readdirSync(dirPath).forEach((fileName) => {
+        const fileInto = path.join(dirInto, fileName);
+        const content = fs.readFileSync(path.join(dirPath, fileName));
+        fs.writeFileSync(fileInto, content);
+      });
+    }
+  });
 };
 
 function comassImg(imgPath, intoPath){

@@ -34,7 +34,7 @@ class AppBootHook {
     }
     app.config.staticPath = path.join(__dirname, app.config.staticDir, 'serverData/');
     app.config.skinsPath = path.join(__dirname, app.config.staticDir, 'siknData/');
-    app.config.localesPath = path.join(__dirname, './node_modules/BlockChain-ui/Locales/web');
+    app.config.localesPath = path.join(__dirname, './node_modules/BlockChain-ui/locales/web');
     app.config.footerHeaderPath = path.join(__dirname, app.config.staticDir, 'footerHeader/');
     app.config.appDownLoadPath = path.join(__dirname, app.config.staticDir, 'appDownLoadPath/');
     app.config.bannerIndexPath = path.join(__dirname, app.config.staticDir, 'bannerIndex/');
@@ -47,7 +47,7 @@ class AppBootHook {
     app.config.filePathMap[app.config.appDownLoadKey] = app.config.appDownLoadPath;
     app.config.filePathMap[app.config.bannerIndexKey] = app.config.bannerIndexPath;
     app.config.filePathMap[app.config.footerListKey] = app.config.footerList;
-    if (fs.existsSync(app.config.staticDir)) {
+    if (!fs.existsSync(app.config.staticDir)) {
       fs.mkdirSync(app.config.staticDir);
     }
     if (fs.existsSync(serverConfigPath)) {
