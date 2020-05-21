@@ -3,10 +3,10 @@ const { getSetData } = require('BlockChain-ui/node/utils');
 
 class getFooterList extends Service {
   async getdataSync(domainData, host, currenLan) {
-    await getSetData(domainData, host, this, this.config.footerListKey, '/cms/footer/list', currenLan);
+    await getSetData(domainData, host, this, this.config.footerList, '/cms/footer/list', currenLan);
   }
   getdata(domainData, host, currenLan) {
-    getSetData(domainData, host, this, this.config.footerListKey, '/cms/footer/list', currenLan);
+    getSetData(domainData, host, this, this.config.footerList, '/cms/footer/list', currenLan);
   }
 }
 

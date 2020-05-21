@@ -26,7 +26,7 @@ class StaticIndex extends Controller {
     }
     this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
-    if (!this.app.serverData[this.config.staticKey][`${currenLan}-${domainArr[fileName].fileName}.json`]){
+    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))){
       await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
@@ -44,12 +44,12 @@ class StaticIndex extends Controller {
       return;
     }
     const fileBasePath = this.config.localesPath;
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexKey, currenLan);
-    this.skin = this.getSkin(fileName, this.config.skinsKey);
-    const footerList = this.getLocalData(fileName, this.config.footerListKey, currenLan);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    this.skin = this.getSkin(fileName, this.config.skinsPath);
+    const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.app);
     const { msg, lan, market, symbolAll } = this.publicInfo;
-    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderKey, currenLan);
+    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
     let customHeaderList = {};
     if(headerFooter && headerFooter.header){
       try{
@@ -68,7 +68,7 @@ class StaticIndex extends Controller {
       headerList: this.getHeaderList(),
       customHeaderList,
       headerSymbol: market ? market.headerSymbol: [],
-      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadKey, currenLan),
+      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan? lan.lanList: [],
       lan,
       seo: this.getSEO(),
@@ -91,8 +91,7 @@ class StaticIndex extends Controller {
       internationalTitle: {
         title: index_international_title1,
         subTitle: index_international_title2,
-      },
-      echartsPah: currenLan === 'zh_CN' ? 'https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js',
+      }
     });
   }
 
@@ -137,10 +136,12 @@ class StaticIndex extends Controller {
 
   getSkin(fileName, fileBasePath){
     let obj = {};
-    if (this.app.serverData[fileBasePath][`${fileName}.json`]){
-      obj = this.app.serverData[fileBasePath][`${fileName}.json`];
-    }
+    try {
+      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
+      // eslint-disable-next-line no-empty
+    } catch (err) {
 
+    }
     if (!Object.keys(obj).length){
       obj = this.publicInfo.skin;
     }
@@ -350,15 +351,17 @@ class StaticIndex extends Controller {
   getLocalData(fileName, fileBasePath, lan) {
     let obj = {};
     let fileLan = '';
-
     if (lan){
       fileLan = `${lan}-`;
     }
-    const data = this.app.serverData[fileBasePath][`${fileLan}${fileName}.json`];
-    if (data){
-      obj = data.data;
+    try {
+      obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileLan}${fileName}.json`), 'utf-8'));
+      // eslint-disable-next-line no-empty
+    } catch (err) {
+
     }
-    return obj;
+    console.log(obj)
+    return obj.data;
   }
 
   getHeaderLink() {
