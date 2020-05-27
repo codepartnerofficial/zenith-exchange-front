@@ -1,61 +1,63 @@
-<section class="kingHome">
+<section class="lxgHome">
     <style>
-        .kingHome {
+        .lxgHome {
+            min-width: 1200px;
             background: #fff;
         }
-        .kingHome .bulletinBoard {
+        .lxgHome .bulletinBoard {
             border-bottom-width: 1px;
             border-bottom-style: solid;
             border-color: #263043;
-            background: #0e1a2e;
+            background: #070f15;
             width: 100%;
             height: 38px;
             text-align: center;
             position: relative;
         }
-        .kingHome .bulletinBoard .backgrounds {
+        .lxgHome .bulletinBoard .backgrounds {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
             left: 0;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item {
+        .lxgHome .bulletinBoard .bull-bar .notice-item {
             font-family: PingFangSC-Regular;
             font-size: 12px;
             text-align: center;
             position: relative;
             display: inline-block;
-            padding-left: 20px;
             box-sizing: border-box;
             line-height: 38px;
             height: 38px;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item a {
+        .lxgHome .bulletinBoard .bull-bar .notice-item a {
             display: inline-block;
             line-height: 20px;
             color: #828ea1;
+            padding: 0 10px;
+            line-height: 38px;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item .hoverShow {
+        .lxgHome .bulletinBoard .bull-bar .notice-item .hoverShow {
             display: none;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item .hoverHide {
+        .lxgHome .bulletinBoard .bull-bar .notice-item .hoverHide {
             display: inline-block;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item i {
+        .lxgHome .bulletinBoard .bull-bar .notice-item i {
             margin-left: 20px;
             display: inline-block;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item:last-child i {
+        .lxgHome .bulletinBoard .bull-bar .notice-item:last-child i {
             display: none;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item:hover .hoverShow {
+        .lxgHome .bulletinBoard .bull-bar .notice-item:hover .hoverShow {
             display: inline-block;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item:hover .hoverHide {
+        .lxgHome .bulletinBoard .bull-bar .notice-item:hover .hoverHide {
             display: none;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item .new {
+        .lxgHome .bulletinBoard .bull-bar .notice-item .new {
             font-size: 9px;
             line-height: 18px;
             display: inline-block;
@@ -64,12 +66,12 @@
             height: 16px;
             display: inline-block;
         }
-        .kingHome .bulletinBoard .bull-bar .notice-item .new img {
+        .lxgHome .bulletinBoard .bull-bar .notice-item .new img {
             width: 100%;
             vertical-align: middle;
             height: 100%;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton {
+        .lxgHome .bulletinBoard .bull-bar .moreButton {
             display: inline-block;
             height: 11px;
             width: 19px;
@@ -78,11 +80,11 @@
             margin-left: 20px;
             cursor: pointer;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton img {
+        .lxgHome .bulletinBoard .bull-bar .moreButton img {
             width: 100%;
             height: 100%;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton b {
+        .lxgHome .bulletinBoard .bull-bar .moreButton b {
             top: 0;
             left: 0;
             position: absolute;
@@ -90,16 +92,16 @@
             height: 10px;
             width: 17px;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton .hover-show {
+        .lxgHome .bulletinBoard .bull-bar .moreButton .hover-show {
             display: none;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton:hover .hover-hide {
+        .lxgHome .bulletinBoard .bull-bar .moreButton:hover .hover-hide {
             display: none;
         }
-        .kingHome .bulletinBoard .bull-bar .moreButton:hover .hover-show {
+        .lxgHome .bulletinBoard .bull-bar .moreButton:hover .hover-show {
             display: block;
         }
-        .kingHome .bulletinBoard .more {
+        .lxgHome .bulletinBoard .more {
             position: absolute;
             font-family: PingFangSC-Regular;
             font-size: 12px;
@@ -107,31 +109,31 @@
             right: 20px;
             top: 7px;
         }
-        .kingHome .product-re {
+        .lxgHome .product-re {
             background-position: center top;
             height: 419px;
             padding-top: 1px;
             width: 100%;
         }
-        .kingHome .product-re .title {
+        .lxgHome .product-re .title {
             font-size: 40px;
             color: #31363e;
             text-align: center;
             margin-top: 87px;
             font-weight: bold;
         }
-        .kingHome .product-re .maker {
+        .lxgHome .product-re .maker {
             font-size: 16px;
             color: #828ea1;
             text-align: center;
             line-height: 16px;
             margin-top: 18px;
         }
-        .kingHome .product-re .register {
+        .lxgHome .product-re .register {
             width: 490px;
             margin: 60px auto 0;
         }
-        .kingHome .product-re .register-infos {
+        .lxgHome .product-re .register-infos {
             background: #fff;
             border-radius: 2px;
             height: 50px !important;
@@ -141,7 +143,7 @@
             border: none;
             float: left;
         }
-        .kingHome .product-re .input-find-content input {
+        .lxgHome .product-re .input-find-content input {
             color: #31363e !important;
             font-size: 16px !important;
             height: 50px !important;
@@ -149,7 +151,7 @@
             text-indent: 20px;
             width: 100%;
         }
-        .kingHome .product-re .go-register-btn {
+        .lxgHome .product-re .go-register-btn {
             background: #3f78ff;
             border-radius: 2px;
             height: 50px;
@@ -161,11 +163,10 @@
             color: #fff;
             margin-left: 10px;
         }
-        .kingHome .product-re .go-register-btn:hover {
+        .lxgHome .product-re .go-register-btn:hover {
             box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
             background: #5b8cff;
         }
-
     </style>
     {% import "./swiper/king.njk" as swiper %}
     {{ swiper.boxStyle(
@@ -177,9 +178,8 @@
     locale=locale,
     helper=helper
     )}}
-    {% if headerSymbol.length %}
-    {% include "./recommend/king.njk" %}
-    {% endif %}
+    {% include "./noticeInfo/lxg.njk" %}
+    {% include "./market/lxg.njk" %}
     {{ footer_warm_prompt | safe }}
     <script></script>
 </section>

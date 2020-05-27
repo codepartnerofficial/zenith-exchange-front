@@ -360,7 +360,6 @@ class StaticIndex extends Controller {
     } catch (err) {
 
     }
-    console.log(obj)
     return obj.data;
   }
 
