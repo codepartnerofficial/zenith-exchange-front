@@ -483,13 +483,15 @@ class StaticIndex extends Controller {
     const { market } = this.publicInfo;
     if (market) {
       const etfArr = [];
-      if (market.market.ETF){
+      if (market.market.ETF && market.market.ETF.length){
         Object.keys(market.market.ETF).forEach((ci) => {
           etfArr.push(market.market.ETF[ci]);
         });
-        const symbol = etfArr.sort(compare('sort'))[0];
-        const name = symbol.showName || symbol.name;
-        str = name.replace('/', '_');
+        if (etfArr.length){
+          const symbol = etfArr.sort(compare('sort'))[0];
+          const name = symbol.showName || symbol.name;
+          str = name.replace('/', '_');
+        }
       }
     }
     return `${this.headerLink.trade}/${str}`;
