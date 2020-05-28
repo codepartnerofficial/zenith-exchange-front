@@ -7,11 +7,11 @@
     "declarations": true
   },
   "dependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/helper-module-imports": "^7.8.3",
-    "@babel/preset-env": "^7.8.7",
-    "@babel/preset-stage-0": "^7.8.3",
-    "@vue/babel-preset-app": "^4.2.3",
+    "@babel/core": "7.8.7",
+    "@babel/helper-module-imports": "7.8.3",
+    "@babel/preset-env": "7.8.7",
+    "@babel/preset-stage-0": "7.8.3",
+    "@vue/babel-preset-app": "4.2.3",
     "BlockChain-ui": "^1.3.2-b-jira-home",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-es2015": "^6.24.1",
