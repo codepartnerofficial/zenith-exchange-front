@@ -336,7 +336,16 @@
                             this.bigPage = inx;
                             this.bigRun();
                             clearTimeout(this.bigTimer);
-                            this.bigInitTimer = setTimeout(this.bigAuto.bind(this), 5000);
+                            this.bigTimer = setTimeout(this.bigAuto.bind(this), 5000);
+                        }, false);
+                        item.addEventListener('mouseover', () => {
+                            clearTimeout(this.bigTimer);
+                            this.bigTimer = null;
+                        }, false);
+                        item.addEventListener('mouseout', () => {
+                            clearTimeout(this.bigTimer);
+                            this.bigTimer = null;
+                            this.bigTimer = setTimeout(this.bigAuto.bind(this), 5000);
                         }, false);
                     });
                 }
@@ -397,9 +406,7 @@
                 init() {
                     this.setSwiperContent();
                     this.setSmallContent();
-                    clearTimeout(this.bigInitTimer);
-                    //   this.bigInitTimer = setTimeout(this.bigAuto.bind(this), 5000);
-                    //  setTimeout(this.smallAuto.bind(this), 5000);
+                    clearTimeout(this.bigTimer);
                     this.bindEvent();
                 }
             }
