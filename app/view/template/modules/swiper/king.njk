@@ -1,4 +1,4 @@
-{% macro boxStyle(slideList, extendPath, title, subTitle, locale, bigSlide, helper) %}
+{% macro boxStyle(slideList, extendPath, title, subTitle, locale, bigSlide, helper, link) %}
 <section class="king-swiper-base">
     <style>
         .king-swiper-base {
@@ -224,7 +224,7 @@
                 <div class="king-otc-inp">
                     <input type="text" placeholder="{{ locale.kingAdd.input }}"></div>
                 <div class="king-otc-coin">CNY</div>
-                <a class="king-otc-btn" href="https://otc.king.top" target="_block">
+                <a class="king-otc-btn" href="{{ link }}" target="_block">
                     {{ locale.kingAdd.buy }}</a>
             </div>
         </div>
