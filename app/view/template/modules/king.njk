@@ -63,6 +63,7 @@
             width: 32px;
             height: 16px;
             display: inline-block;
+            vertical-align: middle;
         }
         .kingHome .bulletinBoard .bull-bar .notice-item .new img {
             width: 100%;
@@ -179,6 +180,7 @@
     link="https://otc.king.top"
     )}}
     {% if headerSymbol.length %}
+    {% include "./noticeInfo/europe.njk" %}
     {% include "./recommend/king.njk" %}
     {% endif %}
     {{ footer_warm_prompt | safe }}
