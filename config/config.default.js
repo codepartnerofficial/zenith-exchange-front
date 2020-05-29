@@ -30,6 +30,10 @@ module.exports = (appInfo) => {
     dir: path.join(__dirname, '../app/dist'),
   };
 
+  config.logger = {
+    disableConsoleAfterReady: false
+  };
+
   let templatePath = 'build';
  /* if (appInfo.env === 'local'){
     templatePath = 'view';
@@ -55,7 +59,7 @@ module.exports = (appInfo) => {
     // myAppName: 'egg',
   };
   config.devUrlProxy = {
-    ex: 'http://www.apple.com',
+    ex: 'http://www.hiwallet.pro',
     otc: 'http://dev10otc.chaindown.com',
     co: 'http://dev10co.chaindown.com'
   }

@@ -17,11 +17,6 @@ module.exports = (appInfo) => {
   } catch (e) {
 
   }
-  if(argv.buildEnv && !argv.testEnv){
-    config.logger = {
-      dir: path.join(__dirname, `./../../exchange-fe-server-${argv.buildEnv}-log`),
-    };
-  }
 
 
   return {
