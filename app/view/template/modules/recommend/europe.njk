@@ -129,9 +129,11 @@
         <li class="recommend-item recommend-content" data-coin="{{item}}">
             <div class="td-item td-item1">{{loop.index}}</div>
             <div class="td-item td-item2">
-            <span class="symbol-icon">
-              <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
+                {% if helper.recommend.symbolIcon(item, coinList)%}
+                <span class="symbol-icon">
+                <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
             </span>
+                {% endif %}
                 <span class="b-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
                 <span class="q-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
             </div>

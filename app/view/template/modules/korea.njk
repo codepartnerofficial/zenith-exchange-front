@@ -191,7 +191,9 @@
 
             const init = () => {
                 emitter.on('login', () => {
-                    $login.style.display = 'none';
+                    if (window.isLogin){
+                        $login.style.display = 'none';
+                    }
                 });
                 bindEvent();
             };
