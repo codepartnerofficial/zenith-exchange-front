@@ -332,10 +332,9 @@
                         if (dataList){
                             ipfsTitle.innerHTML= dataList[0].name
                             ipfslogo.src = dataList[0].logo
-                            priceNum.innerHTML= `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}`
+                            priceNum.innerHTML=  dataList[0].initPriceV2 ? `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}` : '';
                             var startTime = formatTime(dataList[0].startTime);
                             var endTime = formatTime(dataList[0].endTime);
-
                             activeTime.innerHTML= `${startTime} ~ ${endTime}`
                             buyButton.addEventListener('click', () => {
                                 window.location.href = `/ipfs/${dataList[0].projectId}`

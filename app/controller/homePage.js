@@ -108,7 +108,6 @@ class StaticIndex extends Controller {
   getTemplate() {
     let template = 'international';
     if (this.publicInfo.switch) {
-      console.log('000000', this.publicInfo.switch.index_temp_type);
       template = templateConfig[this.publicInfo.switch.index_temp_type];
     }
     return `modules/${template}.njk`;
