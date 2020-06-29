@@ -1,0 +1,362 @@
+<div class="home-custom-template">
+    <style>
+        .ipfs-home-container {
+            margin: -110px auto 0 auto;
+            position: relative;
+            z-index: 9;
+        }
+        .column-block {
+            width: 1180px;
+            margin: 0 auto 0 auto;
+        }
+        .ipfs-home-container .column-list {
+            height: 360px;
+            justify-content: space-between;
+            width: 1200px;
+        }
+        .ipfs-home-container .column-list .column-item {
+            height: 360px;
+            background: #fff;
+            box-shadow: 0 2px 20px 0 rgba(170,108,0,0.10);
+            border-radius: 6px;
+            width: 280px;
+            float: left;
+            margin-right: 20px;
+            box-sizing: border-box;
+            padding: 60px 34px 0 34px;
+        }
+        .ipfs-home-container .column-item img {
+            width: 90px;
+            height: 90px;
+        }
+        .ipfs-home-container .column-item h4 {
+            margin-top: 66px;
+            font-size: 18px;
+            line-height: 25px;
+            color: #333333;
+        }
+        .ipfs-home-container .column-item p {
+            margin-top: 12px;
+            font-size: 16px;
+            color: #999999;
+            line-height: 28px;
+        }
+        .filecoin-main {
+            margin-top: 90px;
+            background: #FFFFFF;
+            text-align: center;
+            padding-top: 80px;
+        }
+        .filecoin-main .main-bar {
+            width: 1180px;
+            margin: 0 auto 0 auto;
+        }
+        .filecoin-main .title span{
+            font-family: Helvetica-Bold;
+            font-size: 14px;
+            color: #F39800;
+        }
+        .filecoin-main .title h3{
+            font-family: PingFangSC-Semibold;
+            font-size: 32px;
+            color: #333333;
+            margin: 10px 0;
+        }
+        .filecoin-main .title p{
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #999999;
+            line-height: 24px;
+        }
+        .filecoin-main .pro-list {
+            margin-top: 100px;
+            height: 235px;
+        }
+        .filecoin-main .pro-item {
+            width: 250px;
+            float: left;
+        }
+        .filecoin-main .pro-item .img {
+            width: 220px;
+            margin: 0 auto;
+            height: 180px;
+        }
+        .filecoin-main .pro-item img {
+            width: 100%;
+        }
+        .filecoin-main .pro-item p {
+            font-family: PingFangSC-Medium;
+            font-size: 18px;
+            color: #333333;
+            margin-top: 30px;
+        }
+        .filecoin-main .pro-item-jt {
+            width: 28px;
+            float: left;
+            padding: 80px 16px 0 16px;
+            
+        }
+        .filecoin-main .pro-item-jt img {
+            width: 28px;
+        }
+        .process-list {
+            margin-top: 70px;
+            height: 250px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            padding-top: 60px;
+        }
+        .process-list-bar {
+            width: 1080px;
+            margin: 0 auto;
+        }
+        .process-list .process-item {
+            float: left;
+            width: 25%;
+        }
+        
+        .process-list .process-item .img {
+            width: 140px;
+            height: 110px;
+            margin: 0 auto;
+        }
+        .process-list .process-item img {
+            width: 100%;
+        }
+        .process-list .process-item p {
+            font-size: 18px;
+            color: #333333;
+            margin-top: 20px;
+        }
+        .ipfs-home-container .ipfs-item {
+            margin: 90px auto 0;
+            background: #fff;
+            width: 1180px;
+            height: 228px; 
+            box-sizing: border-box;
+            padding: 60px 50px 0 50px;
+            box-shadow: 0 2px 20px 0 rgba(170,108,0,0.10);
+            border-radius: 2px;
+        }
+        .ipfs-home-container .ipfs-item .img {
+            float: left;
+            width: 200px;
+            height: 105px;
+        }
+        .ipfs-home-container .ipfs-item .img  img{
+            width: 100%;
+            height: 100%;
+        }
+        .ipfs-home-container .ipfs-item .info {
+            padding-left: 230px;
+            height: 105px;
+        }
+        .ipfs-home-container .ipfs-item .info .tit {
+            font-size: 22px;
+            color: #333333;
+            line-height: 26px;
+            height: 26px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            padding-left: 34px;
+            background-position: 0;
+            background-repeat: no-repeat;
+            background-size: 26px;
+        }
+        .ipfs-home-container .ipfs-item .info .cz .timer {
+            margin: 0 18px 0 0;
+            font-size: 14px;
+            color: #999999;
+        }
+        .ipfs-home-container .info .cz {
+            float: left;
+        }
+        .ipfs-home-container .op-right {
+            float: right;
+            font-size: 14px;
+            color: #999999;
+            text-align: right; 
+        }
+        .ipfs-home-container .price span {
+            font-size: 26px;
+            color: #F39800;
+        }
+        .ipfs-home-container .cny {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .ipfs-home-container .common-button{
+            background: #F39800 !important;
+        }
+    </style>
+    {% if footer_warm_prompt %}
+    <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
+    {% else %}
+    <div class="ipfs-home-container">
+        <div class="column-block">
+            <div class="column-list">
+                <div class="column-item">
+                    <img src="{{sourceMap.ipfs_icon1}}" alt="">
+                    <h4>业内顶尖矿机厂商</h4>
+                    <p>采用计算集群+存储集群的矿机模式矿机技术及质量保障</p>
+                </div>
+                <div class="column-item">
+                    <img src="{{sourceMap.ipfs_icon2}}" alt="">
+                    <h4>一键购买，便捷挖矿</h4>
+                    <p>省去对接矿池的繁琐程序</p>
+                </div>
+                <div class="column-item">
+                    <img src="{{sourceMap.ipfs_icon3}}" alt="">
+                    <h4>平台筛选，安心保障</h4>
+                    <p>认真调研，为用户筛选优质稳定的Filecoin节点</p>
+                </div>
+                <div class="column-item">
+                    <img src="{{sourceMap.ipfs_icon4}}" alt="">
+                    <h4>减低挖矿准入门槛</h4>
+                    <p>小成本，低门槛，共享矿机算力收益</p>
+                </div>
+            </div>
+        </div>
+        <div class="ipfs-item">
+            <div class="img">
+                <img class="ipfslogo" src="http://chaindown-oss.oss-cn-hongkong.aliyuncs.com/upload/20200623161026098.jpg" alt=""></div>
+            <div class="info">
+                <div class="cz">
+                    <h2 class="tit ipfsTitle iconBack">--</h2>
+                    <div class="timer">
+                        <span class="tim">活动时间</span>
+                        <span class="val activeTime"></span>
+                    </div>
+                </div>
+                <div class="op-right">
+                    <p class="price">价格
+                        <span class="priceNum">--</span></p>
+                    <p class="cny"></p>
+                    <button class="common-button common-button-solid u-16-cl buyButton" style="width: 160px; height: 40px; padding-left: 0px; padding-right: 0px; margin-top: 18px;">
+                        <div class="common-button-slot">
+                            <span>立即购买</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="filecoin-main">
+            <div class="main-bar">
+                <div class="title">
+                    <span>Filecoin</span>
+                    <h3>来金色算力云便捷挖矿</h3>
+                    <p>简化挖矿购买步骤，打包矿机筛选、部署、维护、技术服务等复杂环节</p>
+                </div>
+                <div class="pro-list">
+                    <div class="pro-item">
+                        <div class="img"><img src="{{sourceMap.ipfs_photo1}}" alt=""></div>
+                        <p>业内顶尖矿机厂商</p>
+                    </div>
+                    <div class="pro-item-jt">
+                        <img src="{{sourceMap.ipfs_icon5}}" alt="">
+                    </div>
+                    <div class="pro-item">
+                        <div class="img"><img src="{{sourceMap.ipfs_photo2}}" alt=""></div>
+                        <p>从Filecoin主网上线起开始挖矿</p>
+                    </div>
+                    <div class="pro-item-jt">
+                        <img src="{{sourceMap.ipfs_icon5}}" alt="">
+                    </div>
+                    <div class="pro-item">
+                        <div class="img"><img src="{{sourceMap.ipfs_photo3}}" alt=""></div>
+                        <p>矿池分配收益</p>
+                    </div>
+                    <div class="pro-item-jt">
+                        <img src="{{sourceMap.ipfs_icon5}}" alt="">
+                    </div>
+                    <div class="pro-item">
+                        <div class="img"><img src="{{sourceMap.ipfs_photo4}}" alt=""></div>
+                        <p>用户收到收益    </p>
+                    </div>
+                </div>
+                <div class="process-list">
+                    <div class="process-list-bar">
+                        <div class="process-item">
+                            <div class="img"><img src="{{sourceMap.ipfs_photo5}}" alt=""></div>
+                            <p>购买矿机</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="img"><img src="{{sourceMap.ipfs_photo6}}" alt=""></div>
+                            <p>测试安装</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="img"><img src="{{sourceMap.ipfs_photo7}}" alt=""></div>
+                            <p>接入矿池</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="img"><img src="{{sourceMap.ipfs_photo8}}" alt=""></div>
+                            <p>运维管理</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+
+      
+        <script>
+            (function(){
+                const { formatTime, fixRate } = window.BlockChainUtils;
+                
+
+                const container = document.querySelector(".home-custom-template");
+                var proImg = container.querySelectorAll(".pro-img");
+                var iconBack = container.querySelector(".iconBack");
+                var homeEditImga = container.querySelector(".process-list");
+                var ipfslogo = container.querySelector(".ipfslogo");
+                var ipfsTitle = container.querySelector(".ipfsTitle");
+                var activeTime = container.querySelector(".activeTime");
+                var priceNum = container.querySelector(".priceNum");
+                var cny = container.querySelector(".cny");
+                var buyButton = container.querySelector(".buyButton");
+
+
+                homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.ipfs_photo9}}" + ")";
+                iconBack.style.backgroundImage = "url(" + "{{sourceMap.ieotitleIcon}}" + ")";
+                var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
+
+                
+                fetchData({
+                    method: 'post',
+                    url: '/fe-ex-api/newcoinV2/newcoin_project_listV2',
+                    params: {page: 1,pageSize: 10,status: 0,type: 2},
+                }).catch(() => {
+                }).then((data) => {
+                    if (data.code === '0') {
+                        var dataList = data.data.projectInfoList;
+                        if (dataList){
+                            ipfsTitle.innerHTML= dataList[0].name
+                            ipfslogo.src = dataList[0].logo
+                            priceNum.innerHTML= `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}`
+                            var startTime = formatTime(dataList[0].startTime);
+                            var endTime = formatTime(dataList[0].endTime);
+
+                            activeTime.innerHTML= `${startTime} ~ ${endTime}`
+                            buyButton.addEventListener('click', () => {
+                                window.location.href = `/ipfs/${dataList[0].projectId}`
+                            });
+                            if (window.market) {
+                                var rate = window.market.market.rate;
+                                cny.innerHTML = `≈ ${fixRate(dataList[0].initPriceV2, rate, dataList[0].coinSymbol)}`
+                            } else {
+                                setTimeout(function(){ 
+                                    var rate = window.market.market.rate;
+                                    cny.innerHTML = `≈ ${fixRate(dataList[0].initPriceV2, rate, dataList[0].coinSymbol)}`
+                                });
+                            }
+                        }
+                    }        
+
+                });
+
+            })();
+        </script>
+    </div>
+    {% endif %}
+    <script></script>
+</div>

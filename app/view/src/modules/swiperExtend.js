@@ -1,7 +1,7 @@
 (() => {
   class SwiperExtend {
-    resetClass (inx){
-      this.$slideList.forEach((item) => {
+    resetClass(inx) {
+      this.$slideList.forEach(item => {
         const index = Number(item.dataset.index);
         let className = '';
         if (index === inx) {
@@ -19,26 +19,26 @@
 
     change(inx) {
       this.currentIndex = inx;
-      this.$carouselItemsSapn.forEach((item) => {
+      this.$carouselItemsSapn.forEach(item => {
         item.className = '';
       });
-      this.$slideList.forEach((item) => {
+      this.$slideList.forEach(item => {
         item.className = '';
       });
       this.$carouselItemsSapn[inx].className = 'active a-12-bg';
       this.resetClass(inx);
     }
 
-    stop () {
+    stop() {
       clearTimeout(this.timer);
       this.timer = null;
     }
 
-    go () {
+    go() {
       clearTimeout(this.timer);
       this.timer = null;
       this.timer = setTimeout(() => {
-        if(this.$slideList.length){
+        if (this.$slideList.length) {
           this.currentIndex += 1;
           if (this.currentIndex > this.$slideList.length - 1) {
             this.currentIndex = 0;
@@ -49,7 +49,7 @@
       }, 4000);
     }
 
-    init(){
+    init() {
       this.$swiper = document.querySelector('#swipers');
       this.$carouselWrap = this.$swiper.querySelector('.carousel-wrap');
       this.$slideUl = this.$swiper.querySelector('.slide-ul');
@@ -66,13 +66,13 @@
       this.$swiper.classList.add(styleBox.bgcolor);
       this.$carouselWrap.style.height = styleBox.height;
       this.resetClass(this.currentIndex);
-      this.$slideListA.forEach(( item ) => {
+      this.$slideListA.forEach(item => {
         item.style.backgroundImage = `url(${item.dataset.img})`;
       });
       this.$carouselItemsSapn.forEach((item, inx) => {
-        let width = this.lineWidth / this.$slideList.length;
+        const width = this.lineWidth / this.$slideList.length;
         item.style.width = width + 'px';
-        if (!inx){
+        if (!inx) {
           item.className = 'active a-12-bg';
         }
       });
@@ -81,19 +81,19 @@
     }
 
     bindEvent() {
-      this.$carouselItemsSapn.forEach((item) => {
-        item.addEventListener('mouseover', (e) => {
+      this.$carouselItemsSapn.forEach(item => {
+        item.addEventListener('mouseover', e => {
           const target = e.target;
           const inx = target.dataset.index;
           this.change(inx);
         }, false);
       });
-      this.$slideList.forEach((item) => {
+      this.$slideList.forEach(item => {
         item.addEventListener('mouseover', () => {
           this.stop();
         }, false);
       });
-      this.$slideList.forEach((item) => {
+      this.$slideList.forEach(item => {
         item.addEventListener('mouseout', () => {
           this.go();
         }, false);

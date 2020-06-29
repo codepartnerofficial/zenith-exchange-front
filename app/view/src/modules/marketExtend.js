@@ -1,7 +1,7 @@
 (() => {
-  const {myStorage, getCoinShowName} = window.BlockChainUtils;
+  const { myStorage, getCoinShowName } = window.BlockChainUtils;
   const optional_symbol_server_open = Number('{{switch.optional_symbol_server_open}}');
-  class MarketExtend{
+  class MarketExtend {
     sortIcon(v, sortValue, sortSell) {
       let str = '#icon-a_17';
       if (v === sortValue) {
@@ -16,7 +16,7 @@
 
     dataLength(tableData) {
       let len = 0;
-      tableData.forEach((item) => {
+      tableData.forEach(item => {
         if (tableData.length > 1) {
           len += 1;
         }
@@ -65,7 +65,7 @@
       _html += `<li class="c-8-bd" data-market="myMarket">
                          ${this.locale.marketSet}
                         </li>`;
-      dataList.forEach((item) => {
+      dataList.forEach(item => {
         let className = 'a-12-bd';
         if (this.marketCurrent === item) {
           className = 'a-12-bd selected f-1-cl';
@@ -75,7 +75,7 @@
                             </li>`;
       });
       this.$marketTitle.innerHTML = _html;
-    };
+    }
 
     switchMarket(data) {
       if (this.createIng) return;
@@ -93,8 +93,8 @@
     }
 
     outHandler($list) {
-      $list.forEach((item) => {
-        item.className = 'home-tbody-li c-5-bd f-1-cl c-4-bg'
+      $list.forEach(item => {
+        item.className = 'home-tbody-li c-5-bd f-1-cl c-4-bg';
       });
     }
 
@@ -111,7 +111,7 @@
       let mySymbol = myStorage.get('mySymbol') || [];
       let addOrDelete = true;
       if (mySymbol.length && mySymbol.indexOf(symbol) > -1) {
-        mySymbol = mySymbol.filter((item) => item !== symbol);
+        mySymbol = mySymbol.filter(item => item !== symbol);
         addOrDelete = false;
       } else {
         mySymbol.push(symbol);
@@ -123,14 +123,14 @@
           body: JSON.stringify({
             operationType: addOrDelete === true ? '1' : '2', // 0批量添加 1单个添加 2单个删除
             symbols: symbol,
-          })
-        }).then((data) => {
+          }),
+        }).then(data => {
           if (data.code === '0') {
             this.setMyMarketSwitch = true;
             this.mySymbolList = mySymbol;
             myStorage.set('mySymbol', mySymbol);
           } else {
-            this.$bus.$emit('tip', {text: data.msg, type: 'error'});
+            this.$bus.$emit('tip', { text: data.msg, type: 'error' });
           }
         });
       } else {
@@ -162,18 +162,18 @@
       const $list = this.$homeTbody.querySelectorAll('.home-tbody-li');
       const $markeIcon = this.$homeTbody.querySelectorAll('.marketIcon');
       const $evenSymbols = this.$homeTbody.querySelectorAll('.evenSymbol');
-      $list.forEach((target) => {
+      $list.forEach(target => {
         target.removeEventListener('mouseover', this.overHandler, false);
         target.removeEventListener('mouseout', this.outHandler, false);
       });
-      $evenSymbols.forEach((target) => {
+      $evenSymbols.forEach(target => {
         target.removeEventListener('click', this.everySymbolClick, false);
       });
-      $markeIcon.forEach((target) => {
-        target.removeEventListener('click', this.marketIconClick.bind, false)
+      $markeIcon.forEach(target => {
+        target.removeEventListener('click', this.marketIconClick.bind, false);
       });
     }
-    everySymbolClick(target){
+    everySymbolClick(target) {
       const etfOpen = target.dataset.etfOpen;
       const data = target.dataset.id;
       myStorage.set('sSymbolName', data);
@@ -188,14 +188,14 @@
     bindTableListEvent() {
       const $list = this.$homeTbody.querySelectorAll('.home-tbody-li');
       const $markeIcon = this.$homeTbody.querySelectorAll('.marketIcon');
-      const $evenSymbols =this.$homeTbody.querySelectorAll('.evenSymbol');
-      $evenSymbols.forEach((target) => {
+      const $evenSymbols = this.$homeTbody.querySelectorAll('.evenSymbol');
+      $evenSymbols.forEach(target => {
         target.addEventListener('click', this.everySymbolClick.bind(this, target), false);
       });
-      $markeIcon.forEach((target) => {
-        target.addEventListener('click', this.marketIconClick.bind(this, target), false)
+      $markeIcon.forEach(target => {
+        target.addEventListener('click', this.marketIconClick.bind(this, target), false);
       });
-      $list.forEach((target) => {
+      $list.forEach(target => {
         target.addEventListener('mouseover', this.overHandler.bind(null, target), false);
         target.addEventListener('mouseout', this.outHandler.bind(null, $list), false);
       });
@@ -212,17 +212,17 @@
       }
     }
 
-    changeSortableIcon(target){
+    changeSortableIcon(target) {
       const $use = target.querySelector('use');
       const href = $use.getAttribute('href');
-      if (href.indexOf('a_17_2') > -1){
+      if (href.indexOf('a_17_2') > -1) {
         $use.setAttribute('href', '#icon-a_17_1');
-      }else{
+      } else {
         $use.setAttribute('href', '#icon-a_17_2');
       }
     }
 
-    bindTitleEvent(){
+    bindTitleEvent() {
       this.$homeThead.querySelectorAll('.sortable').forEach((item, index) => {
         item.addEventListener('click', () => {
           this.sort(this.columns[item.dataset.index]);
@@ -233,10 +233,10 @@
     }
 
     bindEvent() {
-      this.$searchInput.addEventListener('input', (e) => {
+      this.$searchInput.addEventListener('input', e => {
         const target = e.target;
         const val = target.value;
-        let data = this.marketDataList_bar;
+        const data = this.marketDataList_bar;
         let isSearch = false;
         if (val) {
           isSearch = true;
@@ -250,10 +250,10 @@
         this.createTable(this.tableDataList);
       }, false);
 
-      this.$marketTitle.addEventListener('click', (e) => {
+      this.$marketTitle.addEventListener('click', e => {
         const target = e.target;
         const currentMarket = target.dataset.market;
-        this.$marketTitle.querySelectorAll('li').forEach((item) => {
+        this.$marketTitle.querySelectorAll('li').forEach(item => {
           item.className = 'a-12-bd';
         });
         target.className = 'a-12-bd selected f-1-cl';
@@ -275,32 +275,32 @@
       this.tableTreeData = {};
       this.tableTree = {};
       const dataLen = Object.keys(dataList).length;
-      if (dataLen){
+      if (dataLen) {
         this.$homeNodata.style.display = 'none';
       }
-      dataList.forEach((data) => {
+      dataList.forEach(data => {
         let _childHtml = '';
-        data.data.forEach((item) => {
+        data.data.forEach(item => {
           const evenSymbol = item.data[0][1].iconSvg.match(/>(.+)</)[1];
           if (!this.tableTreeData[evenSymbol]) {
             this.tableTreeData[evenSymbol] = {};
             this.tableTree[evenSymbol] = {};
           }
-          this.tableTreeData[evenSymbol]['marketIcon'] = item.data[0][0].iconSvg;
-          this.tableTreeData[evenSymbol]['price'] = item.data[1][0].text;
-          this.tableTreeData[evenSymbol]['subPrice'] = item.data[1][0].subContent.text;
-          this.tableTreeData[evenSymbol]['amount'] = item.data[2][0].text;
-          this.tableTreeData[evenSymbol]['amountClass'] = item.data[2][0].classes;
-          this.tableTreeData[evenSymbol]['highest'] = item.data[3][0].text;
-          this.tableTreeData[evenSymbol]['lowest'] = item.data[4][0].text;
-          this.tableTreeData[evenSymbol]['deal'] = item.data[5][0].text;
-          this.tableTreeData[evenSymbol]['volume'] = item.data[6][0].text;
+          this.tableTreeData[evenSymbol].marketIcon = item.data[0][0].iconSvg;
+          this.tableTreeData[evenSymbol].price = item.data[1][0].text;
+          this.tableTreeData[evenSymbol].subPrice = item.data[1][0].subContent.text;
+          this.tableTreeData[evenSymbol].amount = item.data[2][0].text;
+          this.tableTreeData[evenSymbol].amountClass = item.data[2][0].classes;
+          this.tableTreeData[evenSymbol].highest = item.data[3][0].text;
+          this.tableTreeData[evenSymbol].lowest = item.data[4][0].text;
+          this.tableTreeData[evenSymbol].deal = item.data[5][0].text;
+          this.tableTreeData[evenSymbol].volume = item.data[6][0].text;
           _childHtml += `<li class="home-tbody-li c-5-bd f-1-cl c-4-bg" data-coin="${evenSymbol}">
                                         <!-- 币对 -->
                                         <div class="even">
                           <span class="marketIcon" data-coin="${evenSymbol}">${item.data[0][0].iconSvg}</span>
                                             <span class="evenSymbol" data-id="${item.id}" data-eftOpen="${item.etfOpen}">${item.data[0][1].iconSvg}</span>
-                                            ${item.etfOpen && this.marketCurrent !== 'ETF' ? "<span class=\"eft-class u-8-bd u-8-cl\">ETF</span>" : ""}
+                                            ${item.etfOpen && this.marketCurrent !== 'ETF' ? '<span class="eft-class u-8-bd u-8-cl">ETF</span>' : ''}
                                         </div>
                                         <!-- 最新价 -->
                                         <div class="even newPrice">
@@ -335,16 +335,16 @@
         }
       });
       this.$homeTbody.innerHTML = _html;
-      this.$homeTbody.querySelectorAll('.home-tbody-li').forEach((item) => {
+      this.$homeTbody.querySelectorAll('.home-tbody-li').forEach(item => {
         const coin = item.dataset.coin;
-        this.tableTree[coin]['price'] = item.querySelector('.price');
-        this.tableTree[coin]['subPrice'] = item.querySelector('.subPrice');
-        this.tableTree[coin]['amount'] = item.querySelector('.amount');
-        this.tableTree[coin]['highest'] = item.querySelector('.highest');
-        this.tableTree[coin]['lowest'] = item.querySelector('.lowest');
-        this.tableTree[coin]['deal'] = item.querySelector('.deal');
-        this.tableTree[coin]['volume'] = item.querySelector('.volume');
-        this.tableTree[coin]['marketIcon'] = item.querySelector('.marketIcon');
+        this.tableTree[coin].price = item.querySelector('.price');
+        this.tableTree[coin].subPrice = item.querySelector('.subPrice');
+        this.tableTree[coin].amount = item.querySelector('.amount');
+        this.tableTree[coin].highest = item.querySelector('.highest');
+        this.tableTree[coin].lowest = item.querySelector('.lowest');
+        this.tableTree[coin].deal = item.querySelector('.deal');
+        this.tableTree[coin].volume = item.querySelector('.volume');
+        this.tableTree[coin].marketIcon = item.querySelector('.marketIcon');
       });
       const len = this.dataLength(dataList);
       const height = this.tableHeight(len);
@@ -424,9 +424,9 @@
           data,
         });
       }
-      arr.forEach((el) => {
+      arr.forEach(el => {
         const item = el;
-        const data = el.data.filter((e) => e.isShow || this.listfilter || this.marketCurrent === 'myMarket');
+        const data = el.data.filter(e => e.isShow || this.listfilter || this.marketCurrent === 'myMarket');
 
         if (data.length) {
           item.data = data;
@@ -448,9 +448,9 @@
       const hideAreaFilter = []; // 隐藏区币种
       const unsealAreaFilter = []; // 解封区币种
       const halveAreaFilter = []; // 减半区币种
-      Object.keys(this.market).forEach((item) => {
-        Object.keys(this.market[item]).forEach((citem) => {
-          const {newcoinFlag, name} = this.market[item][citem];
+      Object.keys(this.market).forEach(item => {
+        Object.keys(this.market[item]).forEach(citem => {
+          const { newcoinFlag, name } = this.market[item][citem];
           // 解封区
           if (this.coinList[name.split('/')[0]]
             && this.coinList[name.split('/')[0]].isOvercharge
@@ -484,7 +484,7 @@
       const hideArea = []; // 隐藏区
       const unsealArea = []; // 解封区
       const halveArea = []; // 减半区
-      val.forEach((item) => {
+      val.forEach(item => {
         if (this.MainAreaFilter.indexOf(item.id) !== -1) {
           MainArea.push(item);
         }
@@ -514,60 +514,60 @@
 
     resloveData(val, isSearch) {
       this.marketDataList_bar = JSON.parse(JSON.stringify(val));
-      let data = JSON.parse(JSON.stringify(val));;
+      let data = JSON.parse(JSON.stringify(val));
       if (this.listfilter) {
         const reg = new RegExp(this.listfilter, 'gim');
-        data = this.marketDataList_bar.filter((item) => item.showName.match(reg));
+        data = this.marketDataList_bar.filter(item => item.showName.match(reg));
       }
       this.setData(data, isSearch);
     }
 
     changeTable(dataList) {
-      dataList.forEach((data) => {
-        data.data.forEach((item) => {
+      dataList.forEach(data => {
+        data.data.forEach(item => {
           const evenSymbol = item.data[0][1].iconSvg.match(/>(.+)</)[1];
-          if (this.tableTreeData[evenSymbol]){
-            if (this.tableTreeData[evenSymbol]['marketIcon'] !== item.data[0][0].iconSvg) {
-              this.tableTree[evenSymbol]['marketIcon'].innerHTML = item.data[0][0].iconSvg;
-              this.tableTreeData[evenSymbol]['marketIcon'] = item.data[0][0].iconSvg
+          if (this.tableTreeData[evenSymbol]) {
+            if (this.tableTreeData[evenSymbol].marketIcon !== item.data[0][0].iconSvg) {
+              this.tableTree[evenSymbol].marketIcon.innerHTML = item.data[0][0].iconSvg;
+              this.tableTreeData[evenSymbol].marketIcon = item.data[0][0].iconSvg;
             }
 
-            if (this.tableTreeData[evenSymbol]['price'] !== item.data[1][0].text) {
-              this.tableTree[evenSymbol]['price'].innerHTML = item.data[1][0].text;
-              this.tableTreeData[evenSymbol]['price'] = item.data[1][0].text;
+            if (this.tableTreeData[evenSymbol].price !== item.data[1][0].text) {
+              this.tableTree[evenSymbol].price.innerHTML = item.data[1][0].text;
+              this.tableTreeData[evenSymbol].price = item.data[1][0].text;
             }
 
-            if (this.tableTreeData[evenSymbol]['subPrice'] !== item.data[1][0].subContent.text) {
-              this.tableTree[evenSymbol]['subPrice'].innerHTML = item.data[1][0].subContent.text;
-              this.tableTreeData[evenSymbol]['subPrice'] = item.data[1][0].subContent.text;
+            if (this.tableTreeData[evenSymbol].subPrice !== item.data[1][0].subContent.text) {
+              this.tableTree[evenSymbol].subPrice.innerHTML = item.data[1][0].subContent.text;
+              this.tableTreeData[evenSymbol].subPrice = item.data[1][0].subContent.text;
             }
 
-            if (this.tableTreeData[evenSymbol]['amount'] !== item.data[2][0].text) {
-              this.tableTree[evenSymbol]['amount'].innerHTML = item.data[2][0].text;
-              this.tableTreeData[evenSymbol]['amount'] = item.data[2][0].text;
+            if (this.tableTreeData[evenSymbol].amount !== item.data[2][0].text) {
+              this.tableTree[evenSymbol].amount.innerHTML = item.data[2][0].text;
+              this.tableTreeData[evenSymbol].amount = item.data[2][0].text;
             }
 
-            if (this.tableTreeData[evenSymbol]['amountClass'] !== item.data[2][0].classes) {
-              this.tableTree[evenSymbol]['amount'].className = `amount ${item.data[2][0].classes.join(' ')}`;
-              this.tableTreeData[evenSymbol]['amountClass'] = item.data[2][0].classes;
+            if (this.tableTreeData[evenSymbol].amountClass !== item.data[2][0].classes) {
+              this.tableTree[evenSymbol].amount.className = `amount ${item.data[2][0].classes.join(' ')}`;
+              this.tableTreeData[evenSymbol].amountClass = item.data[2][0].classes;
             }
 
-            if (this.tableTreeData[evenSymbol]['highest'] !== item.data[3][0].text) {
-              this.tableTree[evenSymbol]['highest'].innerHTML = item.data[3][0].text;
-              this.tableTreeData[evenSymbol]['highest'] = item.data[3][0].text;
+            if (this.tableTreeData[evenSymbol].highest !== item.data[3][0].text) {
+              this.tableTree[evenSymbol].highest.innerHTML = item.data[3][0].text;
+              this.tableTreeData[evenSymbol].highest = item.data[3][0].text;
             }
 
-            if (this.tableTreeData[evenSymbol]['lowest'] !== item.data[4][0].text) {
-              this.tableTree[evenSymbol]['lowest'].innerHTML = item.data[4][0].text;
-              this.tableTreeData[evenSymbol]['lowest'] = item.data[4][0].text;
+            if (this.tableTreeData[evenSymbol].lowest !== item.data[4][0].text) {
+              this.tableTree[evenSymbol].lowest.innerHTML = item.data[4][0].text;
+              this.tableTreeData[evenSymbol].lowest = item.data[4][0].text;
             }
-            if (this.tableTreeData[evenSymbol]['deal'] !== item.data[5][0].text) {
-              this.tableTree[evenSymbol]['deal'].innerHTML = item.data[5][0].text;
-              this.tableTreeData[evenSymbol]['deal'] = item.data[5][0].text;
+            if (this.tableTreeData[evenSymbol].deal !== item.data[5][0].text) {
+              this.tableTree[evenSymbol].deal.innerHTML = item.data[5][0].text;
+              this.tableTreeData[evenSymbol].deal = item.data[5][0].text;
             }
-            if (this.tableTreeData[evenSymbol]['volume'] !== item.data[6][0].text) {
-              this.tableTree[evenSymbol]['volume'].innerHTML = item.data[6][0].text;
-              this.tableTreeData[evenSymbol]['volume'] = item.data[6][0].text;
+            if (this.tableTreeData[evenSymbol].volume !== item.data[6][0].text) {
+              this.tableTree[evenSymbol].volume.innerHTML = item.data[6][0].text;
+              this.tableTreeData[evenSymbol].volume = item.data[6][0].text;
             }
           }
         });

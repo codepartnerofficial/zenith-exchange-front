@@ -1,5 +1,5 @@
-(function () {
-  if ( window.selfSocket) return;
+(function() {
+  if (window.selfSocket) return;
   const { myStorage, setDefaultMarket, getCoinShowName } = BlockChainUtils;
   const lang = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
   const recommendDataList = {};
@@ -31,7 +31,7 @@
   // 格式化 推荐位的 K线数据
   const setRecommendData = (headerSymbol, coinList, coinTagLangs) => {
     if (headerSymbol.length) {
-      headerSymbol.forEach((item) => {
+      headerSymbol.forEach(item => {
         recommendDataList[item] = {};
         if (marketDataObj && marketDataObj[item]) {
           recommendDataList[item] = marketDataObj[item];
@@ -46,7 +46,7 @@
   };
 
   // 设置币对是否收藏的ICON
-  const myMarketIcon = (symbol) => {
+  const myMarketIcon = symbol => {
     if (mySymbolList.indexOf(symbol) === -1) {
       return `<svg class="icon icon-16" aria-hidden="true">
                 <use xlink:href="#icon-c_11">
@@ -67,14 +67,14 @@
   };
 
   // 24小时行情 涨跌幅 的背景、样色的class
-  const itemRoseClass = (rose) => {
+  const itemRoseClass = rose => {
     let bgClass = null;
     if (rose.class === 'u-1-cl') {
       bgClass = 'rose-label u-3-bg';
     } else if (rose.class === 'u-4-cl') {
       bgClass = 'rose-label u-6-bg';
     }
-    return [rose.class, bgClass];
+    return [ rose.class, bgClass ];
   };
 
   // 格式化 推荐位的24小时行情数据
@@ -82,7 +82,7 @@
     if (!symbolList) return;
     const marketDataList = [];
     const keyarr = Object.keys(symbolList);
-    keyarr.forEach((item) => {
+    keyarr.forEach(item => {
       const itemData = marketDataObj[item];
       if (itemData) {
         const showName = getCoinShowName(itemData.name, symbolAll);
@@ -118,12 +118,12 @@
             [
               {
                 text: itemData.close.data,
-                classes: ['fontSize14'],
+                classes: [ 'fontSize14' ],
                 sortVal: itemData.closes,
                 key: 'closes',
                 subContent: {
                   text: itemData.close.price !== '--' ? `≈ ${itemData.close.price}` : itemData.close.price,
-                  classes: ['b-2-cl'], // 默认没有
+                  classes: [ 'b-2-cl' ], // 默认没有
                 },
               },
             ],
@@ -163,18 +163,18 @@
     emitter.emit('MARKET-DATA', marketDataList.sort((a, b) => a.sort - b.sort), init);
   };
 
-  const listenWSData = (data , headerSymbol, coinList, symbolAll) => {
+  const listenWSData = (data, headerSymbol, coinList, symbolAll) => {
     const { type, WsData } = data;
     // 24小时行情数据
     if (type === 'MARKET_DATA') {
       marketDataObj = WsData;
-      setMarketData( coinList, symbolAll);
+      setMarketData(coinList, symbolAll);
       setRecommendData(headerSymbol, coinList, coinTagLangs);
     }
     if (type.indexOf('KLINE_DATA') > -1) {
       if (headerSymbol.length) {
-        headerSymbol.forEach((key) => {
-          const [, symbolType] = WsData.channel.split('_');
+        headerSymbol.forEach(key => {
+          const [ , symbolType ] = WsData.channel.split('_');
           const symbolArr = key.toLowerCase().split('/');
           const symbol = symbolArr[0] + symbolArr[1];
           if (symbol === symbolType) {
@@ -182,7 +182,7 @@
               const kData = WsData.data;
               klineDataList[key] = [];
               const lengthNumber = kData.slice(-20);
-              lengthNumber.forEach((item) => {
+              lengthNumber.forEach(item => {
                 klineDataList[key].push([
                   item.id,
                   item.close,
@@ -219,7 +219,7 @@
       const mySymbol = myStorage.get('mySymbol') || [];
       const marketList = {};
       if (mySymbol.length) {
-        mySymbol.forEach((item) => {
+        mySymbol.forEach(item => {
           if (item && symbolAll[item]) {
             marketList[item] = symbolAll[item];
           }
@@ -233,7 +233,7 @@
     return null;
   };
 
-  const initWorker = (data) => {
+  const initWorker = data => {
     const { market, symbolAll } = data;
     const { coinList, coinTagLangs } = market;
     const symbolCurrent = myStorage.get('sSymbolName');
@@ -243,21 +243,21 @@
         wsUrl: market.wsUrl,
         lan: lang,
         rate: market.rate,
-        symbolAll: symbolAll,
+        symbolAll,
       },
     });
 
-    workers.onmessage = (event) => {
+    workers.onmessage = event => {
       const { data } = event;
       const { headerSymbol } = market;
       // 监听 WebSocket 链接成功
       if (data.type === 'WEBSOCKET_ON_OPEN') {
         const symbolListKey = Object.keys(symbolList);
         const objData = {};
-        symbolListKey.forEach((item) => {
+        symbolListKey.forEach(item => {
           objData[item] = symbolList[item];
         });
-        headerSymbol.forEach((item) => {
+        headerSymbol.forEach(item => {
           if (symbolListKey.indexOf(item) < 0 && symbolAll[item]) {
             objData[item] = symbolAll[item];
           }
@@ -268,7 +268,7 @@
         webSocketSend('Market', 'sub', symbolCurrent, objData);
         // 发送 推荐位 kline数据 Send
         if (headerSymbol.length) {
-          headerSymbol.forEach((item) => {
+          headerSymbol.forEach(item => {
             const symbolArr = item.toLowerCase().split('/');
             const symbol = symbolArr[0] + symbolArr[1];
             workers.postMessage({
@@ -301,14 +301,14 @@
       }
     };
   };
-  fetch('/home/getMarket').then(res => res.json()).then((data) => {
+  fetch('/home/getMarket').then(res => res.json()).then(data => {
     setDefaultMarket(data.market);
     marketCurrent = myStorage.get('homeMarkTitle');
     symbolList = getSymbolList(data.market.market, data.symbolAll);
     coinTagLangs = data.market.coinTagLangs;
     emitter.emit('send_market', data);
     initWorker(data);
-    emitter.on('SWITCH-MARKET', (val) => {
+    emitter.on('SWITCH-MARKET', val => {
       mySymbolList = myStorage.get('mySymbol') || [];
       marketCurrent = val;
       symbolList = getSymbolList(data.market.market, data.symbolAll);

@@ -133,6 +133,9 @@ function slove() {
 
 function compassFiles(paths, templatePath, outputPath, style) {
   paths.forEach((item) => {
+    if (item.indexOf('DS_Store') > -1) {
+      return
+    }
     const intoPath = path.join(outputPath, item);
     const filePath = path.join(templatePath, item);
     if (fs.statSync(filePath).isDirectory()) {

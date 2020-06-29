@@ -5,6 +5,7 @@ const path = require('path');
 let staticDomain = '';
 try{
   let domain = process.argv[3].split('=')[1];
+  console.log('1231', domain)
   staticDomain = domain;
 }catch (e) {
 
