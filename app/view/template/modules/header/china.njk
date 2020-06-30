@@ -1049,7 +1049,7 @@
                 <img src="{{ msg.logoUrl}}"/>
             </a>
         </li>
-        {% if number(switch.newcoinOpen) %}
+        {% if number(switch.newcoinOpen) or (number(switch.agentUserOpen) and userInfo.agentStatus) or number(switch.is_return_open) or number(switch.is_financing_open)%}
         <li class="header-nav-ifl">
             <svg class="icon icon-18" aria-hidden="true">
                 <use xlink:href="#icon-b_1"></use>
@@ -1057,8 +1057,7 @@
             <svg class="icon icon-18 hover" aria-hidden="true">
                 <use xlink:href="#icon-b_1_1"></use>
             </svg>
-            <div
-                    class="header-sub-nav h-1-bg">
+            <div class="header-sub-nav h-1-bg">
                 <ul class="header-user-text x-2-cl" id="header-cus-nav">
                     {% if number(switch.agentUserOpen) and userInfo.agentStatus%}
                     <li class="g-3-cl-h ">
@@ -1171,7 +1170,7 @@
                 </div>
             </button>
         </div>
-        <div class="header-isLogin login-set" style="display: none">
+        <div class="header-isLogin login-set">
             <!-- 资产 -->
             <div class="header-isLogin-navEven">
                 <div class="header-isLogin-navEven-title">
