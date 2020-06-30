@@ -309,7 +309,7 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return arr;
     }
-    if (headerLink.trade) {
+    if (headerLink.trade || pubSwitch.ieo_pool_hide) {
       arr.push({
         title: this.__getLocale('assets.index.exchangeAccount'),
         link: '/assets/exchangeAccount',
