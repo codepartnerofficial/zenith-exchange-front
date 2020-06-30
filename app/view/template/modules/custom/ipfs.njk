@@ -163,6 +163,9 @@
             background-repeat: no-repeat;
             background-size: 26px;
         }
+        .ipfs-home-container .ipfs-item .info  .no-padding  {
+            padding: 0;
+        }
         .ipfs-home-container .ipfs-item .info .cz .timer {
             margin: 0 18px 0 0;
             font-size: 14px;
@@ -188,6 +191,11 @@
         .ipfs-home-container .common-button{
             background: #F39800 !important;
         }
+        .ipfs-home-container .solid-disabled {
+            background: rgba(153,153,153,1) !important;
+            cursor: not-allowed!important;
+        }
+        
     </style>
     {% if footer_warm_prompt %}
     <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
@@ -234,7 +242,7 @@
                     <p class="cny"></p>
                     <button class="common-button common-button-solid u-16-cl buyButton" style="width: 160px; height: 40px; padding-left: 0px; padding-right: 0px; margin-top: 18px;">
                         <div class="common-button-slot">
-                            <span>立即购买</span>
+                            <span class="buttonText">立即购买</span>
                         </div>
                     </button>
                 </div>
@@ -297,13 +305,9 @@
             </div>
     
         </div>
-
-      
         <script>
             (function(){
                 const { formatTime, fixRate } = window.BlockChainUtils;
-                
-
                 const container = document.querySelector(".home-custom-template");
                 var proImg = container.querySelectorAll(".pro-img");
                 var iconBack = container.querySelector(".iconBack");
@@ -314,13 +318,10 @@
                 var priceNum = container.querySelector(".priceNum");
                 var cny = container.querySelector(".cny");
                 var buyButton = container.querySelector(".buyButton");
-
-
+                var buttonText = container.querySelector(".buttonText");
                 homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.ipfs_photo9}}" + ")";
                 iconBack.style.backgroundImage = "url(" + "{{sourceMap.ieotitleIcon}}" + ")";
                 var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-
-                
                 fetchData({
                     method: 'post',
                     url: '/fe-ex-api/newcoinV2/newcoin_project_listV2',
@@ -330,15 +331,22 @@
                     if (data.code === '0') {
                         var dataList = data.data.projectInfoList;
                         if (dataList){
-                            ipfsTitle.innerHTML= dataList[0].name
-                            ipfslogo.src = dataList[0].logo
+                            ipfsTitle.innerHTML= dataList[0].name;
+                            ipfslogo.src = dataList[0].logo;
                             priceNum.innerHTML=  dataList[0].initPriceV2 ? `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}` : '';
                             var startTime = formatTime(dataList[0].startTime);
                             var endTime = formatTime(dataList[0].endTime);
-                            activeTime.innerHTML= `${startTime} ~ ${endTime}`
-                            buyButton.addEventListener('click', () => {
-                                window.location.href = `/ipfs/${dataList[0].projectId}`
-                            });
+                            activeTime.innerHTML= `${startTime} ~ ${endTime}`;
+                            if (dataList[0].status === 3 || dataList[0].status === 2 ) {
+                                buyButton.addEventListener('click', () => {
+                                    window.location.href = `/ipfs/${dataList[0].projectId}`;
+                                });
+                            } else {
+                                iconBack.style.backgroundImage = "";
+                                iconBack.classList.add("no-padding");
+                                buttonText.innerHTML = "已售罄";
+                                buyButton.classList.add("solid-disabled");
+                            }
                             if (window.market) {
                                 var rate = window.market.market.rate;
                                 cny.innerHTML = `≈ ${fixRate(dataList[0].initPriceV2, rate, dataList[0].coinSymbol)}`
@@ -350,9 +358,7 @@
                             }
                         }
                     }        
-
                 });
-
             })();
         </script>
     </div>

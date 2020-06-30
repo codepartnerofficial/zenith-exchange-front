@@ -59,6 +59,8 @@ class StaticIndex extends Controller {
       }
     }
     this.getSelectSkin();
+
+    console.log('1231231', !footer_warm_prompt);
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       env: this.config.env,
