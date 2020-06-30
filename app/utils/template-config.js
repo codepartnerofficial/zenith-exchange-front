@@ -1,6 +1,6 @@
 module.exports = {
   0: 'china',
-  // 1: 'international',
+  1: 'international',
   2: 'biki',
   3: 'momo',
   4: 'japanese',
@@ -14,6 +14,5 @@ module.exports = {
   813338302: 'king',
   277259945: 'momo',
   637852112: 'bitsg',
-  // 828727492: 'ipfs',
-  1: 'ipfs',
+  828727492: 'ipfs',
 };
