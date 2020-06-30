@@ -541,7 +541,7 @@ class StaticIndex extends Controller {
         const errorData = {
           domain,
           message: '未拿到publicInfo.lan.lanList对象, 转为[]',
-          link: 'publicInfo.lan.lanList',
+          key: 'publicInfo.lan.lanList',
           data: lan.lanList,
         };
         if (!hostFilter.test(domain)) {
