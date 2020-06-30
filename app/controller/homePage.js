@@ -292,6 +292,13 @@ class StaticIndex extends Controller {
         link: '/order/leverageOrder',
       });
     }
+    if (pubSwitch.ieo_pool_hide) {
+      arr.push({
+        //  '矿池订单',
+        title: this.__getLocale('order.ipfsOrder.title'),
+        link: '/order/ipfsOrder',
+      });
+    }
     return arr;
   }
 
@@ -379,6 +386,7 @@ class StaticIndex extends Controller {
     }
     return {};
   }
+
 
   getHeaderList() {
     const arr = [];
@@ -470,7 +478,7 @@ class StaticIndex extends Controller {
     }
     // etf
     // 币币交易
-    if (Number(pubSwitch.etfOpen)) {
+    if (pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
       arr.push({
         title: this.__getLocale('etfAdd.title'),
         activeId: 'etf',
