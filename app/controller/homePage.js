@@ -60,7 +60,7 @@ class StaticIndex extends Controller {
     }
     this.getSelectSkin();
 
-    console.log('1231231', !footer_warm_prompt);
+
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       env: this.config.env,
@@ -73,6 +73,7 @@ class StaticIndex extends Controller {
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan ? lan.lanList : [],
       lan,
+      currenLan,
       seo: this.getSEO(),
       templateModule: this.getTemplate(),
       coinList: market ? market.coinList : [],
@@ -96,6 +97,7 @@ class StaticIndex extends Controller {
       },
     });
   }
+
 
   getSEO() {
     const seo = this.publicInfo.seo || {};

@@ -1339,11 +1339,17 @@
                     <use xlink:href="#icon-a_13"></use>
                 </svg>
             </div>
-            <ul class="lang-list h-1-bg">
+            <ul class="lang-list h-1-bg b-2-cl">
                 {% for item in lanList %}
-                <li data-key="/{{ item.id }}">
-                    {{ item.name}}
-                </li>
+                    {% if currenLan === item.id %}
+                        <li data-key="/{{ item.id }}" class="h-4-bg x-3-cl">
+                            {{ item.name}}
+                        </li>
+                    {% else %}
+                        <li data-key="/{{ item.id }}">
+                            {{ item.name}}
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
