@@ -332,7 +332,7 @@
                 }).then((data) => {
                     if (data.code === '0') {
                         var dataList = data.data.projectInfoList;
-                        if (dataList && dataList.length){
+                        if (dataList && dataList.length && dataList[0].name){
                             ipfsItem.style.display= 'block';
                             ipfsTitle.innerHTML= dataList[0].name;
                             ipfslogo.src = dataList[0].logo;
