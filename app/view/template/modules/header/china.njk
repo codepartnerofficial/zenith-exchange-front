@@ -1204,6 +1204,7 @@
             </div>
         </div>
         <!-- app下载 -->
+        {% if appDownLoad.app_page_url %}
         <div class="header-user h-2-bd appdownLoad-coin">
             <div class="header-user-apphove">
                 <div class="header-user-icon icon-info">
@@ -1271,6 +1272,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <!-- 设置 -->
         {% if colorList.length %}
         <div class="header-user h-2-bd" id="color-set">
