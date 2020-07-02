@@ -294,7 +294,7 @@ class StaticIndex extends Controller {
         link: '/order/leverageOrder',
       });
     }
-    if (pubSwitch.ieo_pool_hide) {
+    if (pubSwitch.ieo_pool_hide === '1') {
       arr.push({
         //  '矿池订单',
         title: this.__getLocale('order.ipfsOrder.title'),
@@ -311,7 +311,7 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return arr;
     }
-    if (headerLink.trade || pubSwitch.ieo_pool_hide) {
+    if (headerLink.trade || pubSwitch.ieo_pool_hide === '1') {
       arr.push({
         title: this.__getLocale('assets.index.exchangeAccount'),
         link: '/assets/exchangeAccount',
