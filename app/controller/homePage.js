@@ -516,7 +516,7 @@ class StaticIndex extends Controller {
     // 取得client cookie中语言 clientCookLan
     const clientCookLan = this.ctx.cookies.get('lan');
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
-    const dLan = 'en_US';
+    const dLan = 'zh_CN';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
