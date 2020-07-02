@@ -256,7 +256,7 @@ class StaticIndex extends Controller {
     if (!pubSwitch) {
       return arr;
     }
-    if (headerLink.trade) {
+    if (headerLink.trade && !pubSwitch.ieo_pool_hide) {
       arr.push({
         title: this.__getLocale('order.index.exOrder'),
         link: '/order/exchangeOrder',
@@ -407,7 +407,7 @@ class StaticIndex extends Controller {
     }
 
     // 币币交易
-    if (headerLink.trade) {
+    if (headerLink.trade && !pubSwitch.ieo_pool_hide) {
       arr.push({
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
