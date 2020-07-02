@@ -1,56 +1,56 @@
 {% macro boxStyle(height ,width, bgColor, slideList, extendPath, activeClass) %}
-<div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}">
+<div class="swipers swipers-ipfs" id="swipers" data-height="{{height}}" data-width="{{width}}">
     <style>
         .carousel-wrap {
             width: 100%;
             overflow: hidden;
         }
-        .slide-ul {
+        .swipers-ipfs .slide-ul {
             position: relative;
             width: 100%;
             height: 100%;
         }
-        .slide-ul li {
+        .swipers-ipfs .slide-ul li {
             position: absolute;
             width: 100%;
             height: 100%;
             transition: all 1s ease;
         }
-        .slide-ul .show {
+        .swipers-ipfs .slide-ul .show {
             transition: all 1s ease;
             opacity: 1;
             z-index: 2;
         }
-        .slide-ul .left {
+        .swipers-ipfs .slide-ul .left {
             transition: all 1s ease;
             opacity: 0;
             z-index: 1;
         }
-        .slide-ul .right {
+        .swipers-ipfs .slide-ul .right {
             transition: all 1s ease;
             opacity: 0;
             z-index: 1;
         }
-        .slide-ul li a.page {
+        .swipers-ipfs .slide-ul li a.page {
             display: block;
             width: 100%;
             height: 100%;
             background-repeat: no-repeat;
             background-position: center top;
-            background-size: cover;
+            background-size: auto;
         }
-        .slide-ul li .bar {
+        .swipers-ipfs .slide-ul li .bar {
             width: 1180px;
             margin: 0 auto 0;
             padding-top: 208px;
         }
-        .slide-ul li h4 {
+        .swipers-ipfs .slide-ul li h4 {
             font-family: PingFangSC-Semibold;
             font-size: 42px;
             color: #221700;
         }
 
-        .slide-ul li .button {
+        .swipers-ipfs .slide-ul li .button {
             display: inline-block;
             width: 160px;
             height: 44px;
