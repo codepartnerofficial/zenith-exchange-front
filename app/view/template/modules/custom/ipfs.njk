@@ -226,7 +226,7 @@
                 </div>
             </div>
         </div>
-        <div class="ipfs-item">
+        <div class="ipfs-item" display: none;>
             <div class="img">
                 <img class="ipfslogo" src="http://chaindown-oss.oss-cn-hongkong.aliyuncs.com/upload/20200623161026098.jpg" alt=""></div>
             <div class="info">
@@ -310,6 +310,7 @@
             (function(){
                 const { formatTime, fixRate } = window.BlockChainUtils;
                 const container = document.querySelector(".home-custom-template");
+                const ipfsItem = document.querySelector(".ipfs-item");
                 var proImg = container.querySelectorAll(".pro-img");
                 var iconBack = container.querySelector(".iconBack");
                 var homeEditImga = container.querySelector(".process-list");
@@ -331,7 +332,8 @@
                 }).then((data) => {
                     if (data.code === '0') {
                         var dataList = data.data.projectInfoList;
-                        if (dataList){
+                        if (dataList && dataList.length){
+                            ipfsItem.style.display= 'block';
                             ipfsTitle.innerHTML= dataList[0].name;
                             ipfslogo.src = dataList[0].logo;
                             priceNum.innerHTML=  dataList[0].initPriceV2 ? `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}` : '';
