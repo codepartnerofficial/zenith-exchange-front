@@ -184,7 +184,6 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const JSPath = path.join(__dirname, './node_modules/BlockChain-ui/static/js/html-init.js');
         const inlineJs = fs.readFileSync(JSPath, 'utf-8');
         const utilsJS = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/lib/utils.js'), 'utf-8');
-        console.log(utilsJS)
         const fetchData = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/home/fetchData.js'), 'utf-8');
         const script = transform((inlineJs + utilsJS + fetchData), {
           minified: true,

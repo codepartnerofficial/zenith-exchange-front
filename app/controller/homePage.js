@@ -74,7 +74,7 @@ class StaticIndex extends Controller {
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
-      headerList: this.getHeaderList(),
+      headerList: this.getHeaderList(ispc),
       customHeaderList,
       headerSymbol: market ? market.headerSymbol : [],
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
@@ -83,6 +83,9 @@ class StaticIndex extends Controller {
       currenLan,
       seo: this.getSEO(),
       templateModule: this.getTemplate(ispc),
+      ispc,
+      headerTemplateModule: this.getHeaderTemplate(ispc),
+      boxClass: ispc ? 'home-pc' : 'home-h5',
       coinList: market ? market.coinList : [],
       switch: this.publicInfo.switch,
       assetsList: this.assetsList(),
@@ -120,10 +123,18 @@ class StaticIndex extends Controller {
     if (this.publicInfo.switch) {
       template = templateConfig[this.publicInfo.switch.index_temp_type];
     }
-    // if (!ispc) {
-    template = 'h5';
-    // }
+    if (!ispc) {
+      template = 'h5';
+    }
     return `modules/${template}.njk`;
+  }
+
+  getHeaderTemplate(ispc) {
+    let template = 'china';
+    if (!ispc) {
+      template = 'h5';
+    }
+    return `modules/header/${template}.njk`;
   }
 
   getSelectSkin() {
@@ -399,7 +410,7 @@ class StaticIndex extends Controller {
   }
 
 
-  getHeaderList() {
+  getHeaderList(ispc) {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
@@ -407,7 +418,7 @@ class StaticIndex extends Controller {
       return arr;
     }
     // 行情
-    if (pubSwitch.index_kline_switch === '1') {
+    if (pubSwitch.index_kline_switch === '1' && ispc) {
       arr.push({
         title: this.__getLocale('header.market'),
         activeId: 'market',
@@ -421,6 +432,7 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
         link: headerLink.trade,
+        icon: 'icon-b_5',
       });
     }
     // 法币
@@ -437,12 +449,13 @@ class StaticIndex extends Controller {
       title: this.__getLocale('header.otc'),
       activeId: 'otcTrade',
       link: headerLink.otc,
+      icon: 'icon-b_6',
     };
     if (headerLink.otc) {
       otcArr.push(otcObj);
     }
     // 信用卡
-    if (Number(pubSwitch.middleman_config_open)) {
+    if (Number(pubSwitch.middleman_config_open) && ispc) {
       otcArr.push({
         title: this.__getLocale('creditCard.title'),
         activeId: 'crad',
@@ -477,6 +490,7 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.co'),
         activeId: 'coTrade',
         link: headerLink.co,
+        icon: 'icon-b_23',
       });
     }
     // 杠杆
@@ -485,6 +499,7 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.lever'),
         activeId: 'marginTrade',
         link: headerLink.lever,
+        icon: 'icon-b_24',
       });
     }
     // etf
