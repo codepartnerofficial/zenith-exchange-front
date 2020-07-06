@@ -1,12 +1,19 @@
 const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
-const { getLocale, getFileName, getPublicInfo,  compare } = require('BlockChain-ui/node/utils');
+const { getLocale, getFileName, getPublicInfo, compare } = require('BlockChain-ui/node/utils');
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
 
 class StaticIndex extends Controller {
   async index(ctx) {
+    let ispc = true;
+    const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
+
+    const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+    if (agentID) {
+      ispc = false;
+    }
     const currenLan = this.ctx.request.path.split('/')[1];
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     let nowHost = this.ctx.request.header.host;
@@ -26,21 +33,21 @@ class StaticIndex extends Controller {
     }
     this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
-    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))){
+    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))) {
       await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
       this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
-    }else{
+    } else {
       ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
       ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
       ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
       ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
       ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
     }
-    if (!reg.test(currenLan)){
+    if (!reg.test(currenLan)) {
       return;
     }
     const fileBasePath = this.config.localesPath;
@@ -51,11 +58,11 @@ class StaticIndex extends Controller {
     const { msg, lan, market, symbolAll } = this.publicInfo;
     const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
     let customHeaderList = {};
-    if(headerFooter && headerFooter.header){
-      try{
+    if (headerFooter && headerFooter.header) {
+      try {
         customHeaderList = JSON.parse(headerFooter.header);
-      }catch (e) {
-        this.logger.error('自定义header不是json')
+      } catch (e) {
+        this.logger.error('自定义header不是json');
       }
     }
     this.getSelectSkin();
@@ -67,20 +74,20 @@ class StaticIndex extends Controller {
       headerLink: this.headerLink,
       headerList: this.getHeaderList(),
       customHeaderList,
-      headerSymbol: market ? market.headerSymbol: [],
+      headerSymbol: market ? market.headerSymbol : [],
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
-      lanList: lan? lan.lanList: [],
+      lanList: lan ? lan.lanList : [],
       lan,
       seo: this.getSEO(),
-      templateModule: this.getTemplate(),
-      coinList: market ? market.coinList: [],
+      templateModule: this.getTemplate(ispc),
+      coinList: market ? market.coinList : [],
       switch: this.publicInfo.switch,
       assetsList: this.assetsList(),
       orderList: this.orderList(),
-      number: (item) => Number(item),
+      number: item => Number(item),
       colorList: this.getColorList(currenLan),
       noticeList: this.getNoticeList(noticeInfoList),
-      cmsAdvertList: cmsAdvertList,
+      cmsAdvertList,
       symbolAll,
       footer_warm_prompt,
       footerList,
@@ -91,30 +98,33 @@ class StaticIndex extends Controller {
       internationalTitle: {
         title: index_international_title1,
         subTitle: index_international_title2,
-      }
+      },
     });
   }
 
-  getSEO(){
+  getSEO() {
     const seo = this.publicInfo.seo || {};
     return {
-      keywords: seo.keywords || "",
-      description: seo.description || "",
-      pageContent: seo.pageContent || "",
-      title: seo.title || "",
-    }
+      keywords: seo.keywords || '',
+      description: seo.description || '',
+      pageContent: seo.pageContent || '',
+      title: seo.title || '',
+    };
   }
 
-  getTemplate(){
+  getTemplate(ispc) {
     let template = 'international';
-    if (this.publicInfo.switch){
+    if (this.publicInfo.switch) {
       template = templateConfig[this.publicInfo.switch.index_temp_type];
+    }
+    if (!ispc) {
+      template = 'h5';
     }
     return `modules/${template}.njk`;
   }
 
-  getSelectSkin(){
-    if (!this.skin){
+  getSelectSkin() {
+    if (!this.skin) {
       return null;
     }
     const id = this.ctx.cookies.get('cusSkin', {
@@ -122,19 +132,19 @@ class StaticIndex extends Controller {
     }) || this.skin.default;
     const list = this.skin.listist;
     const currentList = [];
-    list.forEach((item) => {
-      if (item.skinId === id){
+    list.forEach(item => {
+      if (item.skinId === id) {
         currentList.push(item);
       }
     });
     return {
-      "skinTypeId": this.skin.skinTypeId,
+      skinTypeId: this.skin.skinTypeId,
       listist: currentList,
-      "default": this.skin.default
+      default: this.skin.default,
     };
   }
 
-  getSkin(fileName, fileBasePath){
+  getSkin(fileName, fileBasePath) {
     let obj = {};
     try {
       obj = JSON.parse(fs.readFileSync(path.join(fileBasePath, `${fileName}.json`), 'utf-8'));
@@ -142,24 +152,24 @@ class StaticIndex extends Controller {
     } catch (err) {
 
     }
-    if (!Object.keys(obj).length){
+    if (!Object.keys(obj).length) {
       obj = this.publicInfo.skin;
     }
 
     return obj;
   }
 
-  getSourceMap(){
+  getSourceMap() {
     let sourceMap = {};
-    try{
+    try {
       sourceMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
-    }catch (e) {
+    } catch (e) {
 
     }
     return sourceMap;
   }
 
-  getImgMap(){
+  getImgMap() {
     const homeImgList = [
       'home_edit_imga', 'home_edit_imgb', 'home_edit_bg', 'home_edit_icon', 'home_edit_icon1',
       'home_edit_icon2', 'home_edit_icon3', 'home_edit_icon4', 'inforHeadBg', 'head', 'inforHeadBg',
@@ -169,16 +179,16 @@ class StaticIndex extends Controller {
     ];
     const imgMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
     const hImg = {};
-    homeImgList.forEach((item) => {
-      if (imgMap[item]){
-        hImg[item] = imgMap[item]
+    homeImgList.forEach(item => {
+      if (imgMap[item]) {
+        hImg[item] = imgMap[item];
       }
     });
     return JSON.stringify(hImg);
   }
 
   getNoticeList(noticeInfoList) {
-    if(!this.publicInfo.switch){
+    if (!this.publicInfo.switch) {
       return [];
     }
     const { index_international_open } = this.publicInfo.switch;
@@ -188,7 +198,7 @@ class StaticIndex extends Controller {
       if (index_international_open === 1) {
         length = 50;
       }
-      noticeInfoList.forEach((item) => {
+      noticeInfoList.forEach(item => {
         const space = item.title.length > length ? '...' : '';
         arr.push({
           noticeText: `${item.title.substr(0, length)}${space}`,
@@ -200,45 +210,45 @@ class StaticIndex extends Controller {
     return [];
   }
 
-  getColorList(lan){
+  getColorList(lan) {
     const { skin } = this;
-    if (!skin){
+    if (!skin) {
       return [];
     }
     let sk = skin.default;
     const cusSkin = this.ctx.cookies.get('cusSkin', {
       signed: false,
     });
-    if(cusSkin && cusSkin !== 'undefined'){
+    if (cusSkin && cusSkin !== 'undefined') {
       sk = cusSkin;
     }
     const list = [];
     const lis = skin.listist;
-    lis.forEach((item) => {
+    lis.forEach(item => {
       let name = item.mainClor;
-      if (item.skinName && item.skinName[lan]){
+      if (item.skinName && item.skinName[lan]) {
         name = item.skinName[lan];
       }
       const obj = {
         mainClor: name,
         skinId: item.skinId,
       };
-      if(item.skinId === sk){
-        obj['checked'] = "checked";
+      if (item.skinId === sk) {
+        obj.checked = 'checked';
       }
       list.push(obj);
     });
     return list;
   }
 
-  __getLocale(val){
+  __getLocale(val) {
     const arr = val.split('.');
     let locale = this.locale;
     let geted = true;
-    arr.forEach((item) => {
-      if(locale[item]){
+    arr.forEach(item => {
+      if (locale[item]) {
         locale = locale[item];
-      }else{
+      } else {
         geted = false;
       }
     });
@@ -249,7 +259,7 @@ class StaticIndex extends Controller {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
-    if (!pubSwitch){
+    if (!pubSwitch) {
       return arr;
     }
     if (headerLink.trade) {
@@ -297,7 +307,7 @@ class StaticIndex extends Controller {
     const arr = [];
     const { headerLink } = this;
     const pubSwitch = this.publicInfo.switch;
-    if (!this.publicInfo.switch){
+    if (!this.publicInfo.switch) {
       return arr;
     }
     if (headerLink.trade) {
@@ -351,7 +361,7 @@ class StaticIndex extends Controller {
   getLocalData(fileName, fileBasePath, lan) {
     let obj = {};
     let fileLan = '';
-    if (lan){
+    if (lan) {
       fileLan = `${lan}-`;
     }
     try {
@@ -365,7 +375,7 @@ class StaticIndex extends Controller {
 
   getHeaderLink() {
     const { url } = this.publicInfo;
-    if (url){
+    if (url) {
       return {
         home: url.exUrl,
         trade: url.exUrl ? `${url.exUrl}/trade` : '',
@@ -382,7 +392,7 @@ class StaticIndex extends Controller {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
-    if (!pubSwitch){
+    if (!pubSwitch) {
       return arr;
     }
     // 行情
@@ -403,7 +413,7 @@ class StaticIndex extends Controller {
       });
     }
     // 法币
-/*    if (headerLink.otc) {
+    /*    if (headerLink.otc) {
       arr.push({
         title: Number(pubSwitch.fiatTradeOpen) ?
           this.__getLocale('assets.b2c.otcShow.header') : this.__getLocale('header.otc'),
@@ -433,7 +443,7 @@ class StaticIndex extends Controller {
       if (otcArr.length > 1) {
         otcHeader = otcObj;
       } else {
-        const [vc] = otcArr;
+        const [ vc ] = otcArr;
         otcHeader = vc;
       }
       if (otcArr.length > 1) {
@@ -478,16 +488,16 @@ class StaticIndex extends Controller {
     return arr;
   }
 
-  etfUrl(){
+  etfUrl() {
     let str = '';
     const { market } = this.publicInfo;
     if (market) {
       const etfArr = [];
-      if (market.market.ETF && market.market.ETF.length){
-        Object.keys(market.market.ETF).forEach((ci) => {
+      if (market.market.ETF && market.market.ETF.length) {
+        Object.keys(market.market.ETF).forEach(ci => {
           etfArr.push(market.market.ETF[ci]);
         });
-        if (etfArr.length){
+        if (etfArr.length) {
           const symbol = etfArr.sort(compare('sort'))[0];
           const name = symbol.showName || symbol.name;
           str = name.replace('/', '_');
@@ -542,7 +552,7 @@ class StaticIndex extends Controller {
       // 处理数据 lans
       const lans = [];
       if (severLanList.length) {
-        severLanList.forEach((item) => {
+        severLanList.forEach(item => {
           lans.push(item.id);
         });
       } else {
