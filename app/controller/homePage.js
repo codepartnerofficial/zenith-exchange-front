@@ -66,6 +66,8 @@ class StaticIndex extends Controller {
       }
     }
     this.getSelectSkin();
+
+
     this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       env: this.config.env,
@@ -78,6 +80,7 @@ class StaticIndex extends Controller {
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
       lanList: lan ? lan.lanList : [],
       lan,
+      currenLan,
       seo: this.getSEO(),
       templateModule: this.getTemplate(ispc),
       coinList: market ? market.coinList : [],
@@ -117,9 +120,9 @@ class StaticIndex extends Controller {
     if (this.publicInfo.switch) {
       template = templateConfig[this.publicInfo.switch.index_temp_type];
     }
-    if (!ispc) {
-      template = 'h5';
-    }
+    // if (!ispc) {
+    template = 'h5';
+    // }
     return `modules/${template}.njk`;
   }
 
@@ -262,7 +265,7 @@ class StaticIndex extends Controller {
     if (!pubSwitch) {
       return arr;
     }
-    if (headerLink.trade) {
+    if (headerLink.trade && pubSwitch.ieo_pool_hide !== '1') {
       arr.push({
         title: this.__getLocale('order.index.exOrder'),
         link: '/order/exchangeOrder',
@@ -300,6 +303,13 @@ class StaticIndex extends Controller {
         link: '/order/leverageOrder',
       });
     }
+    if (pubSwitch.ieo_pool_hide === '1') {
+      arr.push({
+        //  '矿池订单',
+        title: this.__getLocale('order.ipfsOrder.title'),
+        link: '/order/ipfsOrder',
+      });
+    }
     return arr;
   }
 
@@ -310,7 +320,7 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return arr;
     }
-    if (headerLink.trade) {
+    if (headerLink.trade || pubSwitch.ieo_pool_hide === '1') {
       arr.push({
         title: this.__getLocale('assets.index.exchangeAccount'),
         link: '/assets/exchangeAccount',
@@ -388,6 +398,7 @@ class StaticIndex extends Controller {
     return {};
   }
 
+
   getHeaderList() {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
@@ -405,7 +416,7 @@ class StaticIndex extends Controller {
     }
 
     // 币币交易
-    if (headerLink.trade) {
+    if (headerLink.trade && pubSwitch.ieo_pool_hide !== '1') {
       arr.push({
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
@@ -478,7 +489,7 @@ class StaticIndex extends Controller {
     }
     // etf
     // 币币交易
-    if (Number(pubSwitch.etfOpen)) {
+    if (pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
       arr.push({
         title: this.__getLocale('etfAdd.title'),
         activeId: 'etf',
@@ -514,7 +525,7 @@ class StaticIndex extends Controller {
     // 取得client cookie中语言 clientCookLan
     const clientCookLan = this.ctx.cookies.get('lan');
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
-    const dLan = 'en_US';
+    const dLan = 'zh_CN';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理

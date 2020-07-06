@@ -1,14 +1,14 @@
-(function () {
+(function() {
   class BlockChainDialog {
     constructor(option) {
       this.locale = option.locale || {};
       this.content = option.content || '';
-      this.confirm = option.confirm || function () {};
+      this.confirm = option.confirm || function() {};
       this.createDialog();
       this.bindEvent();
     }
 
-    bindEvent(){
+    bindEvent() {
       const $confirm = this.dialog.querySelector('.confirm');
       const $closeBtn = this.dialog.querySelector('.closeBtnClass');
       const $headerClose = this.dialog.querySelector('.dialog-frame-head-close');
@@ -17,16 +17,16 @@
         this.confirm();
       });
       $closeBtn.addEventListener('mouseover', () => {
-        $closeBtn.className = 'common-button common-button-text u-8-cl u-9-bg closeBtnClass'
+        $closeBtn.className = 'common-button common-button-text u-8-cl u-9-bg closeBtnClass';
       });
       $closeBtn.addEventListener('mouseout', () => {
-        $closeBtn.className = 'common-button common-button-text u-8-cl closeBtnClass'
+        $closeBtn.className = 'common-button common-button-text u-8-cl closeBtnClass';
       });
       $closeBtn.addEventListener('mousedown', () => {
-        $closeBtn.className = 'common-button common-button-text u-8-cl u-10-bg closeBtnClass'
+        $closeBtn.className = 'common-button common-button-text u-8-cl u-10-bg closeBtnClass';
       });
       $closeBtn.addEventListener('mouseup', () => {
-        $closeBtn.className = 'common-button common-button-text u-8-cl closeBtnClass'
+        $closeBtn.className = 'common-button common-button-text u-8-cl closeBtnClass';
       });
       $closeBtn.addEventListener('click', () => {
         this.hide();
@@ -36,28 +36,28 @@
         this.hide();
       }, false);
 
-      $dialogFrame.addEventListener('webkitAnimationEnd', (e) => {
+      $dialogFrame.addEventListener('webkitAnimationEnd', e => {
         const target = e.target;
-        if (target.classList.contains('drop-leave-active')){
+        if (target.classList.contains('drop-leave-active')) {
           $dialogFrame.classList.remove('drop-leave-active');
           this.dialog.style.display = 'none';
-        }else{
+        } else {
           $dialogFrame.classList.remove('drop-enter-active');
         }
       }, false);
 
     }
 
-    show(){
+    show() {
       this.dialog.style.display = 'block';
       this.dialog.querySelector('.dialog-frame').classList.add('drop-enter-active');
     }
 
-    hide(){
+    hide() {
       this.dialog.querySelector('.dialog-frame').classList.add('drop-leave-active');
     }
 
-    createDialog(){
+    createDialog() {
       const dialog = document.createElement('section');
       const { locale } = this;
       dialog.className = 'common-dialog';

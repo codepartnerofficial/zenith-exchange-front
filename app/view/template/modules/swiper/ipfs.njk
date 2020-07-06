@@ -1,47 +1,74 @@
 {% macro boxStyle(height ,width, bgColor, slideList, extendPath, activeClass) %}
-<div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}" data-bgColor="{{bgColor}}">
+<div class="swipers swipers-ipfs" id="swipers" data-height="{{height}}" data-width="{{width}}">
     <style>
         .carousel-wrap {
             width: 100%;
             overflow: hidden;
         }
-        .slide-ul {
+        .swipers-ipfs .slide-ul {
             position: relative;
             width: 100%;
             height: 100%;
         }
-        .slide-ul li {
+        .swipers-ipfs .slide-ul li {
             position: absolute;
             width: 100%;
             height: 100%;
             transition: all 1s ease;
         }
-        .slide-ul .show {
+        .swipers-ipfs .slide-ul .show {
             transition: all 1s ease;
             opacity: 1;
             z-index: 2;
         }
-        .slide-ul .left {
+        .swipers-ipfs .slide-ul .left {
             transition: all 1s ease;
             opacity: 0;
             z-index: 1;
         }
-        .slide-ul .right {
+        .swipers-ipfs .slide-ul .right {
             transition: all 1s ease;
             opacity: 0;
             z-index: 1;
         }
-        .slide-ul li a {
+        .swipers-ipfs .slide-ul li a.page {
             display: block;
             width: 100%;
             height: 100%;
             background-repeat: no-repeat;
             background-position: center top;
+            background-size: auto;
         }
+        .swipers-ipfs .slide-ul li .bar {
+            width: 1180px;
+            margin: 0 auto 0;
+            padding-top: 208px;
+        }
+        .swipers-ipfs .slide-ul li h4 {
+            font-family: PingFangSC-Semibold;
+            font-size: 42px;
+            color: #221700;
+            display: none;
+        }
+
+        .swipers-ipfs .slide-ul li .button {
+            display: inline-block;
+            width: 160px;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            border: 1px solid #221700;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #221700;
+            margin-top: 97px;
+        }
+        
         .carousel-items {
             position: absolute;
             z-index: 10;
-            top: 558px;
+            bottom: 156px;
             left: 50%;
             transform: translateX(-50%);
             height: 2px;
@@ -52,10 +79,20 @@
         }
         .carousel-items span {
             display: inline-block;
-            height: 2px;
             cursor: pointer;
-            background: #fff;
+            width: 12px !important;
+            height: 12px;
+            opacity: 0.7;
+            background: #FFFFFF !important;;
+            border-radius: 7px;
+            margin: 0 5px;
         }
+        .carousel-items span.active {
+            width: 32px !important;
+            opacity: 1;
+            background: #FFFFFF !important;;
+        }
+        
         .list-enter-to {
             transition: all 1s ease;
             opacity: 1;
@@ -80,15 +117,18 @@
         <ul class='slide-ul'>
             {% for item in slideList %}
                 <li data-index="{{loop.index0}}">
-                    <a href="{{ item.httpUrl }}" data-img="{{item.imageUrl}}">
+                    <a class="page" href="{{ item.httpUrl }}" data-img="{{item.imageUrl}}">
+                        <div class="bar">
+                            <h4 class="title"> {{ item.title }} </h4>
+                        </div>
                     </a>
                 </li>
             {% endfor %}
         </ul>
         {% if slideList.length > 1 %}
-            <div class="carousel-items a-5-bg">
+            <div class="carousel-items">
                 {% for item in slideList %}
-                    <span data-index="{{loop.index0}}">123</span>
+                    <span data-index="{{loop.index0}}"></span>
                 {% endfor %}
             </div>
         {% endif %}
