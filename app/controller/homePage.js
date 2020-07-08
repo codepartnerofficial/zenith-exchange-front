@@ -51,7 +51,7 @@ class StaticIndex extends Controller {
       return;
     }
     const fileBasePath = this.config.localesPath;
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.app);
@@ -93,7 +93,7 @@ class StaticIndex extends Controller {
       number: item => Number(item),
       colorList: this.getColorList(currenLan),
       noticeList: this.getNoticeList(noticeInfoList),
-      cmsAdvertList,
+      cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
       footerList,
