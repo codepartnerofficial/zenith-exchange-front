@@ -1,7 +1,7 @@
 <div class="home-custom-template">
     <style>
         .ipfs-home-container {
-            margin: -110px auto 0 auto;
+            margin: 0 auto 0 auto;
             position: relative;
             z-index: 9;
         }
@@ -147,11 +147,11 @@
             width: 100%;
             height: 100%;
         }
-        .ipfs-home-container .ipfs-item .info {
+        .ipfs-home-container .ipfs-item .info{
             padding-left: 230px;
             height: 105px;
         }
-        .ipfs-home-container .ipfs-item .info .tit {
+        .ipfs-home-container .ipfs-item .tit {
             font-size: 22px;
             color: #333333;
             line-height: 26px;
@@ -163,16 +163,18 @@
             background-repeat: no-repeat;
             background-size: 26px;
         }
-        .ipfs-home-container .ipfs-item .info  .no-padding  {
+        .ipfs-home-container .ipfs-item  .no-padding  {
             padding: 0;
         }
-        .ipfs-home-container .ipfs-item .info .cz .timer {
-            margin: 0 18px 0 0;
+        .ipfs-home-container .ipfs-item .cz .timer {
+            margin: 0;
             font-size: 14px;
             color: #999999;
+            line-height: 15px;
         }
-        .ipfs-home-container .info .cz {
+        .ipfs-home-container .cz {
             float: left;
+            margin-left: 20px;
         }
         .ipfs-home-container .op-right {
             float: right;
@@ -195,11 +197,310 @@
             background: rgba(153,153,153,1) !important;
             cursor: not-allowed!important;
         }
+        @media (max-width: 960px) {
+            .column-block {
+                width: 100%;
+            }
+            .filecoin-main .main-bar {
+                width: 100%;
+                position: relative;
+            }
+            .ipfs-home-container .ipfs-item {
+                width: 100%;
+            }
+            .ipfs-home-container .column-list {
+                width: 100%;
+                height: auto;
+                padding-left: 5%;
+                box-sizing: border-box;
+            }
+            .ipfs-home-container .column-list .column-item {
+                width: 45%;
+                margin-right: 5%;
+                margin-bottom: 30px;
+                padding: 40px 30px 0 30px;
+                height: 300px;
+            }
+            .ipfs-home-container .column-item h4 {
+                font-size: 16px;
+                margin-top: 40px;
+            }
+            .ipfs-home-container .column-item p {
+                font-size: 14px;
+                line-height: 24px;
+                margin-top: 8px;
+            }
+            .ipfs-home-container .ipfs-item {
+                margin-bottom: 30px;
+                margin-top: 0;
+                padding: 30px 25px 0 25px;
+                height: 192px;
+            }
+            .ipfs-home-container .ipfs-item .img {
+                width: 150px;
+                height: 78px;
+            }
+            .ipfs-home-container .ipfs-item .info {
+                padding-left: 170px;
+            }
+            .ipfs-home-container .ipfs-item .tit {
+                font-size: 18px;
+                background-size: 22px;
+                padding-left: 28px;
+                overflow: hidden;
+            }
+            .ipfs-home-container .price span {
+                font-size:20px;
+            }
+            .ipfs-home-container .cz {
+                float: none;
+                margin-left: 0;
+                padding-left: 170px;
+            }
+            .ipfs-home-container .op-right {
+                clear: both;
+                padding-top: 20px;
+                width: 100%;
+                text-align: left;
+            }
+            .ipfs-home-container .op-right p {
+                float: left;
+            }
+            .ipfs-home-container .cny {
+                margin: 5px 0 0 5px;
+                
+            }
+            .ipfs-home-container .common-button {
+                float: right;
+                margin-top: 0 !important;
+            }
+            .filecoin-main{
+                margin-top: 0;
+                padding-top: 40px;
+            }
+            .filecoin-main .title h3 {
+                font-size: 26px;
+            }
+            .filecoin-main .title p {
+                margin-bottom: 40px;
+            }
+            .filecoin-main .pro-list {
+                width: 600px;
+                margin:0 auto;
+                height: auto;
+            }
+            .filecoin-main .pro-item-jt {
+                padding: 80px 26px 0 26px;
+            }
+            .filecoin-main .pro-item-jt2 {
+                display: none;
+            }
+            .filecoin-main .pro-item {
+                margin-bottom: 40px;
+            }
+            .filecoin-main .pro-item p {
+                font-size: 16px;
+            }
+            .filecoin-main .pro-item1,
+            .filecoin-main .pro-item2 {
+                margin-bottom: 260px;
+            }
+            .process-list {
+                position: absolute;
+                top: 400px;
+                margin: 0;
+                right: 10%;
+                left: 10%;
+                box-sizing: border-box;
+                padding-top: 30px;
+            }
+            .process-list .process-item .img {
+                width: 100px;
+                height: 86px;
+            }
+            .process-list .process-item p {
+                font-size: 16px;
+                margin-top: 10px;
+            }
+            .process-list-bar {
+                width: 100%;
+            }
+
+        }
+        @media (max-width: 640px) {
+            .filecoin-main .pro-list {
+                width: 360px;
+            }
+            .filecoin-main .pro-item {
+                width: 150px;
+            }
+            .filecoin-main .pro-item .img {
+                width: 120px;
+                margin: 0 auto;
+                height: 100px;
+            }
+            .filecoin-main .pro-item-jt {
+                padding: 40px 16px 0 16px
+            }
+            .filecoin-main .pro-item p {
+                font-size: 14px;
+                line-height: 20px;
+                margin-top: 10px;
+            }
+            .filecoin-main .title h3 {
+                font-size: 20px;
+            }
+            .filecoin-main .title p {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+            .filecoin-main .pro-item-jt {
+                width: 20px;
+            }
+            .filecoin-main .pro-item-jt img {
+                width: 20px;
+            }
+            .process-list {
+                top: 270px;
+                height: 180PX;
+            }
+            .filecoin-main .pro-item1,
+            .filecoin-main .pro-item2 {
+                margin-bottom: 200px;
+            }
+            .process-list .process-item p {
+                font-size: 14px;
+            }
+            .process-list .process-item .img {
+                width: 80px;
+                height: 60px;
+            }
+
+        }
+        @media (max-width: 450px) {
+            .ipfs-home-container .column-list {
+                padding-left: 3%;
+            }
+            .ipfs-home-container .column-list .column-item {
+                padding: 20px 14px 0 14px;
+                height: 194px;
+                margin-bottom: 15px;
+                margin-right: 5%;
+                width: 45%;
+            }
+            .ipfs-home-container .column-item img {
+                width: 45px;
+                height: 45px;
+            }
+            .ipfs-home-container .column-item h4 {
+                font-size: 14px;
+                margin-top: 15px;
+                line-height: 20px;
+            }
+            .ipfs-home-container .column-item p {
+                font-size: 12px;
+                line-height: 18px;
+                color: #999999;
+                margin-top: 5px;
+            }
+            .ipfs-home-container .ipfs-item {
+                padding: 20px 15px 0 15px;
+                height: 154px;
+                margin-bottom: 15px;
+            }
+            .ipfs-home-container .ipfs-item .tit {
+                font-size: 14px;
+                background-size: 16px;
+                padding-left: 20px;
+                margin: 0;
+            }
+            .ipfs-home-container .ipfs-item .img {
+                width: 100px;
+                height: 53px;
+            }
+            .ipfs-home-container .cz {
+                padding-left: 115px;
+            }
+            .ipfs-home-container .ipfs-item .cz .timer {
+                font-size: 12px;
+            }
+            .ipfs-home-container .common-button{
+                width: 100px !important;
+                height: 32px !important;
+                margin-top: 10px !important;
+            }
+            .ipfs-home-container .op-right  {
+                padding-top: 10px;
+            }
+            .ipfs-home-container .op-right p {
+                font-size: 12px;
+                line-height: 20px;
+            }
+            .ipfs-home-container .price span {
+                font-size: 16px;
+                display: block;
+            }
+            .ipfs-home-container .cny {
+                margin-top: 22px;
+            }
+            .filecoin-main {
+                padding-top: 20px;
+            }
+            .filecoin-main .title h3 {
+                font-size: 18px;
+                marign-top: 15px;0
+            }
+            .filecoin-main .title p {
+                font-size:
+            }
+            .filecoin-main .title p {
+                width: 88%;
+                margin: 0 auto 20px auto;
+            }
+            .filecoin-main .pro-list {
+                width: 320px;
+                box-sizing: border-box;
+            }
+            .filecoin-main .pro-item-jt {
+                width: 16px;
+                padding: 40px 12px 0 12px
+            }
+            .filecoin-main .pro-item-jt img {
+                width: 16px;
+            }
+            .filecoin-main .pro-item {
+                width: 140px;
+            }
+            .filecoin-main .pro-item .img {
+                width: 110px;
+                height: 90px;
+            }
+            .filecoin-main .pro-item p {
+                font-size: 12px;
+            }
+            .filecoin-main .pro-item1, .filecoin-main .pro-item2 {
+                margin-bottom: 120px;
+            }
+            .process-list {
+                right: 5%;
+                left: 5%;
+                padding-top: 20px;
+                height: 100px;
+            }
+            .process-list .process-item .img  {
+                width: 50px;
+                height: 45px;
+            }
+            .process-list .process-item p {
+                font-size: 12px;
+                margin-top: 6px;
+            }
+        }
         
     </style>
-    {% if footer_warm_prompt %}
+    {# {% if footer_warm_prompt %}
     <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
-    {% else %}
+    {% else %} #}
     <div class="ipfs-home-container">
         <div class="column-block">
         
@@ -224,30 +525,33 @@
                     <h4>减低挖矿准入门槛</h4>
                     <p>小成本，低门槛，共享矿机算力收益</p>
                 </div>
+                <br style="clear: both;">
             </div>
         </div>
-        <div class="ipfs-item" style="display: none">
+        <div class="ipfs-item">
             <div class="img">
                 <img class="ipfslogo" src="" alt=""></div>
-            <div class="info">
+            {# <div class="info"> #}
                 <div class="cz">
-                    <h2 class="tit ipfsTitle iconBack">--</h2>
+                    <h2 class="tit ipfsTitle iconBack">金色算力 | Filecoin分时算力</h2>
                     <div class="timer">
                         <span class="tim">活动时间</span>
-                        <span class="val activeTime"></span>
+                        <span class="val activeTime">
+                        2020/06/23 12:00:00 ~  2020/06/23 13:00:00</span>
                     </div>
                 </div>
                 <div class="op-right">
                     <p class="price">价格
-                        <span class="priceNum">--</span></p>
-                    <p class="cny"></p>
+                        <span class="priceNum">170 USDT</span>
+                    </p>
+                    <p class="cny">≈ 2222.00 CNY</p>
                     <button class="common-button common-button-solid u-16-cl buyButton" style="width: 160px; height: 40px; padding-left: 0px; padding-right: 0px; margin-top: 18px;">
                         <div class="common-button-slot">
                             <span class="buttonText">立即购买</span>
                         </div>
                     </button>
                 </div>
-            </div>
+            {# </div> #}
         </div>
         <div class="filecoin-main">
             <div class="main-bar">
@@ -257,31 +561,32 @@
                     <p>简化挖矿购买步骤，打包矿机筛选、部署、维护、技术服务等复杂环节</p>
                 </div>
                 <div class="pro-list">
-                    <div class="pro-item">
+                    <div class="pro-item pro-item1">
                         <div class="img"><img src="{{sourceMap.ipfs_photo1}}" alt=""></div>
                         <p>业内顶尖矿机厂商</p>
                     </div>
                     <div class="pro-item-jt">
                         <img src="{{sourceMap.ipfs_icon5}}" alt="">
                     </div>
-                    <div class="pro-item">
+                    <div class="pro-item pro-item2">
                         <div class="img"><img src="{{sourceMap.ipfs_photo2}}" alt=""></div>
                         <p>从Filecoin主网上线起开始挖矿</p>
                     </div>
-                    <div class="pro-item-jt">
+                    <div class="pro-item-jt pro-item-jt2">
                         <img src="{{sourceMap.ipfs_icon5}}" alt="">
                     </div>
-                    <div class="pro-item">
+                    <div class="pro-item pro-item3">
                         <div class="img"><img src="{{sourceMap.ipfs_photo3}}" alt=""></div>
                         <p>矿池分配收益</p>
                     </div>
                     <div class="pro-item-jt">
                         <img src="{{sourceMap.ipfs_icon5}}" alt="">
                     </div>
-                    <div class="pro-item">
+                    <div class="pro-item pro-item4">
                         <div class="img"><img src="{{sourceMap.ipfs_photo4}}" alt=""></div>
                         <p>用户收到收益    </p>
                     </div>
+                    <br style="clear: both;">
                 </div>
                 <div class="process-list">
                     <div class="process-list-bar">
@@ -365,6 +670,6 @@
             })();
         </script>
     </div>
-    {% endif %}
+    {# {% endif %} #}
     <script></script>
 </div>

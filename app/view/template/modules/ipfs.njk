@@ -85,8 +85,8 @@
             text-align: center;
         }
         .homes .home-custom-template {
-            margin-top: 120px;
             width: 100%;
+            box-sizing: border-box;
         }
         .homes .home-container {
             width: 100%;
@@ -547,10 +547,33 @@
             transform: translateY(100px);
             opacity: 0;
         }
+        @media (max-width: 960px) {
+            .homes .home-custom-template {
+                padding: 0 10px;
+            }
+            .page-content-chain {
+                position: relative;
+                min-height: 100vh!important;
+            }
+            .footer-box {
+                display: none;
+            }
+            body, html {
+                min-width: inherit!important;
+            }
+            .homes .home-bg {
+                padding-top: 370px;
+            }
+        }
+        @media (max-width: 450px) {
+            .homes .home-bg {
+                padding-top: 160px;
+            }
+        }
     </style>
     <div class="home-bg">
         {% import "./swiper/ipfs.njk" as swiper %}
-        {{ swiper.boxStyle(height='655px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
+        {{ swiper.boxStyle(width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
       
         {% include "./custom/ipfs.njk" %}
     </div>
