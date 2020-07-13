@@ -68,7 +68,7 @@ class StaticIndex extends Controller {
     this.getSelectSkin();
 
 
-    this.headerLink = this.getHeaderLink();
+    this.headerLink = this.getHeaderLink(ispc);
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -394,7 +394,7 @@ class StaticIndex extends Controller {
     return obj.data;
   }
 
-  getHeaderLink() {
+  getHeaderLink(ispc) {
     const { url } = this.publicInfo;
     if (url) {
       return {
@@ -403,7 +403,7 @@ class StaticIndex extends Controller {
         market: url.exUrl ? `${url.exUrl}/market` : '',
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
-        co: url.coUrl,
+        co: ispc ? url.coUrl : '',
       };
     }
     return {};
@@ -504,7 +504,7 @@ class StaticIndex extends Controller {
     }
     // etf
     // 币币交易
-    if (pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
+    if (ispc && pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
       arr.push({
         title: this.__getLocale('etfAdd.title'),
         activeId: 'etf',

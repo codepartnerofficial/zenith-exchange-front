@@ -564,6 +564,103 @@
             position: absolute;
             top: 0;
         }
+        .home-appdown .recomed {
+            position: fixed;
+            bottom: 0;
+            height: 50px;
+            width: 100%;
+            z-index: 2;
+        }
+        .home-appdown .recomed .close {
+            position: absolute;
+            left: 7px;
+            width: 16px;
+            height: 16px;
+            top: -8px;
+            border-radius: 50%;
+            -webkit-box-shadow: 0 3px 4px 1px rgba(0,0,0,.1);
+            box-shadow: 0 3px 4px 1px rgba(0,0,0,.1);
+        }
+        .home-appdown .recomed .close svg {
+            -webkit-transform: scale(.7);
+            transform: scale(.7);
+        }
+        .home-appdown .recomed .recomed-cont, .home-appdown .recomed .recomed-cont .left {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            height: 100%;
+        }
+        .home-appdown .recomed .recomed-cont .left {
+            padding-left: 10px;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            -ms-flex-align: center;
+        }
+        .home-appdown .recomed .recomed-cont .left img {
+            width: 38px;
+            height: 38px;
+        }
+        .home-appdown .recomed .recomed-cont .left .recomed-text {
+            margin-left: 10px;
+        }
+        .home-appdown .recomed .recomed-cont .left .recomed-text .recomed-text-title {
+            font-size: 12px;
+        }
+        .home-appdown .recomed .recomed-cont .left .recomed-text .recomed-text-warn {
+            margin-top: 6px;
+            font-size: 10px;
+        }
+        .home-appdown .recomed .recomed-cont .right {
+            height: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .home-appdown .recomed .recomed-cont .right .button {
+            padding: 0 22px;
+            line-height: 36px;
+            height: 36px;
+            text-align: center;
+            border-radius: 2px;
+        }
+        .mask_layer {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 101;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .mask_layer .brower {
+            text-align: center; 
+            margin-top: 150px;
+            font-size: 20px;
+            text-align: left;
+            margin-left: 25%;
+            position: relative;
+            line-height: 30px
+        }
+        .mask_layer .brower  span  {
+            display: inline-block;
+        }
+        .mask_layer .brower    img {
+            position: absolute;
+            top: -0.55rem;
+            left: 1.2rem;
+        }
+        .mask_layer .android-appdown {
+            display: none;
+        }
     </style>
     <div class="home-bg">
         <div class="home-swiperbox">
@@ -576,9 +673,62 @@
         {% include "./recommend/h5.njk" %}
         {% endif %}
         {% include "./market/h5.njk" %}
+        <div class="home-appdown">
+            <div class="mask_layer f-1-cl">
+                <div class="brower">
+                    <span>{{ locale.h5Add.downloadWarn1 }}</span>
+                    <p>{{ locale.h5Add.downloadWarn2 }}</p>
+                </div>
+            </div>
+            <a class="android-appdown" href="{{ appDownLoad.android_download_url }}"></a>
+            <div class="recomed f-1-bg">
+                <div class="close f-1-bg">
+                    <svg aria-hidden="true" class="icon icon-16">
+                        <use xlink:href="#icon-c_7"></use>
+                    </svg>
+                </div>
+                <div class="recomed-cont">
+                    <div class="left b-3-cl">
+                        <img src="{{appDownLoad.logo}}" alt="">
+                        <div class="recomed-text" style="color: rgb(31, 63, 89);">
+                            <div class="recomed-text-title">{{ appDownLoad.company_name }}</div>
+                            <div class="recomed-text-warn">{{ locale.appDownLoad.desc }}</div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="button a-12-bg appdownBar-btn">
+                            <a href="javascript:;" class="f-1-cl">{{ locale.h5Add.download }}</a>
+                            <!---->
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
-
+        var $homeAppdown = document.querySelector('.home-appdown');
+        var $recomedText = $homeAppdown.querySelector('.recomed-text');
+        var $appdownBarBtn = $homeAppdown.querySelector('.appdownBar-btn');
+        var $maskLayer = $homeAppdown.querySelector('.mask_layer');
+        var $androidAppdown = $homeAppdown.querySelector('.android-appdown');
+        var $appdownClose = $homeAppdown.querySelector('.close');
+        function appdownBarClick() {
+            const ua = navigator.userAgent.toLowerCase();
+            if (/micromessenger/.test(ua)) {
+                $maskLayer.style.display = 'block';
+            } else if (/iphone|ipad|ipod/.test(ua)) {
+                window.location.href = '/appDownload'
+            } else if (/android/.test(ua)) {
+                $androidAppdown.click()
+            }
+        }
+        $recomedText.addEventListener('click', appdownBarClick, false)
+        $appdownBarBtn.addEventListener('click', appdownBarClick, false)
+        $appdownClose.addEventListener('click', () => {
+            $homeAppdown.style.display = 'none'
+        }, false)
+        
     </script>
 </div>
 
