@@ -276,7 +276,8 @@ class StaticIndex extends Controller {
     if (!pubSwitch) {
       return arr;
     }
-    if (headerLink.trade && pubSwitch.ieo_pool_hide !== '1') {
+    // exchange_hide 0: 隐藏币币订单 1：显示币币订单
+    if (headerLink.trade && pubSwitch.exchange_hide !== '0') {
       arr.push({
         title: this.__getLocale('order.index.exOrder'),
         link: '/order/exchangeOrder',
@@ -331,6 +332,7 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return arr;
     }
+    // ieo_pool_hide 如果开启了矿池 币币资产必须显示（2020.06.27 矿池需求新增逻辑）
     if (headerLink.trade || pubSwitch.ieo_pool_hide === '1') {
       arr.push({
         title: this.__getLocale('assets.index.exchangeAccount'),
@@ -427,7 +429,8 @@ class StaticIndex extends Controller {
     }
 
     // 币币交易
-    if (headerLink.trade && pubSwitch.ieo_pool_hide !== '1') {
+    // exchange_hide 0: 隐藏币币交易 1：显示币币交易
+    if (headerLink.trade && pubSwitch.exchange_hide !== '0') {
       arr.push({
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
