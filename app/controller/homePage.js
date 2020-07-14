@@ -125,7 +125,7 @@ class StaticIndex extends Controller {
       template = templateConfig[indexTempType];
     }
     // 828727492：  矿池首页自带响应式
-    if (!ispc && indexTempType !== '828727492') {
+    if (!ispc && indexTempType !== '8') {
       template = 'h5';
     }
     return `modules/${template}.njk`;

@@ -505,9 +505,9 @@
         }
         
     </style>
-    {% if footer_warm_prompt %}
+    {# {% if footer_warm_prompt %}
     <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
-    {% else %}
+    {% else %} #}
     <div class="ipfs-home-container">
         <div class="column-block">
         
@@ -633,7 +633,11 @@
                 var cny = container.querySelector(".cny");
                 var buyButton = container.querySelector(".buyButton");
                 var buttonText = container.querySelector(".buttonText");
-                homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.ipfs_photo9}}" + ")";
+                if(document.body.clientWidth < 960) {
+                    homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.photo10}}" + ")";
+                } else {
+                    homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.ipfs_photo9}}" + ")";
+                }
                 iconBack.style.backgroundImage = "url(" + "{{sourceMap.ieotitleIcon}}" + ")";
                 var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
                 fetchData({
@@ -677,7 +681,7 @@
             })();
         </script>
     </div>
-    {% endif %}
+    {# {% endif %} #}
     <script></script>
 </div>
 
