@@ -120,10 +120,12 @@ class StaticIndex extends Controller {
 
   getTemplate(ispc) {
     let template = 'international';
+    const indexTempType = this.publicInfo.switch.index_temp_type;
     if (this.publicInfo.switch) {
-      template = templateConfig[this.publicInfo.switch.index_temp_type];
+      template = templateConfig[indexTempType];
     }
-    if (!ispc) {
+    // 828727492：  矿池首页自带响应式
+    if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
     return `modules/${template}.njk`;
