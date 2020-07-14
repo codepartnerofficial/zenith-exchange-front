@@ -1,0 +1,1373 @@
+<header class="common-header h-3-bd x-2-cl top-common-header h-2-bg" id="common-header">
+    <style>
+        #home-h5 {
+            padding-top: 40px;
+        }
+        .inx .solidBc {
+            display: none;
+        }
+
+        .inx .common-button:hover .bghover {
+            display: block;
+        }
+
+        .inx .common-button:active .bgactive {
+            display: block;
+        }
+
+        .solidBc {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .common-button-solid {
+            font-size: 14px;
+        }
+
+        .common-button-solid-disabled {
+            font-size: 14px;
+            cursor: not-allowed !important;
+        }
+
+        .common-button-solid-loading {
+            font-size: 14px;
+            cursor: wait !important;
+        }
+
+        .common-button-hollow,
+        .common-button-hollow-big {
+            border-width: 1px;
+            border-style: solid;
+        }
+
+        .common-button-hollow {
+            font-size: 12px;
+        }
+
+        .common-button-hollow-big {
+            font-size: 14px;
+        }
+
+        .common-button-text,
+        .common-button-text-kind {
+            font-size: 12px;
+        }
+
+        .common-button {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+        }
+
+        .common-button .common-button-slot {
+            position: relative;
+            display: inline;
+            vertical-align: middle;
+        }
+
+        .common-button .common-button-slot .common-button-loading {
+            position: absolute;
+            vertical-align: middle;
+            left: -14px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .common-button .button-background {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+        }
+
+        .button-canv {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            transform: scale(0);
+        }
+
+        .mmd-waves-effect {
+            border-radius: 100%;
+            background-color: #d8d8d8;
+        }
+
+        .top-common-header {
+            user-select: none;
+            height: 40px;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            z-index: 11;
+        }
+
+        .top-common-header a {
+            font-size: 14px;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 12px;
+            border-radius: 2px;
+        }
+
+        .top-common-header .setBox {
+            padding: 10px 0 0;
+        }
+
+        .top-common-header .setBox .setColor-key {
+            float: left;
+            width: 100px;
+            font-size: 14px;
+        }
+
+        .top-common-header .setBox .setColor-value {
+            float: left;
+            width: 300px;
+        }
+
+        .top-common-header .setBox .setColor-value li {
+            display: inline-block;
+            margin-left: 50px;
+            margin-top: 20px;
+        }
+
+        .top-common-header .setBox .setColor-value li:nth-child(1),
+        .top-common-header .setBox .setColor-value li:nth-child(2) {
+            margin-top: 0;
+        }
+
+        .top-common-header .setBox .setColor-value li span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .top-common-header .common-header-linkList {}
+
+        .top-common-header .header-fList {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+        }
+        .top-common-header .common-header-linkList .header-navEven {
+            padding-left: 18px;
+            line-height: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .new-label {
+            position: absolute;
+            right: -46px;
+            top: 9px;
+            box-shadow: -2px 2px 4px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 0 6px 0 6px;
+            font-size: 10px;
+            text-align: center;
+            width: 44px;
+            height: 17px;
+            line-height: 17px;
+        }
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-title {
+            display: inline-block;
+        }
+
+        .top-common-header .common-header-linkList .header-navEven:hover .header-navEven-list {
+            display: block;
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-list {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            padding: 10px 0;
+            -webkit-box-shadow: 0 3px 4px 1px rgba(0,0,0,.28);
+            box-shadow: 0 3px 4px 1px rgba(0,0,0,.28);
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .header-navEven-list li {
+            cursor: pointer;
+            text-align: left;
+            min-width: 160px;
+            padding: 0 20px;
+            font-size: 14px;
+            line-height: 40px;
+            height: 40px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .top-common-header .common-header-linkList .header-navEven .new-label {
+            position: absolute;
+            right: -46px;
+            top: 9px;
+            -webkit-box-shadow: -2px 2px 4px 0 rgba(0,0,0,.3);
+            box-shadow: -2px 2px 4px 0 rgba(0,0,0,.3);
+            border-radius: 0 6px 0 6px;
+            font-size: 10px;
+            text-align: center;
+            width: 44px;
+            height: 17px;
+            line-height: 17px;
+        }
+
+        .top-common-header .common-header-linkList .linkList-logo {
+            cursor: pointer;
+            height: 40px;
+            vertical-align: middle;
+            line-height: 58px;
+        }
+
+        .top-common-header .common-header-linkList .linkList-logo img {
+            max-height: 50px;
+            max-width: 160px;
+            vertical-align: middle;
+        }
+
+        .top-common-header .common-header-linkList .header-nav-ifl {
+            cursor: pointer;
+            position: relative;
+            margin-right: 0 !important;
+            padding-right: 16px !important;
+            line-height: 62px;
+            margin-left: 10px;
+            display: none;
+        }
+
+        .top-common-header .common-header-linkList .header-nav-ifl .hover {
+            display: none;
+        }
+
+        .top-common-header .common-header-linkList .header-nav-ifl:hover .icon {
+            display: none;
+        }
+
+        .top-common-header .common-header-linkList .header-nav-ifl:hover .hover {
+            display: inline-block;
+        }
+
+        .top-common-header .common-header-linkList .header-nav-ifl:hover .header-sub-nav {
+            display: block;
+        }
+
+        .top-common-header .common-header-linkList .button-li {
+            padding: 15px 0;
+        }
+
+        .top-common-header .common-header-linkList .button-li .header-button-links {
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .top-common-header .common-header-optionList {}
+
+        .top-common-header .common-header-optionList .header-isLogin-navEven {
+            height: 40px;
+            float: left;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin-navEven .header-isLogin-navEven-title {
+            transition: all 0.3s;
+            line-height: 40px;
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin-navEven:hover .lang-list {
+            display: block;
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin-navEven .lang-list {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: -20px;
+            padding: 10px 0;
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin-navEven .lang-list li {
+            cursor: pointer;
+            text-align: left;
+            min-width: 160px;
+            padding: 0 20px;
+            font-size: 12px;
+            line-height: 40px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin {
+            float: left;
+        }
+
+        .top-common-header .common-header-optionList .header-isLogin .header-isLogin-button {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .top-common-header .header-guide {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            padding: 30px 0;
+            min-height: 40px;
+        }
+
+        .top-common-header .header-guide .header-login-button {
+            font-size: 14px !important;
+            margin-left: 20px;
+            border-width: 1px;
+            border-style: solid;
+            float: left;
+        }
+
+        .top-common-header .header-guide .header-reg-button {
+            font-size: 14px !important;
+            margin-right: 16px;
+            padding: 0 22px;
+            height: 30px;
+            border-radius: 2px;
+            margin-left: 20px;
+            border: none;
+            float: left;
+        }
+
+        .top-common-header .common-header-optionList .header-user {
+            float: left;
+            height: 40px;
+            width: 40px;
+            line-height: 62px;
+            text-align: center;
+            border-left-width: 1px;
+            border-left-style: solid;
+            position: relative;
+        }
+
+        .top-common-header .common-header-optionList .header-user:hover .header-user-appdown,
+        .top-common-header .common-header-optionList .header-user:hover .header-user-market,
+        .top-common-header .common-header-optionList .header-user:hover .icon-active,
+        .top-common-header .common-header-optionList .header-user:hover .message-list {
+            display: block;
+        }
+
+        .top-common-header .common-header-optionList .header-user:hover .icon-info {
+            display: none;
+        }
+
+        .top-common-header .common-header-optionList .header-user .icon-active {
+            display: none;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-market {
+            padding-bottom: 10px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown,
+        .top-common-header .common-header-optionList .header-user .header-user-market,
+        .top-common-header .common-header-optionList .header-user .header-user-message {
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+            top: 40px;
+            display: none;
+            position: absolute;
+            width: 240px;
+            height: 120px;
+            left: -90px;
+            z-index: 9999;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-message {
+            height: auto;
+            width: 320px;
+            right: -99px;
+            left: auto;
+            min-height: 100px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-message .header-user-text {
+            height: auto;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-message .header-user-text li {
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-message .header-user-text .mesageNav {
+            cursor: pointer;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-icon {
+            cursor: pointer;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-text {
+            height: 80px;
+            padding: 16px 22px;
+            box-sizing: border-box;
+            line-height: 24px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-text .userText {
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-out {
+            height: 40px;
+            padding: 0 22px;
+            line-height: 40px;
+            text-align: left;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown {
+            box-sizing: border-box;
+            left: auto;
+            right: 0;
+            height: 177px;
+            width: 340px;
+            padding: 30px 40px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box {
+            width: 90px;
+            float: left;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box .download-options-code {
+            width: 90px;
+            height: 90px;
+            overflow: hidden;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box .download-options-code img {
+            width: 110px;
+            position: relative;
+            top: -10px;
+            left: -10px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box .download-options-codeText {
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            line-height: 12px;
+            color: #828ea1;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .download-options-buttons {
+            float: right;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .download-options-buttons button {
+            display: block;
+            width: 130px;
+        }
+
+        .top-common-header .common-header-optionList .header-user .header-user-appdown .download-options-buttons button:first-child {
+            margin-bottom: 10px;
+        }
+
+        .top-common-header .common-header-optionList .header-lang {
+            float: left;
+            height: 40px;
+            min-width: 120px;
+            line-height: 40px;
+            text-align: center;
+            border-left-width: 1px;
+            border-left-style: solid;
+            font-size: 14px;
+            position: relative;
+            user-select: none;
+        }
+
+        .top-common-header .common-header-optionList .header-lang .show-lang {
+            cursor: pointer;
+            padding: 0 20px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        .top-common-header .common-header-optionList .header-lang:hover .lang-list {
+            display: block;
+        }
+
+        .top-common-header .common-header-optionList .header-lang .lang-list {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            padding: 10px 0;
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+        }
+
+        .top-common-header .common-header-optionList .header-lang .lang-list li {
+            cursor: pointer;
+            text-align: left;
+            min-width: 160px;
+            padding: 0 20px;
+            font-size: 12px;
+            line-height: 40px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .top-common-header .messageCount {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f00;
+            border-radius: 100px;
+            top: 20px;
+            left: 32px;
+        }
+
+        .top-common-header .header-sub-nav {
+            display: none;
+            position: absolute;
+            width: 175px;
+            left: 0;
+            top: 40px;
+            z-index: 99;
+            padding: 10px 0;
+        }
+
+        .top-common-header .header-sub-nav .header-user-text {
+            padding: 0;
+            box-sizing: border-box;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .top-common-header .header-sub-nav .header-user-text li {
+            float: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-common-header .header-sub-nav .header-user-text li a {
+            line-height: 17px;
+            padding: 12px 20px;
+            font-size: 14px;
+            display: block;
+        }
+
+        .top-common-header .h-2-bd {
+            border-color: #293448 !important;
+        }
+
+        .setBox {
+            padding: 10px 0 0;
+        }
+
+        .setBox .setColor-key {
+            float: left;
+            width: 100px;
+            font-size: 14px;
+        }
+
+        .setBox .setColor-value {
+            float: left;
+            width: 300px;
+        }
+
+        .setBox .setColor-value li {
+            display: inline-block;
+            margin-left: 50px;
+            margin-top: 20px;
+        }
+
+        .setBox .setColor-value li:nth-child(1),
+        .setBox .setColor-value li:nth-child(2) {
+            margin-top: 0;
+        }
+
+        .setBox .setColor-value li span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .left-common-header {
+            height: 100%;
+            width: 80px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .left-common-header .int-header-linkList {
+            float: none;
+        }
+
+        .left-common-header .int-header-linkList .button-logo {
+            height: 70px;
+            line-height: 70px;
+            display: block;
+            text-align: center;
+        }
+
+        .left-common-header .int-header-linkList .button-logo img {
+            width: 28px;
+            vertical-align: middle;
+        }
+
+        .left-common-header .int-header-linkList .button-li {
+            height: 36px;
+            padding: 12px 0;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .left-common-header .int-header-linkList .button-li .header-button-links {
+            margin-top: 4px;
+            display: block;
+            font-size: 12px;
+        }
+
+        .left-common-header .int-header-linkList .button-li .hover-show {
+            display: none;
+        }
+
+        .left-common-header .int-header-linkList .button-li:hover .hover-show {
+            display: inline-block;
+        }
+
+        .left-common-header .int-header-linkList .button-li:hover .hover-hide {
+            display: none;
+        }
+
+        .left-common-header .int-header-linkList .button-li .messageCount {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f00;
+            border-radius: 100px;
+            top: 12px;
+            left: 43px;
+        }
+
+        .left-common-header .int-header-linkList .showLan {
+            line-height: 36px;
+        }
+
+        .left-common-header .int-header-linkList .register {
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .left-common-header .int-header-linkList .register span {
+            display: block;
+            width: 40px;
+            height: 30px;
+            line-height: 30px;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        .left-common-header .header-user {
+            position: relative;
+        }
+
+        .left-common-header .header-user:hover .header-user-market {
+            display: block;
+        }
+
+        .left-common-header .header-user-market {
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+            top: 20px;
+            display: none;
+            position: absolute;
+            width: 240px;
+            height: 120px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        .left-common-header .header-user-market .header-user-text {
+            height: 80px;
+            padding: 16px 22px;
+            box-sizing: border-box;
+            line-height: 24px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .left-common-header .header-user-market .header-user-text .userText {
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .left-common-header .header-user-market .header-user-out {
+            height: 40px;
+            padding: 0 22px;
+            line-height: 40px;
+            text-align: left;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .left-common-header .nav-bottom {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+
+        .left-common-header .header-sub-nav {
+            position: absolute;
+            left: 20px;
+            max-height: 340px;
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+        }
+
+        .left-common-header .header-sub-nav .header-user-text {
+            padding: 10px 0;
+            min-width: 180px;
+        }
+
+        .left-common-header .header-sub-nav .header-user-text li {
+            cursor: pointer;
+        }
+
+        .left-common-header .header-sub-nav .header-user-text li span {
+            line-height: 40px;
+            display: block;
+            padding-left: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .left-common-header .showLan {
+            position: relative;
+        }
+
+        .left-common-header .showLan .header-user-showLan {
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+            bottom: 20px;
+            display: none;
+            position: absolute;
+            width: 240px;
+            left: 20px;
+            z-index: 9999;
+            padding: 10px 0;
+        }
+
+        .left-common-header .showLan:hover .header-user-showLan {
+            display: block;
+        }
+
+        .common-header .header-user-icon .icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .drop-enter-active {
+            animation: drop-in 0.3s;
+        }
+
+        .drop-leave-active {
+            animation: drop-in 0.3s reverse;
+        }
+
+        .common-dialog .btnClass {
+            margin-right: 10px;
+        }
+
+        .common-dialog .dialog-markAll {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            top: 0;
+            left: 0;
+        }
+
+        .common-dialog .dialog-frame {
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            width: 480px;
+            border-radius: 2px;
+        }
+
+        .common-dialog .dialog-frame-head {
+            box-sizing: border-box;
+            height: 40px;
+            width: 100%;
+            padding: 0 40px;
+            line-height: 40px;
+        }
+
+        .common-dialog .dialog-frame-head-text {
+            font-size: 16px;
+        }
+
+        .common-dialog .dialog-frame-head-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 12px;
+        }
+
+        .common-dialog .dialog-frame-head-close .icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .common-dialog .dialog-frame-body {
+            width: 400px;
+            margin-left: 40px;
+        }
+
+        .common-dialog .closeBtnClass {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .common-dialog .dialog-frame-bottom {
+            margin-bottom: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .common-dialog .dialog-frame-bottom .dialog-frame-options {
+            position: absolute;
+            right: 40px;
+        }
+
+        @-moz-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+
+        @-o-keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+
+        @keyframes drop-in {
+            0% {
+                top: 35%;
+                opacity: 0.7;
+            }
+            100% {
+                /* margin-top: 10px; */
+                opacity: 1;
+            }
+        }
+
+        .colorList .checked .check {
+            display: inline-block;
+        }
+
+        .colorList .check {
+            display: none;
+        }
+
+        .colorList .checked .uncheck {
+            display: none;
+        }
+
+        .colorList .uncheck {
+            display: inline-block;
+        }
+
+        .common-redio {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .common-iconButton {
+            width: 36px;
+            height: 36px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .common-iconButton .iconButton-icon {
+            width: 36px;
+            height: 36px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-align: center;
+            line-height: 36px;
+        }
+
+        .common-iconButton .iconButton-bg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .common-iconButton:hover .iconButton-bg {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            opacity: 0.15;
+        }
+
+        .common-iconButton:active .iconButton-bg {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            opacity: 0.3;
+        }
+        .input-find-content {
+            width: 200px;
+            height: 28px;
+            position: relative;
+            border-radius: 2px;
+            overflow: hidden;
+            border-width: 1px;
+            border-style: solid;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        .input-find-content .clones {
+            position: absolute;
+            right: 10px;
+            line-height: 28px;
+            cursor: pointer;
+        }
+        .input-find-content .solidBc {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+        .input-find-content .content {
+            z-index: 2;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+        .input-find-content .solidBc-hover {
+            opacity: 0.05;
+        }
+        .input-find-content .solidBc-active {
+            opacity: 0.05;
+        }
+        .input-find-content .iconbox {
+            width: 30px;
+            height: 28px;
+            display: inline-block;
+            text-align: center;
+            line-height: 28px;
+            vertical-align: middle;
+        }
+        .input-find-content input {
+            width: 168px;
+            height: 20px;
+            margin-top: -1px;
+            line-height: 20px;
+            vertical-align: middle;
+        }
+        .common-iconButton .iconButton-bg {
+            width: 36px;
+            height: 36px;
+        }
+        .common-iconButton .icon {
+            position: absolute!important;
+            top: 50%!important;
+            left: 50%!important;
+            transform: translate(-50%, -50%);
+        }
+
+        .header-head {
+            height: 40px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+        }
+        .header-head .linkList-logo-box {
+            float: left;
+            height: 20px;
+            display: block;
+            padding: 10px 0;
+        }
+        .header-head .linkList-logo-box .linkList-logo {
+            height: 100%;
+            padding: 0;
+        }
+        .header-head .linkList-logo-box .linkList-logo a {
+            display: block;
+            padding: 0;
+        }
+        .header-head .linkList-logo-box .linkList-logo img {
+            height: 20px;
+            display: block;
+        }
+        .header-head-op {
+            float: right;
+            height: 40px;
+            line-height: 40px;
+        }
+        .header-head-op-lg span {}
+        .header-head-op-lg a {
+            padding: 0;
+        }
+        .header-head-op .header-head-op-lg {
+            float: left;
+            font-size: 14px;
+        }
+        .header-head-op-ic {
+            float: left;
+            margin-top: 11px;
+            margin-left: 8px;
+        }
+        .header-market {
+            position: fixed;
+            left: 100%;
+            top: 40px;
+            width: 100%;
+            height: calc(100vh - 40px);
+            overflow-y: scroll;
+            transition: all 0.3s;
+        }
+        .header-market-show {
+            left: 0;
+        }
+        .body-hidden {
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- logo -->
+    <div class="header-head h-3-bd h-1-bg">
+        <div class="linkList-logo-box">
+            <a class="linkList-logo" href="{{ headerLink.home }}">
+                <img src="{{ msg.logoUrl}}"/>
+            </a>
+        </div>
+        <div class="header-head-op">
+            <div class="unlogin-set header-head-op-lg u-16-cl">
+                <a href="/login" class="u-16-cl">{{ locale.header.login }}</a>
+                <span>/</span>
+                <a href="/register" class="u-16-cl">{{ locale.header.register }}</a>
+            </div>
+            <div class="header-head-op-ic">
+                <svg class="icon icon-18" aria-hidden="true">
+                    <use xlink:href="#icon-b_28"></use>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="header-market h-1-bg">
+        <div>
+            <!-- 未登录时 -->
+            <div class="header-guide h-2-bd unlogin-set">
+                <button class="common-button
+                header-login-button
+                common-button-text-kind
+                u-11-cl u-8-bd"
+                        style="height: 40px; width: 150px; margin-top: 0px;">
+                    <div class="common-button-slot">
+                        {{ locale.header.login }}
+                    </div>
+                </button>
+                <button class="
+                common-button
+                header-reg-button
+                common-button-hollow-big
+                u-16-cl u-8-bg"
+                        style="height: 40px; width: 150px; margin-top: 0px;">
+                    <div class="common-button-slot">
+                        {{ locale.header.register }}
+                    </div>
+                </button>
+            </div>
+        </div>
+        <!-- 主流板块 -->
+        <ul class="common-header-linkList" id="common-header-linkList">
+            <div class="header-fList h-3-bd">
+                {% for item in headerList %}
+                    <li class="header-navEven"
+                    data-link="{{item.link}}"
+                    data-id="{{item.activeId}}"
+                    data-trades=true
+                    data-target=false>
+                        <svg aria-hidden="true" class="icon icon-18">
+                            <use xlink:href="#{{item.icon}}"></use>
+                        </svg>
+                        {{ item.title }}
+                        {% if item.selectList %}
+                            <ul class="header-navEven-list h-1-bg">
+                                {% for i in item.selectList%}
+                                    <li
+                        class="x-2-cl"
+                        data-link="{{i.link}}"
+                        data-id="{{i.activeId}}"
+                        data-trades=true
+                        data-target=false
+                        >
+                                        {{ i.title }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                <!-- 资产 -->
+                <li class="header-navEven login-set"
+                    data-link="/assets/exchangeAccount"
+                    data-id="assets"
+                    style="display: none">
+                    <svg aria-hidden="true" class="icon icon-18">
+                        <use xlink:href="#icon-b_8"></use>
+                    </svg>
+                    {{ locale.header.assets }}
+                </li>
+                <!-- 订单 -->
+                <li class="header-navEven login-set"
+                    data-link="/order/exchangeOrder"
+                    data-id="order"
+                    style="display: none">
+                    <svg aria-hidden="true" class="icon icon-18">
+                        <use xlink:href="#icon-b_27"></use>
+                    </svg>
+                    {{ locale.header.order }}
+                </li>
+                <!-- 用户中心 -->
+                <li class="header-navEven"
+                    data-link="/personal/userManagement"
+                    data-id="personal"
+                >
+                    <svg aria-hidden="true" class="icon icon-18">
+                        <use xlink:href="#icon-b_4"></use>
+                    </svg>
+                    {{ locale.header.account }}
+                </li>
+                <!-- 消息中心 -->
+                <li class="header-navEven"
+                    data-link="/mesage"
+                    data-id="mesage"
+                >
+                    <svg aria-hidden="true" class="icon icon-18">
+                        <use xlink:href="#icon-b_3"></use>
+                    </svg>
+                    {{ locale.header.message }}
+                </li>
+            </div>
+            <div>
+                <!-- 经纪人系统 -->
+                {% if number(switch.agentUserOpen) and userInfo.agentStatus%}
+                    <li class="header-navEven"
+                        data-link="/broker"
+                        data-id="broker"
+                    >
+
+                        {{ locale.header.broker }}
+                    </a>
+                </li>
+            {% endif %}
+            <!-- 交易挖矿 -->
+            {% if number(switch.is_return_open) %}
+                <li class="header-navEven"
+                        data-link="/mining"
+                        data-id="mining"
+                    >
+                    {{ locale.header.minings }}
+                </li>
+            {% endif %}
+            <!-- 创新试验区 -->
+            {% if number(switch.newcoinOpen) %}
+                <li class="header-navEven"
+                        data-link="/innovation"
+                        data-id="innovation"
+                    >
+                    {{ locale.header.innov_tit }}
+                </li>
+            {% endif %}
+            <!-- 理财宝 -->
+            {% if number(switch.is_financing_open) %}
+                <li class="header-navEven"
+                        data-link="/manageFinances"
+                        data-id="manageFinances"
+                    >
+                    {{ locale.manageFinances.manage_finances }}
+                </li>
+            {% endif %}
+            <!-- 问题中心 -->
+            <li class="header-navEven"
+                    data-link="/questions/init"
+                    data-id="questions"
+                >
+                {{ locale.questions.title }}
+            </li>
+            <!-- app下载 -->
+            {% if appDownLoad.app_page_url %}
+                <li class="header-navEven"
+                        data-link="/appDownload"
+                        data-id="appDownload"
+                    >
+                    {{ locale.header.appDownLoad }}
+                </li>
+            {% endif %}
+        </div>
+        <!--  自定义导航 -->
+        {% for item in customHeaderList %}
+            <li class="header-navEven"
+                data-link="{{item.link}}"
+                data-id=""
+                data-target="{{item.target}}"
+            >
+                {{item.text}}
+                {% if item.new %}
+                    <div class="new-label x-3-cl h-5-bg">NEW</div>
+                {% endif %}
+            </li>
+        {% endfor %}
+        <!-- 设置语言 -->
+        <li class="header-navEven"
+                data-link="/setLang"
+                data-id="setLang"
+            >
+                Language
+            </li>
+    </ul>
+
+    <!-- 公共版款 -->
+    <div class="common-header-optionList">
+        <!-- 设置 -->
+        {% if colorList.length %}
+            <div class="header-user h-2-bd" id="color-set" style="display: none">
+                <div class="header-user-icon icon-info">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_2"></use>
+                    </svg>
+                </div>
+                <div class="header-user-icon icon-active">
+                    <svg class="icon icon-18" aria-hidden="true">
+                        <use xlink:href="#icon-b_2_1"></use>
+                    </svg>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <ul id="colorList" style="display: none">
+        {% for item in colorList %}
+            <li data-checked="{{ item.checked }}" data-id="{{ item.skinId }}">
+                <section class="common-redio">
+                    <svg aria-hidden="true" class="icon icon-16 uncheck">
+                        <use xlink:href="#icon-c_14"></use>
+                    </svg>
+                    <svg aria-hidden="true" class="icon icon-16 check">
+                        <use xlink:href="#icon-c_14_1"></use>
+                    </svg>
+                </section>
+                <span class="b-1-cl">{{ item.mainClor }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<script>
+    (function () {
+        const {getScript} = window.BlockChainUtils;
+        const extendPath = "{{sourceMap.headerExtend}}";
+        if (extendPath && !window.HeaderExtend) {
+            getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+                class Header extends window.HeaderExtend {
+                    constructor() {
+                        super();
+                        this.isH5 = true;
+                        this.dialogPath = "{{sourceMap.dialog}}";
+                        // this.etfOpen = Number("{{switch.etfOpen}}");
+                        this.locale = {
+                            titleText: '{{locale.header.set}}',
+                            closeTextProps: '{{locale.components.dialog.closeText}}',
+                            confirmTextProps: '{{locale.components.dialog.confirmText}}',
+                            color: '{{locale.header.color}}',
+                            userStatus: '{{locale.header.userStatus}}'
+                        };
+                        this.userState = {
+                            0: "{{locale.header.userStatus1}}",
+                            1: "{{locale.header.userStatus2}}",
+                            2: "{{locale.header.userStatus3}}"
+                        };
+                        this.init();
+                        const $nusBtn = document.querySelector('.header-head-op-ic')
+                        const $headerMarket = document.querySelector('.header-market')
+                        const $body = document.querySelector('body')
+                        $nusBtn.addEventListener('click', () => {
+                            $headerMarket
+                                .classList
+                                .toggle('header-market-show');
+                            $body
+                                .classList
+                                .toggle('body-hidden')
+                        }, false)
+                    }
+                }
+
+                new Header();
+            });
+        }
+
+    })();
+</script>
+</header>

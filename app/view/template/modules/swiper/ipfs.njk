@@ -108,9 +108,13 @@
             z-index: 9;
         }
         @media (max-width: 960px) {
+            .homes .swipers {
+                position: absolute;
+                width: 100%;
+                top: 0px;
+            }
             .carousel-wrap {
-                height: 500px;
-                
+                height: 420px;
             }
             .swipers-ipfs .slide-ul li a.page {
                 background-size: auto 100%;
@@ -119,16 +123,34 @@
                 bottom: 100px;
             }
         }
-        @media (max-width: 450px) {
+        @media (max-width: 600px) {
             .carousel-wrap {
-                height: 240px;
+                height: 320px;
             }
             .carousel-items {
-                bottom: 50px;
+                bottom: 60px;
             }
             .carousel-items span {
-                width: 5px;
-                height: 5px;
+                width: 8px !important;
+                height: 8px!important;
+            }
+            .carousel-items span.active {
+                width: 18px !important;
+            }
+        }
+        @media (max-width: 450px) {
+            .carousel-wrap {
+                height: 180px;
+            }
+            .carousel-items {
+                bottom: 40px;
+            }
+            .carousel-items span {
+                width: 5px !important;
+                height: 5px !important;
+            }
+            .carousel-items span.active {
+                width: 12px !important;
             }
         }
     </style>

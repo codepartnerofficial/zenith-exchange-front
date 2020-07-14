@@ -379,7 +379,7 @@
         }
         @media (max-width: 450px) {
             .ipfs-home-container .column-list {
-                padding-left: 3%;
+                padding-left: 4%;
             }
             .ipfs-home-container .column-list .column-item {
                 padding: 20px 14px 0 14px;
@@ -496,11 +496,18 @@
                 margin-top: 6px;
             }
         }
+        @media (max-width: 321px) {
+            .filecoin-main .pro-item-jt {
+                width: 16px;
+                padding: 40px 0 0 0
+            }
+           
+        }
         
     </style>
-    {# {% if footer_warm_prompt %}
+    {% if footer_warm_prompt %}
     <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
-    {% else %} #}
+    {% else %}
     <div class="ipfs-home-container">
         <div class="column-block">
         
@@ -670,6 +677,9 @@
             })();
         </script>
     </div>
-    {# {% endif %} #}
+    {% endif %}
     <script></script>
 </div>
+
+
+
