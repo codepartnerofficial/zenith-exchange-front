@@ -2,7 +2,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {# <meta name="viewport" content="width=device-width,initial-scale=1.0"> #}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0;">
+    
     <meta property="og:type" content="website">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="600" />
@@ -30,6 +32,7 @@
         }
     </style>
     <script>
+        window.ispc = "{{ ispc }}";
         window.env = "{{ env }}";
         window.imgMap = {{imgMap | safe}};
         window.websocketPath = "{{sourceMap['websocket-work']}}";
@@ -62,8 +65,8 @@
         })
     </script>
 </head>
-<body class="inx b-2-cl c-2-bg Chainer">
-{% include "modules/header/china.njk" %}
+<body class="inx b-2-cl c-2-bg Chainer" id="{{ boxClass }}">
+{% include headerTemplateModule %}
 <div class="page-content page-content-chain" style="position: relative; min-height: 800px" id="app">
     {% include templateModule %}
 </div>

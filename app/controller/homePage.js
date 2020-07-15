@@ -7,6 +7,13 @@ const templateConfig = require('../utils/template-config');
 
 class StaticIndex extends Controller {
   async index(ctx) {
+    let ispc = true;
+    const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
+
+    const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+    if (agentID) {
+      ispc = false;
+    }
     const currenLan = this.ctx.request.path.split('/')[1];
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     let nowHost = this.ctx.request.header.host;
@@ -44,7 +51,7 @@ class StaticIndex extends Controller {
       return;
     }
     const fileBasePath = this.config.localesPath;
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
     this.skin = this.getSkin(fileName, this.config.skinsPath);
     const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
     this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.app);
@@ -61,13 +68,13 @@ class StaticIndex extends Controller {
     this.getSelectSkin();
 
 
-    this.headerLink = this.getHeaderLink();
+    this.headerLink = this.getHeaderLink(ispc);
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
       msg,
       headerLink: this.headerLink,
-      headerList: this.getHeaderList(),
+      headerList: this.getHeaderList(ispc),
       customHeaderList,
       headerSymbol: market ? market.headerSymbol : [],
       appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
@@ -75,7 +82,10 @@ class StaticIndex extends Controller {
       lan,
       currenLan,
       seo: this.getSEO(),
-      templateModule: this.getTemplate(),
+      templateModule: this.getTemplate(ispc),
+      ispc,
+      headerTemplateModule: this.getHeaderTemplate(ispc),
+      boxClass: ispc ? 'home-pc' : 'home-h5',
       coinList: market ? market.coinList : [],
       switch: this.publicInfo.switch,
       assetsList: this.assetsList(),
@@ -83,7 +93,7 @@ class StaticIndex extends Controller {
       number: item => Number(item),
       colorList: this.getColorList(currenLan),
       noticeList: this.getNoticeList(noticeInfoList),
-      cmsAdvertList,
+      cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
       footerList,
@@ -98,7 +108,6 @@ class StaticIndex extends Controller {
     });
   }
 
-
   getSEO() {
     const seo = this.publicInfo.seo || {};
     return {
@@ -109,12 +118,25 @@ class StaticIndex extends Controller {
     };
   }
 
-  getTemplate() {
+  getTemplate(ispc) {
     let template = 'international';
+    const indexTempType = this.publicInfo.switch.index_temp_type;
     if (this.publicInfo.switch) {
-      template = templateConfig[this.publicInfo.switch.index_temp_type];
+      template = templateConfig[indexTempType];
+    }
+    // 828727492：  矿池首页自带响应式
+    if (!ispc && indexTempType !== '828727492') {
+      template = 'h5';
     }
     return `modules/${template}.njk`;
+  }
+
+  getHeaderTemplate(ispc) {
+    let template = 'china';
+    if (!ispc) {
+      template = 'h5';
+    }
+    return `modules/header/${template}.njk`;
   }
 
   getSelectSkin() {
@@ -376,7 +398,7 @@ class StaticIndex extends Controller {
     return obj.data;
   }
 
-  getHeaderLink() {
+  getHeaderLink(ispc) {
     const { url } = this.publicInfo;
     if (url) {
       return {
@@ -385,14 +407,14 @@ class StaticIndex extends Controller {
         market: url.exUrl ? `${url.exUrl}/market` : '',
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
-        co: url.coUrl,
+        co: ispc ? url.coUrl : '',
       };
     }
     return {};
   }
 
 
-  getHeaderList() {
+  getHeaderList(ispc) {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
@@ -400,7 +422,7 @@ class StaticIndex extends Controller {
       return arr;
     }
     // 行情
-    if (pubSwitch.index_kline_switch === '1') {
+    if (pubSwitch.index_kline_switch === '1' && ispc) {
       arr.push({
         title: this.__getLocale('header.market'),
         activeId: 'market',
@@ -415,6 +437,7 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
         link: headerLink.trade,
+        icon: 'icon-b_5',
       });
     }
     // 法币
@@ -431,12 +454,13 @@ class StaticIndex extends Controller {
       title: this.__getLocale('header.otc'),
       activeId: 'otcTrade',
       link: headerLink.otc,
+      icon: 'icon-b_6',
     };
     if (headerLink.otc) {
       otcArr.push(otcObj);
     }
     // 信用卡
-    if (Number(pubSwitch.middleman_config_open)) {
+    if (Number(pubSwitch.middleman_config_open) && ispc) {
       otcArr.push({
         title: this.__getLocale('creditCard.title'),
         activeId: 'crad',
@@ -471,6 +495,7 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.co'),
         activeId: 'coTrade',
         link: headerLink.co,
+        icon: 'icon-b_23',
       });
     }
     // 杠杆
@@ -479,11 +504,12 @@ class StaticIndex extends Controller {
         title: this.__getLocale('header.lever'),
         activeId: 'marginTrade',
         link: headerLink.lever,
+        icon: 'icon-b_24',
       });
     }
     // etf
     // 币币交易
-    if (pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
+    if (ispc && pubSwitch.etfOpen && pubSwitch.etfNavigationSwitch === '1') {
       arr.push({
         title: this.__getLocale('etfAdd.title'),
         activeId: 'etf',
