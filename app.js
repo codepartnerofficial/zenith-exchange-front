@@ -60,7 +60,12 @@ class AppBootHook {
     app.config.LOCAL_IP = getIPAddress();
     app.config.domainArr = domainArr;
     app.config.defaultLocalePath = path.join(__dirname, './node_modules/BlockChain-ui/locales/web');
+    app.config.defaultLocales = {};
+    app.messenger.on('get-locale', (data) => {
+      app.config.defaultLocales[data.name] = data.value;
+    });
   }
+
 }
 
 module.exports = AppBootHook;

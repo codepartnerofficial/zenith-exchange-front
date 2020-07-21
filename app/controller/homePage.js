@@ -108,7 +108,7 @@ class StaticIndex extends Controller {
       cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
-      footerList,
+      footerList: this.footerList,
       imgMap: this.getImgMap(),
       footerTemplate: headerFooter.footer,
       sourceMap: this.getSourceMap(),
