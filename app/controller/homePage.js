@@ -408,6 +408,8 @@ class StaticIndex extends Controller {
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
         co: ispc ? url.coUrl : '',
+        proTrade: url.exUrl ? `${url.exUrl}/proTrade` : '',
+        prolever: url.exUrl ? `${url.exUrl}/proTradeMargin` : '',
       };
     }
     return {};
@@ -418,9 +420,29 @@ class StaticIndex extends Controller {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
-    if (!pubSwitch) {
-      return arr;
+    if (!pubSwitch) { return arr; }
+    let tradeProConfig = {
+      exproisOpen: '0',
+      marginproisOpen: '0',
+      swapproisOpen: '0',
+    };
+    if (this.publicInfo.custom_config) {
+      const customConfigData = this.publicInfo.custom_config;
+      let customConfig = null;
+      if (customConfigData) {
+        try {
+          customConfig = JSON.parse(customConfigData);
+        } catch (e) {
+          console.log('custom_config 配置有误');
+        }
+        if (customConfig && customConfig.trade_pro_config
+            && customConfig.trade_pro_config.exproisOpen) {
+          tradeProConfig = customConfig.trade_pro_config;
+        }
+      }
     }
+
+
     // 行情
     if (pubSwitch.index_kline_switch === '1' && ispc) {
       arr.push({
@@ -433,11 +455,27 @@ class StaticIndex extends Controller {
     // 币币交易
     // exchange_hide 0: 隐藏币币交易 1：显示币币交易
     if (headerLink.trade && pubSwitch.exchange_hide !== '0') {
+      let selectList = [];
+      if (tradeProConfig.exproisOpen === '1') {
+        selectList = [
+          {
+            activeId: 'exTrade',
+            link: headerLink.trade,
+            title: '普通版',
+          },
+          {
+            activeId: 'proTrade',
+            link: headerLink.proTrade,
+            title: '专业版',
+          },
+        ];
+      }
       arr.push({
         title: this.__getLocale('header.trade'),
         activeId: 'exTrade',
         link: headerLink.trade,
         icon: 'icon-b_5',
+        selectList,
       });
     }
     // 法币
@@ -481,6 +519,7 @@ class StaticIndex extends Controller {
       }
       arr.push(otcHeader);
     }
+    console.log(arr);
     // 一键买币
     if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
       arr.push({
@@ -491,20 +530,54 @@ class StaticIndex extends Controller {
     }
     // 合约
     if (headerLink.co) {
+      let coselectList = [];
+      // 判断是否开启了合约的专业版
+      if (tradeProConfig.swapproisOpen === '1') {
+        coselectList = [
+          {
+            activeId: 'proCo',
+            link: headerLink.co,
+            title: '普通版',
+          },
+          {
+            activeId: 'proTrade',
+            link: headerLink.co,
+            title: '专业版',
+          },
+        ];
+      }
       arr.push({
         title: this.__getLocale('header.co'),
         activeId: 'coTrade',
         link: headerLink.co,
         icon: 'icon-b_23',
+        coselectList,
       });
     }
     // 杠杆
     if (Number(pubSwitch.lever_open)) {
+      // 判断是否开启了杠杆专业版
+      let leverselectList = [];
+      if (tradeProConfig.marginproisOpen === '1') {
+        leverselectList = [
+          {
+            activeId: 'marginTrade',
+            link: headerLink.lever,
+            title: '普通版',
+          },
+          {
+            activeId: 'marginProTrade',
+            link: headerLink.proLever,
+            title: '专业版',
+          },
+        ];
+      }
       arr.push({
         title: this.__getLocale('header.lever'),
         activeId: 'marginTrade',
         link: headerLink.lever,
         icon: 'icon-b_24',
+        leverselectList,
       });
     }
     // etf
