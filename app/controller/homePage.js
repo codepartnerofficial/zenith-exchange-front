@@ -551,7 +551,7 @@ class StaticIndex extends Controller {
         activeId: 'coTrade',
         link: headerLink.co,
         icon: 'icon-b_23',
-        coselectList,
+        selectList: coselectList,
       });
     }
     // 杠杆
@@ -577,7 +577,7 @@ class StaticIndex extends Controller {
         activeId: 'marginTrade',
         link: headerLink.lever,
         icon: 'icon-b_24',
-        leverselectList,
+        selectList: leverselectList,
       });
     }
     // etf
