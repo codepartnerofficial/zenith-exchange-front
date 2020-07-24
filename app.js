@@ -61,8 +61,25 @@ class AppBootHook {
     app.config.domainArr = domainArr;
     app.config.defaultLocalePath = path.join(__dirname, './node_modules/BlockChain-ui/locales/web');
     app.config.defaultLocales = {};
-    app.messenger.on('get-locale', (data) => {
+    app.config.locales = {};
+    app.messenger.on('defaultData', ({defaultLocales, defaultSkin, locales}) => {
+      app.config.defaultLocales = defaultLocales;
+      app.config.defaultSkin = defaultSkin;
+      app.config.locales = locales;
+    });
+    app.messenger.sendToAgent('getLocalesAndSkin', process.pid);
+    app.messenger.on('get-defaultLocale', (data) => {
       app.config.defaultLocales[data.name] = data.value;
+    });
+    app.messenger.on('get-Locale', ({ fileName, lan, value }) => {
+      if (!app.config.locales[fileName]) {
+        app.config.locales[fileName] = {};
+      }
+      app.config.locales[fileName][lan] = value;
+    });
+
+    app.messenger.on('get-skin', (data) => {
+      app.config.defaultSkin = data;
     });
   }
 

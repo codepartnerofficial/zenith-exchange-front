@@ -1,7 +1,7 @@
 const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
-const { getLocale, getFileName, getPublicInfo, compare } = require('BlockChain-ui/node/utils');
+const { getFileName, compare, mergeSkin } = require('BlockChain-ui/node/utils');
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
 
@@ -68,8 +68,13 @@ class StaticIndex extends Controller {
     if (!reg.test(currenLan)) {
       return;
     }
+    mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
     const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.commonIndex;
-    this.locale = this.publicInfo.locale;
+    let locale = this.config.defaultLocales[`${currenLan}.json`];
+    if (this.config.locales[fileName] && this.config.locales[fileName][currenLan]) {
+      locale = this.config.locales[fileName][currenLan];
+    }
+    this.locale = locale;
     const { msg, lan, market, symbolAll } = this.publicInfo;
     const { headerFooter } = this;
     let customHeaderList = {};
