@@ -157,13 +157,14 @@ class StaticIndex extends Controller {
   }
 
   getSelectSkin() {
-    if (!this.skin) {
+    if (!this.publicInfo.skin) {
       return null;
     }
+    const skin = this.publicInfo.skin;
     const id = this.ctx.cookies.get('cusSkin', {
       signed: false,
-    }) || this.skin.default;
-    const list = this.skin.listist;
+    }) || skin.default;
+    const list = skin.listist;
     const currentList = [];
     list.forEach(item => {
       if (item.skinId === id) {
@@ -171,9 +172,9 @@ class StaticIndex extends Controller {
       }
     });
     return {
-      skinTypeId: this.skin.skinTypeId,
+      skinTypeId: skin.skinTypeId,
       listist: currentList,
-      default: this.skin.default,
+      default: skin.default,
     };
   }
 
@@ -244,7 +245,7 @@ class StaticIndex extends Controller {
   }
 
   getColorList(lan) {
-    const { skin } = this;
+    const { skin } = this.publicInfo;
     if (!skin) {
       return [];
     }
