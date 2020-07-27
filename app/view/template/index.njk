@@ -53,9 +53,46 @@
             emitter.emit('resize');
         });
         var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-        fetch('/home/getMarket/' + lan).then((res) => res.json()).then((data) => {
-           window.market = data;
-           emitter.emit('getMarket', data);
+        fetchData({
+            url: '/fe-ex-api/common/public_info_market',
+        }).then((data) => {
+            if (data.code.toString() === '0') {
+                const { coinList, market } = data.data.market;
+                const setSymbolAll = (result) => {
+                    const symbolAll = {};
+                    const marketKey = Object.keys(result.market);
+                    marketKey.forEach((item) => {
+                        const symbolKey = Object.keys(result.market[item]);
+                        symbolKey.forEach((symbol) => {
+                            symbolAll[symbol] = result.market[item][symbol];
+                            const { isShow } = result.market[item][symbol];
+                            if (typeof isShow === 'undefined' || Object.prototype.toString.call(isShow) === 'Null') {
+                                symbolAll[symbol].isShow = 1;
+                            }
+                        });
+                    });
+                    return symbolAll;
+                };
+                const myCoinList = {};
+                Object.keys(coinList).forEach((item) => {
+                    if (!coinList[item].fiatPrecision) {
+                        myCoinList[item] = {
+                            ...coinList[item],
+                            fiatPrecision: { cny: '2', usd: '2', krw: '2' },
+                        };
+                    } else {
+                        const coin = JSON.parse(JSON.stringify(coinList[item]));
+                        if (coin.symbolPrecision) {
+                            coin.fiatPrecision = coin.symbolPrecision;
+                        }
+                        myCoinList[item] = { ...coin };
+                    }
+                });
+                const myMarket = { ...data.data.market, coinList: myCoinList };
+                data.data.symbolAll = setSymbolAll(myMarket);
+                window.market = data.data;
+                emitter.emit('getMarket', data.data);
+            }
         });
         const homeDialog = "{{sourceMap.homeDialog}}";
         emitter.on('login', () => {
