@@ -5,15 +5,11 @@ module.exports = (agent) => {
   // 但需要等待 App Worker 启动成功后才能发送，不然很可能丢失
   agent.messenger.on('egg-ready', () => {
     const defaultLocales = {};
-    let defaultSkin = {};
     const locales = {};
     agent.messenger.on('get-defaultLocale', (data) => {
       defaultLocales[data.name] = data.value;
     });
 
-    agent.messenger.on('get-skin', (data) => {
-      defaultSkin = data;
-    });
     agent.messenger.on('get-Locale', ({ fileName, lan, value }) => {
       if (!locales[fileName]) {
         locales[fileName] = {};
@@ -21,7 +17,7 @@ module.exports = (agent) => {
       locales[fileName][lan] = value;
     });
     agent.messenger.on('getLocalesAndSkin', (pid) => {
-      agent.messenger.sendTo(pid, 'defaultData', { defaultLocales, defaultSkin, locales });
+      agent.messenger.sendTo(pid, 'defaultData', { defaultLocales, locales });
     });
   });
 };
