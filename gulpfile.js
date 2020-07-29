@@ -150,15 +150,11 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const scriptStart = content.indexOf('<script>') + 8;
         const scriptEnd = content.indexOf('</script>');
         const scriptContent = content.substring(scriptStart, scriptEnd);
-/*        const styleStart = content.indexOf('<style>') + 7;
-        const styletEnd = content.indexOf('</style>');
-        const styletContent = content.substring(styleStart, styletEnd);
-        const miniCss = minify(styletContent, {removeComments: true,collapseWhitespace: true,minifyJS:true, minifyCSS:true});
-        styleMap.china.push(miniCss);
-        content = content.replace(styletContent, '');*/
         content = content.replace(scriptContent, transform(scriptContent, {
           minified: true,
           comments: false,
+          presets: ['env'],
+          plugins: ["transform-remove-strict-mode"],
         }).code);
         content = minify(content, {
           minifyCSS: true,
@@ -188,6 +184,8 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const script = transform((inlineJs + utilsJS + fetchData), {
           minified: true,
           comments: false,
+          presets: ['env'],
+          plugins: ["transform-remove-strict-mode"],
         }).code;
         content = content.replace('<script inline-html></script>', `<script>window.evn = "${process.env.NODE_ENV}";window.sysVersion = "${gitVersion}";window.updateDate="${new Date()}"; ${script}</script>`);
       }
@@ -400,6 +398,6 @@ async function mkStaticDomain(){
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = series(copyStatic);
+exports.test = series(buildTemplate);
 exports.dev = series(mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
 exports.build = series(clean, mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);

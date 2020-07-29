@@ -48,18 +48,18 @@
     </script>
     <script inline-html></script>
     <script>
-        const { getScript } = window.BlockChainUtils;
-        window.addEventListener('resize', () => {
+        var getScript = window.BlockChainUtils.getScript;
+        window.addEventListener('resize', function() {
             emitter.emit('resize');
         });
         var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-        fetch('/home/getMarket/' + lan).then((res) => res.json()).then((data) => {
+        fetch('/home/getMarket/' + lan).then(function(res) { return res.json()}).then(function(data) {
            window.market = data;
            emitter.emit('getMarket', data);
         });
-        const homeDialog = "{{sourceMap.homeDialog}}";
-        emitter.on('login', () => {
-            getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(() => {
+        var homeDialog = "{{sourceMap.homeDialog}}";
+        emitter.on('login', function() {
+            getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(function() {
                 new window.HomeDialog();
             });
         })
