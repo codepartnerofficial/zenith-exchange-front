@@ -48,8 +48,8 @@
     </script>
     <script inline-html></script>
     <script>
-        const { getScript } = window.BlockChainUtils;
-        window.addEventListener('resize', () => {
+        var getScript = window.BlockChainUtils.getScript;
+        window.addEventListener('resize', function() {
             emitter.emit('resize');
         });
         var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
