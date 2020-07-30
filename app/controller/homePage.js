@@ -69,7 +69,7 @@ class StaticIndex extends Controller {
       return;
     }
     mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2 } = this.commonIndex;
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.commonIndex;
     let locale = this.config.defaultLocales[`${currenLan}.json`];
     if (this.config.locales[fileName] && this.config.locales[fileName][currenLan]) {
       locale = this.config.locales[fileName][currenLan];

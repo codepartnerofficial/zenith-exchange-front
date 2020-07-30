@@ -153,7 +153,10 @@ function compassFiles(paths, templatePath, outputPath, style) {
         content = content.replace(scriptContent, transform(scriptContent, {
           minified: true,
           comments: false,
-          presets: ['env'],
+          "presets": [
+            ["env", { "modules": false ,"targets":{"node":"current"}}],
+            "stage-3"
+          ],
           plugins: ["transform-remove-strict-mode"],
         }).code);
         content = minify(content, {
@@ -184,7 +187,10 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const script = transform((inlineJs + utilsJS + fetchData), {
           minified: true,
           comments: false,
-          presets: ['env'],
+          "presets": [
+            ["env", { "modules": false ,"targets":{"node":"current"}}],
+            "stage-3"
+          ],
           plugins: ["transform-remove-strict-mode"],
         }).code;
         content = content.replace('<script inline-html></script>', `<script>window.evn = "${process.env.NODE_ENV}";window.sysVersion = "${gitVersion}";window.updateDate="${new Date()}"; ${script}</script>`);
@@ -217,7 +223,10 @@ function createwebWrokerMap(dirPath, outPath) {
       const compassFileSource = transform(fileSource, {
         minified: true,
         comments: false,
-        presets: ['env'],
+        "presets": [
+          ["env", { "modules": false ,"targets":{"node":"current"}}],
+          "stage-3"
+        ],
         plugins: ["transform-remove-strict-mode"],
       }).code;
       md5sum.update(compassFileSource);
@@ -250,7 +259,10 @@ function createWebSocket(dirPath, outPath){
     str = transform(str, {
       minified: true,
       comments: false,
-      presets: ['env'],
+      "presets": [
+        ["env", { "modules": false ,"targets":{"node":"current"}}],
+        "stage-3"
+      ],
       plugins: ["transform-remove-strict-mode"],
     }).code;
     const md5sum = crypto.createHash('md5');
@@ -361,7 +373,10 @@ async function buildModulesJS(){
       source = transform(source, {
         minified: true,
         comments: false,
-        presets: ['env'],
+        "presets": [
+          ["env", { "modules": false ,"targets":{"node":"current"}}],
+          "stage-3"
+        ],
         plugins: ["transform-remove-strict-mode"],
       }).code;
       const md5sum = crypto.createHash('md5');
