@@ -94,12 +94,14 @@
                 emitter.emit('getMarket', data.data);
             }
         });
-        const homeDialog = "{{sourceMap.homeDialog}}";
-        emitter.on('login', () => {
-            getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(() => {
-                new window.HomeDialog();
-            });
-        })
+        if (window.ispc === 'true'){
+            const homeDialog = "{{sourceMap.homeDialog}}";
+            emitter.on('login', () => {
+                getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(() => {
+                    new window.HomeDialog();
+                });
+            })
+        }
     </script>
 </head>
 <body class="inx b-2-cl c-2-bg Chainer" id="{{ boxClass }}">
