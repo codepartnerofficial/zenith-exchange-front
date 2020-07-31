@@ -1,7 +1,7 @@
 const { Controller } = require('egg');
 const fs = require('fs');
 const path = require('path');
-const { getLocale, getFileName, getPublicInfo, compare } = require('BlockChain-ui/node/utils');
+const { getFileName, compare, mergeSkin } = require('BlockChain-ui/node/utils');
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
 
@@ -31,32 +31,52 @@ class StaticIndex extends Controller {
         domainName: `${ctx.app.httpclient.agent.protocol}//${nowHost}`,
       };
     }
-    this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
+    const results = await Promise.all([
+      ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+    ]);
+    results.forEach((item) => {
+      const k = Object.keys(item)[0];
+      const res = item[k];
+      switch (k) {
+        case 'common/public_info_v4': {
+          this.publicInfo = res;
+          break;
+        }
+        case 'common/footer_and_header': {
+          this.headerFooter = res;
+          break;
+        }
+        case 'common/app_download': {
+          this.appDownLoad = res;
+          break;
+        }
+        case 'common/index': {
+          this.commonIndex = res;
+          break;
+        }
+        case '/cms/footer/list': {
+          this.footerList = res
+          break;
+        }
+      }
+    });
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
-    if (!fs.existsSync(path.join(this.config.staticPath, `${currenLan}-${fileName}.json`))) {
-      await ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      await ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan);
-      this.publicInfo = getPublicInfo(this, currenLan, cusSkin, nowHost);
-    } else {
-      ctx.service.publictInfo.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getFooterHeader.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getAppDownLoad.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getBannerIndex.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-      ctx.service.getFooterList.getdata(domainArr[fileName], ctx.request.header.host, currenLan);
-    }
     if (!reg.test(currenLan)) {
       return;
     }
-    const fileBasePath = this.config.localesPath;
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.getLocalData(fileName, this.config.bannerIndexPath, currenLan);
-    this.skin = this.getSkin(fileName, this.config.skinsPath);
-    const footerList = this.getLocalData(fileName, this.config.footerList, currenLan);
-    this.locale = getLocale(currenLan, fileName, fileBasePath, this.logger, this.app);
+    mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
+    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.commonIndex;
+    let locale = this.config.defaultLocales[`${currenLan}.json`];
+    if (this.config.locales[fileName] && this.config.locales[fileName][currenLan]) {
+      locale = this.config.locales[fileName][currenLan];
+    }
+    this.locale = locale;
     const { msg, lan, market, symbolAll } = this.publicInfo;
-    const headerFooter = this.getLocalData(fileName, this.config.footerHeaderPath, currenLan);
+    const { headerFooter } = this;
     let customHeaderList = {};
     if (headerFooter && headerFooter.header) {
       try {
@@ -65,10 +85,7 @@ class StaticIndex extends Controller {
         this.logger.error('自定义header不是json');
       }
     }
-    this.getSelectSkin();
-
-
-    this.headerLink = this.getHeaderLink(ispc);
+    this.headerLink = this.getHeaderLink();
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -77,7 +94,7 @@ class StaticIndex extends Controller {
       headerList: this.getHeaderList(ispc),
       customHeaderList,
       headerSymbol: market ? market.headerSymbol : [],
-      appDownLoad: this.getLocalData(fileName, this.config.appDownLoadPath, currenLan),
+      appDownLoad: this.appDownLoad,
       lanList: lan ? lan.lanList : [],
       lan,
       currenLan,
@@ -96,7 +113,7 @@ class StaticIndex extends Controller {
       cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
-      footerList,
+      footerList: this.footerList,
       imgMap: this.getImgMap(),
       footerTemplate: headerFooter.footer,
       sourceMap: this.getSourceMap(),
@@ -140,13 +157,14 @@ class StaticIndex extends Controller {
   }
 
   getSelectSkin() {
-    if (!this.skin) {
+    if (!this.publicInfo.skin || !Object.keys(this.publicInfo.skin).length) {
       return null;
     }
+    const skin = this.publicInfo.skin;
     const id = this.ctx.cookies.get('cusSkin', {
       signed: false,
-    }) || this.skin.default;
-    const list = this.skin.listist;
+    }) || skin.default;
+    const list = skin.listist;
     const currentList = [];
     list.forEach(item => {
       if (item.skinId === id) {
@@ -154,9 +172,9 @@ class StaticIndex extends Controller {
       }
     });
     return {
-      skinTypeId: this.skin.skinTypeId,
+      skinTypeId: skin.skinTypeId,
       listist: currentList,
-      default: this.skin.default,
+      default: skin.default,
     };
   }
 
@@ -227,8 +245,8 @@ class StaticIndex extends Controller {
   }
 
   getColorList(lan) {
-    const { skin } = this;
-    if (!skin) {
+    const { skin } = this.publicInfo;
+    if (!skin || !Object.keys(skin).length) {
       return [];
     }
     let sk = skin.default;
