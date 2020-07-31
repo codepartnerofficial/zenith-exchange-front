@@ -157,7 +157,7 @@ class StaticIndex extends Controller {
   }
 
   getSelectSkin() {
-    if (!this.publicInfo.skin) {
+    if (!this.publicInfo.skin || !Object.keys(this.publicInfo.skin).length) {
       return null;
     }
     const skin = this.publicInfo.skin;
@@ -246,7 +246,7 @@ class StaticIndex extends Controller {
 
   getColorList(lan) {
     const { skin } = this.publicInfo;
-    if (!skin) {
+    if (!skin || !Object.keys(skin).length) {
       return [];
     }
     let sk = skin.default;
