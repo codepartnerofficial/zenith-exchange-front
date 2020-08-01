@@ -1,7 +1,6 @@
 const { getIPAddress } = require('BlockChain-ui/node/utils');
 const path = require('path');
 const fs = require('fs');
-const skinAll = require('BlockChain-ui/node/utils/skin_all.json');
 
 class AppBootHook {
   constructor(app) {
@@ -61,26 +60,7 @@ class AppBootHook {
     app.config.LOCAL_IP = getIPAddress();
     app.config.domainArr = domainArr;
     app.config.defaultLocalePath = path.join(__dirname, './node_modules/BlockChain-ui/locales/web');
-    app.config.defaultLocales = {};
-    app.config.locales = {};
-    app.messenger.on('defaultData', ({defaultLocales, locales}) => {
-      app.config.defaultLocales = defaultLocales;
-      app.config.locales = locales;
-    });
-    app.messenger.sendToAgent('getLocalesAndSkin', process.pid);
-    app.messenger.on('get-defaultLocale', (data) => {
-      app.config.defaultLocales[data.name] = data.value;
-    });
-    app.messenger.on('get-Locale', ({ fileName, lan, value }) => {
-      if (!app.config.locales[fileName]) {
-        app.config.locales[fileName] = {};
-      }
-      app.config.locales[fileName][lan] = value;
-    });
-    app.config.defaultSkin = skinAll;
   }
-
-
 }
 
 module.exports = AppBootHook;

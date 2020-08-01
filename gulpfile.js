@@ -150,14 +150,15 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const scriptStart = content.indexOf('<script>') + 8;
         const scriptEnd = content.indexOf('</script>');
         const scriptContent = content.substring(scriptStart, scriptEnd);
+/*        const styleStart = content.indexOf('<style>') + 7;
+        const styletEnd = content.indexOf('</style>');
+        const styletContent = content.substring(styleStart, styletEnd);
+        const miniCss = minify(styletContent, {removeComments: true,collapseWhitespace: true,minifyJS:true, minifyCSS:true});
+        styleMap.china.push(miniCss);
+        content = content.replace(styletContent, '');*/
         content = content.replace(scriptContent, transform(scriptContent, {
           minified: true,
           comments: false,
-          "presets": [
-            ["env", { "modules": false ,"targets":{"node":"current"}}],
-            "stage-3"
-          ],
-          plugins: ["transform-remove-strict-mode"],
         }).code);
         content = minify(content, {
           minifyCSS: true,
@@ -187,11 +188,6 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const script = transform((inlineJs + utilsJS + fetchData), {
           minified: true,
           comments: false,
-          "presets": [
-            ["env", { "modules": false ,"targets":{"node":"current"}}],
-            "stage-3"
-          ],
-          plugins: ["transform-remove-strict-mode"],
         }).code;
         content = content.replace('<script inline-html></script>', `<script>window.evn = "${process.env.NODE_ENV}";window.sysVersion = "${gitVersion}";window.updateDate="${new Date()}"; ${script}</script>`);
       }
@@ -223,10 +219,7 @@ function createwebWrokerMap(dirPath, outPath) {
       const compassFileSource = transform(fileSource, {
         minified: true,
         comments: false,
-        "presets": [
-          ["env", { "modules": false ,"targets":{"node":"current"}}],
-          "stage-3"
-        ],
+        presets: ['env'],
         plugins: ["transform-remove-strict-mode"],
       }).code;
       md5sum.update(compassFileSource);
@@ -259,10 +252,7 @@ function createWebSocket(dirPath, outPath){
     str = transform(str, {
       minified: true,
       comments: false,
-      "presets": [
-        ["env", { "modules": false ,"targets":{"node":"current"}}],
-        "stage-3"
-      ],
+      presets: ['env'],
       plugins: ["transform-remove-strict-mode"],
     }).code;
     const md5sum = crypto.createHash('md5');
@@ -373,10 +363,7 @@ async function buildModulesJS(){
       source = transform(source, {
         minified: true,
         comments: false,
-        "presets": [
-          ["env", { "modules": false ,"targets":{"node":"current"}}],
-          "stage-3"
-        ],
+        presets: ['env'],
         plugins: ["transform-remove-strict-mode"],
       }).code;
       const md5sum = crypto.createHash('md5');
@@ -413,6 +400,6 @@ async function mkStaticDomain(){
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = series(buildTemplate);
+exports.test = series(copyStatic);
 exports.dev = series(mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
 exports.build = series(clean, mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);
