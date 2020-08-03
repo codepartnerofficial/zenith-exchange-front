@@ -2,20 +2,13 @@ const {
   src, task, dest, series, parallel,
 } = require('gulp');
 const path = require('path');
-const camelCase = require('camelcase');
-const browserify = require('browserify');
 const fs = require('fs');
-const copy = require('gulp-copy');
-const babelify = require('babelify');
-const stream = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const watch = require('gulp-watch');
 const crypto = require('crypto');
 const rev = require('gulp-rev');
-const uglify = require('gulp-uglify');
 const through = require('through2');
 const stylus = require('gulp-stylus');
-const {transform} = require('babel-core');
+const {transform} = require('@babel/core');
 const minify = require('html-minifier').minify;
 const cleanCSS = require('gulp-clean-css');
 const cp = require('child_process');
@@ -150,16 +143,8 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const scriptStart = content.indexOf('<script>') + 8;
         const scriptEnd = content.indexOf('</script>');
         const scriptContent = content.substring(scriptStart, scriptEnd);
-/*        const styleStart = content.indexOf('<style>') + 7;
-        const styletEnd = content.indexOf('</style>');
-        const styletContent = content.substring(styleStart, styletEnd);
-        const miniCss = minify(styletContent, {removeComments: true,collapseWhitespace: true,minifyJS:true, minifyCSS:true});
-        styleMap.china.push(miniCss);
-        content = content.replace(styletContent, '');*/
-        content = content.replace(scriptContent, transform(scriptContent, {
-          minified: true,
-          comments: false,
-        }).code);
+
+        content = content.replace(scriptContent, transform(scriptContent).code);
         content = minify(content, {
           minifyCSS: true,
           collapseBooleanAttributes: true,
@@ -181,14 +166,15 @@ function compassFiles(paths, templatePath, outputPath, style) {
           useShortDoctype: true,
         });
       }else{
+        const start = content.indexOf('<script id="index-script">') + 26;
+        const end = content.indexOf('</script>', start);
+        const indexScript = content.substring(start, end);
         const JSPath = path.join(__dirname, './node_modules/BlockChain-ui/static/js/html-init.js');
         const inlineJs = fs.readFileSync(JSPath, 'utf-8');
         const utilsJS = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/lib/utils.js'), 'utf-8');
         const fetchData = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/home/fetchData.js'), 'utf-8');
-        const script = transform((inlineJs + utilsJS + fetchData), {
-          minified: true,
-          comments: false,
-        }).code;
+        const script = transform((inlineJs + utilsJS + fetchData)).code;
+        content = content.replace(indexScript, transform(indexScript).code);
         content = content.replace('<script inline-html></script>', `<script>window.evn = "${process.env.NODE_ENV}";window.sysVersion = "${gitVersion}";window.updateDate="${new Date()}"; ${script}</script>`);
       }
       fs.writeFileSync(intoPath, content);
@@ -216,12 +202,7 @@ function createwebWrokerMap(dirPath, outPath) {
     } else {
       const fileSource = fs.readFileSync(filePath, 'UTF-8');
       const md5sum = crypto.createHash('md5');
-      const compassFileSource = transform(fileSource, {
-        minified: true,
-        comments: false,
-        presets: ['env'],
-        plugins: ["transform-remove-strict-mode"],
-      }).code;
+      const compassFileSource = transform(fileSource).code;
       md5sum.update(compassFileSource);
       const md5 = md5sum.digest('hex');
       const hashValue = `${md5}-${value}`;
@@ -249,18 +230,13 @@ function createWebSocket(dirPath, outPath){
   });
   str += fs.readFileSync(websocketPath, 'utf-8');
   if (process.env.NODE_ENV !== 'development'){
-    str = transform(str, {
-      minified: true,
-      comments: false,
-      presets: ['env'],
-      plugins: ["transform-remove-strict-mode"],
-    }).code;
+    str = transform(str).code;
     const md5sum = crypto.createHash('md5');
     md5sum.update(str);
     const md5 = md5sum.digest('hex');
     name = `${md5}-websocket`;
   }
-  str = `(() => {${str}})()`;
+  str = `(function() {${str}})()`;
   manifest[imgKey] = `/home/static/${name}.${suffix}`;
   fs.writeFileSync(path.join(outPath, `${name}.${suffix}`), str);
   fs.writeFileSync(sourceMapPath, JSON.stringify(manifest));
@@ -360,12 +336,7 @@ async function buildModulesJS(){
     const imgKey = imgKeys[0];
     let name = item;
     if (process.env.NODE_ENV !== 'development'){
-      source = transform(source, {
-        minified: true,
-        comments: false,
-        presets: ['env'],
-        plugins: ["transform-remove-strict-mode"],
-      }).code;
+      source = transform(source).code;
       const md5sum = crypto.createHash('md5');
       md5sum.update(source);
       const md5 = md5sum.digest('hex');
@@ -400,6 +371,6 @@ async function mkStaticDomain(){
 
 exports.build = parallel('clean', buildJS);*/
 
-exports.test = series(copyStatic);
+exports.test = series(buildTemplate);
 exports.dev = series(mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css, watchFile);
 exports.build = series(clean, mkdir, mkStaticDomain, buildModulesJS, compassWebsocket, iconJS, copyImg, buildTemplate, copyStatic, css);
