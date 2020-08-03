@@ -650,7 +650,7 @@
                 var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
                 fetchData({
                     method: 'post',
-                    url: '/fe-ex-api/newcoinV2/newcoin_project_listV2',
+                    url: '/fe-hashrate-api/projectList',
                     params: {page: 1,pageSize: 10,status: 0,type: 2},
                 }).catch(() => {
                 }).then((data) => {
