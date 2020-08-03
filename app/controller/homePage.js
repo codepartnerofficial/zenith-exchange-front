@@ -462,12 +462,12 @@ class StaticIndex extends Controller {
           {
             activeId: 'exTrade',
             link: headerLink.trade,
-            title: '普通版',
+            title: this.__getLocale('header.ord'), // '普通版',
           },
           {
             activeId: 'proTrade',
             link: headerLink.proTrade,
-            title: '专业版',
+            title: this.__getLocale('header.pro'), // '专业版',
           },
         ];
       }
@@ -538,12 +538,12 @@ class StaticIndex extends Controller {
           {
             activeId: 'proCo',
             link: headerLink.co,
-            title: '普通版',
+            title: this.__getLocale('header.ord'), // '普通版',
           },
           {
             activeId: 'proTrade',
             link: headerLink.proSwap,
-            title: '专业版',
+            title: this.__getLocale('header.pro'), // '专业版',
           },
         ];
       }
@@ -564,12 +564,12 @@ class StaticIndex extends Controller {
           {
             activeId: 'marginTrade',
             link: headerLink.lever,
-            title: '普通版',
+            title: this.__getLocale('header.ord'), // '普通版',
           },
           {
             activeId: 'marginProTrade',
             link: headerLink.prolever,
-            title: '专业版',
+            title: this.__getLocale('header.pro'), // '专业版',
           },
         ];
       }
