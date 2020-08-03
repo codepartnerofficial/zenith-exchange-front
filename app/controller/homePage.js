@@ -519,7 +519,7 @@ class StaticIndex extends Controller {
       }
       arr.push(otcHeader);
     }
-    console.log(arr);
+
     // 一键买币
     if (!headerLink.otc && Number(pubSwitch.saas_otc_flow_config)) {
       arr.push({
@@ -567,7 +567,7 @@ class StaticIndex extends Controller {
           },
           {
             activeId: 'marginProTrade',
-            link: headerLink.proLever,
+            link: headerLink.prolever,
             title: '专业版',
           },
         ];
