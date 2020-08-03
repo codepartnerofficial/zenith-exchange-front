@@ -408,6 +408,7 @@ class StaticIndex extends Controller {
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
         co: ispc ? url.coUrl : '',
+        proSwap: url.coUrl ? `${url.coUrl}/proSwap` : '',
         proTrade: url.exUrl ? `${url.exUrl}/proTrade` : '',
         prolever: url.exUrl ? `${url.exUrl}/proTradeMargin` : '',
       };
@@ -541,7 +542,7 @@ class StaticIndex extends Controller {
           },
           {
             activeId: 'proTrade',
-            link: headerLink.co,
+            link: headerLink.proSwap,
             title: '专业版',
           },
         ];
