@@ -25,86 +25,87 @@
     <script src="{{sourceMap.staticDomain}}/home/static/js/security.js?t=1595387885045"></script>
     <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['iconfont']}}" async id="iconfont"></script>
     <script src="{{sourceMap.staticDomain}}/home/static/js/event-emitter.min.js"></script>
-    <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['tip']}}" async></script>
     <style>
         .iScrollVerticalScrollbar .iScrollIndicator{
             border: 0 !important;
         }
     </style>
-    <script>
-        window.ispc = "{{ ispc }}";
-        window.env = "{{ env }}";
-        window.imgMap = {{imgMap | safe}};
-        window.websocketPath = "{{sourceMap['websocket-work']}}";
-        window.emitter = new EventEmitter();
-        window.staticDomain = "{{sourceMap.staticDomain}}";
-        window.coinTagOpen = '{{ switch.coin_tag_open }}';
-        window.publicInfo = {
-            skin: {{ skin | dump | safe}},
-        lan: {
-            defLan: "{{ lan.defLan }}"
-        }
-        }
-    </script>
-    <script inline-html></script>
-    <script id="index-script">
-        var getScript = window.BlockChainUtils.getScript;
-        window.addEventListener('resize', function() {
-            emitter.emit('resize');
-        });
-        var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-        fetchData({
-            url: '/fe-ex-api/common/public_info_market',
-        }).then(function(data) {
-            if (data.code.toString() === '0') {
-                var coinList = data.data.market.coinList
-                var setSymbolAll = function(result) {
-                    var symbolAll = {};
-                    var marketKey = Object.keys(result.market);
-                    marketKey.forEach(function(item) {
-                        var symbolKey = Object.keys(result.market[item]);
-                        symbolKey.forEach(function(symbol) {
-                            symbolAll[symbol] = result.market[item][symbol];
-                            var isShow = result.market[item][symbol].isShow;
-                            if (typeof isShow === 'undefined' || Object.prototype.toString.call(isShow) === 'Null') {
-                                symbolAll[symbol].isShow = 1;
-                            }
-                        });
-                    });
-                    return symbolAll;
-                };
-                var myCoinList = {};
-                Object.keys(coinList).forEach(function(item) {
-                    if (!coinList[item].fiatPrecision) {
-                        myCoinList[item] = {
-                            ...coinList[item],
-                            fiatPrecision: { cny: '2', usd: '2', krw: '2' },
-                        };
-                    } else {
-                        var coin = JSON.parse(JSON.stringify(coinList[item]));
-                        if (coin.symbolPrecision) {
-                            coin.fiatPrecision = coin.symbolPrecision;
-                        }
-                        myCoinList[item] = { ...coin };
-                    }
-                });
-                var myMarket = { ...data.data.market, coinList: myCoinList };
-                data.data.symbolAll = setSymbolAll(myMarket);
-                window.market = data.data;
-                emitter.emit('getMarket', data.data);
-            }
-        });
-        if (window.ispc === 'true'){
-            var homeDialog = "{{sourceMap.homeDialog}}";
-            emitter.on('login', function() {
-                getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(function() {
-                    new window.HomeDialog();
-                });
-            })
-        }
-    </script>
 </head>
 <body class="inx b-2-cl c-2-bg Chainer" id="{{ boxClass }}">
+<script>
+    window.ispc = "{{ ispc }}";
+    window.env = "{{ env }}";
+    window.imgMap = {{imgMap | safe}};
+    window.websocketPath = "{{sourceMap['websocket-work']}}";
+    window.emitter = new EventEmitter();
+    window.staticDomain = "{{sourceMap.staticDomain}}";
+    window.coinTagOpen = '{{ switch.coin_tag_open }}';
+    window.publicInfo = {
+        skin: {{ skin | dump | safe}},
+    lan: {
+        defLan: "{{ lan.defLan }}"
+    }
+    }
+</script>
+<script>inline-utils</script>
+<script inline-html></script>
+<script id="index-script">
+    var getScript = window.BlockChainUtils.getScript;
+    window.addEventListener('resize', function() {
+        emitter.emit('resize');
+    });
+    var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
+    fetchData({
+        url: '/fe-ex-api/common/public_info_market',
+    }).then(function(data) {
+        if (data.code.toString() === '0') {
+            var coinList = data.data.market.coinList
+            var setSymbolAll = function(result) {
+                var symbolAll = {};
+                var marketKey = Object.keys(result.market);
+                marketKey.forEach(function(item) {
+                    var symbolKey = Object.keys(result.market[item]);
+                    symbolKey.forEach(function(symbol) {
+                        symbolAll[symbol] = result.market[item][symbol];
+                        var isShow = result.market[item][symbol].isShow;
+                        if (typeof isShow === 'undefined' || Object.prototype.toString.call(isShow) === 'Null') {
+                            symbolAll[symbol].isShow = 1;
+                        }
+                    });
+                });
+                return symbolAll;
+            };
+            var myCoinList = {};
+            Object.keys(coinList).forEach(function(item) {
+                if (!coinList[item].fiatPrecision) {
+                    myCoinList[item] = {
+                        ...coinList[item],
+                        fiatPrecision: { cny: '2', usd: '2', krw: '2' },
+                    };
+                } else {
+                    var coin = JSON.parse(JSON.stringify(coinList[item]));
+                    if (coin.symbolPrecision) {
+                        coin.fiatPrecision = coin.symbolPrecision;
+                    }
+                    myCoinList[item] = { ...coin };
+                }
+            });
+            var myMarket = { ...data.data.market, coinList: myCoinList };
+            data.data.symbolAll = setSymbolAll(myMarket);
+            window.market = data.data;
+            emitter.emit('getMarket', data.data);
+        }
+    });
+    if (window.ispc === 'true'){
+        var homeDialog = "{{sourceMap.homeDialog}}";
+        emitter.on('login', function() {
+            getScript(`${window.staticDomain}/home/static/${homeDialog}`).then(function() {
+                new window.HomeDialog();
+            });
+        })
+    }
+</script>
+<script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['tip']}}" async></script>
 {% include headerTemplateModule %}
 <div class="page-content page-content-chain" style="position: relative; min-height: 800px" id="app">
     {% include templateModule %}

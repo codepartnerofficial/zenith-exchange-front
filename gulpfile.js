@@ -143,7 +143,6 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const scriptStart = content.indexOf('<script>') + 8;
         const scriptEnd = content.indexOf('</script>');
         const scriptContent = content.substring(scriptStart, scriptEnd);
-
         content = content.replace(scriptContent, transform(scriptContent).code);
         content = minify(content, {
           minifyCSS: true,
@@ -165,6 +164,7 @@ function compassFiles(paths, templatePath, outputPath, style) {
           trimCustomFragments: true,
           useShortDoctype: true,
         });
+        content = content.replace('"use strict";', '');
       }else{
         const start = content.indexOf('<script id="index-script">') + 26;
         const end = content.indexOf('</script>', start);
@@ -173,9 +173,10 @@ function compassFiles(paths, templatePath, outputPath, style) {
         const inlineJs = fs.readFileSync(JSPath, 'utf-8');
         const utilsJS = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/lib/utils.js'), 'utf-8');
         const fetchData = fs.readFileSync(path.join(__dirname, './node_modules/BlockChain-ui/home/fetchData.js'), 'utf-8');
-        const script = transform((inlineJs + utilsJS + fetchData)).code;
+        const script = transform((inlineJs + fetchData)).code;
         content = content.replace(indexScript, transform(indexScript).code);
         content = content.replace('<script inline-html></script>', `<script>window.evn = "${process.env.NODE_ENV}";window.sysVersion = "${gitVersion}";window.updateDate="${new Date()}"; ${script}</script>`);
+        content = content.replace('inline-utils', utilsJS);
       }
       fs.writeFileSync(intoPath, content);
     }
@@ -229,13 +230,13 @@ function createWebSocket(dirPath, outPath){
     str += fs.readFileSync(path.join(dirPath, '/modules', filePath), 'utf-8');
   });
   str += fs.readFileSync(websocketPath, 'utf-8');
-  if (process.env.NODE_ENV !== 'development'){
+  //if (process.env.NODE_ENV !== 'development'){
     str = transform(str).code;
     const md5sum = crypto.createHash('md5');
     md5sum.update(str);
     const md5 = md5sum.digest('hex');
     name = `${md5}-websocket`;
-  }
+//  }
   str = `(function() {${str}})()`;
   manifest[imgKey] = `/home/static/${name}.${suffix}`;
   fs.writeFileSync(path.join(outPath, `${name}.${suffix}`), str);
@@ -335,7 +336,7 @@ async function buildModulesJS(){
     const imgKeys = item.split('.');
     const imgKey = imgKeys[0];
     let name = item;
-    if (process.env.NODE_ENV !== 'development'){
+    //if (process.env.NODE_ENV !== 'development'){
       source = transform(source).code;
       const md5sum = crypto.createHash('md5');
       md5sum.update(source);
@@ -343,7 +344,7 @@ async function buildModulesJS(){
       const hashValue = `${md5}-${item}`;
       manifest[imgKey] = hashValue;
       name = hashValue;
-    }
+  //  }
     manifest[imgKey] = name;
     fs.writeFileSync(path.join(staticIntoPath, name), source);
   });

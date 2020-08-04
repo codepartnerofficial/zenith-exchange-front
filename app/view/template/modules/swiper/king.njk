@@ -293,11 +293,11 @@
                         this.$smallType = this.$swiper.querySelector('.king-type-small');
                         this.$bigType = this.$swiper.querySelector('.king-type-big');
                         this.$bigPageType = this.$swiper.querySelector('.bigPage-box');
-                        this.$smallList = this.$smallContent.querySelectorAll('a');
+                        this.$smallList = Array.prototype.slice.call(this.$smallContent.querySelectorAll('a'));
                         this.$navClick = this.$swiper.querySelector('.nav-click');
                         this.smallLen = this.$smallList.length;
                         this.bigLen = Math.ceil(this.smallLen / 4);
-                        this.$bigPageEven = this.$swiper.querySelectorAll('.bigPage-box-even');
+                        this.$bigPageEven = Array.prototype.slice.call(this.$swiper.querySelectorAll('.bigPage-box-even'));
                         this.flag = false;
                         this.bigPage = 0;
                         this.smallTimer = null;

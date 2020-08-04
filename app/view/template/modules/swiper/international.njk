@@ -261,9 +261,9 @@
                             this.indexInternationalOpen = "{{switch.index_international_open}}";
                             this.internationalHomeWwiperBase = document.querySelector('.internationalHome-swiper-base');
                             this.imgListContainer = this.internationalHomeWwiperBase.querySelector('.imgBox');
-                            this.imgList = this.imgListContainer.querySelectorAll('li');
+                            this.imgList = Array.prototype.slice.call(this.imgListContainer.querySelectorAll('li'));
                             this.imgPages = this.internationalHomeWwiperBase.querySelector('.img-pages');
-                            this.imgBox = this.imgListContainer.querySelectorAll('.img-ul');
+                            this.imgBox = Array.prototype.slice.call(this.imgListContainer.querySelectorAll('.img-ul'));
                             this.navList = [];
                             this.imgPagesMap = {};
                             this.pageTime = 0;
