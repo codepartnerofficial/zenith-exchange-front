@@ -456,7 +456,7 @@ class StaticIndex extends Controller {
     // 币币交易
     // exchange_hide 0: 隐藏币币交易 1：显示币币交易
     if (headerLink.trade && pubSwitch.exchange_hide !== '0') {
-      let selectList = [];
+      let selectList = null;
       if (tradeProConfig.exproisOpen === '1') {
         selectList = [
           {
@@ -531,7 +531,7 @@ class StaticIndex extends Controller {
     }
     // 合约
     if (headerLink.co) {
-      let coselectList = [];
+      let coselectList = null;
       // 判断是否开启了合约的专业版
       if (tradeProConfig.swapproisOpen === '1') {
         coselectList = [
@@ -558,7 +558,7 @@ class StaticIndex extends Controller {
     // 杠杆
     if (Number(pubSwitch.lever_open)) {
       // 判断是否开启了杠杆专业版
-      let leverselectList = [];
+      let leverselectList = null;
       if (tradeProConfig.marginproisOpen === '1') {
         leverselectList = [
           {
