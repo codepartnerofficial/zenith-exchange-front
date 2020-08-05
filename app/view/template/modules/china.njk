@@ -546,7 +546,9 @@
         }
     </style>
     <div class="home-bg">
+        {% if noticeList.length > 0%}
         {% include "./noticeInfo/china.njk" %}
+        {% endif %}
         {% import "./swiper/china.njk" as swiper %}
         {{ swiper.boxStyle(height='580px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
         {% if headerSymbol.length %}

@@ -105,16 +105,19 @@
     </script>
 </head>
 <body class="inx b-2-cl c-2-bg Chainer" id="{{ boxClass }}">
-{% include headerTemplateModule %}
-<div class="page-content page-content-chain" style="position: relative; min-height: 800px" id="app">
-    {% include templateModule %}
+<div id="app">
+    {% include headerTemplateModule %}
+    <div class="page-content page-content-chain" style="position: relative; min-height: 800px" >
+        {% include templateModule %}
+    </div>
+
+    {% if switch.index_temp_type != '8'%}
+    {% include "modules/footer/china.njk" %}
+    {% endif %}
+    <script>
+        {{ msg.config_footer_js }}
+    </script>
 </div>
 
-{% if switch.index_temp_type != '8'%}
-{% include "modules/footer/china.njk" %}
-{% endif %}
-<script>
-    {{ msg.config_footer_js | safe }}
-</script>
 </body>
 </html>

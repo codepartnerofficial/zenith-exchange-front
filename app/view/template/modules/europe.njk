@@ -184,7 +184,7 @@
         <div class="register">
             <section class="input-find-content a-2-bd register-infos">
                 <div class="content">
-                    <input autocomplete="off" placeholder="{{locale.europe.regester.placeHolder}}" class="b-1-cl register-input" style="text-indent: 20px; width: 286px;">
+                    <input autocomplete="off"class="b-1-cl register-input" style="text-indent: 20px; width: 286px;">
                 </div>
             </section>
             <button class="common-button go-register go-register-btn common-button-solid u-8-bg u-16-cl " style="padding-left: 32px; padding-right: 32px; margin-top: 0px;">
@@ -201,6 +201,8 @@
             const $japanese = document.querySelector('.europeHome');
             const $registerInfo = $japanese.querySelector('.register-input');
             const $goRegister = $japanese.querySelector('.go-register');
+            const placeholder = "{{locale.europe.regester.placeHolder}}";
+            $registerInfo.setAttribute('placeholder', placeholder);
             $goRegister.addEventListener('click', () => {
                 if ($registerInfo.value){
                     location.href = `/register?email=${$registerInfo.value}`;

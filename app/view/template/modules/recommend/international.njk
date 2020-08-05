@@ -105,9 +105,9 @@
                         <span class="coin-bg a-12-bg"></span>
                     </div>
                 </div>
-                <div class="price b-1-cl recommendPrice"></div>
-                <div class="volume recommendTime"></div>
-                <div class="rose percentage"></div>
+                <div class="price b-1-cl recommendPrice">{{ item.price }}</div>
+                <div class="volume recommendTime">24H Vol {{ item.volume }}</div>
+                <div class="rose percentage">{{ item.roseVal }}</div>
                 <div class="kline">
                     <div class="echart-box" style="height: 32px"></div>
                 </div>
@@ -144,6 +144,7 @@
                             this.echartsPath = "{{sourceMap.staticDomain}}/home/static/js/echarts.min.js";
                             this.liItemWidth = 310;
                             this.setWarpWdith = true;
+                            this.roseConfig = true;
                             this.init();
                         }
                     }
