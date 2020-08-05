@@ -60,7 +60,7 @@ module.exports = (appInfo) => {
   };
   config.devUrlProxy = {
     // ex: 'https://www.bione.info',
-    ex:'https://www.kinghash.com',
+    ex:'https://www.momoex.com',
     otc: 'http://dev10otc.chaindown.com',
     co: 'http://dev10co.chaindown.com'
   }
