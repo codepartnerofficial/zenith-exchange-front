@@ -67,7 +67,7 @@ class StaticIndex extends Controller {
       }
     });
     if (!this.publicInfo){
-      ctx.body = '未获取到public_info';
+      ctx.body = '网络连接有误，请稍后重试';
       return;
     }
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
@@ -77,14 +77,23 @@ class StaticIndex extends Controller {
     if (this.publicInfo.skin){
       mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
     }
-    const { noticeInfoList, cmsAdvertList, footer_warm_prompt, index_international_title1, index_international_title2, cmsAppAdvertList } = this.commonIndex;
+    const {
+      noticeInfoList = [],
+      cmsAdvertList = [],
+      footer_warm_prompt = '',
+      index_international_title1 = '',
+      index_international_title2 = '',
+      cmsAppAdvertList = [],
+    } = this.commonIndex;
     let locale = this.config.defaultLocales[`${currenLan}.json`];
-    if (this.config.locales[fileName] && this.config.locales[fileName][currenLan]) {
+    if (this.config.locales[fileName]
+      && this.config.locales[fileName][currenLan]
+      && Object.keys(this.config.locales[fileName][currenLan])) {
       locale = this.config.locales[fileName][currenLan];
     }
     this.locale = locale;
-    const { msg, lan, market, symbolAll } = this.publicInfo;
-    const { headerFooter } = this;
+    const { msg = {}, lan= {}, market = {}, symbolAll = {} } = this.publicInfo;
+    const { headerFooter = {} } = this;
     let customHeaderList = {};
     if (headerFooter && headerFooter.header) {
       try {
