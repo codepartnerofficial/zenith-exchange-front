@@ -68,7 +68,6 @@ class StaticIndex extends Controller {
     });
     if (!this.publicInfo){
       ctx.body = '网络连接有误，请稍后重试';
-      this.logger.error(this.publicInfo);
       return;
     }
     this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
