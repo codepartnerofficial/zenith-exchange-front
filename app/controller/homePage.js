@@ -4,6 +4,7 @@ const path = require('path');
 const { getFileName, compare, mergeSkin } = require('BlockChain-ui/node/utils');
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
+const { cloneDeep, merge } = require('lodash');
 
 class StaticIndex extends Controller {
   async index(ctx) {
@@ -85,13 +86,28 @@ class StaticIndex extends Controller {
       index_international_title2 = '',
       cmsAppAdvertList = [],
     } = this.commonIndex;
-    let locale = this.config.defaultLocales[`${currenLan}.json`];
+    let defaultLocale = {};
+    try{
+      defaultLocale = cloneDeep(this.config.defaultLocales[`${currenLan}.json`]);
+    }catch (e) {
+      this.logger.error(JSON.stringify({
+        message: '默认语言包clone失败',
+      }));
+    }
+    let locale = {};
     if (this.config.locales[fileName]
       && this.config.locales[fileName][currenLan]
       && Object.keys(this.config.locales[fileName][currenLan])) {
       locale = this.config.locales[fileName][currenLan];
     }
-    this.locale = locale;
+    try {
+      merge(defaultLocale, locale);
+    } catch (e) {
+      this.logger.error(JSON.stringify({
+        message: 'merge自定义语言包和默认语言包失败',
+      }));
+    }
+    this.locale = defaultLocale;
     const { msg = {}, lan= {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
