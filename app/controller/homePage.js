@@ -88,7 +88,9 @@ class StaticIndex extends Controller {
     } = this.commonIndex;
     let defaultLocale = {};
     try{
-      defaultLocale = cloneDeep(this.config.defaultLocales[`${currenLan}.json`]);
+      if (this.config.defaultLocales[`${currenLan}.json`]){
+        defaultLocale = cloneDeep(this.config.defaultLocales[`${currenLan}.json`]);
+      }
     }catch (e) {
       this.logger.error(JSON.stringify({
         message: '默认语言包clone失败',
