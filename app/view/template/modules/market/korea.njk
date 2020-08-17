@@ -200,7 +200,7 @@
                                     </li>`;
                             });
                             this.$homeTbodyList.innerHTML = html;
-                            this.$homeTbodyList.querySelectorAll('.home-tbody-li').forEach((item) => {
+                            Array.prototype.slice.call(this.$homeTbodyList.querySelectorAll('.home-tbody-li')).forEach((item) => {
                                 const {coin} = item.dataset;
                                 this.tableTree[coin].price = item.querySelector('.price');
                                 this.tableTree[coin].priceL = item.querySelector('.priceL');
