@@ -67,7 +67,7 @@ class StaticIndex extends Controller {
         }
       }
     });
-    if (!this.publicInfo){
+    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList){
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }

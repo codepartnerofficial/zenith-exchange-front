@@ -1,0 +1,12 @@
+<section class="internationalHome bitsg-home-container">
+    {% import "./swiper/bitsg.njk" as swiper %}
+    {{ swiper.boxStyle(
+    slideList=helper.swiper.getInterMap(cmsAdvertList),
+    extendPath =sourceMap.interSwiperExtend,
+    title=internationalTitle.title,
+    subTitle=internationalTitle.subTitle
+    )}}
+</section>
+<script>
+
+</script>
