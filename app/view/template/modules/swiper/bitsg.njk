@@ -1,4 +1,4 @@
-{% macro boxStyle(slideList, extendPath, title, subTitle) %}
+{% macro boxStyle(slideList, extendPath, title, subTitle, goRegister) %}
 <section class="bitsg-swiper-base" style="background-color:#0e1a2e;">
     <style>
         .bitsg-swiper-base {
@@ -45,10 +45,11 @@
             margin: 0px auto;
             height: 50px;
         }
-        .bitsg-swiper-base .goSignBut button {
+        .bitsg-swiper-base .goSignBut a {
             height: 50px;
             width: 200px;
             border-radius: 25px;
+            line-height: 50px;
         }
         .bitsg-swiper-base .imgBox {
             position: absolute;
@@ -223,7 +224,7 @@
     <!-- title -->
     <div class="subtitle b-8-cl">{{subTitle}}</div>
     <div class= 'goSignBut' >
-        <button class="common-button common-button-solid u-8-bg u-16-cl "></button>
+        <a href="/login" class="common-button common-button-solid u-8-bg u-16-cl ">{{ goRegister }}</a>
     </div>
     <!-- 图片区域 -->
     <div class="imgBox">
