@@ -578,11 +578,11 @@
         (() => {
             const $japanese = document.querySelector('.japanese-home-container');
             const $qaRegion = $japanese.querySelector('.qa-region');
-            const $qaList = $qaRegion.querySelectorAll('.q-region');
-            const $aList = $qaRegion.querySelectorAll('.a-region');
+            const $qaList = Array.prototype.slice.call($qaRegion.querySelectorAll('.q-region'));
+            const $aList = Array.prototype.slice.call($qaRegion.querySelectorAll('.a-region'));
             const $goRegister = $japanese.querySelector('.go-register');
             const $registerInfo = $japanese.querySelector('.register-input');
-            const $downLoadList = $japanese.querySelectorAll('.download');
+            const $downLoadList = Array.prototype.slice.call($japanese.querySelectorAll('.download'));
 
             const bindEvent = () => {
                 $qaList.forEach((target, index) => {
