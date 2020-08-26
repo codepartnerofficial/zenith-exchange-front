@@ -10,17 +10,20 @@ class StaticIndex extends Controller {
   async index(ctx) {
     let ispc = true;
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
-
+    const reg = /^[a-z]{2}_[A-Z]{2}$/;
+    let nowHost = this.ctx.request.header.host;
     const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
     if (agentID) {
+      const hostArr = nowHost.split('.');
+      let toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[1]}.${hostArr[2]}`;
+      if (hostArr.length === 2){
+        toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[0]}.${hostArr[1]}`;
+      }
+      ctx.redirect(toUrl);
+      return ;
       ispc = false;
     }
     const currenLan = this.ctx.request.path.split('/')[1];
-    const reg = /^[a-z]{2}_[A-Z]{2}$/;
-    let nowHost = this.ctx.request.header.host;
-    if (this.config.env === 'local') {
-      nowHost = this.config.devUrlProxy.ex;
-    }
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
