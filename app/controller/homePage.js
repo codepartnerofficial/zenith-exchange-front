@@ -28,7 +28,7 @@ class StaticIndex extends Controller {
       signed: false,
     });
     const { domainArr } = this.config;
-    const fileName = getFileName(this);
+    const fileName = this.ctx.request.header.host;
     if (!domainArr[fileName]) {
       domainArr[fileName] = {
         fileName,
