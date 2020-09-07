@@ -10,6 +10,6 @@ module.exports = (app) => {
     router.post('/fe-hashrate-api/*', controller.devProxy.index);
   }
   router.get('/home/getMarket/:id', controller.getMarket.index);
-  router.get('/^\\/[a-z]{2}_[A-Z]{2}[/]?$|^\\/$/', controller.homePage.index);
+  router.get('/(.+)?/', controller.homePage.index);
 
 };
