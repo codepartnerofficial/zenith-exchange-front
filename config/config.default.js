@@ -59,8 +59,8 @@ module.exports = (appInfo) => {
     // myAppName: 'egg',
   };
   config.devUrlProxy = {
-    ex: 'https://www.kinghash.com',
-    // ex:'https://www.kinghash.com',
+    // ex: 'https://ecxx.com',
+    ex:'https://www.kinghash.com',
     otc: 'http://dev10otc.chaindown.com',
     co: 'http://dev10co.chaindown.com'
   }

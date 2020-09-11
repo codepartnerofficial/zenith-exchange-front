@@ -109,6 +109,9 @@
             z-index: 10;
             margin: 0 0 0 4px;
             vertical-align: sub;
+            width: 40px;
+            height: 70px;
+            display: block;
         }
 
         .recommend .scroll-btn .bg {
@@ -139,12 +142,17 @@
         }
 
         .recommend .scroll-btn.next .icon {
-            transform: rotate(180deg)translate(0, -20px);
+            transform: rotate(180deg)translate(0, 50%);
             display: inline-block;
+            position: absolute;
+            top: 50%;
+            right: 4px;
         }
 
         .recommend .scroll-btn.prev .icon {
-            transform: translate(0, 20px);
+            transform: translate(0,-50%);
+            position: absolute;
+            top: 50%;
         }
 
         .recommend .scroll-btn.prev {

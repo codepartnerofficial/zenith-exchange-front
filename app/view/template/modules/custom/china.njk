@@ -115,7 +115,9 @@
                     proImg[i].style.background = "url(" + img + ")";
                 }
                 emitter.on('login', () => {
-                    container.querySelector('.footer-bootom').style.display = 'none';
+                    if (window.isLogin){
+                        container.querySelector('.footer-bootom').style.display = 'none';
+                    }
                 });
             })();
         </script>

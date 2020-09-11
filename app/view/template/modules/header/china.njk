@@ -248,6 +248,13 @@
             line-height: 62px;
             float: left;
             margin-left: 10px;
+            width: 18px;
+            height: 60px;
+        }
+        .top-common-header .common-header-linkList .header-nav-ifl .icon{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .top-common-header .common-header-linkList .header-nav-ifl .hover {
@@ -556,6 +563,10 @@
             padding: 10px 0;
         }
 
+        .top-common-header .header-sub-nav #agentStatusShow{
+            display: none;
+        }
+        
         .top-common-header .header-sub-nav .header-user-text {
             padding: 0;
             box-sizing: border-box;
@@ -1049,7 +1060,7 @@
                 <img src="{{ msg.logoUrl}}"/>
             </a>
         </li>
-        {% if number(switch.newcoinOpen) or (number(switch.agentUserOpen) and userInfo.agentStatus) or number(switch.is_return_open) or number(switch.is_financing_open)%}
+        {% if number(switch.newcoinOpen) or number(switch.agentUserOpen) or number(switch.is_return_open) or number(switch.is_financing_open)%}
         <li class="header-nav-ifl">
             <svg class="icon icon-18" aria-hidden="true">
                 <use xlink:href="#icon-b_1"></use>
@@ -1059,8 +1070,8 @@
             </svg>
             <div class="header-sub-nav h-1-bg">
                 <ul class="header-user-text x-2-cl" id="header-cus-nav">
-                    {% if number(switch.agentUserOpen) and userInfo.agentStatus%}
-                    <li class="g-3-cl-h ">
+                    {% if number(switch.agentUserOpen)%}
+                    <li class="g-3-cl-h " id="agentStatusShow">
                         <a class="x-2-cl g-3-cl-h"
                            href="/broker"
                         >
@@ -1237,6 +1248,7 @@
                       u-16-cl download-button"
                             style="
                             height: 40px;
+                            line-height: 40px;
                              padding-left: 20px;
                               padding-right: 20px; margin-top: 0px;">
                         <div class="common-button-slot">
@@ -1256,6 +1268,7 @@
                        u-16-cl
                         download-button"
                             style="height: 40px;
+                                    line-height: 40px;
                              padding-left: 20px;
                               padding-right: 20px;
                                margin-top: 0px;">

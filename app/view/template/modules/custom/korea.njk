@@ -655,7 +655,7 @@
     <script>
         (() => {
             const $koreaTemplate = document.querySelector('.korea-template');
-            const $downLoadList = $koreaTemplate.querySelectorAll('.download');
+            const $downLoadList = Array.prototype.slice.call($koreaTemplate.querySelectorAll('.download'));
             $downLoadList.forEach((target) => {
                 target.addEventListener('click', () => {
                     const { link } = target.dataset;

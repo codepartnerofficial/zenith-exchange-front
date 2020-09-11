@@ -124,10 +124,10 @@
         }
     </style>
     <section>
-        {% if footerTemplate and switch.config_footer_open === '1' %}
-            {% if footerTemplate.indexOf('foot-min-top') !== 1 %}
+        {% if switch.config_footer_open === '1' and footerTemplate %}
+                {% if footerTemplate.indexOf('foot-min-top') !== -1 %}
                 {{footerTemplate | safe}}
-            {% else %}
+                {% else %}
                 <div class="footer-bar" >
                     <div class="footer-menu clearfix">
                         <div class="footer-logo">
@@ -139,30 +139,55 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
+                {% endif %}
         {% else %}
-        <div class="footer-bar footer-default">
-            <div class="footer-menu clearfix">
-                <div class="footer-logo">
-                    <img src="{{helper.footer.logo(msg)}}" alt="">
+            {% if switch.index_international_open === '1' %}
+                <div class="int-footer-bar">
+                    <div class="int-footer-left">
+                        <div class="int-footer-logo">
+                            <img src="{{helper.footer.logo(msg)}}" alt="">
+                        </div>
+                    </div>
+                        <div class="int-footer-template">
+                            <ul class="menu-ul-int">
+                                {% for item in footerList %}
+                                <li class="item">
+                                    <a class="z-2-cl hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                    <a class="z-1-cl hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <br style="clear: both;">
                 </div>
-                <div class="footer-template">
-                    <ul class="menu-ul-default">
-                        {% for item in footerList %}
-                        <li class="item">
-                            <a class="z-2-cl hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                            <a class="z-1-cl hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                <div class="int-copy z-2-cl"
+                     style="border-color: #293448 !important;">
+                    Copyright © 2019 {{companyName}}. All rights reserved
                 </div>
-            </div>
-        </div>
-        <!-- 底部区域 -->
-        <div class="copy z-2-cl"
-             style="border-color: #293448 !important;">
-            Copyright © 2019 {{companyName}}. All rights reserved
-        </div>
+            {% else %}
+                <div class="footer-bar footer-default">
+                    <div class="footer-menu clearfix">
+                        <div class="footer-logo">
+                            <img src="{{helper.footer.logo(msg)}}" alt="">
+                        </div>
+                        <div class="footer-template">
+                            <ul class="menu-ul-default">
+                                {% for item in footerList %}
+                                <li class="item">
+                                    <a class="z-2-cl hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                    <a class="z-1-cl hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 底部区域 -->
+                <div class="copy z-2-cl"
+                     style="border-color: #293448 !important;">
+                    Copyright © 2019 {{companyName}}. All rights reserved
+                </div>
+            {% endif %}
         {% endif %}
     </section>
     <script>
