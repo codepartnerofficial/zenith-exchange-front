@@ -128,8 +128,11 @@
             color: #333333;
             margin-top: 20px;
         }
-        .ipfs-home-container .ipfs-item {
+        .ipfs-home-container #ipfsList {
             margin: 90px auto 0;
+        }
+        .ipfs-home-container .ipfs-item {
+            margin-top:20px;
             background: #fff;
             width: 1180px;
             height: 228px; 
@@ -513,6 +516,9 @@
         }
         
     </style>
+    {# {{ sourceMap.ieotitleIcon }}
+    {{sourceMap.photo10}}
+    {{sourceMap.ipfs_photo9}} #}
     {% if footer_warm_prompt %}
     <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
     {% else %}
@@ -543,31 +549,7 @@
                 <br style="clear: both;">
             </div>
         </div>
-        <div class="ipfs-item" style="display:none">
-            <div class="img">
-                <img class="ipfslogo" src="" alt=""></div>
-            {# <div class="info"> #}
-                <div class="cz">
-                    <h2 class="tit ipfsTitle iconBack">金色算力 | Filecoin分时算力</h2>
-                    <div class="timer">
-                        <span class="tim">活动时间</span>
-                        <span class="val activeTime">
-                        --</span>
-                    </div>
-                </div>
-                <div class="op-right">
-                    <p class="price">价格
-                        <span class="priceNum">170 USDT</span>
-                    </p>
-                    <p class="cny">≈ 2222.00 CNY</p>
-                    <button class="common-button common-button-solid u-16-cl buyButton" style="width: 160px; height: 40px; padding-left: 0px; padding-right: 0px; margin-top: 18px;">
-                        <div class="common-button-slot">
-                            <span class="buttonText">立即购买</span>
-                        </div>
-                    </button>
-                </div>
-            {# </div> #}
-        </div>
+        <div id="ipfsList"></div>
         <div class="filecoin-main">
             <div class="main-bar">
                 <div class="title">
@@ -627,65 +609,91 @@
     
         </div>
         <script>
-            (function(){
+            ;(function(){
+                window.HTMLElement.prototype.appendHTML = function(html) {
+                    var divTemp = document.createElement("div"), nodes = null
+                        , fragment = document.createDocumentFragment();
+                    divTemp.innerHTML = html;
+                    nodes = divTemp.childNodes;
+                    for (var i=0, length=nodes.length; i<length; i+=1) {
+                    fragment.appendChild(nodes[i].cloneNode(true));
+                    }
+                    this.appendChild(fragment);
+                    nodes = null;
+                    fragment = null;
+                };
                 const { formatTime, fixRate } = window.BlockChainUtils;
                 const container = document.querySelector(".home-custom-template");
-                const ipfsItem = document.querySelector(".ipfs-item");
-                var proImg = container.querySelectorAll(".pro-img");
-                var iconBack = container.querySelector(".iconBack");
-                var homeEditImga = container.querySelector(".process-list");
-                var ipfslogo = container.querySelector(".ipfslogo");
-                var ipfsTitle = container.querySelector(".ipfsTitle");
-                var activeTime = container.querySelector(".activeTime");
-                var priceNum = container.querySelector(".priceNum");
-                var cny = container.querySelector(".cny");
-                var buyButton = container.querySelector(".buyButton");
-                var buttonText = container.querySelector(".buttonText");
+                const ipfsList = document.getElementById('ipfsList');
+                const homeEditImga = container.querySelector(".process-list");
                 if(document.body.clientWidth < 960) {
-                    homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.photo10}}" + ")";
+                    homeEditImga.style.backgroundImage = "url('/home/static/img/a65c178a0e2adf633f74241a9fa1b02b.png')";
                 } else {
-                    homeEditImga.style.backgroundImage = "url(" + "{{sourceMap.ipfs_photo9}}" + ")";
+                    homeEditImga.style.backgroundImage = "url('/home/static/img/e5d7e1fa5c0daaafd32f9c9ecf18e6c2.png')";
                 }
-                iconBack.style.backgroundImage = "url(" + "{{sourceMap.ieotitleIcon}}" + ")";
                 var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
                 fetchData({
                     method: 'post',
                     url: '/fe-hashrate-api/projectList',
                     params: {page: 1,pageSize: 10,status: 0,type: 2},
-                }).catch(() => {
                 }).then((data) => {
-                    if (data.code === '0') {
+                    if (data.code === 0) {
                         var dataList = data.data.projectInfoList;
-                        if (dataList && dataList.length && dataList[0].name){
-                            ipfsItem.style.display= 'block';
-                            ipfsTitle.innerHTML= dataList[0].name;
-                            ipfslogo.src = dataList[0].logo;
-                            priceNum.innerHTML=  dataList[0].initPriceV2 ? `${dataList[0].initPriceV2} ${dataList[0].coinSymbol}` : '';
-                            var startTime = formatTime(dataList[0].startTime);
-                            var endTime = formatTime(dataList[0].endTime);
-                            activeTime.innerHTML= `${startTime} ~ ${endTime}`;
-                            if (dataList[0].status === 3 || dataList[0].status === 2 ) {
-                                buyButton.addEventListener('click', () => {
-                                    window.location.href = `/ipfs/${dataList[0].projectId}`;
-                                });
-                            } else {
-                                iconBack.style.backgroundImage = "";
-                                iconBack.classList.add("no-padding");
-                                buttonText.innerHTML = "已售罄";
-                                buyButton.classList.add("solid-disabled");
-                            }
-                            if (window.market) {
-                                var rate = window.market.market.rate;
-                                cny.innerHTML = `≈ ${fixRate(dataList[0].initPriceV2, rate, dataList[0].coinSymbol)}`
-                            } else {
-                                setTimeout(function(){ 
+                        if (dataList && dataList.length){
+                            let domStr = '';
+                            for (let i = 0; i < 3; i++) {
+                                const startTime = formatTime(dataList[i].startTime);
+                                const endTime = formatTime(dataList[i].endTime);
+                                let priceCny = '';
+                                if (window.market) {
                                     var rate = window.market.market.rate;
-                                    cny.innerHTML = `≈ ${fixRate(dataList[0].initPriceV2, rate, dataList[0].coinSymbol)}`
-                                });
+                                    priceCny = `≈ ${fixRate(dataList[i].initPriceV2, rate, dataList[i].coinSymbol)}`;
+                                } else {
+                                    setTimeout(function(){ 
+                                        var rate = window.market.market.rate;
+                                        priceCny = `≈ ${fixRate(dataList[i].initPriceV2, rate, dataList[i].coinSymbol)}`;
+                                    });
+                                }
+
+                                const str = `<div class="ipfs-item">
+                                                <div class="img">
+                                                    <img class="ipfslogo" src="${dataList[i].logo}" alt=""></div>
+                                                <div class="info">
+                                                    <div class="cz">
+                                                        <h2 class="tit ipfsTitle iconBack ${ dataList[i].status === 3 || dataList[i].status === 2 ? '': 'no-padding' }" style="backgroundImage:${dataList[i].status === 3 || dataList[i].status === 2 ? "url('/home/static/img/77a7828836274974e0284951bd630f9c.png ')": ''}">${dataList[i].name}</h2>
+                                                        <div class="timer">
+                                                            <span class="tim">Activity time</span>
+                                                            <span class="val activeTime">${startTime} ~ ${endTime}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="op-right">
+                                                        <p class="price">Price
+                                                            <span class="priceNum">${ dataList[i].initPriceV2 ? `${dataList[i].initPriceV2} ${dataList[i].coinSymbol}` : ''}</span>
+                                                        </p>
+                                                        <p class="cny">${priceCny}</p>
+                                                        <button class="common-button common-button-solid u-16-cl buyButton ${dataList[i].status === 3 || dataList[i].status === 2 ? '':'solid-disabled' }" style="width: 160px; height: 40px; padding-left: 0px; padding-right: 0px; margin-top: 18px;">
+                                                            <div class="common-button-slot">
+                                                                <span class="buttonText">${ dataList[i].status === 3 || dataList[i].status === 2 ? 'Buy now':'\u5DF2\u552E\u7F44'}</span>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                            domStr+=str;
+                            }
+
+                            ipfsList.appendHTML(str);
+                            const buyButton = ipfsList.querySelectorAll(".buyButton");
+                            for(let i=0; i < buyButton.length; i++) {
+                                if (dataList[i].status === 3 || dataList[i].status === 2 ) {
+                                    buyButton[i].addEventListener('click', () => {
+                                        window.location.href = `/sly/ipfs/${dataList[i].projectId}`;
+                                    });
+                                }
                             }
                         }
                     }        
-                });
+                });      
             })();
         </script>
     </div>

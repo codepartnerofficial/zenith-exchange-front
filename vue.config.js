@@ -145,10 +145,10 @@ module.exports = {
         open: true,
         proxy: {
             'fePublicInfo':{
-              target: 'https://www.qidianex.io/',
+              target: 'https://www.kinghash.com/',
             },
             '/fe-ex-api': {
-                target: 'https://www.qidianex.io/fe-ex-api/',
+                target: 'https://www.kinghash.com/fe-ex-api/',
                 pathRewrite: {
                     '^/fe-ex-api': '',
                 },
@@ -160,7 +160,7 @@ module.exports = {
                 },
             },
             '/fe-otc-api': {
-                target: 'https://otc.qidianex.io/fe-otc-api',
+                target: 'https://otc.kinghash.com/fe-otc-api',
                 pathRewrite: {
                     '^/fe-otc-api': '',
                 },
@@ -177,6 +177,13 @@ module.exports = {
                     '^/fe-upload-api': '',
                 },
             },
+            '/fe-hashrate-api': {
+                target: 'https://www.kinghash.com',
+                changeOrigin: true, // 将 host 修改为 target
+                headers: {
+                  'x-forwarded-host': 'webapi.kinghash.com',
+                },
+              },
         },
     },
 };
