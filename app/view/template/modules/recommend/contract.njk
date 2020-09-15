@@ -169,7 +169,8 @@
                 <div class="hvol links f-2-cl">
                     <div class="recommendTop">
                         <div class="recommendType">
-                            {{helper.recommend.getCoinShowName(item, symbolAll)}}
+                            {#{{helper.recommend.getCoinShowName(item.contract_name, symbolAll)}}#}
+                            {{ item }}
                             <div class="coin-label" style="display: none">
                                 <span class="coin-text a-12-cl"></span>
                                 <span class="coin-bg a-12-bg"></span>

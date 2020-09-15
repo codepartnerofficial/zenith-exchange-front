@@ -432,15 +432,11 @@
            if (init) {
             this.rebuild = true;
            }
-           console.log('模板中的数据')
-           console.log(data)
            this.initTable(data);
 
           });
 
           window.emitter.on('send_market', (data) => {
-           console.log('注册tab')
-           console.log(data)
            this.init(data);
           });
          }

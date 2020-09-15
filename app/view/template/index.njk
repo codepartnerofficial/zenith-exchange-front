@@ -48,6 +48,7 @@
     }
     window.isCoOpen = {{ isCoOpen }}
     window.coUrl = "{{ coUrl }}"
+
 </script>
 <script>inline-utils</script>
 <script inline-html></script>
@@ -94,7 +95,6 @@
         }
        });
        var myMarket = { ...data.data.market, coinList: myCoinList };
-       console.log(myMarket)
        data.data.symbolAll = setSymbolAll(myMarket);
        window.market = data.data;
        emitter.emit('getMarket', data.data);

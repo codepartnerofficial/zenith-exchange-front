@@ -113,7 +113,7 @@ class StaticIndex extends Controller {
       }));
     }
     this.locale = defaultLocale;
-    const { msg = {}, lan= {}, market = {}, symbolAll = {} } = this.publicInfo;
+    const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
     if (headerFooter && headerFooter.header) {
