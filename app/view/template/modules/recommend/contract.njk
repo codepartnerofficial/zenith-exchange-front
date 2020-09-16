@@ -163,14 +163,15 @@
             right: 0;
         }
     </style>
-    <div class="recommend-wrap" data-style="{{helper.recommend.itemWidth(headerSymbol.length) }}" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 600ms; transform: translate3d(0px, 0px, 0px);display: none;">
+    <div id="coRecommend">
+    </div>
+    {# <div class="recommend-wrap" data-style="{{helper.recommend.itemWidth(headerSymbol.length) }}" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 600ms; transform: translate3d(0px, 0px, 0px);display: none;">
         {% for item in headerSymbol %}
             <div class="recommend-content c-4-bg c-3-cl-h" data-coin="{{item}}">
                 <div class="hvol links f-2-cl">
                     <div class="recommendTop">
                         <div class="recommendType">
-                            {#{{helper.recommend.getCoinShowName(item.contract_name, symbolAll)}}#}
-                            {{ item }}
+                            {{ item }}123123
                             <div class="coin-label" style="display: none">
                                 <span class="coin-text a-12-cl"></span>
                                 <span class="coin-bg a-12-bg"></span>
@@ -186,7 +187,7 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
+    </div> #}
     <span @click="scrollRecommend('prev')"
           class="scroll-btn prev">
       <em>
@@ -220,7 +221,39 @@
           this.setWarpWdith = true;
           this.liItemWidth = 310;
           this.haveBg = true;
-          this.init();
+          emitter.on('getCoMarket', ({market}) => {
+              let str = ''
+              str += `<div class="recommend-wrap" data-style="${market.co_header_symbols.list.length}" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 600ms; transform: translate3d(0px, 0px, 0px);display: none;">`
+              market.co_header_symbols.list.forEach((item) => {
+                  console.log(item, '123awee1')
+                  let symbolName = item.symbol.split('/')[0] + item.symbol.split('/')[1]
+                  str += `
+                    <div class="recommend-content c-4-bg c-3-cl-h" data-coin="${symbolName}">
+                        <div class="hvol links f-2-cl">
+                            <div class="recommendTop">
+                                <div class="recommendType">
+                                    ${symbolName}
+                                    <div class="coin-label" style="display: none">
+                                        <span class="coin-text a-12-cl"></span>
+                                        <span class="coin-bg a-12-bg"></span>
+                                    </div>
+                                </div>
+                                <span class="percentage">${item.change_rate}</span>
+                            </div>
+                            <div class="recommendPrice f-1-cl">${item.close}</div>
+                            <p class="recommendTime">24H Vol ${item.qty_day}</p>
+                        </div>
+                        <div>
+                            <div class="echart-box" style="height: 50px"></div>
+                        </div>
+                    </div>
+                  `
+              })
+              str += '</div>'
+              const coRecommend = document.querySelector('#coRecommend');
+              coRecommend.innerHTML = str
+              this.init();
+          });
          }
         }
         new Recommend();

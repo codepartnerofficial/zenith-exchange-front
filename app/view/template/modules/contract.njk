@@ -557,7 +557,8 @@
         {% include "./market/contract.njk" %}
         {% include "./custom/contract.njk" %}
     </div>
-    <script>
+    <script> 
+        const klineMap = {}
         const homeMarket = ()=> {
          fetchData({
           url: '/fe-ex-api/common/co_home_market',
@@ -1149,14 +1150,15 @@
             })
            }
            obj.symbolAll = symbolAll;
-           getKhistory(obj.market.co_header_symbols.list)
+           console.log(symbolAll, 1232131)
+           getKhistory(symbolAll)
            window.market = obj;
            emitter.emit('getCoMarket', obj);
           }
          });
         }
         homeMarket()
-         /*fetchData({
+         fetchData({
           url: '/fe-cov2-api/swap/tickers',
           method:'get',
          }).then((datas) => {
@@ -1165,22 +1167,23 @@
             homeMarket(data.data.tickers)
            }
            }
-         });*/
+         });
 
         // 获取Kine历史数据
         const getKhistory = (coHeadSymbol) => {
          const endTime = new Date().getTime().toString().substr(0, 10);
          const newTime = new Date(new Date().getTime() - 30 * 60 * 1000);
          const startTime = newTime.getTime().toString().substr(0, 10);
-         coHeadSymbol.forEach((item) => {
-          const url = `swap/kline?instrumentID=${item.instrument_id}&startTime=${startTime}&endTime=${endTime}&resolution=M&unit=1`;
+         Object.keys(coHeadSymbol).forEach((key) => {
+             const item = coHeadSymbol[key]
+          const url = `/fe-cov2-api/swap/kline?instrumentID=${item.instrument_id}&startTime=${startTime}&endTime=${endTime}&resolution=M&unit=1`;
           fetchData({
            url: url,
            method: 'get',
-           hostType: 'fe-cov2-api',
+           // hostType: '',
           }).then(function (data) {
            if (data.errno === 'OK') {
-            const kData = data.data;
+            /*const kData = data.data;
             const klineDataList = {};
             const lengthNumber = kData ? kData.slice(-30) : [];
             if (lengthNumber && lengthNumber.length) {
@@ -1190,8 +1193,11 @@
                ele.close,
               ]);
              });
-            }
-            window.emitter('RECOMMEEND_KLINE_DATA', klineDataList);
+            }*/
+            klineMap[item.name] = data.data || []
+            //klineMap[]
+            console.log(klineMap, 87123213)
+            window.emitter.emit('RECOMMEEND_KLINE_DATA_ALL', klineMap);
            }
           })
          });
