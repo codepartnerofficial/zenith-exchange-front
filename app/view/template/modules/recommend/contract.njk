@@ -225,7 +225,6 @@
               let str = ''
               str += `<div class="recommend-wrap" data-style="${market.co_header_symbols.list.length}" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 600ms; transform: translate3d(0px, 0px, 0px);display: none;">`
               market.co_header_symbols.list.forEach((item) => {
-                  console.log(item, '123awee1')
                   let symbolName = item.symbol.split('/')[0] + item.symbol.split('/')[1]
                   str += `
                     <div class="recommend-content c-4-bg c-3-cl-h" data-coin="${symbolName}">
