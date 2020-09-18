@@ -237,7 +237,7 @@
                                         <span class="coin-bg a-12-bg"></span>
                                     </div>
                                 </div>
-                                <span class="percentage">${item.change_rate}</span>
+                                <span class="percentage ${item.change_rate * 1 !== 0 ? item.change_rate > 0 ? 'u-1-cl' : 'u-4-cl' : ''}">${(item.change_rate * 100).toFixed(2)}%</span>
                             </div>
                             <div class="recommendPrice f-1-cl">${item.close}</div>
                             <p class="recommendTime">24H Vol ${item.qty_day}</p>
