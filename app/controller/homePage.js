@@ -11,19 +11,20 @@ class StaticIndex extends Controller {
     let ispc = true;
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
-    let nowHost = this.ctx.request.header.host;
+    const nowHost = this.ctx.request.header.host;
     const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
     if (agentID) {
       const hostArr = nowHost.split('.');
       let toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[1]}.${hostArr[2]}`;
-      if (hostArr.length === 2){
+      if (hostArr.length === 2) {
         toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[0]}.${hostArr[1]}`;
       }
       ctx.redirect(toUrl);
-      return ;
+      return;
       ispc = false;
     }
     const currenLan = this.ctx.request.path.split('/')[1];
+    console.log('================================', currenLan);
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
@@ -42,8 +43,8 @@ class StaticIndex extends Controller {
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
     ]);
-    results.forEach((item) => {
-      if (item){
+    results.forEach(item => {
+      if (item) {
         const k = Object.keys(item)[0];
         const res = item[k];
         switch (k) {
@@ -64,13 +65,13 @@ class StaticIndex extends Controller {
             break;
           }
           case '/cms/footer/list': {
-            this.footerList = res
+            this.footerList = res;
             break;
           }
         }
       }
     });
-    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList){
+    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
@@ -78,7 +79,7 @@ class StaticIndex extends Controller {
     if (!reg.test(currenLan)) {
       return;
     }
-    if (this.publicInfo.skin){
+    if (this.publicInfo.skin) {
       mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
     }
     const {
@@ -90,11 +91,11 @@ class StaticIndex extends Controller {
       cmsAppAdvertList = [],
     } = this.commonIndex;
     let defaultLocale = {};
-    try{
-      if (this.config.defaultLocales[`${currenLan}.json`]){
+    try {
+      if (this.config.defaultLocales[`${currenLan}.json`]) {
         defaultLocale = cloneDeep(this.config.defaultLocales[`${currenLan}.json`]);
       }
-    }catch (e) {
+    } catch (e) {
       this.logger.error(JSON.stringify({
         message: '默认语言包clone失败',
       }));
@@ -113,7 +114,7 @@ class StaticIndex extends Controller {
       }));
     }
     this.locale = defaultLocale;
-    const { msg = {}, lan= {}, market = {}, symbolAll = {} } = this.publicInfo;
+    const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
     if (headerFooter && headerFooter.header) {
@@ -238,19 +239,19 @@ class StaticIndex extends Controller {
     } catch (e) {
 
     }
-    try{
-      if (this.publicInfo.skin){
+    try {
+      if (this.publicInfo.skin) {
         const skin = this.publicInfo.skin;
         const id = this.ctx.cookies.get('cusSkin', {
           signed: false,
         }) || skin.default;
-        skin.listist.forEach((item) => {
-          if (item.skinId === id){
+        skin.listist.forEach(item => {
+          if (item.skinId === id) {
             const imgList = item.imgList;
-            Object.keys(sourceMap).forEach((ikey) => {
-              if (imgList[ikey]){
+            Object.keys(sourceMap).forEach(ikey => {
+              if (imgList[ikey]) {
                 let imgSrc = imgList[ikey];
-                if (imgSrc.indexOf('http') === -1){
+                if (imgSrc.indexOf('http') === -1) {
                   imgSrc = item.imgPath + imgSrc;
                 }
                 sourceMap[ikey] = imgSrc;
@@ -259,7 +260,7 @@ class StaticIndex extends Controller {
           }
         });
       }
-    }catch (e) {
+    } catch (e) {
 
     }
 
@@ -698,13 +699,37 @@ class StaticIndex extends Controller {
     // 取得client cookie中语言 clientCookLan
     const clientCookLan = this.ctx.cookies.get('lan');
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
-    const dLan = 'zh_CN';
+    const dLan = 'en_US';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
+    // 获取浏览器语言
+    const language = this.ctx.header['accept-language'];
+    const lanKey = language.split(',')[0];
+    const lanListObj = {
+      en: 'en_US',
+      'en-AU': 'en_US',
+      'en-CA': 'en_US',
+      'en-GB': 'en_US',
+      'en-NZ': 'en_US',
+      'en-US': 'en_US',
+      'en-ZA': 'en_US',
+      'zh-CN': 'zh_CN',
+      zh: 'zh_CN',
+      'zh-TW': 'el_GR',
+      'zh-HK': 'el_GR',
+      ja: 'ja_JP',
+      vi: 'vi_VN',
+      ko: 'ko_KR',
+    };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
       let serverDefLan = dLan;
       if (lan.defLan) {
-        serverDefLan = this.publicInfo.lan.defLan;
+        // 如果后台配置的默认语言是 none 就使用浏览器的语言
+        if (this.publicInfo.lan.defLan === 'none' && lanListObj[lanKey]) {
+          serverDefLan = lanListObj[lanKey];
+        } else {
+          serverDefLan = this.publicInfo.lan.defLan;
+        }
       } else {
         const errorData = {
           domain,
