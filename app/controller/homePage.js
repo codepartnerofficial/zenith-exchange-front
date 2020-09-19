@@ -177,13 +177,14 @@ class StaticIndex extends Controller {
   getTemplate(ispc) {
     let template = 'international';
     const indexTempType = this.publicInfo.switch.index_temp_type;
-    if (this.publicInfo.switch) {
+    if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
     // 828727492：  矿池首页自带响应式
     if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
+    console.log('/////////////////////////////////////////', indexTempType);
     return `modules/${template}.njk`;
   }
 
@@ -725,6 +726,7 @@ class StaticIndex extends Controller {
       let serverDefLan = dLan;
       if (lan.defLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
+        console.log('=============234567=====================', lanListObj[lanKey]);
         if (this.publicInfo.lan.defLan === 'none' && lanListObj[lanKey]) {
           serverDefLan = lanListObj[lanKey];
         } else {
