@@ -24,7 +24,6 @@ class StaticIndex extends Controller {
       ispc = false;
     }
     const currenLan = this.ctx.request.path.split('/')[1];
-    console.log('================================', currenLan);
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
@@ -184,7 +183,6 @@ class StaticIndex extends Controller {
     if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
-    console.log('/////////////////////////////////////////', indexTempType);
     return `modules/${template}.njk`;
   }
 
@@ -726,7 +724,6 @@ class StaticIndex extends Controller {
       let serverDefLan = dLan;
       if (lan.defLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
-        console.log('=============234567=====================', lanListObj[lanKey]);
         if (this.publicInfo.lan.defLan === 'none' && lanListObj[lanKey]) {
           serverDefLan = lanListObj[lanKey];
         } else {
