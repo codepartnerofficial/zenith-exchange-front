@@ -362,97 +362,102 @@
       const {myStorage, getScript} = window.BlockChainUtils;
       const extendPath = "{{sourceMap.coMarketExtend}}";
       const websocketPath = "{{sourceMap.coWebSocket}}";
-      if (extendPath && !window.MarketExtend) {
-       getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
-        class Market extends window.MarketExtend {
-         constructor() {
-          super();
-          this.$tableContent = document.querySelector('#table-content');
-          this.$marketTitle = this.$tableContent.querySelector('.market-title');
-          this.$homeThead = this.$tableContent.querySelector('.home-thead');
-          this.$homeLoading = this.$tableContent.querySelector('.home-loading');
-          this.$homeNodata = this.$tableContent.querySelector('.home-nodata');
-          this.$homeTbody = this.$tableContent.querySelector('.home-tbody-box');
-          this.$searchInput = this.$tableContent.querySelector('.search-input');
-          this.optional_symbol_server_open = Number('{{switch.optional_symbol_server_open}}');
-          this.isLogin = window.isLogin;
-          this.hoverClass = 'a-12-bd f-1-cl';
-          this.locale = {
-           marketSet: "{{locale.home.marketSet}}",
-           halving: "{{locale.trade.halving}}",
-           maincon: '{{locale.trade.maincon}}',
-           newcon: '{{locale.trade.newcon}}',
-           seecon: '{{locale.trade.seecon}}',
-           unseal: '{{locale.trade.unseal}}',
-          };
-          this.tableDataList = {};
-          this.listfilter = null;
-          this.symbolAll = [];
-          this.marketDataList_bar = [];
-          this.createIng = false;
-          this.market = [];
-          this.isScroll = true;
-          this.setMyMarketSwitch = true;
-          this.tableTreeData = null;
-          this.rebuild = false;
-          this.tableTree = null;
-          this.firstLoad = false;
-          this.sortValue = 'sort';
-          this.sortSell = false;
-          this.marketCurrent = myStorage.get('homeMarkTitle');
-          this.columns = [
-           {
-            title: '{{locale.home.contract}}', // 合约
-            key: 'sort',
-           },
-           {
-            title: '{{locale.home.close}}', // 最新价
-            key: 'closes',
-            sortable: true,
-           },
-           {
-            title: '{{locale.home.H_applies}}', // 24h涨跌幅
-            key: 'roses',
-            sortable: true,
-           },
-           {
-            title: '{{locale.home.H_height}}', // 24h最低价
-           },
-           {
-            title: '{{locale.home.H_low}}', // 24h最高价
-           },
+      getScript("{{sourceMap.staticDomain}}/home/static/js/echarts.min.js").then(() => {
+        if (extendPath && !window.MarketExtend) {
+        getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+            class Market extends window.MarketExtend {
+            constructor() {
+            super();
+            this.$tableContent = document.querySelector('#table-content');
+            this.$marketTitle = this.$tableContent.querySelector('.market-title');
+            this.$homeThead = this.$tableContent.querySelector('.home-thead');
+            this.$homeLoading = this.$tableContent.querySelector('.home-loading');
+            this.$homeNodata = this.$tableContent.querySelector('.home-nodata');
+            this.$homeTbody = this.$tableContent.querySelector('.home-tbody-box');
+            this.$searchInput = this.$tableContent.querySelector('.search-input');
+            this.optional_symbol_server_open = Number('{{switch.optional_symbol_server_open}}');
+            this.isLogin = window.isLogin;
+            this.hoverClass = 'a-12-bd f-1-cl';
+            this.klineColor = '#9CA1C2';
+            this.myEcharts = {};
+            this.kLineData = {}
+            this.locale = {
+            marketSet: "{{locale.home.marketSet}}",
+            halving: "{{locale.trade.halving}}",
+            maincon: '{{locale.trade.maincon}}',
+            newcon: '{{locale.trade.newcon}}',
+            seecon: '{{locale.trade.seecon}}',
+            unseal: '{{locale.trade.unseal}}',
+            };
+            this.tableDataList = {};
+            this.listfilter = null;
+            this.symbolAll = [];
+            this.marketDataList_bar = [];
+            this.createIng = false;
+            this.market = [];
+            this.isScroll = true;
+            this.setMyMarketSwitch = true;
+            this.tableTreeData = null;
+            this.rebuild = false;
+            this.tableTree = null;
+            this.firstLoad = false;
+            this.sortValue = 'sort';
+            this.sortSell = false;
+            this.marketCurrent = myStorage.get('homeMarkTitle');
+            this.columns = [
+            {
+                title: '{{locale.home.contract}}', // 合约
+                key: 'sort',
+            },
+            {
+                title: '{{locale.home.close}}', // 最新价
+                key: 'closes',
+                sortable: true,
+            },
+            {
+                title: '{{locale.home.H_applies}}', // 24h涨跌幅
+                key: 'roses',
+                sortable: true,
+            },
+            {
+                title: '{{locale.home.H_height}}', // 24h最低价
+            },
+            {
+                title: '{{locale.home.H_low}}', // 24h最高价
+            },
 
-           {
-            title: '{{locale.home.H_volume}}', // 24H成交量
-           },
-           {
-            title: '行情', // 行情
-           },
-          ];
-          window.emitter.on('MARKET-DATA', (data, init) => {
-           if (init) {
-            this.rebuild = true;
-           }
-           this.initTable(data);
+            {
+                title: '{{locale.home.H_volume}}', // 24H成交量
+            },
+            {
+                title: '行情', // 行情
+            },
+            ];
+            window.emitter.on('MARKET-DATA', (data, init) => {
+            if (init) {
+                this.rebuild = true;
+            }
+            this.initTable(data);
 
-          });
+            });
 
-          window.emitter.on('send_market', (data) => {
-           this.init(data);
-          });
-         }
+            window.emitter.on('send_market', (data) => {
+            this.init(data);
+            });
+            }
+            }
+
+            if (websocketPath && !window.selfSocket) {
+            getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+            }
+            new Market();
+        });
         }
-
         if (websocketPath && !window.selfSocket) {
-         getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+        window.selfSocket = true;
+        getScript(`${window.staticDomain}/home/static/${websocketPath}`);
         }
-        new Market();
-       });
-      }
-      if (websocketPath && !window.selfSocket) {
-       window.selfSocket = true;
-       getScript(`${window.staticDomain}/home/static/${websocketPath}`);
-      }
+      });
      })();
 
     </script>
