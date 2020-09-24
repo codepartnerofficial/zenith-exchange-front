@@ -113,7 +113,7 @@ class StaticIndex extends Controller {
       }));
     }
     this.locale = defaultLocale;
-    const { msg = {}, lan= {}, market = {}, symbolAll = {} } = this.publicInfo;
+    const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
     if (headerFooter && headerFooter.header) {
@@ -160,6 +160,8 @@ class StaticIndex extends Controller {
         title: index_international_title1,
         subTitle: index_international_title2,
       },
+      isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
+      coUrl: this.publicInfo.url.coUrl,
     });
   }
 
@@ -262,7 +264,7 @@ class StaticIndex extends Controller {
     }catch (e) {
 
     }
-
+    
     return sourceMap;
   }
 

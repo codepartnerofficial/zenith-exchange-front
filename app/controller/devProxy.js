@@ -9,12 +9,15 @@ class devProxy extends Controller {
     delete header['origin'];
     delete header['host'];
     delete header['referer'];
-    const data = await ctx.curl(`${host}${url}`, {
+    let obj = {
       method,
       headers: header,
       dataType: 'json',
-      data: JSON.stringify(ctx.request.body)
-    });
+    }
+    if(obj.method.toUpperCase() === 'POST'){
+      obj.data = JSON.stringify(ctx.request.body)
+    }
+    const data = await ctx.curl(`${host}${url}`, obj);
       ctx.body = data.res.data;
   }
 }
