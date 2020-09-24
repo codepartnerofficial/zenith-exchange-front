@@ -724,8 +724,13 @@ class StaticIndex extends Controller {
       let serverDefLan = dLan;
       if (lan.defLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
-        if (this.publicInfo.lan.defLan === 'none' && lanListObj[lanKey]) {
-          serverDefLan = lanListObj[lanKey];
+
+        if (this.publicInfo.lan.defLan === 'none') {
+          if (lanListObj[lanKey]) {
+            serverDefLan = lanListObj[lanKey];
+          } else {
+            serverDefLan = dLan;
+          }
         } else {
           serverDefLan = this.publicInfo.lan.defLan;
         }
