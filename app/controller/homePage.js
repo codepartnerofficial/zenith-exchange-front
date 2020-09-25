@@ -41,6 +41,7 @@ class StaticIndex extends Controller {
       ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
     ]);
     results.forEach((item) => {
       if (item){
@@ -65,6 +66,10 @@ class StaticIndex extends Controller {
           }
           case '/cms/footer/list': {
             this.footerList = res
+            break;
+          }
+          case 'common/co_home_market': {
+            this.coPublicInfo = res
             break;
           }
         }
@@ -162,9 +167,10 @@ class StaticIndex extends Controller {
       },
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
+      coHeaderSymbol: this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length ? this.coPublicInfo.co_header_symbols.list : [],
+      coHomeSymbol: this.coPublicInfo.co_home_symbol_list.length ? this.coPublicInfo.co_home_symbol_list : [],
     });
   }
-
   getSEO() {
     const seo = this.publicInfo.seo || {};
     return {

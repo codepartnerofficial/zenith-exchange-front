@@ -551,10 +551,13 @@
         {% endif %}
         {% import "./swiper/contract.njk" as swiper %}
         {{ swiper.boxStyle(height='580px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
-        {% if headerSymbol.length %}
+        {% if coHeaderSymbol.length %}
             {% include "./recommend/contract.njk" %}
         {% endif %}
-        {% include "./market/contract.njk" %}
+        {% if coHomeSymbol.length %}
+            {% include "./market/contract.njk" %}
+        {% endif %}
+        {#{% include "./market/contract.njk" %}#}
         {% include "./custom/contract.njk" %}
     </div>
     <script>
