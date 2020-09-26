@@ -693,6 +693,7 @@ class StaticIndex extends Controller {
 
   setLan(domain) {
     const { lan } = this.publicInfo;
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!', lan);
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
     // 取得client cookie中语言 clientCookLan
@@ -704,6 +705,7 @@ class StaticIndex extends Controller {
     const language = this.ctx.header['accept-language'];
     const lanKey = language.split(',')[0];
     const lanListObj = {
+      // 英文
       en: 'en_US',
       'en-AU': 'en_US',
       'en-CA': 'en_US',
@@ -711,28 +713,30 @@ class StaticIndex extends Controller {
       'en-NZ': 'en_US',
       'en-US': 'en_US',
       'en-ZA': 'en_US',
-      'zh-CN': 'zh_CN',
+      // 中文简体
       zh: 'zh_CN',
+      'zh-CN': 'zh_CN',
+      // 中文繁体
       'zh-TW': 'el_GR',
       'zh-HK': 'el_GR',
+      // 日语
       ja: 'ja_JP',
+      'ja-JP': 'ja_JP',
+      // 越南
       vi: 'vi_VN',
+      'vi-VN': 'vi_VN',
+      // 韩语
       ko: 'ko_KR',
+      'ko-KR': 'ko_KR',
     };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
-      let serverDefLan = dLan;
-      if (lan.defLan) {
+      let serverDefLan = lan.defLan;
+      if (serverDefLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
-
-        if (this.publicInfo.lan.defLan === 'none') {
-          if (lanListObj[lanKey]) {
-            serverDefLan = lanListObj[lanKey];
-          } else {
-            serverDefLan = dLan;
-          }
-        } else {
-          serverDefLan = this.publicInfo.lan.defLan;
+        if (serverDefLan === 'none') {
+          // 如果浏览器中的语言 是lanListObj中的语言 或者是默认语言
+          serverDefLan = lanListObj[lanKey] || dLan;
         }
       } else {
         const errorData = {
@@ -745,7 +749,6 @@ class StaticIndex extends Controller {
           this.logger.error(JSON.stringify(errorData));
         }
       }
-
       // 针对 publicInfo => lan => lanList 兼容处理
       let severLanList = [];
       if (lan.lanList instanceof Array) {
@@ -761,7 +764,6 @@ class StaticIndex extends Controller {
           this.logger.error(JSON.stringify(errorData));
         }
       }
-
       // 处理数据 lans
       const lans = [];
       if (severLanList.length) {
@@ -769,7 +771,7 @@ class StaticIndex extends Controller {
           lans.push(item.id);
         });
       } else {
-        lans.push(serverDefLan);
+        lans.push(dLan);
       }
       // 如果url中的语言合法，则同步cookie
       if (lans.indexOf(clientUrlLan) !== -1) {
@@ -778,6 +780,9 @@ class StaticIndex extends Controller {
           domain: cookieDomain,
         });
       } else {
+        if (lans.indexOf(serverDefLan) === -1) {
+          serverDefLan = dLan;
+        }
         const lan = lans.indexOf(clientCookLan) !== -1 ? clientCookLan : serverDefLan;
         let redirectUrl = '';
         if (reg.test(clientUrlLan)) {
