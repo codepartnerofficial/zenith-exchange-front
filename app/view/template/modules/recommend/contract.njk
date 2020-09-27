@@ -228,11 +228,11 @@
               market.co_header_symbols.list.forEach((item) => {
                   let symbolName = item.symbol.split('/')[0] + item.symbol.split('/')[1]
                   str += `
-                    <div class="recommend-content c-4-bg c-3-cl-h" data-coin="${symbolName}">
+                    <div class="recommend-content c-4-bg c-3-cl-h" data-coin="${item.name}">
                         <div class="hvol links f-2-cl">
                             <div class="recommendTop">
                                 <div class="recommendType">
-                                    ${symbolName}
+                                    ${item.name}
                                     <div class="coin-label" style="display: none">
                                         <span class="coin-text a-12-cl"></span>
                                         <span class="coin-bg a-12-bg"></span>

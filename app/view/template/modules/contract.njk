@@ -586,11 +586,11 @@
              head.list.forEach((ihead,m) => {
               if (ihead.contract_id === item.instrument_id) {
                head.list[m] = {...item}
+               head.list[m].name = ihead.contract_name
               }
              })
             }
            })
-
            obj.market.co_home_symbol_list = [...arr]
            obj.market.co_header_symbols.list = [...head.list]
            if (obj.market.co_home_symbol_list.length) {
