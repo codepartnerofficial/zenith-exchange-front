@@ -693,7 +693,6 @@ class StaticIndex extends Controller {
 
   setLan(domain) {
     const { lan } = this.publicInfo;
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!', lan);
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
     // 取得client cookie中语言 clientCookLan
@@ -728,6 +727,12 @@ class StaticIndex extends Controller {
       // 韩语
       ko: 'ko_KR',
       'ko-KR': 'ko_KR',
+      'ko-kr': 'ko_KR',
+      'ko-kp': 'ko_KR',
+      // 西班牙
+      es: 'es_ES',
+      'es-ES': 'es_ES',
+      'es-MX': 'es_ES',
     };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
