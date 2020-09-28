@@ -804,7 +804,7 @@ class StaticIndex extends Controller {
           domain: cookieDomain,
         });
         // this.ctx.redirect(`/${lan}${redirectUrl}`, 302);
-        this.ctx.redirect(`el_GR${redirectUrl}`, 302);
+        this.ctx.redirect(`/el_GR/${redirectUrl}`, 302);
       }
 
       this.lan = clientUrlLan;
