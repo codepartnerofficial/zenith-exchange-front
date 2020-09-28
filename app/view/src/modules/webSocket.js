@@ -251,6 +251,7 @@
       const { data } = event;
       const { headerSymbol } = market;
       // 监听 WebSocket 链接成功
+      console.log(data,123)
       if (data.type === 'WEBSOCKET_ON_OPEN') {
         const symbolListKey = Object.keys(symbolList);
         const objData = {};
@@ -267,6 +268,7 @@
         // 发送 24小时行情实时数据 Send
         webSocketSend('Market', 'sub', symbolCurrent, objData);
         // 发送 推荐位 kline数据 Send
+        console.log(3168)
         if (headerSymbol.length) {
           headerSymbol.forEach(item => {
             const symbolArr = item.toLowerCase().split('/');

@@ -8,6 +8,7 @@ module.exports = (app) => {
   if (app.config.env === 'local'){
     router.post('/fe-ex-api/*', controller.devProxy.index);
     router.post('/fe-hashrate-api/*', controller.devProxy.index);
+    router.use('/fe-cov2-api/*', controller.devProxy.index);
   }
   router.get('/home/getMarket/:id', controller.getMarket.index);
   router.get('/(.+)?/', controller.homePage.index);

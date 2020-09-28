@@ -42,10 +42,12 @@
     window.coinTagOpen = '{{ switch.coin_tag_open }}';
     window.publicInfo = {
         skin: {{ skin | dump | safe}},
-    lan: {
-        defLan: "{{ lan.defLan }}"
+        lan: {
+            defLan: "{{ lan.defLan }}"
+        }
     }
-    }
+    window.isCoOpen = {{ isCoOpen }}
+    window.coUrl = "{{ coUrl }}"
 </script>
 <script>inline-utils</script>
 <script inline-html></script>
@@ -55,47 +57,49 @@
         emitter.emit('resize');
     });
     var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
-    fetchData({
-        url: '/fe-ex-api/common/public_info_market',
-    }).then(function(data) {
-        if (data.code.toString() === '0') {
-            var coinList = data.data.market.coinList
-            var setSymbolAll = function(result) {
-                var symbolAll = {};
-                var marketKey = Object.keys(result.market);
-                marketKey.forEach(function(item) {
-                    var symbolKey = Object.keys(result.market[item]);
-                    symbolKey.forEach(function(symbol) {
-                        symbolAll[symbol] = result.market[item][symbol];
-                        var isShow = result.market[item][symbol].isShow;
-                        if (typeof isShow === 'undefined' || Object.prototype.toString.call(isShow) === 'Null') {
-                            symbolAll[symbol].isShow = 1;
-                        }
-                    });
-                });
-                return symbolAll;
-            };
-            var myCoinList = {};
-            Object.keys(coinList).forEach(function(item) {
-                if (!coinList[item].fiatPrecision) {
-                    myCoinList[item] = {
-                        ...coinList[item],
-                        fiatPrecision: { cny: '2', usd: '2', krw: '2' },
-                    };
-                } else {
-                    var coin = JSON.parse(JSON.stringify(coinList[item]));
-                    if (coin.symbolPrecision) {
-                        coin.fiatPrecision = coin.symbolPrecision;
-                    }
-                    myCoinList[item] = { ...coin };
-                }
-            });
-            var myMarket = { ...data.data.market, coinList: myCoinList };
-            data.data.symbolAll = setSymbolAll(myMarket);
-            window.market = data.data;
-            emitter.emit('getMarket', data.data);
+    if(!window.isCoOpen){
+     fetchData({
+          url: '/fe-ex-api/common/public_info_market',
+     }).then(function(data) {
+      if (data.code.toString() === '0') {
+       var coinList = data.data.market.coinList
+       var setSymbolAll = function(result) {
+        var symbolAll = {};
+        var marketKey = Object.keys(result.market);
+        marketKey.forEach(function(item) {
+         var symbolKey = Object.keys(result.market[item]);
+         symbolKey.forEach(function(symbol) {
+          symbolAll[symbol] = result.market[item][symbol];
+          var isShow = result.market[item][symbol].isShow;
+          if (typeof isShow === 'undefined' || Object.prototype.toString.call(isShow) === 'Null') {
+           symbolAll[symbol].isShow = 1;
+          }
+         });
+        });
+        return symbolAll;
+       };
+       var myCoinList = {};
+       Object.keys(coinList).forEach(function(item) {
+        if (!coinList[item].fiatPrecision) {
+         myCoinList[item] = {
+          ...coinList[item],
+          fiatPrecision: { cny: '2', usd: '2', krw: '2' },
+         };
+        } else {
+         var coin = JSON.parse(JSON.stringify(coinList[item]));
+         if (coin.symbolPrecision) {
+          coin.fiatPrecision = coin.symbolPrecision;
+         }
+         myCoinList[item] = { ...coin };
         }
-    });
+       });
+       var myMarket = { ...data.data.market, coinList: myCoinList };
+       data.data.symbolAll = setSymbolAll(myMarket);
+       window.market = data.data;
+       emitter.emit('getMarket', data.data);
+      }
+     });
+    }
     if (window.ispc === 'true'){
         var homeDialog = "{{sourceMap.homeDialog}}";
         emitter.on('login', function() {
