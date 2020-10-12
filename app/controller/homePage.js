@@ -737,14 +737,14 @@ class StaticIndex extends Controller {
     };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
-      // let serverDefLan = lan.defLan;
-      let serverDefLan = 'none';
+      let serverDefLan = lan.defLan;
+      // let serverDefLan = 'none';
       if (serverDefLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
         if (serverDefLan === 'none') {
           // 如果浏览器中的语言 是lanListObj中的语言 或者是默认语言
-          console.log(lanKey, lanListObj);
-          serverDefLan = lanListObj[lanKey] || dLan;
+
+          serverDefLan = lanListObj[lanKey] ? lanListObj[lanKey] : dLan;
         }
       } else {
         const errorData = {
