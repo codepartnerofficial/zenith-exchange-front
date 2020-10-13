@@ -696,44 +696,44 @@ class StaticIndex extends Controller {
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
     // 取得client cookie中语言 clientCookLan
-    const clientCookLan = this.ctx.cookies.get('lan');
+    const clientCookLan = this.ctx.cookies.get('lan', {
+      signed: false,
+    });
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
     const dLan = 'en_US';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     // 获取浏览器语言
     const language = this.ctx.header['accept-language'];
-    const lanKey = language.split(',')[0];
+    let lanKey = language.split(',')[0];
     const lanListObj = {
       // 英文
       en: 'en_US',
-      'en-AU': 'en_US',
-      'en-CA': 'en_US',
-      'en-GB': 'en_US',
-      'en-NZ': 'en_US',
-      'en-US': 'en_US',
-      'en-ZA': 'en_US',
+      'en-au': 'en_US',
+      'en-ca': 'en_US',
+      'en-gb': 'en_US',
+      'en-nz': 'en_US',
+      'en-us': 'en_US',
+      'en-za': 'en_US',
       // 中文简体
       zh: 'zh_CN',
-      'zh-CN': 'zh_CN',
       'zh-cn': 'zh_CN',
       // 中文繁体
-      'zh-TW': 'el_GR',
-      'zh-HK': 'el_GR',
+      'zh-tw': 'el_GR',
+      'zh-hk': 'el_GR',
       // 日语
       ja: 'ja_JP',
-      'ja-JP': 'ja_JP',
+      'ja-jp': 'ja_JP',
       // 越南
       vi: 'vi_VN',
-      'vi-VN': 'vi_VN',
+      'vi-vn': 'vi_VN',
       // 韩语
       ko: 'ko_KR',
-      'ko-KR': 'ko_KR',
       'ko-kr': 'ko_KR',
       'ko-kp': 'ko_KR',
       // 西班牙
       es: 'es_ES',
-      'es-ES': 'es_ES',
-      'es-MX': 'es_ES',
+      'es-es': 'es_ES',
+      'es-mx': 'es_ES',
     };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
@@ -743,7 +743,7 @@ class StaticIndex extends Controller {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
         if (serverDefLan === 'none') {
           // 如果浏览器中的语言 是lanListObj中的语言 或者是默认语言
-
+          lanKey = lanKey.toLowerCase();
           serverDefLan = lanListObj[lanKey] ? lanListObj[lanKey] : dLan;
         }
       } else {
