@@ -79,7 +79,8 @@ class StaticIndex extends Controller {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
-    this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
+    let domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '')
+    this.setLan(domain);
     if (!reg.test(currenLan)) {
       return;
     }
@@ -129,6 +130,19 @@ class StaticIndex extends Controller {
       }
     }
     this.headerLink = this.getHeaderLink(ispc);
+    let securityUrl = this.publicInfo.common_user_behavior;
+    if (this.publicInfo.common_user_behavior
+      && this.publicInfo.common_user_behavior.length) {
+      let str = this.publicInfo.common_user_behavior;
+      if (str.indexOf('{deviceId}') !== -1) {
+        str = str.replace('{deviceId}', '');
+      }
+      if (str.indexOf('{custID}') !== -1) {
+        str = str.replace('{custID}', domain);
+      }
+      securityUrl = str;
+    }
+    console.log(securityUrl)
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -165,6 +179,7 @@ class StaticIndex extends Controller {
         title: index_international_title1,
         subTitle: index_international_title2,
       },
+      securityUrl,
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
       coHeaderSymbol: this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length ? this.coPublicInfo.co_header_symbols.list : [],

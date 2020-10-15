@@ -22,7 +22,16 @@
     <link type="image/x-icon" rel="shortcut icon" href="{{msg.iconUrl}}">
     <title>{{seo.title}}</title>
     <link rel="stylesheet" href="{{sourceMap.staticDomain}}/home/static/{{sourceMap['common.css']}}"/>
-    <script src="{{sourceMap.staticDomain}}/home/static/js/security.js?t=1595387885045"></script>
+    <script src="{{securityUrl}}"></script>
+    <script>
+        if(BSDeviceFingerprint) {
+            var bsdfp = new BSDeviceFingerprint();
+            bsdfp.getCollectElements({}, function(sendArray){
+                window.authData = sendArray
+            });
+        }
+    </script>
+    {# <script src="{{sourceMap.staticDomain}}/home/static/js/security.js?t=1595387885045"></script> #}
     <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['iconfont']}}" async id="iconfont"></script>
     <script src="{{sourceMap.staticDomain}}/home/static/js/event-emitter.min.js"></script>
     <style>
