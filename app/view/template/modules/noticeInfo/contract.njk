@@ -1,0 +1,94 @@
+<div class="bulletinBoard" id="notice-list">
+    <style>
+        .bulletinBoard .backgrounds {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .bulletinBoard .bull-bar .notice-item {
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            padding-left: 20px;
+            box-sizing: border-box;
+            line-height: 40px;
+            height: 40px;
+        }
+        .bulletinBoard .bull-bar .notice-item .hoverShow {
+            display: none;
+        }
+        .bulletinBoard .bull-bar .notice-item .hoverHide {
+            display: inline-block;
+        }
+        .bulletinBoard .bull-bar .notice-item i {
+            margin-left: 20px;
+            display: inline-block;
+        }
+        .bulletinBoard .bull-bar .notice-item:last-child i {
+            display: none;
+        }
+        .bulletinBoard .bull-bar .notice-item:hover .hoverShow {
+            display: inline-block;
+        }
+        .bulletinBoard .bull-bar .notice-item:hover .hoverHide {
+            display: none;
+        }
+        .bulletinBoard .more {
+            position: absolute;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            text-align: right;
+            right: 20px;
+            top: 7px;
+        }
+    </style>
+    <div class="backgrounds h-2-bg"></div>
+    <div class="bull-bar">
+        {% for item in noticeList %}
+            <p class="notice-item">
+                <a class="hoverHide x-2-cl" href="/noticeInfo/{{ item.id }}">
+                    {{item.noticeText}}
+                </a>
+                <a class="hoverShow x-1-cl" href="/noticeInfo/{{ item.id }}">
+                    {{item.noticeText}}
+                </a>
+                <i class="x-2-cl">/</i>
+            </p>
+        {% endfor %}
+    </div>
+    <button class="common-button button common-button-text u-8-cl  more x-3-cl" style="height: 24px; padding-left: 10px; padding-right: 10px; margin-top: 0px;">
+        <div class="common-button-slot">
+            {{ locale.home.more }}
+        </div>
+    </button>
+    <script>
+     (function () {
+      const $noticeList = document.querySelector('#notice-list');
+      const $noticeMore = $noticeList.querySelector('.more');
+
+      const bindEvent = () => {
+       $noticeMore.addEventListener('mouseover', () => {
+        $noticeMore.classList.add('u-9-bg');
+       }, false);
+       $noticeMore.addEventListener('mouseout', () => {
+        $noticeMore.classList.remove('u-9-bg');
+       }, false);
+       $noticeMore.addEventListener('mousedown', () => {
+        $noticeMore.classList.add('u-10-bg');
+       }, false);
+       $noticeMore.addEventListener('mouseup', () => {
+        $noticeMore.classList.remove('u-10-bg');
+       }, false);
+       $noticeMore.addEventListener('click', () => {
+        location.href = '/noticeInfo';
+       }, false);
+      };
+
+      bindEvent();
+     })();
+    </script>
+</div>
