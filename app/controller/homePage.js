@@ -11,16 +11,16 @@ class StaticIndex extends Controller {
     let ispc = true;
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
-    let nowHost = this.ctx.request.header.host;
+    const nowHost = this.ctx.request.header.host;
     const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
     if (agentID) {
       const hostArr = nowHost.split('.');
       let toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[1]}.${hostArr[2]}`;
-      if (hostArr.length === 2){
+      if (hostArr.length === 2) {
         toUrl = `${ctx.app.httpclient.agent.protocol}//m.${hostArr[0]}.${hostArr[1]}`;
       }
       ctx.redirect(toUrl);
-      return ;
+      return;
       ispc = false;
     }
     const currenLan = this.ctx.request.path.split('/')[1];
@@ -43,8 +43,8 @@ class StaticIndex extends Controller {
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
       ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
     ]);
-    results.forEach((item) => {
-      if (item){
+    results.forEach(item => {
+      if (item) {
         const k = Object.keys(item)[0];
         const res = item[k];
         switch (k) {
@@ -65,25 +65,26 @@ class StaticIndex extends Controller {
             break;
           }
           case '/cms/footer/list': {
-            this.footerList = res
+            this.footerList = res;
             break;
           }
           case 'common/co_home_market': {
-            this.coPublicInfo = res
+            this.coPublicInfo = res || {}
             break;
           }
         }
       }
     });
-    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList){
+    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
-    this.setLan(nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), ''));
+    let domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '')
+    this.setLan(domain);
     if (!reg.test(currenLan)) {
       return;
     }
-    if (this.publicInfo.skin){
+    if (this.publicInfo.skin) {
       mergeSkin(this.publicInfo.skin, this.config.defaultSkin);
     }
     const {
@@ -95,11 +96,11 @@ class StaticIndex extends Controller {
       cmsAppAdvertList = [],
     } = this.commonIndex;
     let defaultLocale = {};
-    try{
-      if (this.config.defaultLocales[`${currenLan}.json`]){
+    try {
+      if (this.config.defaultLocales[`${currenLan}.json`]) {
         defaultLocale = cloneDeep(this.config.defaultLocales[`${currenLan}.json`]);
       }
-    }catch (e) {
+    } catch (e) {
       this.logger.error(JSON.stringify({
         message: '默认语言包clone失败',
       }));
@@ -129,6 +130,19 @@ class StaticIndex extends Controller {
       }
     }
     this.headerLink = this.getHeaderLink(ispc);
+    let securityUrl = this.publicInfo.common_user_behavior;
+    if (this.publicInfo.common_user_behavior
+      && this.publicInfo.common_user_behavior.length) {
+      let str = this.publicInfo.common_user_behavior;
+      if (str.indexOf('{deviceId}') !== -1) {
+        str = str.replace('{deviceId}', '');
+      }
+      if (str.indexOf('{custID}') !== -1) {
+        str = str.replace('{custID}', domain);
+      }
+      securityUrl = str;
+    }
+    console.log(securityUrl)
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -165,10 +179,11 @@ class StaticIndex extends Controller {
         title: index_international_title1,
         subTitle: index_international_title2,
       },
+      securityUrl,
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
-      coHeaderSymbol: this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length ? this.coPublicInfo.co_header_symbols.list : [],
-      coHomeSymbol: this.coPublicInfo.co_home_symbol_list.length ? this.coPublicInfo.co_home_symbol_list : [],
+      coHeaderSymbol: (this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
+      coHomeSymbol: (this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
     });
   }
   getSEO() {
@@ -184,7 +199,7 @@ class StaticIndex extends Controller {
   getTemplate(ispc) {
     let template = 'international';
     const indexTempType = this.publicInfo.switch.index_temp_type;
-    if (this.publicInfo.switch) {
+    if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
     // 828727492：  矿池首页自带响应式
@@ -246,19 +261,19 @@ class StaticIndex extends Controller {
     } catch (e) {
 
     }
-    try{
-      if (this.publicInfo.skin){
+    try {
+      if (this.publicInfo.skin) {
         const skin = this.publicInfo.skin;
         const id = this.ctx.cookies.get('cusSkin', {
           signed: false,
         }) || skin.default;
-        skin.listist.forEach((item) => {
-          if (item.skinId === id){
+        skin.listist.forEach(item => {
+          if (item.skinId === id) {
             const imgList = item.imgList;
-            Object.keys(sourceMap).forEach((ikey) => {
-              if (imgList[ikey]){
+            Object.keys(sourceMap).forEach(ikey => {
+              if (imgList[ikey]) {
                 let imgSrc = imgList[ikey];
-                if (imgSrc.indexOf('http') === -1){
+                if (imgSrc.indexOf('http') === -1) {
                   imgSrc = item.imgPath + imgSrc;
                 }
                 sourceMap[ikey] = imgSrc;
@@ -267,7 +282,7 @@ class StaticIndex extends Controller {
           }
         });
       }
-    }catch (e) {
+    } catch (e) {
 
     }
     
@@ -704,15 +719,56 @@ class StaticIndex extends Controller {
     // 取得client一级路由 clientUrlLan
     const clientUrlLan = this.ctx.request.path.split('/')[1];
     // 取得client cookie中语言 clientCookLan
-    const clientCookLan = this.ctx.cookies.get('lan');
+    const clientCookLan = this.ctx.cookies.get('lan', {
+      signed: false,
+    });
     const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
-    const dLan = 'zh_CN';
+    const dLan = 'en_US';
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
+    // 获取浏览器语言
+    const language = this.ctx.header['accept-language'];
+    let lanKey = language.split(',')[0];
+    const lanListObj = {
+      // 英文
+      en: 'en_US',
+      'en-au': 'en_US',
+      'en-ca': 'en_US',
+      'en-gb': 'en_US',
+      'en-nz': 'en_US',
+      'en-us': 'en_US',
+      'en-za': 'en_US',
+      // 中文简体
+      zh: 'zh_CN',
+      'zh-cn': 'zh_CN',
+      // 中文繁体
+      'zh-tw': 'el_GR',
+      'zh-hk': 'el_GR',
+      // 日语
+      ja: 'ja_JP',
+      'ja-jp': 'ja_JP',
+      // 越南
+      vi: 'vi_VN',
+      'vi-vn': 'vi_VN',
+      // 韩语
+      ko: 'ko_KR',
+      'ko-kr': 'ko_KR',
+      'ko-kp': 'ko_KR',
+      // 西班牙
+      es: 'es_ES',
+      'es-es': 'es_ES',
+      'es-mx': 'es_ES',
+    };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
-      let serverDefLan = dLan;
-      if (lan.defLan) {
-        serverDefLan = this.publicInfo.lan.defLan;
+      let serverDefLan = lan.defLan;
+      // let serverDefLan = 'none';
+      if (serverDefLan) {
+        // 如果后台配置的默认语言是 none 就使用浏览器的语言
+        if (serverDefLan === 'none') {
+          // 如果浏览器中的语言 是lanListObj中的语言 或者是默认语言
+          lanKey = lanKey.toLowerCase();
+          serverDefLan = lanListObj[lanKey] ? lanListObj[lanKey] : dLan;
+        }
       } else {
         const errorData = {
           domain,
@@ -724,7 +780,6 @@ class StaticIndex extends Controller {
           this.logger.error(JSON.stringify(errorData));
         }
       }
-
       // 针对 publicInfo => lan => lanList 兼容处理
       let severLanList = [];
       if (lan.lanList instanceof Array) {
@@ -740,7 +795,6 @@ class StaticIndex extends Controller {
           this.logger.error(JSON.stringify(errorData));
         }
       }
-
       // 处理数据 lans
       const lans = [];
       if (severLanList.length) {
@@ -748,7 +802,7 @@ class StaticIndex extends Controller {
           lans.push(item.id);
         });
       } else {
-        lans.push(serverDefLan);
+        lans.push(dLan);
       }
       // 如果url中的语言合法，则同步cookie
       if (lans.indexOf(clientUrlLan) !== -1) {
@@ -757,6 +811,9 @@ class StaticIndex extends Controller {
           domain: cookieDomain,
         });
       } else {
+        if (lans.indexOf(serverDefLan) === -1) {
+          serverDefLan = dLan;
+        }
         const lan = lans.indexOf(clientCookLan) !== -1 ? clientCookLan : serverDefLan;
         let redirectUrl = '';
         if (reg.test(clientUrlLan)) {
