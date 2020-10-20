@@ -206,6 +206,7 @@ class StaticIndex extends Controller {
     if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
+    console.log(template)
     return `modules/${template}.njk`;
   }
 
