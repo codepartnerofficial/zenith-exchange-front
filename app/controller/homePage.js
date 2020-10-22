@@ -23,7 +23,10 @@ class StaticIndex extends Controller {
       return;
       ispc = false;
     }
-    const currenLan = this.ctx.request.path.split('/')[1];
+    let currenLan = this.ctx.request.path.split('/')[1];
+    if (!currenLan) {
+      currenLan = 'en_US';
+    }
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
@@ -69,7 +72,7 @@ class StaticIndex extends Controller {
             break;
           }
           case 'common/co_home_market': {
-            this.coPublicInfo = res
+            this.coPublicInfo = res;
             break;
           }
         }
@@ -79,7 +82,7 @@ class StaticIndex extends Controller {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
-    let domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '')
+    const domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '');
     this.setLan(domain);
     if (!reg.test(currenLan)) {
       return;
@@ -142,7 +145,7 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
-    console.log(securityUrl)
+    console.log(securityUrl);
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -285,7 +288,7 @@ class StaticIndex extends Controller {
     } catch (e) {
 
     }
-    
+
     return sourceMap;
   }
 
