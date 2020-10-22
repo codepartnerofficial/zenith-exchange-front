@@ -72,7 +72,7 @@ class StaticIndex extends Controller {
             break;
           }
           case 'common/co_home_market': {
-            this.coPublicInfo = res;
+            this.coPublicInfo = res || {};
             break;
           }
         }
@@ -185,8 +185,8 @@ class StaticIndex extends Controller {
       securityUrl,
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
-      coHeaderSymbol: this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length ? this.coPublicInfo.co_header_symbols.list : [],
-      coHomeSymbol: this.coPublicInfo.co_home_symbol_list.length ? this.coPublicInfo.co_home_symbol_list : [],
+      coHeaderSymbol: (this.coPublicInfo && this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
+      coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
     });
   }
   getSEO() {
@@ -209,6 +209,7 @@ class StaticIndex extends Controller {
     if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
+    console.log(template);
     return `modules/${template}.njk`;
   }
 
