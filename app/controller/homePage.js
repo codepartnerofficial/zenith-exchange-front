@@ -38,6 +38,7 @@ class StaticIndex extends Controller {
         domainName: `${ctx.app.httpclient.agent.protocol}//${nowHost}`,
       };
     }
+
     const results = await Promise.all([
       ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
       ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
