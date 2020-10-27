@@ -732,7 +732,10 @@ class StaticIndex extends Controller {
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     // 获取浏览器语言
     const language = this.ctx.header['accept-language'];
-    let lanKey = language.split(',')[0];
+    let lanKey = ''
+    if(language) {
+      lanKey = language.split(',')[0];
+    }
     const lanListObj = {
       // 英文
       en: 'en_US',
