@@ -768,7 +768,7 @@ class StaticIndex extends Controller {
     };
     if (lan) {
       // 针对 publicInfo => lan => defLan 兼容处理
-      let serverDefLan = lan.defLan;
+      let serverDefLan = lan.defLan || 'en_US';
       // let serverDefLan = 'none';
       if (serverDefLan) {
         // 如果后台配置的默认语言是 none 就使用浏览器的语言
