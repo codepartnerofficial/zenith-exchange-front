@@ -109,7 +109,7 @@
     </style>
     <ul class="banner-box imgBox">
         {% for item in slideList %}
-        {% if loop.index0 !== 0 %}    
+        {% if loop.index0 !== -1 %}
         <li data-id="{{loop.index}}" class="u-8-bd banner-item"
             style="background-image:url({{item.imageUrl}});display: none"></li>
         {% else %}
@@ -181,6 +181,7 @@
                         init() {
                             this.pageWidth = this.getPageWidth();
                             this.imgPages.style.width = `${this.imgList.length * this.thumbItemWidth}px`;
+                            this.renderBanner();
                             this.bindNavEvent();
                             this.cusBindEvent();
                             this.autoRun();
