@@ -91,7 +91,12 @@ async function clean(){
 }
 
 async function css() {
-  const cssPath = path.join(__dirname, 'node_modules/BlockChain-ui/static/css/common.styl');
+  const cssPath = [
+    path.join(__dirname, 'node_modules/BlockChain-ui/static/css/common.styl'),
+    path.join(__dirname, 'node_modules/BlockChain-ui/static/css/quill.core.styl'),
+    path.join(__dirname, 'node_modules/BlockChain-ui/static/css/quill.snow.styl'),
+    path.join(__dirname, 'node_modules/BlockChain-ui/static/css/quill.bubble.styl')
+  ];
   src(cssPath)
     .pipe(stylus({}))
     .pipe(cleanCSS())
