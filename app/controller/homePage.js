@@ -27,6 +27,7 @@ class StaticIndex extends Controller {
     if (!currenLan) {
       currenLan = 'en_US';
     }
+    console.log(currenLan)
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
@@ -146,7 +147,6 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
-    console.log(securityUrl);
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -192,6 +192,7 @@ class StaticIndex extends Controller {
   }
   getSEO() {
     const seo = this.publicInfo.seo || {};
+    // console.log('888', this.publicInfo)
     return {
       keywords: seo.keywords || '',
       description: seo.description || '',
