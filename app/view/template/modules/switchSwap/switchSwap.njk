@@ -40,7 +40,7 @@ class BlockChainSwitchSwap {
                 isNewSwap = false
             }
         }
-        setCookie('isNewSwap', isNewSwap ? '1' : '0')
+        // setCookie('isNewSwap', isNewSwap ? '1' : '0')
 
         const $closeImg = document.querySelectorAll('.common-switchSwap-right-img')[0];
         const $commonSwitchSwap = document.querySelectorAll('.common-switchSwap')[0];
@@ -57,12 +57,13 @@ class BlockChainSwitchSwap {
 
         $goNew.addEventListener('click', () => {
           setCookie('isNewSwap',getCookie('isNewSwap') === '1' ? '0' : '1')
-          if(getCookie('isNewSwap') === '1') {
+          /*if(getCookie('isNewSwap') === '1') {
                 $goNew.innerHTML = '切换旧版'
             } else {
                 $goNew.innerHTML = '切换新版'
-            }
+            }*/
           BlockChainTip.pushTip('success', '切换成功')
+          window.location.reload()
         });
         if (!window.BlockChainDialog && this.dialogPath) {
             getScript(`/home/static/${this.dialogPath}`).then(() => {

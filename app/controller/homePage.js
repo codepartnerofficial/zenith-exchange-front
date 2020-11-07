@@ -134,7 +134,7 @@ class StaticIndex extends Controller {
         this.logger.error('自定义header不是json');
       }
     }
-    this.headerLink = this.getHeaderLink(ispc);
+    this.headerLink = this.getHeaderLink(ispc, domain);
     let securityUrl = this.publicInfo.common_user_behavior;
     if (this.publicInfo.common_user_behavior
       && this.publicInfo.common_user_behavior.length) {
@@ -506,16 +506,44 @@ class StaticIndex extends Controller {
     return obj.data;
   }
 
-  getHeaderLink(ispc) {
+  getHeaderLink(ispc, domain) {
+    const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
     const { url } = this.publicInfo;
+    const cookieIsNewSwap = this.ctx.cookies.get('isNewSwap', {
+      signed: false,
+    });
+    let isNewSwap = false
+    if(cookieIsNewSwap) {
+        if(cookieIsNewSwap === '1') {
+            isNewSwap = true
+        } else {
+            isNewSwap = false
+        }
+    } else {
+        if(this.publicInfo
+            && this.publicInfo.switch.contract_version_settings === '1') {
+            isNewSwap = true
+        } else {
+            isNewSwap = false
+        }
+    }
+    console.log(cookieDomain)
+    this.ctx.cookies.set('isNewSwap', isNewSwap ? '1' : '0', {
+      httpOnly: false,
+      domain: cookieDomain,
+    });
     if (url) {
+      let coUrl = url.coUrl
+      if(url.coUrlNew || url.coUrlOld) {
+        coUrl = isNewSwap ? url.coUrlNew : url.coUrlOld
+      }
       return {
         home: url.exUrl,
         trade: url.exUrl ? `${url.exUrl}/trade` : '',
         market: url.exUrl ? `${url.exUrl}/market` : '',
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
-        co: ispc ? url.coUrl : '',
+        co: ispc ? coUrl : '',
         proSwap: url.coUrl ? `${url.coUrl}/proSwap` : '',
         proTrade: url.exUrl ? `${url.exUrl}/proTrade` : '',
         prolever: url.exUrl ? `${url.exUrl}/proTradeMargin` : '',
@@ -525,7 +553,7 @@ class StaticIndex extends Controller {
   }
 
 
-  getHeaderList(ispc) {
+  getHeaderList(ispc, domain) {
     const arr = [];
     const pubSwitch = this.publicInfo.switch;
     const { headerLink } = this;
