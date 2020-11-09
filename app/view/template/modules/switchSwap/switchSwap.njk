@@ -4,11 +4,14 @@
 <div class="common-switchSwap-left">
     <img class="common-switchSwap-left-img"
         src="https://chainup-oss.oss-cn-beijing.aliyuncs.com/switch_swap_new.png"/>
-    <span class="common-switchSwap-left-text">合约公告：一键切换到合约系统，体验更专业的合约交易</span>
+        {# 合约公告：一键切换到合约系统，体验更专业的合约交易 #}
+    <span class="common-switchSwap-left-text">{{locale.swapNew.notice}}</span>
 </div>
 <div class="common-switchSwap-right">
-    <div class="common-switchSwap-right-goDet">查看详情</div>
-    <div class="common-switchSwap-right-goNew">切换新版</div>
+    {# 查看详情 #}
+    <div class="common-switchSwap-right-goDet">{{locale.swapNew.dte}}</div>
+    {# 切换新版 #}
+    <div class="common-switchSwap-right-goNew">{{locale.swapNew.checkNew}}</div>
     <img class="common-switchSwap-right-img"
         src="https://chainup-oss.oss-cn-beijing.aliyuncs.com/switch_swap_close.png"/>
     
@@ -46,9 +49,11 @@ class BlockChainSwitchSwap {
         const $commonSwitchSwap = document.querySelectorAll('.common-switchSwap')[0];
         const $goNew = document.querySelectorAll('.common-switchSwap-right-goNew')[0];
         if(isNewSwap) {
-            $goNew.innerHTML = '切换旧版'
+            // 切换旧版
+            $goNew.innerHTML = '{{locale.swapNew.checkNew}}'
         } else {
-            $goNew.innerHTML = '切换新版'
+            // 切换新版
+            $goNew.innerHTML = '{{locale.swapNew.checkOld}}'
         }
         $closeImg.addEventListener('click', () => {
           $commonSwitchSwap.style.display = 'none'
@@ -57,12 +62,8 @@ class BlockChainSwitchSwap {
 
         $goNew.addEventListener('click', () => {
           setCookie('isNewSwap',getCookie('isNewSwap') === '1' ? '0' : '1')
-          /*if(getCookie('isNewSwap') === '1') {
-                $goNew.innerHTML = '切换旧版'
-            } else {
-                $goNew.innerHTML = '切换新版'
-            }*/
-          BlockChainTip.pushTip('success', '切换成功')
+          // 切换成功
+          BlockChainTip.pushTip('success', '{{locale.swapNew.success}}')
           window.location.reload()
         });
         if (!window.BlockChainDialog && this.dialogPath) {
@@ -78,20 +79,21 @@ class BlockChainSwitchSwap {
     initColorDiaolog() {
       this.colorDialog = new BlockChainDialog({
         locale: {
-            titleText: '新合约系统即将上线通知',
+            // 新合约系统即将上线通知
+            titleText: '{{locale.swapNew.dlgTit}}',
             closeTextProps: '{{locale.components.dialog.closeText}}',
-            confirmTextProps: '我知道了',
+            confirmTextProps: '{{locale.swapNew.dlgBtn}}',
             color: '{{locale.header.color}}',
             userStatus: '{{locale.header.userStatus}}',
         },
         content: `
             <div class="common-switchSwapDlg-frame-setBox">
-                <div>尊敬的用户，您好：</div>
-                <div style="margin-top: 20px;">为了更好的服务用户，提供更专业的合约服务，新版永续合约Web版本、APP版本将于近期陆续上线。</div>
-                <div style="margin-top: 20px;">1、在正式切换之前，我们提供了双版本的合约系统供您使用，同时新合约刚上线期间，可能存在出多不完善之处，如发现bug或者任何建议请通过链接提交。</div>
-                <div style="margin-top: 20px;">2、届时，旧合约系统将停止访问，旧合约的用户请务必在相应时间前及时平仓并将资产划转至币币账户；如未能及时平仓并转出，平台届时将按市场价自动平仓结算，并将资产转移至币币账户；未成交的委托单将被系统自动撤销。</div>
-                <div style="margin-top: 20px;">3、您可以通过导航顶部浮层自由切换新旧合约，点击【切换新/旧版】后，您访问合约交易、合约资产、合约订单、合约相关运营功能时均同步切换；请注意，新旧两版合约数据不互通；影响的功能包括但不限于：合约经纪人、合约体验金、合约跟单、合约大赛。</div>
-                <div style="margin-top: 20px;">4、您的合约资产需先划转到币币账户才能转到合约账户。</div>
+                <div>{{locale.swapNew.t1}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t2}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t3}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t4}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t5}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t6}}</div>
             </div>
         `,
         confirm() {
