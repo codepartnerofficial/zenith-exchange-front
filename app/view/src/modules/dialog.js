@@ -2,6 +2,7 @@
   class BlockChainDialog {
     constructor(option) {
       this.locale = option.locale || {};
+      this.titleText = option.titleText || this.locale.titleText
       this.content = option.content || '';
       this.confirm = option.confirm || function() {};
       this.createDialog();
@@ -65,7 +66,7 @@
       dialog.innerHTML = `<div class="dialog-markAll u-7-bg"></div>
                     <div class="dialog-frame a-5-bg">
                         <div class="dialog-frame-head a-4-bg">
-                            <span class="dialog-frame-head-text b-1-cl">${locale.titleText}</span>
+                            <span class="dialog-frame-head-text b-1-cl">${this.titleText}</span>
                             <span class="dialog-frame-head-close">
                                 <section class="common-iconButton">
                                     <div class="iconButton-icon">

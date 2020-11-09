@@ -1,0 +1,197 @@
+{% if switch.contract_change_float_switch === '1' %}
+<div class="common-switchSwap" id="common-switchSwap">
+
+<div class="common-switchSwap-left">
+    <img class="common-switchSwap-left-img"
+        src="https://chainup-oss.oss-cn-beijing.aliyuncs.com/switch_swap_new.png"/>
+        {# 合约公告：一键切换到合约系统，体验更专业的合约交易 #}
+    <span class="common-switchSwap-left-text">{{locale.swapNew.notice}}</span>
+</div>
+<div class="common-switchSwap-right">
+    {# 查看详情 #}
+    <div class="common-switchSwap-right-goDet">{{locale.swapNew.dte}}</div>
+    {# 切换新版 #}
+    <div class="common-switchSwap-right-goNew">{{locale.swapNew.checkNew}}</div>
+    <img class="common-switchSwap-right-img"
+        src="https://chainup-oss.oss-cn-beijing.aliyuncs.com/switch_swap_close.png"/>
+    
+</div>
+<script>
+(function () {
+const { getCookie, setCookie } = window.BlockChainUtils;
+class BlockChainSwitchSwap {
+    constructor() {
+        this.dialogPath = "{{sourceMap.dialog}}";
+        this.tipPath = "{{sourceMap.tip}}"
+        this.init()
+    }
+    init() {
+        // contract_version_settings 新旧合约设置 0-旧版合约 1-新版合约
+        // contract_change_float_switch新旧合约切换浮层展示开关 0-无浮层展示 1-有浮层展示
+        let isNewSwap = false
+        if(getCookie('isNewSwap')) {
+            if(getCookie('isNewSwap') === '1') {
+                isNewSwap = true
+            } else {
+                isNewSwap = false
+            }
+        } else {
+            if(window.publicInfo
+                && window.publicInfo.switch.contract_version_settings === '1') {
+                isNewSwap = true
+            } else {
+                isNewSwap = false
+            }
+        }
+        // setCookie('isNewSwap', isNewSwap ? '1' : '0')
+
+        const $closeImg = document.querySelectorAll('.common-switchSwap-right-img')[0];
+        const $commonSwitchSwap = document.querySelectorAll('.common-switchSwap')[0];
+        const $goNew = document.querySelectorAll('.common-switchSwap-right-goNew')[0];
+        if(isNewSwap) {
+            // 切换旧版
+            $goNew.innerHTML = '{{locale.swapNew.checkNew}}'
+        } else {
+            // 切换新版
+            $goNew.innerHTML = '{{locale.swapNew.checkOld}}'
+        }
+        $closeImg.addEventListener('click', () => {
+          $commonSwitchSwap.style.display = 'none'
+        });
+        
+
+        $goNew.addEventListener('click', () => {
+          setCookie('isNewSwap',getCookie('isNewSwap') === '1' ? '0' : '1')
+          // 切换成功
+          BlockChainTip.pushTip('success', '{{locale.swapNew.success}}')
+          window.location.reload()
+        });
+        if (!window.BlockChainDialog && this.dialogPath) {
+            getScript(`/home/static/${this.dialogPath}`).then(() => {
+            this.initColorDiaolog();
+            });
+        } else {
+            this.initColorDiaolog();
+        }
+        
+      
+    }
+    initColorDiaolog() {
+      this.colorDialog = new BlockChainDialog({
+        locale: {
+            // 新合约系统即将上线通知
+            titleText: '{{locale.swapNew.dlgTit}}',
+            closeTextProps: '{{locale.components.dialog.closeText}}',
+            confirmTextProps: '{{locale.swapNew.dlgBtn}}',
+            color: '{{locale.header.color}}',
+            userStatus: '{{locale.header.userStatus}}',
+        },
+        content: `
+            <div class="common-switchSwapDlg-frame-setBox">
+                <div>{{locale.swapNew.t1}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t2}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t3}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t4}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t5}}</div>
+                <div style="margin-top: 20px;">{{locale.swapNew.t6}}</div>
+            </div>
+        `,
+        confirm() {
+            this.hide()
+        },
+      });
+      const $goDet = document.querySelectorAll('.common-switchSwap-right-goDet')[0];
+      $goDet.addEventListener('click', () => {
+          this.colorDialog.show()
+      });
+      
+    }
+}
+new BlockChainSwitchSwap()
+})()
+</script>
+<style>
+.common-switchSwap {
+    height: 50px;
+    background: #2480F5;
+    width: 100%;
+    padding: 0 20px;
+}
+.common-switchSwap-right {
+    float: right;
+}
+.common-switchSwap-left {
+    float: left;
+    line-height: 50px;
+    height: 50px;
+}
+.common-switchSwap-right-goDet {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 0 18px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: 10px;
+}
+.common-switchSwap-right-img:hover,
+.common-switchSwap-right-goDet:hover,
+.common-switchSwap-right-goNew:hover {
+    opacity: 0.8;
+}
+.common-switchSwap-right-img:active,
+.common-switchSwap-right-goDet:active,
+.common-switchSwap-right-goNew:active {
+    opacity: 1;
+}
+.common-switchSwap-right-goNew {
+    float: left;
+    background: #fff;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #2480F5;
+    text-align: center;
+    border-radius: 2px;
+    padding: 0 18px;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 20px;
+    vertical-align: middle;
+    margin-top: 10px;
+}
+.common-switchSwap-right-img {
+    width: 18px;
+    height: 18px;
+    float: left;
+    cursor: pointer;
+    margin-left: 50px;
+    vertical-align: middle;
+    margin-top: 14px;
+}
+.common-switchSwap-left-img {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    color: #fff
+}
+.common-switchSwap-left-text {
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.common-switchSwapDlg-frame-setBox {
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 22px;
+}
+
+</style>
+
+</div>
+{% endif %}

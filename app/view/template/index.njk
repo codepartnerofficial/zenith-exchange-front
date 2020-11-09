@@ -66,7 +66,8 @@
         skin: {{ skin | dump | safe}},
         lan: {
             defLan: "{{ lan.defLan }}"
-        }
+        },
+        'switch': {{switch | dump | safe}}
     }
     window.isCoOpen = {{ isCoOpen }}
     window.coUrl = "{{ coUrl }}"
@@ -132,6 +133,8 @@
     }
 </script>
 <script src="{{sourceMap.staticDomain}}/home/static/{{sourceMap['tip']}}" async></script>
+
+{% include "modules/switchSwap/switchSwap.njk" %}
 {% include headerTemplateModule %}
 <div class="page-content page-content-chain" style="position: relative; min-height: 800px" id="app">
     {% include templateModule %}
