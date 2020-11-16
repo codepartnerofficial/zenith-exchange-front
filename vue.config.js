@@ -145,43 +145,43 @@ module.exports = {
         open: true,
         proxy: {
             'fePublicInfo':{
-              target: 'https://www.kinghash.com/',
+              target: 'https://www.mkex.me/',
             },
             '/fe-ex-api': {
-                target: 'https://www.kinghash.com/fe-ex-api/',
+                target: 'https://www.mkex.me/fe-ex-api/',
                 pathRewrite: {
                     '^/fe-ex-api': '',
                 },
             },
             '/fe-financing-api': {
-                target: 'https://rd3www.chaindown.com/financing/',
+                target: 'https://rd3www.mkex.me/financing/',
                 pathRewrite: {
                     '^/fe-financing-api': '',
                 },
             },
             '/fe-otc-api': {
-                target: 'https://otc.kinghash.com/fe-otc-api',
+                target: 'https://otc.mkex.me/fe-otc-api',
                 pathRewrite: {
                     '^/fe-otc-api': '',
                 },
             },
             '/fe-co-api': {
-                target: 'https://rd3www.chaindown.com/fe-co-api',
+                target: 'https://rd3www.mkex.me/fe-co-api',
                 pathRewrite: {
                     '^/fe-co-api': '',
                 },
             },
             '/fe-upload-api': {
-                target: 'https://rd3webapi.chaindown.com',
+                target: 'https://rd3webapi.mkex.me',
                 pathRewrite: {
                     '^/fe-upload-api': '',
                 },
             },
             '/fe-hashrate-api': {
-                target: 'https://www.kinghash.com',
+                target: 'https://www.mkex.me',
                 changeOrigin: true, // 将 host 修改为 target
                 headers: {
-                  'x-forwarded-host': 'webapi.kinghash.com',
+                  'x-forwarded-host': 'webapi.mkex.me',
                 },
               },
         },

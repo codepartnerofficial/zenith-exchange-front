@@ -59,10 +59,10 @@ module.exports = (appInfo) => {
     // myAppName: 'egg',
   };
   config.devUrlProxy = {
-     ex: 'http://www.mi.com/',
+     ex: 'https://www.mkex.me',
     //ex:'https://www.vbcoin.ooo',
-    otc: 'http://dev10otc.chaindown.com',
-    co: 'http://dev10co.chaindown.com'
+    otc: 'https://www.mkex.me',
+    co: 'https://www.mkex.me'
   }
 
   return {
