@@ -110,8 +110,9 @@
     <ul class="banner-box imgBox">
         {% for item in slideList %}
         {% if loop.index0 !== -1 %}
-        <li data-id="{{loop.index}}" class="u-8-bd banner-item"
-            style="background-image:url({{item.imageUrl}});display: none"></li>
+        <li data-id="{{loop.index}}" class="u-8-bd banner-item" data-loop="{{loop.index0}}"
+            style="background-image:url({{item.imageUrl}});cursor:pointer;display: none" onclick="location.href='{{item.httpUrl}}';">
+            </li>
         {% else %}
             <a  href="{{ item.httpUrl }}" data-id="{{loop.index}}" class="u-8-bd banner-item" style="background-image:url({{item.imageUrl}});"></a>
         {% endif %}
