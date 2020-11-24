@@ -433,6 +433,13 @@ class StaticIndex extends Controller {
         link: '/order/ipfsOrder',
       });
     }
+    if (pubSwitch.mortgage_borrow_hide === '1') {
+      arr.push({
+        //  '矿池订单',
+        title: '借贷订单',
+        link: '/order/toLoanOrder',
+      });
+    }
     return arr;
   }
 
