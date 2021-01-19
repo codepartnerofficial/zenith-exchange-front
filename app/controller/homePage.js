@@ -520,6 +520,7 @@ class StaticIndex extends Controller {
       signed: false,
     });
     let isNewSwap = false
+    let currenLan = this.ctx.request.path.split('/')[1];
     if(cookieIsNewSwap) {
         if(cookieIsNewSwap === '1') {
             isNewSwap = true
@@ -534,7 +535,6 @@ class StaticIndex extends Controller {
             isNewSwap = false
         }
     }
-    console.log(cookieDomain)
     this.ctx.cookies.set('isNewSwap', isNewSwap ? '1' : '0', {
       httpOnly: false,
       domain: cookieDomain,
@@ -550,8 +550,8 @@ class StaticIndex extends Controller {
         market: url.exUrl ? `${url.exUrl}/market` : '',
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
-        co: ispc ? coUrl : '',
-        proSwap: url.coUrl ? `${url.coUrl}/proSwap` : '',
+        co: ispc ? `${coUrl}/${currenLan}/` : '',
+        proSwap: url.coUrl ? `${url.coUrl}/${currenLan}/proSwap` : '',
         proTrade: url.exUrl ? `${url.exUrl}/proTrade` : '',
         prolever: url.exUrl ? `${url.exUrl}/proTradeMargin` : '',
       };
