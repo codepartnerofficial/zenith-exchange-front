@@ -550,7 +550,7 @@ class StaticIndex extends Controller {
         market: url.exUrl ? `${url.exUrl}/market` : '',
         otc: url.otcUrl,
         lever: url.exUrl ? `${url.exUrl}/margin` : '',
-        co: ispc ? `${coUrl}/${currenLan}/` : '',
+        co: ispc ? coUrl ? `${coUrl}/${currenLan}/` : '' : '',
         proSwap: url.coUrl ? `${url.coUrl}/${currenLan}/proSwap` : '',
         proTrade: url.exUrl ? `${url.exUrl}/proTrade` : '',
         prolever: url.exUrl ? `${url.exUrl}/proTradeMargin` : '',
