@@ -4,10 +4,32 @@ const path = require('path');
 const { getFileName, compare, mergeSkin } = require('BlockChain-ui/node/utils');
 const { hostFilter } = require('BlockChain-ui/node/utils');
 const templateConfig = require('../utils/template-config');
+const stringRandom = require('string-random');
 const { cloneDeep, merge } = require('lodash');
 
 class StaticIndex extends Controller {
+  async getCoPublicInfo(domainArr, fileName, currenLan, options ) {
+    let serviceArr = []
+    serviceArr.push(this.ctx.service.coPublictInfo.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options))
+    const results = await Promise.all(serviceArr);
+    results.forEach(item => {
+      if (item) {
+        const k = Object.keys(item)[0];
+        const res = item[k];
+        switch (k) {
+          case 'common/co_home_market': {
+            this.coPublicInfo = res || {};
+            break;
+          }
+        }
+      }
+    });
+  }
   async index(ctx) {
+    this.randomToken = stringRandom(36)
+    this.logger.error(JSON.stringify({
+      message: `服务开始介入： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
+    }));
     let ispc = true;
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
@@ -27,7 +49,6 @@ class StaticIndex extends Controller {
     if (!currenLan) {
       currenLan = 'en_US';
     }
-    console.log(currenLan)
     const cusSkin = ctx.cookies.get('cusSkin', {
       signed: false,
     });
@@ -39,14 +60,13 @@ class StaticIndex extends Controller {
         domainName: `${ctx.app.httpclient.agent.protocol}//${nowHost}`,
       };
     }
-
+    // serviceArr.push(ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan))
     const results = await Promise.all([
-      ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
-      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
-      ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
-      ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
-      ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
-      ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan),
+      ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
+      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
+      ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
+      ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
+      ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken})
     ]);
     results.forEach(item => {
       if (item) {
@@ -55,6 +75,9 @@ class StaticIndex extends Controller {
         switch (k) {
           case 'common/public_info_v4': {
             this.publicInfo = res;
+            if(this.publicInfo.switch.index_temp_type.toString() === '9'){
+              this.getCoPublicInfo(domainArr, fileName, currenLan, {randomToken: this.randomToken})
+            }
             break;
           }
           case 'common/footer_and_header': {
@@ -147,6 +170,9 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
+    this.logger.error(JSON.stringify({
+      message: `服务处理完成： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
+    }));
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -188,11 +214,11 @@ class StaticIndex extends Controller {
       coUrl: this.publicInfo.url.coUrl,
       coHeaderSymbol: (this.coPublicInfo && this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
+      randomToken: this.randomToken
     });
   }
   getSEO() {
     const seo = this.publicInfo.seo || {};
-    // console.log('888', this.publicInfo)
     return {
       keywords: seo.keywords || '',
       description: seo.description || '',
@@ -211,7 +237,6 @@ class StaticIndex extends Controller {
     if (!ispc && indexTempType !== '828727492') {
       template = 'h5';
     }
-    console.log(template);
     return `modules/${template}.njk`;
   }
 
