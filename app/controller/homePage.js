@@ -75,9 +75,6 @@ class StaticIndex extends Controller {
         switch (k) {
           case 'common/public_info_v4': {
             this.publicInfo = res;
-            if(this.publicInfo.switch.index_temp_type.toString() === '9'){
-              this.getCoPublicInfo(domainArr, fileName, currenLan, {randomToken: this.randomToken})
-            }
             break;
           }
           case 'common/footer_and_header': {
@@ -106,6 +103,9 @@ class StaticIndex extends Controller {
     if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
+    }
+    if(this.publicInfo.switch.index_temp_type.toString() === '9'){
+      await this.getCoPublicInfo(domainArr, fileName, currenLan, {randomToken: this.randomToken})
     }
     const domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '');
     this.setLan(domain);
