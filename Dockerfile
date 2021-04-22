@@ -1,4 +1,4 @@
-FROM harbor.hiotc.pro/saas-test/node:14.15.4
+FROM harbor.hiotc.pro/saas-test/node:14.16.1
 
 WORKDIR /usr/local/chainup/exchange-fe-home
 
