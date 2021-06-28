@@ -78,6 +78,16 @@
         emitter.emit('resize');
     });
     var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
+    fetchData({
+      url: 'fe-ex-api/common/checkVisitStatus',
+    }).then(function(data) {
+      if (data.code.toString() === '0') {
+        if (data.data.status === '1') {
+          window.sessionStorage.setItem('LimitCountryNames', data.data.countryNames);
+          window.location.href = '/serviceLimit'
+        }
+      }
+    })
     if(!window.isCoOpen){
      fetchData({
           url: '/fe-ex-api/common/public_info_market',
