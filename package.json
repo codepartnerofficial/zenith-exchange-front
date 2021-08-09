@@ -72,9 +72,9 @@
     "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov",
     "pkgfiles": "egg-bin pkgfiles",
     "gulpDev": "cross-env NODE_ENV=development gulp dev",
-    "startTestHome": "egg-scripts start --testEnv=true --port=7007 --title=exchange-vue-server-Home --env=prod",
+    "startTestHome": "egg-scripts start --testEnv=true --port=7007 --title=exchange-vue-server-Home --env=prod --workers=4",
     "stopTestHome": "egg-scripts stop --title=exchange-vue-server-Home",
-    "start-exchange-vue-server-home": "egg-scripts start --title=exchange-vue-server-home --port=8188 --env=prod",
+    "start-exchange-vue-server-home": "egg-scripts start --title=exchange-vue-server-home --port=8188 --env=prod --workers=4",
     "stop-exchange-vue-server-home": "egg-scripts stop --title=exchange-vue-server-home"
   },
   "ci": {
