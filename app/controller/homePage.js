@@ -8,9 +8,9 @@ const stringRandom = require('string-random');
 const { cloneDeep, merge } = require('lodash');
 
 class StaticIndex extends Controller {
-  async getCoPublicInfo(domainArr, fileName, currenLan, options ) {
-    let serviceArr = []
-    serviceArr.push(this.ctx.service.coPublictInfo.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options))
+  async getCoPublicInfo(domainArr, fileName, currenLan, options) {
+    const serviceArr = [];
+    serviceArr.push(this.ctx.service.coPublictInfo.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options));
     const results = await Promise.all(serviceArr);
     results.forEach(item => {
       if (item) {
@@ -26,7 +26,7 @@ class StaticIndex extends Controller {
     });
   }
   async index(ctx) {
-    this.randomToken = stringRandom(36)
+    this.randomToken = stringRandom(36);
     this.logger.error(JSON.stringify({
       message: `服务开始介入： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
@@ -62,11 +62,11 @@ class StaticIndex extends Controller {
     }
     // serviceArr.push(ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan))
     const results = await Promise.all([
-      ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
-      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
-      ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
-      ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken}),
-      ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, {randomToken: this.randomToken})
+      ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
     ]);
     results.forEach(item => {
       if (item) {
@@ -104,8 +104,8 @@ class StaticIndex extends Controller {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
-    if(this.publicInfo.switch.index_temp_type.toString() === '9'){
-      await this.getCoPublicInfo(domainArr, fileName, currenLan, {randomToken: this.randomToken})
+    if (this.publicInfo.switch.index_temp_type.toString() === '9') {
+      await this.getCoPublicInfo(domainArr, fileName, currenLan, { randomToken: this.randomToken });
     }
     const domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '');
     this.setLan(domain);
@@ -214,7 +214,7 @@ class StaticIndex extends Controller {
       coUrl: this.publicInfo.url.coUrl,
       coHeaderSymbol: (this.coPublicInfo && this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
-      randomToken: this.randomToken
+      randomToken: this.randomToken,
     });
   }
   getSEO() {
@@ -460,8 +460,8 @@ class StaticIndex extends Controller {
     }
     if (pubSwitch.mortgage_borrow_hide === '1') {
       arr.push({
-        //  '矿池订单',
-        title: '借贷订单',
+        //  '借贷订单',
+        title: this.__getLocale('broToloan.common.order'),
         link: '/order/toLoanOrder',
       });
     }
@@ -544,30 +544,30 @@ class StaticIndex extends Controller {
     const cookieIsNewSwap = this.ctx.cookies.get('isNewSwap', {
       signed: false,
     });
-    let isNewSwap = false
-    let currenLan = this.ctx.request.path.split('/')[1];
-    if(cookieIsNewSwap) {
-        if(cookieIsNewSwap === '1') {
-            isNewSwap = true
-        } else {
-            isNewSwap = false
-        }
+    let isNewSwap = false;
+    const currenLan = this.ctx.request.path.split('/')[1];
+    if (cookieIsNewSwap) {
+      if (cookieIsNewSwap === '1') {
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
     } else {
-        if(this.publicInfo
+      if (this.publicInfo
             && this.publicInfo.switch.contract_version_settings === '1') {
-            isNewSwap = true
-        } else {
-            isNewSwap = false
-        }
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
     }
     this.ctx.cookies.set('isNewSwap', isNewSwap ? '1' : '0', {
       httpOnly: false,
       domain: cookieDomain,
     });
     if (url) {
-      let coUrl = url.coUrl
-      if(url.coUrlNew || url.coUrlOld) {
-        coUrl = isNewSwap ? url.coUrlNew : url.coUrlOld
+      let coUrl = url.coUrl;
+      if (url.coUrlNew || url.coUrlOld) {
+        coUrl = isNewSwap ? url.coUrlNew : url.coUrlOld;
       }
       return {
         home: url.exUrl,
@@ -793,8 +793,8 @@ class StaticIndex extends Controller {
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     // 获取浏览器语言
     const language = this.ctx.header['accept-language'];
-    let lanKey = ''
-    if(language) {
+    let lanKey = '';
+    if (language) {
       lanKey = language.split(',')[0];
     }
     const lanListObj = {
