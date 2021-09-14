@@ -658,7 +658,7 @@ class StaticIndex extends Controller {
     }*/
     const otcArr = [];
     const otcObj = {
-      title: this.__getLocale('header.otc'),
+      title: this.__getLocale('pageTitle.fiatdeal'),
       activeId: 'otcTrade',
       link: headerLink.otc,
       icon: 'icon-b_6',
@@ -677,7 +677,12 @@ class StaticIndex extends Controller {
     if (otcArr.length) {
       let otcHeader = {};
       if (otcArr.length > 1) {
-        otcHeader = otcObj;
+        otcHeader = {
+          title: this.__getLocale('header.otc'),
+          activeId: 'otcTrade',
+          link: headerLink.otc,
+          icon: 'icon-b_6',
+        };
       } else {
         const [ vc ] = otcArr;
         otcHeader = vc;
