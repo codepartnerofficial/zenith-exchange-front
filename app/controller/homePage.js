@@ -683,6 +683,13 @@ class StaticIndex extends Controller {
           link: headerLink.otc,
           icon: 'icon-b_6',
         };
+      } else if (headerLink.otc) {
+        otcHeader = {
+          title: this.__getLocale('header.otc'),
+          activeId: 'otcTrade',
+          link: headerLink.otc,
+          icon: 'icon-b_6',
+        };
       } else {
         const [ vc ] = otcArr;
         otcHeader = vc;
