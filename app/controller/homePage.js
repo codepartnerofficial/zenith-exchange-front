@@ -196,7 +196,7 @@ class StaticIndex extends Controller {
       orderList: this.orderList(),
       number: item => Number(item),
       colorList: this.getColorList(currenLan),
-      noticeList: this.getNoticeList(noticeInfoList),
+      noticeList: this.getNoticeList(noticeInfoList, currenLan),
       cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
@@ -338,7 +338,7 @@ class StaticIndex extends Controller {
     return JSON.stringify(hImg);
   }
 
-  getNoticeList(noticeInfoList) {
+  getNoticeList(noticeInfoList, curLan) {
     if (!this.publicInfo.switch) {
       return [];
     }
@@ -348,6 +348,9 @@ class StaticIndex extends Controller {
       let length = 18;
       if (index_international_open === 1) {
         length = 50;
+      }
+      if (curLan === 'en_US') {
+        length = 36;
       }
       noticeInfoList.forEach(item => {
         const space = item.title.length > length ? '...' : '';
