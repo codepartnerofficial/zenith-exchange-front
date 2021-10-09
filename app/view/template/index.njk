@@ -79,7 +79,7 @@
     });
     var lan = window.location.href.match(/[a-z]+_[A-Z]+/)[0];
     fetchData({
-      url: 'fe-ex-api/common/checkVisitStatus',
+      url: '/fe-ex-api/common/checkVisitStatus',
     }).then(function(data) {
       if (data.code.toString() === '0') {
         if (data.data.status === '1') {
