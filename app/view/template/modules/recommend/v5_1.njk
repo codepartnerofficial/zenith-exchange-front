@@ -1,0 +1,71 @@
+<section class="v501-recommend">
+  <style>
+    .v501-recommend {
+      width: 100%;
+      height: 76px;
+      position: relative;
+      overflow: hidden;
+    }
+    .v501-recommend .recommend-list {
+      width: 100%;
+      /* height: 100%; */
+      font-family: DINPro-Medium;
+      transition: all 0.3s;
+    }
+    .v501-recommend .recommend-list .recommend-list_group {
+      width: 100%;
+      height: 76px;
+      display: flex;
+    }
+    .v501-recommend .recommend-list .recommend-item {
+      width: 20%;
+      cursor: pointer;
+    }
+    .v501-recommend .recommend-list .symbol-detail .symbol-name {
+      font-size: 14px;
+      line-height: 18px;
+      margin-right: 5px;
+    }
+    .v501-recommend .recommend-list .symbol-detail .symbol-change {
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .v501-recommend .recommend-list .symbol-price {
+      font-size: 24px;
+      font-family: DINPro-Bold;
+      line-height: 31px;
+      margin: 8px 0 4px;
+    }
+    .v501-recommend .recommend-list .symbol-otcPrice {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  </style>
+  <div class="recommend-list">
+  </div>
+  <script>
+    (() => {
+      const extendPath = "{{sourceMap.v5RecommendExtend}}";
+      const {getScript} = window.BlockChainUtils;
+      const websocketPath = "{{sourceMap.webSocket}}";
+      if (extendPath && !window.RecommendExtend){
+        getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+            class Recommend extends window.RecommendExtend{
+                constructor() {
+                    super();
+                    this.$recommend = document.querySelector(".v501-recommend");
+                    this.headerSymbol = "{{headerSymbol}}";
+                    this.symbolAll = "{{symbolAll}}"
+                    this.init();
+                }
+            }
+            new Recommend();
+        });
+      }
+      if (websocketPath && !window.selfSocket){
+        window.selfSocket = true;
+        getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+      }
+    })();
+  </script>
+</section>

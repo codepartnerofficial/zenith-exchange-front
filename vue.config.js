@@ -145,43 +145,43 @@ module.exports = {
         open: true,
         proxy: {
             'fePublicInfo':{
-              target: 'https://www.mkex.me/',
+              target: 'https://www.lzcbydz.xyz/',
             },
             '/fe-ex-api': {
-                target: 'https://www.mkex.me/fe-ex-api/',
+                target: 'https://www.lzcbydz.xyz/fe-ex-api/',
                 pathRewrite: {
                     '^/fe-ex-api': '',
                 },
             },
             '/fe-financing-api': {
-                target: 'https://rd3www.mkex.me/financing/',
+                target: 'https://rd3www.lzcbydz.xyz/financing/',
                 pathRewrite: {
                     '^/fe-financing-api': '',
                 },
             },
             '/fe-otc-api': {
-                target: 'https://otc.mkex.me/fe-otc-api',
+                target: 'https://otc.lzcbydz.xyz/fe-otc-api',
                 pathRewrite: {
                     '^/fe-otc-api': '',
                 },
             },
             '/fe-co-api': {
-                target: 'https://rd3www.mkex.me/fe-co-api',
+                target: 'https://rd3www.lzcbydz.xyz/fe-co-api',
                 pathRewrite: {
                     '^/fe-co-api': '',
                 },
             },
             '/fe-upload-api': {
-                target: 'https://rd3webapi.mkex.me',
+                target: 'https://rd3webapi.lzcbydz.xyz',
                 pathRewrite: {
                     '^/fe-upload-api': '',
                 },
             },
             '/fe-hashrate-api': {
-                target: 'https://www.mkex.me',
+                target: 'https://www.lzcbydz.xyz',
                 changeOrigin: true, // 将 host 修改为 target
                 headers: {
-                  'x-forwarded-host': 'webapi.mkex.me',
+                  'x-forwarded-host': 'webapi.lzcbydz.xyz',
                 },
               },
         },
