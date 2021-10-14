@@ -46,15 +46,88 @@
     }
     .v501-swiper-base .swiper-wrap {
       width: 100%;
+      min-width: 1344px;
       padding-top: 40px;
       border-radius: 36px 36px 0 0;
       margin-bottom: 33px;
       margin-top: -40px;
-      background: #ffffff;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .v501-swiper-base .swiper-wrap .slide-wrap {
+      width: 1200px;
+      flex-shrink: 0;
+      overflow: hidden;
     }
     .v501-swiper-base .slide-list {
       height: 140px;
       display: flex;
+      transition: all 0.3s;
+    }
+    .v501-swiper-base .slide-item {
+      margin-right: 13px;
+    }
+    .v501-swiper-base .slide-item img {
+      width: 290px;
+      height: 140px;
+      border-radius: 8px;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn, .v501-swiper-base .swiper-wrap .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      background: rgba(39, 98, 255, 0.15);
+      position: relative;
+      margin-right: 32px;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn {
+      margin-left: 32px;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 10px;
+      top: 22px;
+      transform: rotate(45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 10px;
+      top: 14px;
+      transform: rotate(-45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 12px;
+      top: 22px;
+      transform: rotate(-45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 12px;
+      top: 14px;
+      transform: rotate(45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
     }
 
   </style>
@@ -70,15 +143,40 @@
       {% endif %}
     </div>
   </div>
-  <div class="swiper-wrap">
-    <button class="prev-btn"></button>
-    <ul class="slide-list">
-      <li class="slide-item"></li>
-    </ul>
-    <button class="next-btn"></button>
+  <div class="swiper-wrap" id="swiper-wrap">
+    {% if cmsAdvertList.length > 4 %}
+    <div class="prev-btn"></div>
+    {% endif %}
+    <div class="slide-wrap">
+      <ul class="slide-list">
+        {% for item in cmsAdvertList %}
+        <li class="slide-item">
+          <a href="{{ item.httpUrl }}">
+            <img src="{{ item.imageUrl }}" alt="">
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% if cmsAdvertList.length > 4 %}
+    <div class="next-btn"></div>
+    {% endif %}
   </div>
   <script>
     (() => {
+      const {getScript} = window.BlockChainUtils;
+      const extendPath ="{{sourceMap.v5SwiperExtend}}";
+      if (extendPath && !window.SwiperExtend){
+          getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+              class Swiper extends window.SwiperExtend{
+                  constructor() {
+                    super();
+                    this.init();
+                  }
+              }
+              new Swiper();
+          });
+      }
     })();
   </script>
 </section>

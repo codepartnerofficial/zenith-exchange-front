@@ -4,8 +4,25 @@
       position: relative;
       width: 100%;
     }
+    .v501-Home .v501-market {
+      width: 1200px;
+      margin: 100px auto 0;
+    }
+    .v501-Home .market-title {
+      font-size: 36px;
+      line-height: 46px;
+      font-family: DINPro-Bold;
+    }
   </style>
   {% include "./swiper/v5_1.njk" %}
+  {% if noticeList.length > 0 %}
+  {% import "./noticeInfo/v5.njk" as notice %}
+  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
+  {% endif %}
+  <div class="v501-market">
+    <h2 class="market-title">Market trend</h2>
+    {% include "./market/v5_2.njk" %}
+  </div>
   <script>
     (() => {})()
   </script>

@@ -1,0 +1,192 @@
+<section class="v5-market-wrap">
+    <style>
+        .v5-market-wrap {
+            width: 1180px;
+            margin: 50px auto 0;
+            border: 1px solid #e2e9ef;
+            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+            border-radius: 4px;
+            background: #fff;
+            position: relative;
+        }
+        .v5-market-wrap .market-item {
+            height: 80px;
+            line-height: 80px;
+            border-bottom: 1px solid #e2e9ef;
+        }
+        .v5-market-wrap .market-item:hover {
+            background: #fff;
+            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+            border-radius: 4px;
+            margin: 0 -10px;
+            padding: 0 10px;
+        }
+        .v5-market-wrap .market-item .td-item {
+            float: left;
+            font-size: 18px;
+        }
+        .v5-market-wrap .market-item .td-item1 {
+            width: 90px;
+            text-align: center;
+            color: #828ea1;
+        }
+        .v5-market-wrap .market-item .td-item2 {
+            width: 565px;
+            padding-left: 0px;
+            color: #aebacd;
+        }
+        .v5-market-wrap .market-item .td-item3 {
+            width: 130px;
+            color: #31363e;
+        }
+        .v5-market-wrap .market-item .td-item4 {
+            width: 100px;
+        }
+        .v5-market-wrap .market-item .td-item-kline {
+            width: 86px;
+            padding-top: 27px;
+            margin-right: 40px;
+        }
+        .v5-market-wrap .market-item .td-item-btn{
+            position: relative;
+        }
+        .v5-market-wrap .market-item .td-item-btn button {
+            background: #3f78ff;
+            border-radius: 4px;
+            width: 70px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .v5-market-wrap .market-item .td-item-btn button:hover {
+            background: #5b8cff;
+        }
+        .v5-market-wrap .market-item .b-cion {
+            color: #31363e;
+        }
+        .v5-market-wrap .market-item .symbol-icon {
+            margin-right: 18px;
+        }
+        .v5-market-wrap .market-item .symbol-icon img {
+            vertical-align: middle;
+            width: 32px;
+            height: 32px;
+        }
+        .v5-market-wrap .market-item.title-th {
+            height: 50px;
+            line-height: 50px;
+        }
+        .v5-market-wrap .market-item.title-th .td-item {
+            font-size: 12px;
+            color: #aebacd;
+        }
+        .v5-market-wrap .market-item.title-th .td-item-kline {
+            padding: 0;
+        }
+        .v5-market-wrap .market-item.title-th:hover {
+            background: #fff;
+            box-shadow: none;
+            border-radius: 0;
+            margin: 0;
+            padding: 0;
+        }
+        .v5-market-wrap .more {
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+        .v5-market-wrap .more span {
+            font-size: 16px;
+            color: #3f78ff;
+            cursor: pointer;
+        }
+        .v5-market-wrap .more span:hover {
+            color: #5b8cff;
+        }
+        .v5-market-wrap .more:hover {
+            background: #fff;
+            border-radius: 4px;
+            margin: 0 -10px;
+            padding: 0 10px;
+        }
+    </style>
+    <ul class="recommend-ul clearfix recommend-wrap">
+        <li class="market-item title-th clearfix">
+            <div class="td-item td-item1">#</div>
+            <div class="td-item td-item2">{{locale.home.market}}</div>
+            <div class="td-item td-item3">{{locale.home.close}}</div>
+            <div class="td-item td-item4">{{locale.home.applies}}</div>
+            <div class="td-item td-item-kline">{{locale.home.chart}}</div>
+            <div class="td-item td-item-btn">{{locale.h5Add.tradeList1}}</div>
+        </li>
+        {% for item in headerSymbol %}
+        {% if helper.recommend.symbolShow(loop.index0) %}
+        <li class="market-item recommend-content" data-coin="{{item}}">
+            <div class="td-item td-item1">{{loop.index}}</div>
+            <div class="td-item td-item2">
+                {% if helper.recommend.symbolIcon(item, coinList)%}
+                <span class="symbol-icon">
+                <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
+            </span>
+                {% endif %}
+                <span class="b-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
+                <span class="q-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
+            </div>
+            <div class="td-item td-item3 recommendPrice" style="height: 80px"></div>
+            <div class="td-item td-item4 percentage" style="height: 80px"></div>
+            <div class="kline td-item td-item-kline">
+                <div class="echart-box" style="height: 25px"></div>
+            </div>
+            <div class="td-item td-item-btn clearfix" style="height: 80px;">
+                <button
+                        class="common-button common-button-solid u-8-bg u-16-cl "
+                        style="height: 40px; padding-left: 20px; padding-right: 20px;">
+                    <div class="common-button-slot">{{locale.otcTrade.buy}}</div>
+                </button>
+            </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <li class="more">
+            <span>{{locale.home.moreMarket}}</span>
+        </li>
+    </ul>
+    <script>
+        (() => {
+            const extendPath = "{{sourceMap.recommendExtend}}";
+            const {getScript} = window.BlockChainUtils;
+            const websocketPath = "{{sourceMap.webSocket}}";
+            if (extendPath && !window.RecommendExtend){
+                getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+                    class Recommend extends window.RecommendExtend{
+                        constructor() {
+                            super();
+                            this.$recommend = document.querySelector('.v5-market-wrap');
+                            this.echartsPath = "{{sourceMap.staticDomain}}/home/static/js/echarts.min.js";
+                            this.liItemWidth = 310;
+                            this.cusKlineColor = '#9CA1C2';
+                            this.cusLineWidth = '1';
+                            this.init();
+                            this.bindMoreEvent();
+                        }
+                        bindMoreEvent(){
+                            this.$recommend.querySelector('.more').addEventListener('click', () => {
+                                window.location.href = '/trade';
+                            }, false);
+                        }
+                    }
+                    new Recommend();
+                });
+            }
+            if (websocketPath && !window.selfSocket){
+                window.selfSocket = true;
+                getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+            }
+        })();
+    </script>
+</section>

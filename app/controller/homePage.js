@@ -209,6 +209,7 @@ class StaticIndex extends Controller {
         title: index_international_title1,
         subTitle: index_international_title2,
       },
+      backgroundInfo: this.publicInfo.pc_background,
       securityUrl,
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
@@ -342,7 +343,18 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return [];
     }
-    const { index_international_open } = this.publicInfo.switch;
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_international_open, index_temp_type } = this.publicInfo.switch;
+    if (tempList.indexOf(index_temp_type) > -1) {
+      const arr = [];
+      noticeInfoList.forEach(item => {
+        arr.push({
+          noticeText: item.title,
+          id: item.id,
+        });
+      });
+      return arr.slice(0, 3);
+    }
     if (noticeInfoList && noticeInfoList.length) {
       const arr = [];
       let length = 18;

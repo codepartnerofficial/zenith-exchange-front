@@ -1,0 +1,135 @@
+{% macro scroll(autoplay, noticeList, len) %}
+<section class="v5-noticeInfo">
+  <style>
+    .v5-noticeInfo {
+      width: 1200px;
+      margin: auto;
+      font-family: DINPro-Medium;
+    }
+    .v5-noticeInfo .noticeInfo-wrap {
+      display: flex;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-icon {
+      height: 20px;
+      line-height: 20px;
+      padding: 0 5px;
+      border-radius: 2px;
+      font-size: 12px;
+      color: #2480F5;
+      background: rgba(39, 98, 255, 0.15);
+      margin-right: 8px;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-list_view {
+      flex: 1;
+      height: 20px;
+      overflow: hidden;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-list {
+      transition: all 0.3s;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-item {
+      height: 20px;
+      line-height: 20px;
+      font-size: 14px;
+      color: #ffffff;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-item .hoverShow {
+      display: none;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-item:hover .hoverShow {
+      display: inline;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-item:hover .hoverHide {
+      display: none;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-more a {
+      font-size: 14px;
+      line-height: 20px;
+      color: #2762FF;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-more .hoverShow {
+      display: none;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-more:hover .hoverShow {
+      display: inline;
+    }
+    .v5-noticeInfo .noticeInfo-wrap .noticeInfo-more:hover .hoverHide {
+      display: none;
+    }
+  </style>
+  <div class="noticeInfo-wrap">
+    <span class="noticeInfo-icon">News</span>
+    <div class="noticeInfo-list_view">
+      <ul class="noticeInfo-list">
+        {% for item in noticeList %}
+        <li class="noticeInfo-item">
+          <a class="hoverHide" href="/noticeInfo/{{ item.id }}">{{item.noticeText}}</a>
+          <a class="hoverShow" href="/noticeInfo/{{ item.id }}">{{item.noticeText}}</a>
+        </li>
+        {% endfor %}
+        <li class="noticeInfo-item">
+          <a class="hoverHide" href="/noticeInfo/{{ noticeList[0].id }}">{{noticeList[0].noticeText}}</a>
+          <a class="hoverShow" href="/noticeInfo/{{ noticeList[0].id }}">{{noticeList[0].noticeText}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="noticeInfo-more">
+      <a class="hoverHide" href="/noticeInfo">More</a>
+      <a class="hoverShow" href="/noticeInfo">More</a>
+    </div>
+  </div>
+  <script>
+    (() => {
+      class noticeExtend {
+        constructor() {
+          this.autoplay = "{{autoplay}}";
+          this.len = Number("{{len}}");
+          this.init();
+        }
+
+        init() {
+          this.$noticeWrap = document.querySelector('.v5-noticeInfo');
+          this.$noticeView = this.$noticeWrap.querySelector('.noticeInfo-list_view');
+          this.$noticeList = this.$noticeWrap.querySelector('.noticeInfo-list');
+          this.scrollTimer = null;
+          this.activeIndex = 0;
+          if (this.autoplay === '1' && this.len > 1) {
+            this.setAutoPlay();
+            this.bindEvent();
+          }
+        }
+
+        bindEvent() {
+          this.$noticeView.addEventListener('mouseenter', () => {
+            window.clearInterval(this.scrollTimer);
+            this.scrollTimer = null;
+          })
+          this.$noticeView.addEventListener('mouseleave', () => {
+            this.setAutoPlay();
+          })
+        }
+
+        setAutoPlay() {
+          this.scrollTimer = setInterval(() => {
+            this.$noticeList.style.transition = 'all 0.3s';
+            this.activeIndex += 1;
+            this.$noticeList.style.transform = `translate3d(0, -${this.activeIndex * 20}px, 0)`;
+            if (this.activeIndex === this.len) {
+              this.resetPos();
+            }
+          }, 5300)
+        }
+
+        resetPos() {
+          setTimeout(() => {
+            this.$noticeList.style.transition = 'none';
+            this.$noticeList.style.transform = `translate3d(0, 0, 0)`;
+            this.activeIndex = 0;
+          }, 300)
+        }
+      }
+      new noticeExtend();
+    })()
+  </script>
+</section>
+{% endmacro %}

@@ -55,8 +55,9 @@
                     super();
                     this.$recommend = document.querySelector(".v501-recommend");
                     this.headerSymbol = "{{headerSymbol}}";
-                    this.symbolAll = "{{symbolAll}}"
-                    this.init();
+                    window.emitter.on('send_market', (data) => {
+                      this.init(data);
+                    });
                 }
             }
             new Recommend();
