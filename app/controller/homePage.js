@@ -170,6 +170,11 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
+    let recommendMarket = [];
+    if (market && market.market && market.market.USDT) {
+      const uMarket = market.market.USDT;
+      recommendMarket = Object.keys(uMarket).slice(0, 5);
+    }
     this.logger.error(JSON.stringify({
       message: `服务处理完成： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
@@ -216,6 +221,7 @@ class StaticIndex extends Controller {
       coHeaderSymbol: (this.coPublicInfo && this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
       randomToken: this.randomToken,
+      recommendMarket,
     });
   }
   getSEO() {
@@ -230,7 +236,8 @@ class StaticIndex extends Controller {
 
   getTemplate(ispc) {
     let template = 'international';
-    const indexTempType = this.publicInfo.switch.index_temp_type;
+    // const indexTempType = this.publicInfo.switch.index_temp_type;
+    const indexTempType = '51';
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
