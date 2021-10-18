@@ -1,0 +1,128 @@
+<section class="v5-custom-info">
+  <style>
+    .v5-custom-info {
+      width: 1200px;
+      margin: auto;
+      font-family: DINPro-Medium;
+    }
+    .v5-custom-info .title-text {
+      font-size: 36px;
+      line-height: 46px;
+      font-family: DINPro-Bold;
+    }
+    .v5-custom-info .title-tip {
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 16px;
+      font-family: DINPro-Medium;
+    }
+    .v5-custom-info .v5-guide .guide-content {
+      margin-top: 60px;
+      display: flex;
+    }
+    .v5-custom-info .v5-guide .guide-item {
+      width: 386px;
+      margin-right: 21px;
+    }
+    .v5-custom-info .v5-guide .guide-item:last-child {
+      margin-right: 0;
+    }
+    .v5-custom-info .v5-guide .guide-item dt {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt img {
+      width: 386px;
+      height: 240px;
+    }
+    .v5-custom-info .v5-guide .guide-item dd {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    .v5-custom-info .v5-service .title-text {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  </style>
+  <div class="v5-guide">
+    <h2 class="title-text">Beginner's guide</h2>
+    <div class="title-tip">Quickly understand fiat curr</div>
+    <div class="guide-content">
+      <dl class="guide-item item-1">
+        <dt><img src="" alt=""></dt>
+        <dd></dd>
+      </dl>
+      <dl class="guide-item item-2">
+        <dt><img src="" alt=""></dt>
+        <dd></dd>
+      </dl>
+      <dl class="guide-item item-3">
+        <dt><img src="" alt=""></dt>
+        <dd></dd>
+      </dl>
+    </div>
+  </div>
+  <div class="v5-service">
+    <h2 class="title-text">Get in touch. Stay in touch.</h2>
+    <div class="service-content">
+      <dl class="service-item item-1">
+        <dt><img src="" alt=""></dt>
+        <dd>
+          <div><strong></strong></div>
+          <span></span>
+        </dd>
+      </dl>
+      <dl class="service-item item-2">
+        <dt><img src="" alt=""></dt>
+        <dd>
+          <div><strong></strong></div>
+          <span></span></dd>
+      </dl>
+      <dl class="service-item item-3">
+        <dt><img src="" alt=""></dt>
+        <dd>
+          <div><strong></strong></div>
+          <span></span></dd>
+      </dl>
+      <dl class="service-item item-4">
+        <dt><img src="" alt=""></dt>
+        <dd>
+          <div><strong></strong></div>
+          <span></span></dd>
+      </dl>
+    </div>
+  </div>
+  <script>
+    (() => {
+      class customExtend {
+        constructor() {
+          this.init()
+        }
+
+        init() {
+          this.$guide = document.querySelector('.v5-guide');
+          this.$service = document.querySelector('v5-service');
+          if (this.$guide) {
+            this.$guideImg1 = this.$guide.querySelector('.item-1 img');
+            this.$guideImg2 = this.$guide.querySelector('.item-2 img');
+            this.$guideImg3 = this.$guide.querySelector('.item-3 img');
+            this.$guideImg1.src = window.imgMap.home_guide_1;
+            this.$guideImg2.src = window.imgMap.home_guide_2;
+            this.$guideImg3.src = window.imgMap.home_guide_3;
+          }
+          if (this.$service) {
+            this.$serviceImg1 = this.$service.querySelector('.item-1 img');
+            this.$serviceImg2 = this.$service.querySelector('.item-2 img');
+            this.$serviceImg3 = this.$service.querySelector('.item-3 img');
+            this.$serviceImg4 = this.$service.querySelector('.item-4 img');
+            this.$serviceImg1.src = window.imgMap.home_service_1;
+            this.$serviceImg2.src = window.imgMap.home_service_2;
+            this.$serviceImg3.src = window.imgMap.home_service_3;
+            this.$serviceImg4.src = window.imgMap.home_service_4;
+          }
+        }
+      }
+      new customExtend();
+    })()
+  </script>
+</section>

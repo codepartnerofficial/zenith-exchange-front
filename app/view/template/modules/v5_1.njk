@@ -8,10 +8,13 @@
       width: 1200px;
       margin: 100px auto 0;
     }
-    .v501-Home .market-title {
+    .v501-Home .item-title {
       font-size: 36px;
       line-height: 46px;
       font-family: DINPro-Bold;
+    }
+    .v501-Home .v5-custom-info {
+      margin-top: 120px;
     }
   </style>
   {% include "./swiper/v5_1.njk" %}
@@ -20,9 +23,10 @@
   {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
   {% endif %}
   <div class="v501-market">
-    <h2 class="market-title">Market trend</h2>
+    <h2 class="item-title">Market trend</h2>
     {% include "./market/v5_1.njk" %}
   </div>
+  {% include "./custom/v5.njk"%}
   <script>
     (() => {})()
   </script>
