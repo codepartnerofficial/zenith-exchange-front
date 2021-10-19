@@ -236,8 +236,8 @@ class StaticIndex extends Controller {
 
   getTemplate(ispc) {
     let template = 'international';
-    const indexTempType = this.publicInfo.switch.index_temp_type;
-    // const indexTempType = '51';
+    // const indexTempType = this.publicInfo.switch.index_temp_type;
+    const indexTempType = '53';
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
