@@ -25,12 +25,53 @@ class StaticIndex extends Controller {
       }
     });
   }
+  async getHeaderAndFooter(domainArr, fileName, currenLan, options) {
+    const results = await Promise.all([
+      this.ctx.service.getFooterHeader.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options),
+    ]);
+    results.forEach(item => {
+      if (item) {
+        const k = Object.keys(item)[0];
+        const res = item[k];
+        switch (k) {
+          case 'common/footer_and_header': {
+            this.headerFooter = res;
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    });
+  }
+  async getHeaderAndFooterV2(domainArr, fileName, currenLan, options) {
+    const results = await Promise.all([
+      this.ctx.service.getFooterHeaderV2.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options),
+    ]);
+    results.forEach(item => {
+      if (item) {
+        const k = Object.keys(item)[0];
+        const res = item[k];
+        switch (k) {
+          case 'common/v2/footer_and_header': {
+            if (res && res.header) {
+              this.headerFooter = res;
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    });
+  }
   async index(ctx) {
     this.randomToken = stringRandom(36);
     this.logger.error(JSON.stringify({
       message: `服务开始介入： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
     let ispc = true;
+    const tempList = [ '51', '52', '53', '54' ];
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     const nowHost = this.ctx.request.header.host;
@@ -63,7 +104,6 @@ class StaticIndex extends Controller {
     // serviceArr.push(ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan))
     const results = await Promise.all([
       ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
-      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
@@ -75,10 +115,6 @@ class StaticIndex extends Controller {
         switch (k) {
           case 'common/public_info_v4': {
             this.publicInfo = res;
-            break;
-          }
-          case 'common/footer_and_header': {
-            this.headerFooter = res;
             break;
           }
           case 'common/app_download': {
@@ -100,12 +136,17 @@ class StaticIndex extends Controller {
         }
       }
     });
-    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList) {
+    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
     if (this.publicInfo.switch.index_temp_type.toString() === '9') {
       await this.getCoPublicInfo(domainArr, fileName, currenLan, { randomToken: this.randomToken });
+    }
+    if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+      await this.getHeaderAndFooterV2(domainArr, fileName, currenLan, { randomToken: this.randomToken });
+    } else {
+      await this.getHeaderAndFooter(domainArr, fileName, currenLan, { randomToken: this.randomToken });
     }
     const domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '');
     this.setLan(domain);
@@ -150,7 +191,9 @@ class StaticIndex extends Controller {
     const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
+    let headerNavList = [];
     if (headerFooter && headerFooter.header) {
+      headerNavList = headerFooter.header;
       try {
         customHeaderList = JSON.parse(headerFooter.header);
       } catch (e) {
@@ -222,6 +265,7 @@ class StaticIndex extends Controller {
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
       randomToken: this.randomToken,
       recommendMarket,
+      headerNavList,
     });
   }
   getSEO() {
@@ -250,8 +294,13 @@ class StaticIndex extends Controller {
 
   getHeaderTemplate(ispc) {
     let template = 'china';
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_temp_type, header_navigation_type } = this.publicInfo.switch;
     if (!ispc) {
       template = 'h5';
+    }
+    if (tempList.indexOf(index_temp_type) > -1) {
+      template = header_navigation_type && header_navigation_type.toString() === '1' ? 'v5_1' : 'v5_2';
     }
     return `modules/header/${template}.njk`;
   }
