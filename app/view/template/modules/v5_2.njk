@@ -11,6 +11,9 @@
     .v502-Home .v502-notice-info {
       margin-top: 40px;
     }
+    .v502-Home .v5-custom-info {
+      margin-top: 160px;
+    }
   </style>
   {% import "./swiper/v5_2.njk" as swiper %}
   {{ swiper.boxStyle(height='540px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
@@ -26,6 +29,7 @@
   <div class="v502-market">
     {% include "./market/v5_2.njk" %}
   </div>
+  {% include "./custom/v5_2.njk"%}
   <script>
     (() => {})()
   </script>
