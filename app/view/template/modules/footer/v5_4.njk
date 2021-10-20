@@ -1,0 +1,286 @@
+<div id="footer-box" class="footer-box y-3-bg y-4-bd no-margin">
+    <style>
+        .footer-box {
+            min-height: 264px;
+            padding-bottom: 40px;
+            margin-top: 120px;
+            background:#030B16 !important;
+        }
+        .no-margin {
+            margin-top: 0;
+        }
+        .footer-bar {
+            font-size: 12px;
+            padding-top: 40px;
+            width: 1180px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .footer-default {
+            padding-top: 135px;
+        }
+        .footer-logo {
+            width: 260px;
+            float: left;
+            padding-left: 40px;
+        }
+        .footer-logo img {
+            max-height: 70px;
+        }
+        .logo {
+            max-height: 120px;
+            max-width: 120px;
+        }
+        .footer-menu {
+            margin: 0 auto;
+            width: 1200px;
+            display:flex;
+        }
+        
+        .footer-template a{
+            color:#fff;
+        }
+        .menu-ul-default {
+            width: 100%;
+        }
+        .menu-ul-default li {
+            float: left;
+            width: 260px;
+            padding-left: 40px;
+            line-height: 26px;
+        }
+        .menu-ul-default li .hoverShow {
+            display: none;
+        }
+        .menu-ul-default li:hover .hoverShow {
+            display: inline-block;
+        }
+        .menu-ul-default li:hover .hoverHide {
+            display: none;
+        }
+        .menu-ul-default .tit {
+            margin-bottom: 15px;
+        }
+        .footer-box .copy {
+            text-align: center;
+            
+            padding-top: 20px;
+            font-size: 12px;
+            margin-top: 80px;
+        }
+        /*国际版*/
+        .int-footer-bar {
+            padding: 96px 110px 0 110px;
+        }
+        .int-footer-left {
+            float: left;
+        }
+        .int-footer-left p {
+            line-height: 26px;
+        }
+        .int-footer-logo {
+            width: 260px;
+            margin-bottom: 40px;
+        }
+        .int-footer-template {
+            float: right;
+        }
+        .menu-ul-int {
+            width: 600px;
+        }
+        .menu-ul-int li {
+            float: left;
+            width: 150px;
+            padding-left: 40px;
+            line-height: 26px;
+        }
+        .menu-ul-int li .hoverShow {
+            display: none;
+        }
+        .menu-ul-int li:hover .hoverShow {
+            display: inline-block;
+        }
+        .menu-ul-int li:hover .hoverHide {
+            display: none;
+        }
+        .menu-ul-int .tit {
+            margin-bottom: 15px;
+        }
+        
+        .footer-box .int-copy {
+            text-align: left;
+            border-top-width: 1px;
+            border-top-style: solid;
+            font-size: 12px;
+            margin-top: 80px;
+            padding: 20px 110px 0 110px;
+        }
+        
+        .footer-template {
+            display:flex;
+        }
+        .footer-template dl{
+            width:230px;
+            font-size:12px;
+        }
+        .footer-right{
+            margin-top:20px;
+        }
+        .footer-template dt,.footer-right dt{
+            height:15px;
+            margin-bottom:20px;
+        }
+        .footer-template dd{
+            line-height:30px;
+        }
+        .footer-right svg{
+            width:24px;
+            height:24px;
+            margin-right:10px;
+        }
+        .footer-lan{
+            margin-top:33px;
+        }
+        .footer-lan p{
+            width:120px;
+            height:30px;
+            border:1px solid #333B4F;
+            border-radius:4px;
+            display:flex;
+            align-items:center;
+            padding-left:10px;
+        }
+        .footer-lan p img{
+            width:18px;
+            height:12px;
+            margin-right:8px;
+
+        }
+    </style>
+    <section>
+      
+        {# {% if switch.config_footer_open === '1' and footerTemplate %} #}
+        {% if switch.config_footer_open !== '1' %}
+        
+                {% if footerTemplate.indexOf('foot-min-top') !== -1 %}
+                <div class='footer-con'>
+                    {{footerTemplate | safe}}
+                </div>
+                
+                {% else %}
+                <div class="footer-bar" >
+                    <div class="footer-menu clearfix">
+                        <div class="footer-logo">
+                            <img src="{{helper.footer.logo(msg)}}" alt="">
+                        </div>
+                        <!-- 自定义 -->
+                        <div class="footer-template">
+                            {{footerTemplate | safe}}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+        {% else %}
+            
+            
+                {# <div class="int-footer-bar">
+                    <div class="int-footer-left">
+                        <div class="int-footer-logo">
+                            <img src="{{helper.footer.logo(msg)}}" alt="">
+                        </div>
+                    </div>
+                        <div class="int-footer-template">
+                            <ul class="menu-ul-int">
+                                {% for item in footerList %}
+                                <li class="item">
+                                    <a class="z-2-cl hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                    <a class="z-1-cl hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <br style="clear: both;">
+                </div>
+                <div class="int-copy z-2-cl"
+                     style="border-color: #293448 !important;">
+                    Copyright © 2019 {{companyName}}. All rights reserved
+                </div> #}
+            
+            
+                <div class="footer-bar footer-default">
+                    <div class="footer-menu clearfix">
+                        <div class="footer-logo">
+                            <img src="{{helper.footer.logo(msg)}}" alt="">
+                            <div class='footer-right'>
+                                <dl>
+                                    <dt> © 2017-2021 {{companyName}}</dt>
+                                        <dd>
+                                            
+                                            <svg class="icon icon-14" aria-hidden="true">
+                                                <use xlink:href="#icon-k_7_1"></use>
+                                            </svg>
+                                           
+                                            <svg class="icon icon-14" aria-hidden="true">
+                                                <use xlink:href="#icon-k_4_1"></use>
+                                            </svg>
+                                            <svg class="icon icon-14" aria-hidden="true">
+                                                <use xlink:href="#icon-k_5_1"></use>
+                                            </svg>
+                                        </dd>
+                                        
+                                    </dl>
+
+                                </div>
+                        </div>
+                        <div class="footer-template">
+                            {# <ul class="menu-ul-default">
+                                {% for item in footerList %}
+                                <li class="item">
+                                    <a class="z-2-cl hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                    <a class="z-1-cl hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul> #}
+                            <dl>
+                              <dt>Terms</dt>
+                                <dd><a href='javascript:;'>User Agreement</a></dd>
+                                <dd><a href='javascript:;'>Privacy Policy</a></dd>
+                                <dd><a href='javascript:;'>Legal Notices</a></dd>
+                                
+                            </dl>
+                            <dl>
+                              <dt>About</dt>
+                                <dd><a href='javascript:;'>About ChainUP</a></dd>
+                                <dd><a href='javascript:;'>Application for listing</a></dd>
+                                <dd><a href='javascript:;'>announcement</a></dd>
+                            </dl>
+                            <dl>
+                              <dt>Tool</dt>
+                                <dd><a href='javascript:;'>Client Downloads</a></dd>
+                                <dd><a href='javascript:;'>Help center</a></dd>
+                                <dd><a href='javascript:;'>API documentation</a></dd>
+                            </dl>
+                            <dl>
+                              <dt>Terms</dt>
+                                <dd><a href='javascript:;'>User Agreement</a></dd>
+                                <dd><a href='javascript:;'>Privacy Policy</a></dd>
+                                <dd><a href='javascript:;'>Legal Notices</a></dd>
+                                
+                            </dl>
+
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- 底部区域 -->
+                <div class="copy z-2-cl"
+                     style="border-color: #293448 !important;">
+                   
+                </div>
+            
+        {% endif %}
+    </section>
+    <script>
+
+    </script>
+</div>
