@@ -280,8 +280,7 @@ class StaticIndex extends Controller {
 
   getTemplate(ispc) {
     let template = 'international';
-    // const indexTempType = this.publicInfo.switch.index_temp_type;
-    const indexTempType = '53';
+    const indexTempType = this.publicInfo.switch.index_temp_type;
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
@@ -300,7 +299,7 @@ class StaticIndex extends Controller {
       template = 'h5';
     }
     if (tempList.indexOf(index_temp_type) > -1) {
-      template = header_navigation_type && header_navigation_type.toString() === '1' ? 'v5_1' : 'v5_2';
+      template = header_navigation_type && header_navigation_type.toString() === '1' ? 'v5_2' : 'v5_1';
     }
     return `modules/header/${template}.njk`;
   }
