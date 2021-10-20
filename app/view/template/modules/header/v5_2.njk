@@ -1,5 +1,14 @@
-<header class="common-header top-common-header" id="common-header">
+<header class="v5-header common-header top-common-header v5-10-bg static" id="common-header">
   <style>
+    .v5-header.static {
+      background: rgba(0, 0, 0, 0.15)!important;
+    }
+    .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static a {
+      color: #ffffff!important;
+    }
+    .v5-header.static li.header-navEven:hover {
+      color: #2762FF!important;
+    }
     .inx .solidBc {
       display: none;
     }
@@ -1123,14 +1132,14 @@
       data-trades="true"
       data-target="false"
     >
-      <a class="x-2-cl g-3-cl-h" href="/broker">
+      <a class="v5-5-cl" href="/broker">
         <!-- 经纪人系统 -->
         {{ locale.header.broker }}
       </a>
     </li>
     {% endif %} {% for item in headerNavList %}
     <li
-      class="header-navEven"
+      class="header-navEven v5-5-cl"
       data-link="{{ item.httpUrl }}"
       data-id="{{ item.id }}"
       data-trades="true"
@@ -1138,10 +1147,10 @@
     >
       {{ item.title }}
       {% if item.childList.length > 0 %}
-      <ul class="header-navEven-list h-1-bg">
+      <ul class="header-navEven-list v5-10-bg">
         {% for i in item.childList%}
         <li
-          class="x-2-cl"
+          class="v5-5-cl"
           data-link="{{ i.link }}"
           data-id="{{ i.id }}"
           data-trades="true"
@@ -1164,7 +1173,7 @@
     <!-- 未登录时 -->
     <div class="header-guide unlogin-set">
       <button
-        class="common-button header-login-button common-button-text-kind u-11-cl"
+        class="common-button header-login-button common-button-text-kind"
         style="margin-top: 0px"
       >
         <div class="common-button-slot">
