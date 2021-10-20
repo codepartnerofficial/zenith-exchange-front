@@ -1371,7 +1371,7 @@
   <script>
     ;(function () {
       const { getScript } = window.BlockChainUtils
-      const extendPath = '{{sourceMap.headerExtend}}'
+      const extendPath = '{{sourceMap.headerExtendV5}}'
       if (extendPath && !window.HeaderExtend) {
         getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
           class Header extends window.HeaderExtend {
