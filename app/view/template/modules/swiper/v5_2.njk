@@ -96,7 +96,7 @@
         {% if slideList.length > 1 %}
             <div class="carousel-items">
                 {% for item in slideList %}
-                    <span data-index="{{loop.index0}}">123</span>
+                    <span class="v5-15-bg" data-index="{{loop.index0}}">123</span>
                 {% endfor %}
             </div>
         {% endif %}
@@ -111,10 +111,10 @@
                             constructor() {
                                 super();
                                 this.activeClass = "{{activeClass}}";
-                                this.init();
+                                this.initData();
                             }
 
-                            init() {
+                            initData() {
                               this.$swiper = document.querySelector('#swipers');
                               this.$carouselWrap = this.$swiper.querySelector('.carousel-wrap');
                               this.$slideUl = this.$swiper.querySelector('.slide-ul');
@@ -136,7 +136,7 @@
                               this.$slideListA.forEach((item) => {
                                 item.style.backgroundImage = `url(${item.dataset.img})`;
                               });
-                              let cl = 'active a-12-bg ';
+                              let cl = 'active v5-1-bg';
                               if (this.activeClass) {
                                 cl += this.activeClass;
                               }

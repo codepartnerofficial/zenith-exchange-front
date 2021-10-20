@@ -1,13 +1,12 @@
-<section class="inter-recommend inter-recommend-international c-4-bg c-5-bd">
+<section class="inter-recommend inter-recommend-international">
     <style>
         .inter-recommend.inter-recommend-international {
             height: 134px;
             width: 100%;
             box-sizing: border-box;
             overflow: hidden;
-            border-bottom-width: 1px;
-            border-bottom-style: solid;
             font-family: DINPro-Medium;
+            background-image: linear-gradient(180deg, #081422 0%, #050F1B 100%);
         }
         .inter-recommend.inter-recommend-international .ulCenter {
             margin-left: 50%;
@@ -28,6 +27,7 @@
             position: absolute;
             left: 0;
             top: 25px;
+            background: #141F31;
         }
         .inter-recommend.inter-recommend-international .recommend-even:first-child .bl {
             width: 0;
@@ -37,6 +37,7 @@
             line-height: 18px;
             position: relative;
             display: inline-block;
+            color: #ffffff;
         }
         .inter-recommend.inter-recommend-international .symbol .coin-label {
             position: absolute;
@@ -70,11 +71,13 @@
             font-size: 22px;
             line-height: 28px;
             margin-top: 16px;
+            color: #ffffff;
         }
         .inter-recommend.inter-recommend-international .volume {
             font-size: 12px;
             line-height: 15px;
             margin-top: 16px;
+            color: #747F91;
         }
         .inter-recommend.inter-recommend-international .rose {
             margin-left: 14px;
@@ -100,7 +103,7 @@
     <ul class="recommend-ul clearfix recommend-wrap ulCenter" style="display: none">
         {% for item in headerSymbol %}
             <li class="recommend-even recommend-content" data-coin="{{item}}">
-                <div class="c-5-bg bl"></div>
+                <div class="bl"></div>
                 <div class="symbol">
                     {{helper.recommend.getCoinShowName(item, symbolAll)}}
                     <span class="rose percentage">{{ item.roseVal }}</span>
@@ -109,7 +112,7 @@
                         <span class="coin-bg a-12-bg"></span>
                     </div>
                 </div>
-                <div class="price b-1-cl recommendPrice">{{ item.price }}</div>
+                <div class="price recommendPrice">{{ item.price }}</div>
                 <div class="volume recommendTime">24H Vol {{ item.volume }}</div>
                 <div class="rose percentage">{{ item.roseVal }}</div>
                 <div class="kline">
@@ -121,7 +124,7 @@
         {% if headerSymbol.length > 4%}
         {% for item in headerSymbol %}
         <li class="recommend-even recommend-content cloned" data-coin="{{item}}-c">
-            <div class="c-5-bg bl"></div>
+            <div class="bl"></div>
             <div class="symbol">
                 {{helper.recommend.getCoinShowName(item, symbolAll)}}
                 <span class="rose percentage">{{ item.roseVal }}</span>
@@ -130,7 +133,7 @@
                   <span class="coin-bg a-12-bg"></span>
               </div>
             </div>
-            <div class="price b-1-cl recommendPrice">{{ item.price }}</div>
+            <div class="price recommendPrice">{{ item.price }}</div>
             <div class="volume recommendTime">24H Vol {{ item.volume }}</div>
             <div class="kline">
                 <div class="echart-box" style="height: 32px"></div>

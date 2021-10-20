@@ -21,6 +21,7 @@
       line-height: 51px;
       font-size: 40px;
       font-family: DINPro-Bold;
+      color: #ffffff;
     }
     .v501-swiper-base .banner .subTitle {
       font-size: 18px;
@@ -36,7 +37,9 @@
       border-radius: 4px;
       font-size: 16px;
       font-family: DINPro-Medium;
-      background: #2762FF;
+    }
+    .v501-swiper-base .banner .button a {
+      color: #ffffff;
     }
     .v501-swiper-base .banner .symbol {
       width: 100%;
@@ -82,10 +85,21 @@
       position: relative;
       margin-right: 32px;
     }
+    .v501-swiper-base .swiper-wrap .btn-bg {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      background: rgba(39, 98, 255, 0.15);
+      position: absolute;
+      margin-right: 32px;
+      opacity: 0.15;
+      left: 0;
+      top: 0;
+    }
     .v501-swiper-base .swiper-wrap .next-btn {
       margin-left: 32px;
     }
-    .v501-swiper-base .swiper-wrap .prev-btn::before {
+    .v501-swiper-base .swiper-wrap .prev-btn .before {
       content: '';
       position: absolute;
       width: 16px;
@@ -95,8 +109,9 @@
       top: 22px;
       transform: rotate(45deg) scale(0.8);
       border-radius: 0 1px 1px 0;
+      opacity: 1;
     }
-    .v501-swiper-base .swiper-wrap .prev-btn::after {
+    .v501-swiper-base .swiper-wrap .prev-btn .after {
       content: '';
       position: absolute;
       width: 16px;
@@ -106,8 +121,9 @@
       top: 14px;
       transform: rotate(-45deg) scale(0.8);
       border-radius: 0 1px 1px 0;
+      opacity: 1;
     }
-    .v501-swiper-base .swiper-wrap .next-btn::before {
+    .v501-swiper-base .swiper-wrap .next-btn .before {
       content: '';
       position: absolute;
       width: 16px;
@@ -117,8 +133,9 @@
       top: 22px;
       transform: rotate(-45deg) scale(0.8);
       border-radius: 0 1px 1px 0;
+      opacity: 1;
     }
-    .v501-swiper-base .swiper-wrap .next-btn::after {
+    .v501-swiper-base .swiper-wrap .next-btn .after {
       content: '';
       position: absolute;
       width: 16px;
@@ -128,14 +145,23 @@
       top: 14px;
       transform: rotate(45deg) scale(0.8);
       border-radius: 0 1px 1px 0;
+      opacity: 1;
     }
 
   </style>
   <div class="banner">
     <div class="banner-info">
-      <div class="title b-8-cl">标题</div>
-      <div class="subTItle">副标题</div>
-      <button class="button b-8-cl">按钮文案</button>
+      {% if backgroundInfo.title %}
+      <div class="title">{{backgroundInfo.title}}</div>
+      {% endif %}
+      {% if backgroundInfo.subTitle %}
+      <div class="subTItle">{{backgroundInfo.subTitle}}</div>
+      {% endif %}
+      {% if backgroundInfo.button %}
+      <button class="button v5-1-bg">
+        <a href="{{backgroundInfo.link}}">{{backgroundInfo.button}}</a>
+      </button>
+      {% endif %}
       {% if headerSymbol.length %}
       <div class="symbol">
         {% include "../recommend/v5_1.njk" %}
@@ -143,9 +169,13 @@
       {% endif %}
     </div>
   </div>
-  <div class="swiper-wrap" id="swiper-wrap">
+  <div class="swiper-wrap v5-10-bg" id="swiper-wrap">
     {% if cmsAdvertList.length > 4 %}
-    <div class="prev-btn"></div>
+    <div class="prev-btn">
+      <div class="btn-bg v5-1-bg"></div>
+      <span class="before v5-1-bg"></span>
+      <span class="after v5-1-bg"></span>
+    </div>
     {% endif %}
     <div class="slide-wrap">
       <ul class="slide-list">
@@ -159,7 +189,11 @@
       </ul>
     </div>
     {% if cmsAdvertList.length > 4 %}
-    <div class="next-btn"></div>
+    <div class="next-btn">
+      <div class="btn-bg v5-1-bg"></div>
+      <span class="before v5-1-bg"></span>
+      <span class="after v5-1-bg"></span>
+    </div>
     {% endif %}
   </div>
   <script>
@@ -171,6 +205,11 @@
               class Swiper extends window.SwiperExtend{
                   constructor() {
                     super();
+                    const bgImg = "{{backgroundInfo.imageUrl}}";
+                    const banner = document.querySelector('.v501-swiper-base .banner');
+                    if (bgImg) {
+                      banner.style.background = `url("${bgImg}") no-repeat center center`
+                    }
                     this.init();
                   }
               }

@@ -1,4 +1,4 @@
-<section class="v502-Home v502-home-container c-2-bg">
+<section class="v502-Home v502-home-container v5-8-bg">
   <style>
     .v502-Home {
       position: relative;
@@ -16,7 +16,7 @@
     }
   </style>
   {% import "./swiper/v5_2.njk" as swiper %}
-  {{ swiper.boxStyle(height='540px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend) }}
+  {{ swiper.boxStyle(height='540px', width='100%', bgColor='c-3-bg', slideList=cmsAdvertList, extendPath =sourceMap.swiperExtend, activeClass="v5-1-bg") }}
   {% if headerSymbol.length %}
       {% include "./recommend/v5_2.njk" %}
   {% endif %}

@@ -1,9 +1,15 @@
-<header class="v5-header common-header top-common-header" id="common-header">
+<header class="v5-header common-header top-common-header static" id="common-header">
   <style>
     .common-header.top-common-header.v5-header {
       position: fixed;
       left: 0;
       top: 0;
+    }
+    .v5-header.static {
+      background: rgba(0, 0, 0, 0.15);
+    }
+    .v5-header.static li, .v5-header.static div, .v5-header.static a {
+      color: #ffffff!important;
     }
     .inx .solidBc {
       display: none;
@@ -1113,7 +1119,7 @@
     {% if number(switch.agentUserOpen) or number(switch.is_return_open) or
     number(switch.is_financing_open)%}
     <li
-      class="header-navEven v5-10-cl"
+      class="header-navEven v5-5-cl"
       data-link="/broker"
       data-id=""
       data-trades="true"
@@ -1124,7 +1130,7 @@
     </li>
     {% endif %} {% for item in headerNavList %}
     <li
-      class="header-navEven v5-10-cl"
+      class="header-navEven v5-5-cl"
       data-link="{{ item.httpUrl }}"
       data-id="{{ item.id }}"
       data-trades="true"
@@ -1132,7 +1138,7 @@
     >
       {{ item.title }}
       {% if item.childList.length > 0 %}
-      <ul class="header-navEven-list">
+      <ul class="header-navEven-list v5-10-bg">
         {% for i in item.childList%}
         <li
           class="v5-10-cl"

@@ -1,4 +1,4 @@
-<section class="v501-Home v501-home-container c-2-bg">
+<section class="v501-Home v501-home-container v5-10-bg">
   <style>
     .v501-Home {
       position: relative;
@@ -23,7 +23,7 @@
   {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
   {% endif %}
   <div class="v501-market">
-    <h2 class="item-title">Market trend</h2>
+    <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>
     {% include "./market/v5_1.njk" %}
   </div>
   {% include "./custom/v5_1.njk"%}

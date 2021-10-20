@@ -1,4 +1,4 @@
-<section class="v5-market-wrap">
+<section class="v5-market-wrap v5-10-bg">
     <style>
         .v5-market-wrap {
             width: 1200px;
@@ -28,7 +28,8 @@
           display: flex;
           height: 76px;
           line-height: 76px;
-          border-top: 1px solid #e2e9ef;
+          border-top-style: solid;
+          border-top-width: 1px;
         }
         .v5-market-wrap .market-item:nth-child(2) .market-info {
           border-top: none;
@@ -82,12 +83,12 @@
         .v5-market-wrap .market-item .b-cion {
             font-size: 20px;
             color: #31363e;
-            font-family: DINPro-Regular;
-        }
-        .v5-market-wrap .market-item .p-cion {
+          }
+          .v5-market-wrap .market-item .q-cion {
             font-size: 20px;
             color: #31363e;
             margin-right: 8px;
+            font-family: DINPro-Regular;
         }
         .v5-market-wrap .market-item .symbol-icon {
             margin-right: 20px;
@@ -101,7 +102,8 @@
             height: 55px;
             line-height: 55px;
             font-family: DINPro-Regular;
-            border-bottom: 1px solid #e2e9ef;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
         }
         .v5-market-wrap .market-item.title-th .td-item2 {
             box-sizing: border-box;
@@ -128,41 +130,46 @@
         }
         .v5-market-wrap .more span {
             font-size: 14px;
-            color: #3f78ff;
             cursor: pointer;
         }
-        .v5-market-wrap .more span:hover {
-            color: #5b8cff;
+        .v5-market-wrap .more .hoverShow {
+          display: none;
+        }
+        .v5-market-wrap .more:hover .hoverHide {
+          display: none;
+        }
+        .v5-market-wrap .more:hover .hoverShow {
+          display: block;
         }
     </style>
     <ul class="market-ul market-wrap">
-        <li class="market-item title-th">
-            <div class="td-item td-item1">#</div>
-            <div class="td-item td-item2">{{locale.home.market}}</div>
-            <div class="td-item td-item3">{{locale.home.close}}</div>
-            <div class="td-item td-item4">{{locale.home.applies}}</div>
-            <div class="td-item td-item-vol">{{locale.home.H_volume}}</div>
-            <div class="td-item td-item-btn">{{locale.h5Add.tradeList1}}</div>
+        <li class="market-item title-th v5-11-bd">
+            <div class="td-item td-item1 v5-7-cl">#</div>
+            <div class="td-item td-item2 v5-7-cl">{{locale.home.market}}</div>
+            <div class="td-item td-item3 v5-7-cl">{{locale.home.close}}</div>
+            <div class="td-item td-item4 v5-7-cl">{{locale.home.applies}}</div>
+            <div class="td-item td-item-vol v5-7-cl">{{locale.home.H_volume}}</div>
+            <div class="td-item td-item-btn v5-7-cl">{{locale.h5Add.tradeList1}}</div>
         </li>
         {% for item in recommendMarket %}
         {% if helper.recommend.symbolShow(loop.index0) %}
         <li class="market-item market-content" data-coin="{{item}}">
-          <div class="market-info">
-            <div class="td-item td-item1">{{loop.index}}</div>
+          <div class="market-info v5-11-bd">
+            <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>
             <div class="td-item td-item2">
                 {% if helper.recommend.symbolIcon(item, coinList)%}
                 <span class="symbol-icon">
                     <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
                 </span>
                 {% endif %}
-                <span class="b-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
-                <span class="q-cion">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
+                <span class="b-cion v5-5-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
+                <span class="q-cion v5-6-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
             </div>
-            <div class="td-item td-item3 closePrice"></div>
-            <div class="td-item td-item4 percentage"></div>
-            <div class="kline td-item td-item-vol"></div>
+            <div class="td-item td-item3 closePrice v5-5-cl"></div>
+            <div class="td-item td-item4 percentage v5-5-cl"></div>
+            <div class="kline td-item td-item-vol v5-5-cl"></div>
             <div class="td-item td-item-btn">
-                <button class="common-button common-button-solid u-8-bg u-16-cl">
+                <button class="common-button common-button-solid v5-2-bg v5-10-cl">
                     {{locale.otcTrade.buy}}
                 </button>
             </div>
@@ -171,7 +178,8 @@
         {% endif %}
         {% endfor %}
         <li class="more">
-            <span>{{locale.home.moreMarket}}＞</span>
+          <span class="hoverHide v5-6-cl">{{locale.home.moreMarket}}＞</span>
+          <span class="hoverShow v5-1-cl">{{locale.home.moreMarket}}＞</span>
         </li>
     </ul>
     <script>
