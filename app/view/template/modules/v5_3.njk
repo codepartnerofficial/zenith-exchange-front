@@ -546,7 +546,12 @@
         }
         .v501-market {
             width: 1200px;
-            margin: 100px auto 0;
+            margin: 85px auto 0;
+            
+        }
+        .v501-market h2{
+            font-size:36px;
+            font-weight:bold;
         }
     </style>
     <div class="home-bg">
@@ -559,10 +564,15 @@
         bgUrl=backgroundInfo.imageUrl
         )}}
         
-        {% include "./recommend/v5_2.njk" %}
-        {% include "./noticeInfo/v5.njk" %}
+        {% include "./recommend/v5_3.njk" %}
+        <div class="v502-notice-info">
+            {% if noticeList.length > 0 %}
+            {% import "./noticeInfo/v5.njk" as notice %}
+            {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
+            {% endif %}
+        </div>
         <div class="v501-market">
-            <h2 class="item-title">Market trend</h2>
+            <h2 class="item-title v5-5-cl">Market trend</h2>
             {% include "./market/v5_1.njk" %}
         </div>
         {% include "./custom/v5_3.njk" %}

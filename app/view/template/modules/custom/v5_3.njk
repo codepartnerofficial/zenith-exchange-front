@@ -40,48 +40,25 @@
       line-height: 26px;
     }
     .v5-custom-info .v5-service {
-      margin-top: 160px;
+      {# margin-top: 160px; #}
     }
-    .v5-custom-info .v5-service .title-text {
-      font-size: 32px;
-      line-height: 40px;
-      margin-bottom: 70px;
-    }
-    .v5-custom-info .v5-service .service-content {
-      display: flex;
-      justify-content: space-between;
-    }
-    .v5-custom-info .v5-service .service-content .service-item {
-      width: 230px;
-    }
-    .v5-custom-info .v5-service .service-content .service-item dt {
-      height: 72px;
-      line-height: 72px;
-      margin-bottom: 50px;
-    }
-    .v5-custom-info .v5-service .service-content .service-item dd div {
-      font-size: 16px;
-      line-height: 21px;
-      margin-bottom: 13px;
-      font-weight: 500;
-    }
-    .v5-custom-info .v5-service .service-content .service-item dd span {
-      font-size: 14px;
-      line-height: 24px;
-    }
-    .v5-custom-info .v5-appDownload {
-      margin-top: 160px;
-    }
+   
+    
+   
     .v5-custom-info .v5-appDownload .app-introduce {
     }
     .v5-custom-info .v5-appDownload  {
       
-      padding: 60px 80px 0;
+      padding: 60px 0px 0;
       box-sizing: border-box;
       justify-content: space-between;
     }
     .v5-custom-info .v5-appDownload >div{
       display:flex;
+      padding:0 80px
+    }
+    .v5-custom-info .v5-appDownload >div >div{
+      width:50%;
     }
     .v5-custom-info .v5-appDownload  .title-text {
       font-size: 36px;
@@ -221,61 +198,59 @@
     .v5-custom-info .v5-register-guide a span {
       font-size: 16px;
     }
+    .v5-service .title-text {
+      font-size: 32px;
+      line-height: 40px;
+      margin-bottom: 90px !important;
+    }
+    .v5-custom-info .v5-service .service-content {
+      display: flex;
+      justify-content: space-between;
+    }
+     .v5-custom-info .v5-service .service-content .service-item {
+      width: 230px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dt {
+      height: 72px;
+      line-height: 72px;
+      margin-bottom: 50px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd div {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 13px;
+      font-weight: 500;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd span {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .v5-custom-info .v5-appDownload {
+      margin-top: 100px;
+    }
   </style>
   <div class="v5-guide">
-    <h2 class="title-text">Beginner's guide</h2>
-    <div class="title-tip">Quickly understand fiat curr</div>
+    <h2 class="title-text v5-5-cl">Beginner's guide</h2>
+    <div class="title-tip v5-7-cl">Quickly understand fiat curr</div>
     <div class="guide-content">
       <dl class="guide-item item-1">
         <dt><img src="{{sourceMap.home_guide_1}}" alt=""></dt>
-        <dd>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
       <dl class="guide-item item-2">
         <dt><img src="{{sourceMap.home_guide_2}}" alt=""></dt>
-        <dd>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
       <dl class="guide-item item-3">
         <dt><img src="{{sourceMap.home_guide_3}}" alt=""></dt>
-        <dd>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
     </div>
   </div>
-  <div class="v5-service">
-    <h2 class="title-text">Get in touch. Stay in touch.</h2>
-    <div class="service-content">
-      <dl class="service-item item-1">
-        <dt><img src="{{sourceMap.home_service_1}}" alt=""></dt>
-        <dd>
-          <div>0 fee digital currency trading</div>
-          <span>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
-        </dd>
-      </dl>
-      <dl class="service-item item-2">
-        <dt><img src="{{sourceMap.home_service_2}}" alt=""></dt>
-        <dd>
-          <div>0 fee digital currency trading</div>
-          <span>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
-        </dd>
-      </dl>
-      <dl class="service-item item-3">
-        <dt><img src="{{sourceMap.home_service_3}}" alt=""></dt>
-        <dd>
-          <div>0 fee digital currency trading</div>
-          <span>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
-        </dd>
-      </dl>
-      <dl class="service-item item-4">
-        <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
-        <dd>
-          <div>0 fee digital currency trading</div>
-          <span>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
-        </dd>
-      </dl>
-    </div>
-  </div>
+
   <div class="v5-appDownload">
-      <h2 class="title-text">Trade anytime, anywhere</h2>
-      <div class="title-tip">Tokencan quality products for you</div>
+      <h2 class="title-text v5-5-cl">Trade anytime, anywhere</h2>
+      <h6 class="title-tip v5-6-cl">Tokencan quality products for you</h6>
       <div>
           <div class="app-introduce">
             <img src="{{sourceMap.home_appview_3}}" alt="" class='left'>
@@ -286,22 +261,22 @@
             <li class="intro-item">
               <svg aria-hidden="true" class="icon icon-24"></svg>
               <div>
-                <p>Tokencan quality products for you</p>
-                <span>Provide a variety of transaction type selection, order speed combination</span>
+                <p class='v5-5-cl'>Tokencan quality products for you</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
               </div>
             </li>
             <li class="intro-item">
               <svg aria-hidden="true" class="icon icon-24"></svg>
               <div>
-                <p>Custom trading panel</p>
-                <span>Provide a variety of transaction type selection, order speed combination</span>
+                <p class='v5-5-cl'>Custom trading panel</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
               </div>
             </li>
             <li class="intro-item">
               <svg aria-hidden="true" class="icon icon-24"></svg>
               <div>
-                <p>Custom trading panel</p>
-                <span>Provide a variety of transaction type selection, order speed combination</span>
+                <p class='v5-5-cl'>Custom trading panel</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
               </div>
             </li>
           </ul>
@@ -328,16 +303,46 @@
             </aside>
           </div>
         </div>
-      
       </div>
-    
-
+  </div>
+    <div class="v5-service">
+    <h2 class="title-text v5-5-cl" >Get in touch. Stay in touch.</h2>
+    <div class="service-content">
+      <dl class="service-item item-1">
+        <dt><img src="{{sourceMap.home_service_1}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-2">
+        <dt><img src="{{sourceMap.home_service_2}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-3">
+        <dt><img src="{{sourceMap.home_service_3}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-4">
+        <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
+        <dd>
+          <div class='v5-6-cl'>0 fee digital currency trading</div>
+          <span class='v5-7-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+    </div>
   </div>
   <div class="v5-register-guide">
-    <h1 class="title-text">Want to Start trading right away?</h1>
-    <p>Register your account immediately and start trading.</p>
-    <a href="/register">
-      <span>Register now</span>
+    <h1 class="title-text v5-5-cl" >Want to Start trading right away?</h1>
+    <p class='v5-6-cl'>Register your account immediately and start trading.</p>
+    <a href="/register" class='v5-1-bg' style='color:#fff'>
+      <span >Register now</span>
       <svg aria-hidden="true" class="icon icon-16"></svg>
     </a>
   </div>
