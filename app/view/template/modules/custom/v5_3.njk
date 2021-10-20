@@ -88,10 +88,9 @@
     .v5-custom-info .v5-appDownload .app-preview .intro-item {
       margin-bottom: 28px;
       display: flex;
+      overflow:hidden;
     }
-    .v5-custom-info .v5-appDownload .app-preview .intro-item svg {
-      margin-right: 24px;
-    }
+   
     .v5-custom-info .v5-appDownload .app-preview .intro-item p {
       font-weight: 700;
       font-size: 16px;
@@ -128,6 +127,11 @@
     .v5-custom-info .v5-appDownload .header-text .download .qrcode img {
       width: 18px;
       height: 18px;
+    }
+     .v5-custom-info .v5-appDownload .app-preview .intro-item svg {
+      margin-right: 24px;
+      width:24px;
+      height:17px;margin-top:10px;
     }
     .v5-custom-info .download .qrcode .hoverShow {
       display: none;
@@ -275,21 +279,27 @@
       
           <ul>
             <li class="intro-item">
-              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <svg class="icon icon-14" aria-hidden="true">
+                <use xlink:href="#icon-a_14_1"></use>
+              </svg>
               <div>
                 <p class='v5-5-cl'>Tokencan quality products for you</p>
                 <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
               </div>
             </li>
             <li class="intro-item">
-              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <svg class="icon icon-14" aria-hidden="true">
+                <use xlink:href="#icon-a_14_1"></use>
+              </svg>
               <div>
                 <p class='v5-5-cl'>Custom trading panel</p>
                 <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
               </div>
             </li>
             <li class="intro-item">
-              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <svg class="icon icon-14" aria-hidden="true">
+                <use xlink:href="#icon-a_14_1"></use>
+              </svg>
               <div>
                 <p class='v5-5-cl'>Custom trading panel</p>
                 <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
@@ -310,13 +320,13 @@
               <i class="img hoverShow">
                 <img src="" alt="">
               </i>
+              <aside class="qrcode-preview">
+                <div>
+                  <img src="" alt="">
+                </div>
+                <span>扫描二维码下载</span>
+              </aside>
             </span>
-            <aside class="qrcode-preview">
-              <div>
-                <img src="" alt="">
-              </div>
-              <span>扫描二维码下载</span>
-            </aside>
           </div>
         </div>
       </div>

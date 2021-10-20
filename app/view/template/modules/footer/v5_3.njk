@@ -137,6 +137,7 @@
         }
         .footer-lan{
             margin-top:33px;
+            cursor:pointer;
         }
         .footer-lan p{
             width:120px;
@@ -146,11 +147,17 @@
             display:flex;
             align-items:center;
             padding-left:10px;
+            display:flex;
+            justify-content:space-between;
         }
-        .footer-lan p img{
-            width:18px;
-            height:12px;
-            margin-right:8px;
+        .footer-lan p span{
+            width:6px;
+            height:0px;
+            display:inline-block;
+            border-top:4px solid #333B4F;
+            border-left:3px solid #030B16;
+            border-right:3px solid #030B16;
+            margin-right:10px;
         }
          .footer-template a{
             color:#525D79;
@@ -211,10 +218,9 @@
                         <div class="footer-logo">
                             <img src="{{helper.footer.logo(msg)}}" alt="">
                             <div class='footer-lan'>
-                              <p>
-                                <img src="{{helper.footer.logo(msg)}}" alt="">
-                                English
-                                <img src="{{helper.footer.logo(msg)}}" alt="">
+                              <p >
+                                
+                                English<span></span>
                               </p>
 
                             </div>
