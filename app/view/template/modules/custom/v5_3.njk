@@ -1,0 +1,350 @@
+<section class="v5-custom-info">
+  <style>
+    .v5-custom-info {
+      width: 1200px;
+      margin: auto;
+      font-family: DINPro-Medium;
+      font-weight: 500;
+      margin-top:120px;
+    }
+    .v5-custom-info .title-text {
+      font-size: 36px;
+      line-height: 46px;
+      font-family: DINPro-Bold;
+      font-weight: 700;
+    }
+    .v5-custom-info .title-tip {
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 16px;
+      font-family: DINPro-Medium;
+    }
+    .v5-custom-info .v5-guide .guide-content {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .v5-custom-info .v5-guide .guide-item {
+      width: 386px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt img {
+      width: 386px;
+      height: 240px;
+    }
+    .v5-custom-info .v5-guide .guide-item dd {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    .v5-custom-info .v5-service {
+      {# margin-top: 160px; #}
+    }
+   
+    
+   
+    .v5-custom-info .v5-appDownload .app-introduce {
+    }
+    .v5-custom-info .v5-appDownload  {
+      
+      padding: 60px 0px 0;
+      box-sizing: border-box;
+      justify-content: space-between;
+    }
+    .v5-custom-info .v5-appDownload >div{
+      display:flex;
+      padding:0 80px
+    }
+    .v5-custom-info .v5-appDownload >div >div{
+      width:50%;
+    }
+    .v5-custom-info .v5-appDownload  .title-text {
+      font-size: 36px;
+      line-height: 44px;
+      margin-bottom: 14px;
+      width:100%;
+    }
+    .v5-custom-info .v5-appDownload  .title-tip {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 49px;
+      width:100%;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item {
+      margin-bottom: 28px;
+      display: flex;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item svg {
+      margin-right: 24px;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item p {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 21px;
+      font-family: DINPro-Bold;
+      margin-bottom: 8px;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item span {
+      display: inline-block;
+      width: 340px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .v5-custom-info .download {
+      height: 44px;
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      width:50%
+    }
+    .v5-custom-info .download img {
+      margin-right: 8px;
+    }
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode .img {
+      display: inline-block;
+      width: 44px;
+      height: 44px;
+      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      padding: 13px;
+      box-sizing: border-box;
+    }
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode img {
+      width: 18px;
+      height: 18px;
+    }
+    .v5-custom-info .download .qrcode .hoverShow {
+      display: none;
+    }
+    .v5-custom-info .download .qrcode .hoverHide {
+      background: #ffffff;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverShow {
+      display: inline-block;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverHide {
+      display: none;
+    }
+    .v5-custom-info .download .download-store {
+      width: 160px;
+    }
+    .v5-custom-info .v5-appDownload  img.left {
+      width: 356px;
+      height:714px;
+    }
+    .v5-custom-info .v5-appDownload .app-preview{
+      margin-top:130px;
+    }
+    .v5-custom-info .v5-appDownload .qrcode-preview {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s;
+      border-radius: 8px;
+      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+      position: absolute;
+      left: 335px;
+      bottom: 56px;
+      padding: 15px 15px 0;
+      box-sizing: border-box;
+      background: #ffffff;
+    }
+    .v5-custom-info .v5-appDownload .qrcode-preview img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+    }
+    .v5-custom-info .v5-appDownload .qrcode-preview span {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode:hover +.qrcode-preview {
+      width: 150px;
+      height: 190px;
+      opacity: 1;
+    }
+    .v5-custom-info .v5-register-guide {
+      width: 100%;
+      height: 300px;
+      text-align: center;
+      padding-top: 66px;
+      box-sizing: border-box;
+    }
+    .v5-custom-info .v5-register-guide .title-text {
+      margin-bottom: 16px;
+    }
+    .v5-custom-info .v5-register-guide p {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 40px;
+    }
+    .v5-custom-info .v5-register-guide a {
+      display: flex;
+      margin: auto;
+      width: 240px;
+      height: 50px;
+      box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      padding: 0 20px;
+      justify-content: space-between;
+      box-sizing: border-box;
+      align-items: center;
+    }
+    .v5-custom-info .v5-register-guide a span {
+      font-size: 16px;
+    }
+    .v5-service .title-text {
+      font-size: 32px;
+      line-height: 40px;
+      margin-bottom: 90px !important;
+    }
+    .v5-custom-info .v5-service .service-content {
+      display: flex;
+      justify-content: space-between;
+    }
+     .v5-custom-info .v5-service .service-content .service-item {
+      width: 230px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dt {
+      height: 72px;
+      line-height: 72px;
+      margin-bottom: 50px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd div {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 13px;
+      font-weight: 500;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd span {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .v5-custom-info .v5-appDownload {
+      margin-top: 100px;
+    }
+  </style>
+  <div class="v5-guide">
+    <h2 class="title-text v5-5-cl">Beginner's guide</h2>
+    <div class="title-tip v5-7-cl">Quickly understand fiat curr</div>
+    <div class="guide-content">
+      <dl class="guide-item item-1">
+        <dt><img src="{{sourceMap.home_guide_1}}" alt=""></dt>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+      </dl>
+      <dl class="guide-item item-2">
+        <dt><img src="{{sourceMap.home_guide_2}}" alt=""></dt>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+      </dl>
+      <dl class="guide-item item-3">
+        <dt><img src="{{sourceMap.home_guide_3}}" alt=""></dt>
+        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="v5-appDownload">
+      <h2 class="title-text v5-5-cl">Trade anytime, anywhere</h2>
+      <h6 class="title-tip v5-6-cl">Tokencan quality products for you</h6>
+      <div>
+          <div class="app-introduce">
+            <img src="{{sourceMap.home_appview_3}}" alt="" class='left'>
+          </div>
+          <div class="app-preview">
+      
+          <ul>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <div>
+                <p class='v5-5-cl'>Tokencan quality products for you</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
+              </div>
+            </li>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <div>
+                <p class='v5-5-cl'>Custom trading panel</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
+              </div>
+            </li>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24"></svg>
+              <div>
+                <p class='v5-5-cl'>Custom trading panel</p>
+                <span class='v5-6-cl'>Provide a variety of transaction type selection, order speed combination</span>
+              </div>
+            </li>
+          </ul>
+          <div class="download">
+            <a href="">
+              <img class="download-store" src="{{sourceMap.om_btn_1}}" alt="">
+            </a>
+            <a href="">
+              <img class="download-store" src="{{sourceMap.om_btn_2}}" alt="">
+            </a>
+            <span class="qrcode">
+              <i class="img hoverHide">
+                <img src="" alt="">
+              </i>
+              <i class="img hoverShow">
+                <img src="" alt="">
+              </i>
+            </span>
+            <aside class="qrcode-preview">
+              <div>
+                <img src="" alt="">
+              </div>
+              <span>扫描二维码下载</span>
+            </aside>
+          </div>
+        </div>
+      </div>
+  </div>
+    <div class="v5-service">
+    <h2 class="title-text v5-5-cl" >Get in touch. Stay in touch.</h2>
+    <div class="service-content">
+      <dl class="service-item item-1">
+        <dt><img src="{{sourceMap.home_service_1}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-2">
+        <dt><img src="{{sourceMap.home_service_2}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-3">
+        <dt><img src="{{sourceMap.home_service_3}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>0 fee digital currency trading</div>
+          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-4">
+        <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
+        <dd>
+          <div class='v5-6-cl'>0 fee digital currency trading</div>
+          <span class='v5-7-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="v5-register-guide">
+    <h1 class="title-text v5-5-cl" >Want to Start trading right away?</h1>
+    <p class='v5-6-cl'>Register your account immediately and start trading.</p>
+    <a href="/register" class='v5-1-bg' style='color:#fff'>
+      <span >Register now</span>
+      <svg aria-hidden="true" class="icon icon-16"></svg>
+    </a>
+  </div>
+  <script></script>
+</section>
