@@ -116,6 +116,9 @@
     .v5-custom-info .v5-appDownload .app-introduce .download img {
       margin-right: 8px;
     }
+    .v5-custom-info .v5-appDownload .app-introduce .download .qrcode {
+      position: relative;
+    }
     .v5-custom-info .v5-appDownload .app-introduce .download .qrcode .img {
       display: inline-block;
       width: 44px;
@@ -125,7 +128,7 @@
       padding: 13px;
       box-sizing: border-box;
     }
-    .v5-custom-info .v5-appDownload .app-introduce .download .qrcode img {
+    .v5-custom-info .v5-appDownload .app-introduce .download .qrcode .img img {
       width: 18px;
       height: 18px;
     }
@@ -157,11 +160,16 @@
       border-radius: 8px;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       position: absolute;
-      left: 335px;
+      left: 0;
       bottom: 56px;
       padding: 15px 15px 0;
       box-sizing: border-box;
       background: #ffffff;
+    }
+    .v5-custom-info .v5-appDownload .qrcode-preview:hover {
+      width: 150px;
+      height: 190px;
+      opacity: 1;
     }
     .v5-custom-info .v5-appDownload .qrcode-preview img {
       width: 120px;
@@ -267,13 +275,13 @@
           <i class="img hoverShow">
             <img src="" alt="">
           </i>
+          <aside class="qrcode-preview">
+            <div>
+              <img src="" alt="">
+            </div>
+            <span>扫描二维码下载</span>
+          </aside>
         </span>
-        <aside class="qrcode-preview">
-          <div>
-            <img src="" alt="">
-          </div>
-          <span>扫描二维码下载</span>
-        </aside>
       </div>
     </div>
     <div class="app-preview">

@@ -69,7 +69,10 @@
       line-height: 24px;
     }
     .v5-custom-info .v5-appDownload {
+      width: 100%;
       margin-top: 160px;
+      box-shadow: 0px -6px 9px -3px rgba(0,0,0,0.1);
+      border-radius: 4px;
     }
     .v5-custom-info .v5-appDownload .app-introduce {
       padding-top: 45px;
@@ -91,8 +94,16 @@
       line-height: 21px;
       margin-bottom: 49px;
     }
+    .v5-custom-info .v5-appDownload .app-preview {
+      width: 100%;
+      height: 283px;
+      position: relative;
+      padding-left: 673px;
+      padding-top: 30px;
+      box-sizing: border-box;
+    }
     .v5-custom-info .v5-appDownload .app-preview .intro-item {
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       display: flex;
     }
     .v5-custom-info .v5-appDownload .app-preview .intro-item svg {
@@ -103,7 +114,7 @@
       font-size: 16px;
       line-height: 21px;
       font-family: DINPro-Bold;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .v5-custom-info .v5-appDownload .app-preview .intro-item span {
       display: inline-block;
@@ -121,6 +132,9 @@
     .v5-custom-info .v5-appDownload .header-text .download img {
       margin-right: 8px;
     }
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode {
+      position: relative;
+    }
     .v5-custom-info .v5-appDownload .header-text .download .qrcode .img {
       display: inline-block;
       width: 44px;
@@ -130,7 +144,7 @@
       padding: 13px;
       box-sizing: border-box;
     }
-    .v5-custom-info .v5-appDownload .header-text .download .qrcode img {
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode .img img {
       width: 18px;
       height: 18px;
     }
@@ -150,19 +164,30 @@
       width: 160px;
     }
     .v5-custom-info .v5-appDownload .app-preview img {
-      width: 501px;
+      width: 350px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .preview-img {
+      position: absolute;
+      width: 350px;
+      height: 360px;
+      left: 120px;
+      bottom: 0;
+      overflow: hidden;
     }
     .v5-custom-info .v5-appDownload .qrcode-preview {
       width: 0;
       height: 0;
-      opacity: 0;
       overflow: hidden;
+      opacity: 0;
       text-align: center;
       transition: all 0.3s;
       border-radius: 8px;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       position: absolute;
-      left: 335px;
+      left: 0;
       bottom: 56px;
       padding: 15px 15px 0;
       box-sizing: border-box;
@@ -177,7 +202,7 @@
       font-size: 14px;
       line-height: 20px;
     }
-    .v5-custom-info .v5-appDownload .header-text .download .qrcode:hover +.qrcode-preview {
+    .v5-custom-info .v5-appDownload .header-text .download .qrcode:hover .qrcode-preview {
       width: 150px;
       height: 190px;
       opacity: 1;
@@ -188,6 +213,7 @@
       text-align: center;
       padding-top: 66px;
       box-sizing: border-box;
+      margin-top: 204px;
     }
     .v5-custom-info .v5-register-guide .title-text {
       margin-bottom: 16px;
@@ -281,17 +307,19 @@
           <i class="img hoverShow">
             <img src="" alt="">
           </i>
+          <aside class="qrcode-preview">
+            <div>
+              <img src="" alt="">
+            </div>
+            <span>扫描二维码下载</span>
+          </aside>
         </span>
-        <aside class="qrcode-preview">
-          <div>
-            <img src="" alt="">
-          </div>
-          <span>扫描二维码下载</span>
-        </aside>
       </div>
     </div>
     <div class="app-preview">
-      <img src="{{sourceMap.home_appview_1}}" alt="">
+      <div class="preview-img">
+        <img src="{{sourceMap.home_appview_2}}" alt="">
+      </div>
       <ul>
         <li class="intro-item">
           <svg aria-hidden="true" class="icon icon-24"></svg>
