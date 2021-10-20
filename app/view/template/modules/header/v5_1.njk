@@ -1,5 +1,10 @@
-<header class="common-header top-common-header" id="common-header">
+<header class="v5-header common-header top-common-header" id="common-header">
   <style>
+    .common-header.top-common-header.v5-header {
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
     .inx .solidBc {
       display: none;
     }
@@ -1108,20 +1113,18 @@
     {% if number(switch.agentUserOpen) or number(switch.is_return_open) or
     number(switch.is_financing_open)%}
     <li
-      class="header-navEven"
+      class="header-navEven v5-10-cl"
       data-link="/broker"
       data-id=""
       data-trades="true"
       data-target="false"
     >
-      <a class="x-2-cl g-3-cl-h" href="/broker">
-        <!-- 经纪人系统 -->
-        {{ locale.header.broker }}
-      </a>
+      <!-- 经纪人系统 -->
+      {{ locale.header.broker }}
     </li>
     {% endif %} {% for item in headerNavList %}
     <li
-      class="header-navEven"
+      class="header-navEven v5-10-cl"
       data-link="{{ item.httpUrl }}"
       data-id="{{ item.id }}"
       data-trades="true"
@@ -1129,11 +1132,11 @@
     >
       {{ item.title }}
       {% if item.childList.length > 0 %}
-      <ul class="header-navEven-list h-1-bg">
+      <ul class="header-navEven-list">
         {% for i in item.childList%}
         <li
-          class="x-2-cl"
-          data-link="{{ i.link }}"
+          class="v5-10-cl"
+          data-link="{{ i.httpUrl }}"
           data-id="{{ i.id }}"
           data-trades="true"
           data-target="false"
@@ -1358,7 +1361,7 @@
   <script>
     ;(function () {
       const { getScript } = window.BlockChainUtils
-      const extendPath = '{{sourceMap.headerExtend}}'
+      const extendPath = '{{sourceMap.headerExtendV5}}'
       if (extendPath && !window.HeaderExtend) {
         getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
           class Header extends window.HeaderExtend {
