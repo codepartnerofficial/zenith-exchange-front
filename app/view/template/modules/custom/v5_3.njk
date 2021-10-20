@@ -30,10 +30,23 @@
     .v5-custom-info .v5-guide .guide-item dt {
       width: 100%;
       margin-bottom: 16px;
+      position:relative;
     }
     .v5-custom-info .v5-guide .guide-item dt img {
       width: 386px;
       height: 240px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt span{
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.1);
+      display:none;
+    }
+    .v5-custom-info .v5-guide .guide-item dt:hover span{
+      display:block;
     }
     .v5-custom-info .v5-guide .guide-item dd {
       font-size: 16px;
@@ -234,15 +247,18 @@
     <div class="title-tip v5-7-cl">Quickly understand fiat curr</div>
     <div class="guide-content">
       <dl class="guide-item item-1">
-        <dt><img src="{{sourceMap.home_guide_1}}" alt=""></dt>
+        <dt>
+          <img src="{{sourceMap.home_guide_1}}" alt="">
+          <span></span>
+        </dt>
         <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
       <dl class="guide-item item-2">
-        <dt><img src="{{sourceMap.home_guide_2}}" alt=""></dt>
+        <dt><img src="{{sourceMap.home_guide_2}}" alt=""><span></span></dt>
         <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
       <dl class="guide-item item-3">
-        <dt><img src="{{sourceMap.home_guide_3}}" alt=""></dt>
+        <dt><img src="{{sourceMap.home_guide_3}}" alt=""><span></span></dt>
         <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
       </dl>
     </div>
