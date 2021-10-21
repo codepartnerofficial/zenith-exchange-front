@@ -1,7 +1,15 @@
 <header class="v5-header common-header top-common-header v5-10-bg static" id="common-header">
   <style>
-    .v5-header.static {
+    .common-header.top-common-header.v5-header {
+      position: fixed;
+      left: 0;
+      top: 0;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+    }
+    .common-header.top-common-header.v5-header.static {
       background: rgba(0, 0, 0, 0.15)!important;
+      border: none;
     }
     .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static a {
       color: #ffffff!important;
@@ -368,7 +376,7 @@
       margin-right: 16px;
       padding: 0 22px;
       height: 30px;
-      border-radius: 2px;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user {
@@ -1181,7 +1189,7 @@
         </div>
       </button>
       <button
-        class="common-button header-reg-button common-button-hollow-big"
+        class="common-button header-reg-button common-button-hollow-big v5-1-bg"
         style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px"
       >
         <div class="common-button-slot">
@@ -1192,12 +1200,12 @@
     <div class="header-isLogin login-set" style="display: none">
       <!-- 资产 -->
       <div class="header-isLogin-navEven">
-        <div class="header-isLogin-navEven-title">
+        <div class="header-isLogin-navEven-title v5-5-cl">
           {{ locale.header.assets }}
         </div>
-        <ul class="lang-list h-1-bg">
+        <ul class="lang-list v5-10-bg">
           {% for item in assetsList %}
-          <li class="b-2-cl" data-link="{{ item.link }}">{{ item.title }}</li>
+          <li class="v5-5-cl" data-link="{{ item.link }}">{{ item.title }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -1206,10 +1214,10 @@
         <div class="header-isLogin-navEven-title">
           {{ locale.header.order }}
         </div>
-        <ul class="lang-list h-1-bg">
+        <ul class="lang-list v5-10-bg">
           <!--  || activeMark === item.link -->
           {% for item in orderList %}
-          <li class="b-2-cl" data-link="{{ item.link }}">{{ item.title }}</li>
+          <li class="v5-5-cl" data-link="{{ item.link }}">{{ item.title }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -1229,13 +1237,13 @@
           </svg>
         </div>
       </div>
-      <div class="header-user-appdown h-1-bg">
+      <div class="header-user-appdown v5-10-bg">
         <div class="code-box">
           <div class="download-options-code">
             <img src="{{ appDownLoad.app_page_url }}" alt="" />
           </div>
           <!-- 扫描二维码下载 -->
-          <p class="download-options-codeText">
+          <p class="download-options-codeText v5-5-cl">
             {{ locale.appDownLoad.headerCode }}
           </p>
         </div>
@@ -1349,9 +1357,9 @@
         {{item.name}} | {{item.defaultFiat.toUpperCase()}}
         {% endif %} {% endfor %}
       </div>
-      <ul class="lang-list h-1-bg b-2-cl">
+      <ul class="lang-list v5-10-bg v5-5-cl">
         {% for item in lanList %} {% if currenLan === item.id %}
-        <li data-key="/{{ item.id }}" class="h-4-bg x-3-cl">
+        <li data-key="/{{ item.id }}" class="v5-1-cl v5-14-bg">
           {{ item.name }}
         </li>
         {% else %}

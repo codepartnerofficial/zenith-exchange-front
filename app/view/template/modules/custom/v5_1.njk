@@ -4,6 +4,9 @@
       font-family: DINPro-Medium;
       font-weight: 500;
     }
+    .v5-custom-info .v5-guide, .v5-custom-info .v5-appDownload, .v5-custom-info .v5-service, .v5-custom-info .v5-register-guide {
+      transition: all 0.5s;
+    }
     .v5-custom-info .title-text {
       font-size: 36px;
       line-height: 46px;
@@ -223,7 +226,7 @@
   {% if footer_warm_prompt %}
   <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
   {% else %}
-  <div class="v5-guide">
+  <div class="v5-guide effect-fade">
     <h2 class="title-text v5-5-cl">Beginner's guide</h2>
     <div class="title-tip v5-6-cl">Quickly understand fiat curr</div>
     <div class="guide-content">
@@ -241,7 +244,7 @@
       </dl>
     </div>
   </div>
-  <div class="v5-appDownload">
+  <div class="v5-appDownload effect-fade">
     <div class="app-introduce">
       <h2 class="title-text v5-5-cl">Trade anytime, anywhere</h2>
       <div class="title-tip v5-6-cl">Tokencan quality products for you</div>
@@ -301,7 +304,7 @@
       <img src="{{sourceMap.home_appview_1}}" alt="">
     </div>
   </div>
-  <div class="v5-service">
+  <div class="v5-service effect-fade">
     <h2 class="title-text v5-5-cl">Get in touch. Stay in touch.</h2>
     <div class="service-content">
       <dl class="service-item item-1">
@@ -334,7 +337,7 @@
       </dl>
     </div>
   </div>
-  <div class="v5-register-guide v5-1-bg">
+  <div class="v5-register-guide effect-fade v5-1-bg">
     <h1 class="title-text v5-10-cl">Want to Start trading right away?</h1>
     <p class="v5-10-cl">Register your account immediately and start trading.</p>
     <a href="/register" class="v5-13-bg">
@@ -343,5 +346,50 @@
     </a>
   </div>
   {% endif %}
-  <script></script>
+  <script>
+    (() => {
+      class customExtend {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          const $custom = document.querySelector('.v5-custom-info');
+          const $guide = document.querySelector('.v5-guide');
+          const $appDownload = document.querySelector('.v5-appDownload');
+          const $service = document.querySelector('.v5-service');
+          const $registerGuide = document.querySelector('.v5-register-guide');
+          const { clientHeight } =  document.documentElement;
+          window.addEventListener('scroll', () => {
+            const { scrollY } = window;
+            if ($guide) {
+              const g_offset = $guide.offsetTop;
+              if (g_offset < (clientHeight + scrollY - 100)) {
+                $guide.classList.remove('effect-fade');
+              }
+            }
+            if ($appDownload) {
+              const a_offset = $appDownload.offsetTop;
+              if (a_offset < (clientHeight + scrollY - 100)) {
+                $appDownload.classList.remove('effect-fade');
+              }
+            }
+            if ($service) {
+              const s_offset = $service.offsetTop;
+              if (s_offset < (clientHeight + scrollY - 100)) {
+                $service.classList.remove('effect-fade');
+              }
+            }
+            if ($registerGuide) {
+              const r_offset = $registerGuide.offsetTop;
+              if (r_offset < (clientHeight + scrollY - 100)) {
+                $registerGuide.classList.remove('effect-fade');
+              }
+            }
+          })
+        }
+      }
+      new customExtend();
+    })()
+  </script>
 </section>

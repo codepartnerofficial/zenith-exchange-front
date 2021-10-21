@@ -1,12 +1,15 @@
-<header class="v5-header common-header top-common-header v5-10-bg static" id="common-header">
+<header class="v5-header common-header top-common-header v5-10-bg static v5-11-bd" id="common-header">
   <style>
     .common-header.top-common-header.v5-header {
       position: fixed;
       left: 0;
       top: 0;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
     }
-    .v5-header.static {
+    .common-header.top-common-header.v5-header.static {
       background: rgba(0, 0, 0, 0.15)!important;
+      border: none;
     }
     .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static a {
       color: #ffffff!important;
@@ -360,7 +363,7 @@
       margin-right: 16px;
       padding: 0 22px;
       height: 30px;
-      border-radius: 2px;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user {
@@ -631,10 +634,6 @@
       padding: 12px 20px;
       font-size: 14px;
       display: block;
-    }
-
-    .top-common-header . {
-      border-color: #293448 !important;
     }
 
     .setBox {
@@ -1339,9 +1338,9 @@
         {{item.name}} | {{item.defaultFiat.toUpperCase()}}
         {% endif %} {% endfor %}
       </div>
-      <ul class="lang-list h-1-bg b-2-cl">
+      <ul class="lang-list v5-10-bg v5-5-cl">
         {% for item in lanList %} {% if currenLan === item.id %}
-        <li data-key="/{{ item.id }}" class="h-4-bg x-3-cl">
+        <li data-key="/{{ item.id }}" class="v5-1-cl v5-14-bg">
           {{ item.name }}
         </li>
         {% else %}

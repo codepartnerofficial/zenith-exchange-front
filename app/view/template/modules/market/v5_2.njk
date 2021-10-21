@@ -201,6 +201,17 @@
                       window.emitter.on('MARKET-DATA', (data) => {
                         this.setData(data);
                       })
+                      const $market = document.querySelector('.v5-market');
+                      const { clientHeight } =  document.documentElement;
+                      window.addEventListener('scroll', () => {
+                        const { scrollY } = window;
+                        if ($market) {
+                          const offset = $market.offsetTop;
+                          if (offset < (clientHeight + scrollY - 100)) {
+                            $market.classList.remove('effect-fade');
+                          }
+                        }
+                      })
                     }
 
                     setDomTree() {
