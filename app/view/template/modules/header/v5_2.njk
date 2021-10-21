@@ -1131,21 +1131,7 @@
         <img src="{{ msg.logoUrl }}" />
       </a>
     </li>
-    {% if number(switch.agentUserOpen) or number(switch.is_return_open) or
-    number(switch.is_financing_open)%}
-    <li
-      class="header-navEven"
-      data-link="/broker"
-      data-id=""
-      data-trades="true"
-      data-target="false"
-    >
-      <a class="v5-5-cl" href="/broker">
-        <!-- 经纪人系统 -->
-        {{ locale.header.broker }}
-      </a>
-    </li>
-    {% endif %} {% for item in headerNavList %}
+    {% for item in headerNavList %}
     <li
       class="header-navEven v5-5-cl"
       data-link="{{ item.httpUrl }}"

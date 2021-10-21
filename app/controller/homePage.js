@@ -265,9 +265,55 @@ class StaticIndex extends Controller {
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
       randomToken: this.randomToken,
       recommendMarket,
-      headerNavList,
+      headerNavList: this.handleNavList(headerNavList, domain),
     });
   }
+
+  handleNavList(navList, domain) {
+    const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
+    const { url } = this.publicInfo;
+    const cookieIsNewSwap = this.ctx.cookies.get('isNewSwap', {
+      signed: false,
+    });
+    let isNewSwap = false;
+    if (cookieIsNewSwap) {
+      if (cookieIsNewSwap === '1') {
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
+    } else {
+      if (this.publicInfo
+            && this.publicInfo.switch.contract_version_settings === '1') {
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
+    }
+    this.ctx.cookies.set('isNewSwap', isNewSwap ? '1' : '0', {
+      httpOnly: false,
+      domain: cookieDomain,
+    });
+    if (url) {
+      let coUrl = url.coUrl;
+      if (url.coUrlNew || url.coUrlOld) {
+        coUrl = isNewSwap ? url.coUrlNew : url.coUrlOld;
+      }
+      const formatList = navList.map(item => {
+        const type = item.type ? item.type.toString() : '';
+        if (type === '1') {
+          item.httpUrl = url.exUrl + item.httpUrl;
+        } else if (type === '2') {
+          item.httpUrl = url.otcUrl + item.httpUrl;
+        } else if (type === '3') {
+          item.httpUrl = coUrl + item.httpUrl;
+        }
+        return item;
+      });
+      return formatList;
+    }
+  }
+
   getSEO() {
     const seo = this.publicInfo.seo || {};
     return {
