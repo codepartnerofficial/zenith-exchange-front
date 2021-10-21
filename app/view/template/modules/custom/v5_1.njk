@@ -220,6 +220,9 @@
       font-size: 16px;
     }
   </style>
+  {% if footer_warm_prompt %}
+  <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
+  {% else %}
   <div class="v5-guide">
     <h2 class="title-text v5-5-cl">Beginner's guide</h2>
     <div class="title-tip v5-6-cl">Quickly understand fiat curr</div>
@@ -339,5 +342,6 @@
       <span class="v5-10-cl">→</span>
     </a>
   </div>
+  {% endif %}
   <script></script>
 </section>
