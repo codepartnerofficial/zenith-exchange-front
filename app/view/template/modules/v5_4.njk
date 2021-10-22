@@ -17,16 +17,19 @@
       margin-top: 120px;
     }
   </style>
-  {% include "./swiper/v5_1.njk" %}
+  {% include "./swiper/v5_4.njk" %}
+  {% include "./recommend/v5_3.njk" %}
   {% if noticeList.length > 0 %}
   {% import "./noticeInfo/v5.njk" as notice %}
   {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
   {% endif %}
+  {% include "./swiper/swiper-min.njk" %}
+  
   <div class="v501-market">
     <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>
     {% include "./market/v5_1.njk" %}
   </div>
-  {% include "./custom/v5_3.njk"%}
+  {% include "./custom/v5_4.njk"%}
   <script>
     (() => {})()
   </script>
