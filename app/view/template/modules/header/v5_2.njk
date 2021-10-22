@@ -11,10 +11,10 @@
       background: rgba(0, 0, 0, 0.15)!important;
       border: none;
     }
-    .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static a {
+    .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static .link-btn {
       color: #ffffff!important;
     }
-    .v5-header.static li.header-navEven:hover {
+    .v5-header.static li.header-navEven:hover, .v5-header.static .link-btn:hover {
       color: #2762FF!important;
     }
     .inx .solidBc {
@@ -1170,7 +1170,7 @@
         class="common-button header-login-button common-button-text-kind"
         style="margin-top: 0px"
       >
-        <div class="common-button-slot">
+        <div class="common-button-slot link-btn">
           {{ locale.header.login }}
         </div>
       </button>
@@ -1187,7 +1187,7 @@
       <!-- 资产 -->
       <div class="header-isLogin-navEven">
         <div class="header-isLogin-navEven-title v5-5-cl">
-          {{ locale.header.assets }}
+          <span class="link-btn">{{ locale.header.assets }}</span>
         </div>
         <ul class="lang-list v5-10-bg">
           {% for item in assetsList %}
@@ -1198,7 +1198,9 @@
       <!-- 订单 -->
       <div class="header-isLogin-navEven">
         <div class="header-isLogin-navEven-title">
-          {{ locale.header.order }}
+          <span class="link-btn">
+            {{ locale.header.order }}
+          </span>
         </div>
         <ul class="lang-list v5-10-bg">
           <!--  || activeMark === item.link -->
@@ -1307,9 +1309,9 @@
           <use xlink:href="#icon-b_3_1"></use>
         </svg>
       </div>
-      <div class="header-user-message h-1-bg goMessage">
+      <div class="header-user-message v5-10-bg goMessage">
         <ul class="header-user-text"></ul>
-        <div class="header-user-out h-4-bg x-3-cl">
+        <div class="header-user-out v5-14-bg v5-3-1-cl">
           {{ locale.header.more }}
         </div>
       </div>
@@ -1326,12 +1328,12 @@
           <use xlink:href="#icon-b_4_1"></use>
         </svg>
       </div>
-      <div class="header-user-market h-1-bg">
+      <div class="header-user-market v5-10-bg">
         <ul class="header-user-text">
-          <li class="x-3-cl userText goPersonal"></li>
-          <li class="x-2-cl userStatus"></li>
+          <li class="v5-1-cl userText goPersonal"></li>
+          <li class="v5-5-cl userStatus"></li>
         </ul>
-        <div class="header-user-out h-4-bg x-3-cl logout">
+        <div class="header-user-out v5-14-bg v5-1-cl logout">
           <!-- 退出 -->
           {{ locale.header.out }}
         </div>
@@ -1340,7 +1342,7 @@
     <div class="header-lang x-2-cl">
       <div class="show-lang">
         {% for item in lanList %} {% if currenLan === item.id %}
-        {{item.name}} | {{item.defaultFiat.toUpperCase()}}
+        {{item.name}}
         {% endif %} {% endfor %}
       </div>
       <ul class="lang-list v5-10-bg v5-5-cl">
