@@ -1,4 +1,4 @@
-<header class="v5-header common-header top-common-header v5-10-bg static v5-11-bd" id="common-header">
+<header class="v5-header common-header top-common-header v5-10-bg static v5-12-bd" id="common-header">
   <style>
     .common-header.top-common-header.v5-header {
       position: fixed;
@@ -323,18 +323,19 @@
       position: absolute;
       top: 60px;
       left: -20px;
-      padding: 10px 0;
+      padding: 12px 8px;
       box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-isLogin-navEven .lang-list li {
       cursor: pointer;
       text-align: left;
-      min-width: 160px;
-      padding: 0 20px;
-      font-size: 12px;
-      line-height: 40px;
-      height: 40px;
+      min-width: 144px;
+      padding: 0 12px;
+      font-size: 14px;
+      line-height: 36px;
+      height: 36px;
       box-sizing: border-box;
     }
 
@@ -349,7 +350,8 @@
 
     .top-common-header .common-header-optionList .header-guide {
       float: left;
-      padding: 15px 20px;
+      height: 60px;
+      line-height: 60px;
       vertical-align: middle;
     }
 
@@ -360,7 +362,7 @@
 
     .top-common-header .common-header-optionList .header-guide .header-reg-button {
       font-size: 14px !important;
-      margin-right: 16px;
+      margin-right: 0;
       padding: 0 22px;
       height: 30px;
       border-radius: 4px;
@@ -369,27 +371,29 @@
     .top-common-header .common-header-optionList .header-user {
       float: left;
       height: 60px;
-      width: 60px;
-      line-height: 62px;
+      margin-left: 32px;
+      line-height: 60px;
       text-align: center;
       position: relative;
+      display: flex;
+      align-items: center;
     }
 
+    
+    .top-common-header .common-header-optionList .header-user:hover .icon-info {
+      display: none;
+    }
+    
+    .top-common-header .common-header-optionList .header-user .icon-active {
+      display: none;
+    }
+    
     .top-common-header .common-header-optionList .header-user:hover .header-user-market,
     .top-common-header .common-header-optionList .header-user:hover .message-list,
     .top-common-header .common-header-optionList .header-user:hover .header-user-appdown,
     .top-common-header .common-header-optionList .header-user:hover .icon-active {
       display: block;
     }
-
-    .top-common-header .common-header-optionList .header-user:hover .icon-info {
-      display: none;
-    }
-
-    .top-common-header .common-header-optionList .header-user .icon-active {
-      display: none;
-    }
-
     .top-common-header .common-header-optionList .header-user .header-user-market {
       padding-bottom: 10px;
     }
@@ -474,14 +478,14 @@
       box-sizing: border-box;
       left: auto;
       right: 0;
-      height: 177px;
-      width: 340px;
-      padding: 30px 40px;
+      width: 160px;
+      height: auto;
+      padding: 16px 16px 12px;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box {
-      width: 90px;
-      float: left;
+      width: 128px;
     }
 
     .top-common-header
@@ -490,8 +494,8 @@
       .header-user-appdown
       .code-box
       .download-options-code {
-      width: 90px;
-      height: 90px;
+      width: 128px;
+      height: 128px;
       overflow: hidden;
     }
 
@@ -502,10 +506,9 @@
       .code-box
       .download-options-code
       img {
-      width: 110px;
+      width: 128px;
+      height: 128px;
       position: relative;
-      top: -10px;
-      left: -10px;
     }
 
     .top-common-header
@@ -514,13 +517,12 @@
       .header-user-appdown
       .code-box
       .download-options-codeText {
-      font-family: PingFangSC-Regular;
       font-size: 12px;
       line-height: 12px;
       color: #828ea1;
       letter-spacing: 0;
       text-align: center;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .top-common-header
@@ -528,7 +530,7 @@
       .header-user
       .header-user-appdown
       .download-options-buttons {
-      float: right;
+        margin-top: 12px;
     }
 
     .top-common-header
@@ -538,7 +540,11 @@
       .download-options-buttons
       button {
       display: block;
-      width: 130px;
+      width: 136px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 4px;
+      color: #ffffff;
     }
 
     .top-common-header
@@ -577,19 +583,21 @@
       position: absolute;
       top: 60px;
       right: 0px;
-      padding: 10px 0;
+      padding: 12px 8px;
       box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-lang .lang-list li {
       cursor: pointer;
       text-align: left;
-      min-width: 160px;
-      padding: 0 20px;
-      font-size: 12px;
-      line-height: 40px;
-      height: 40px;
+      min-width: 144px;
+      padding: 0 12px;
+      font-size: 14px;
+      line-height: 36px;
+      height: 36px;
       box-sizing: border-box;
+      border-radius: 4px;
     }
 
     .top-common-header .messageCount {
@@ -843,12 +851,7 @@
     }
 
     .common-header .header-user-icon .icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
+      
     }
 
     .drop-enter-active {
@@ -1158,8 +1161,8 @@
         </div>
       </button>
       <button
-        class="common-button header-reg-button common-button-hollow-big v5-1-bg v5-10-cl"
-        style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px"
+        class="common-button header-reg-button common-button-hollow-big v5-1-bg"
+        style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px; color: #ffffff";
       >
         <div class="common-button-slot">
           {{ locale.header.register }}
@@ -1180,7 +1183,7 @@
       </div>
       <!-- 订单 -->
       <div class="header-isLogin-navEven">
-        <div class="header-isLogin-navEven-title">
+        <div class="header-isLogin-navEven-title v5-5-cl">
           <span class="link-btn">
             {{ locale.header.order }}
           </span>
@@ -1197,15 +1200,11 @@
     {% if appDownLoad.app_page_url %}
     <div class="header-user appdownLoad-coin">
       <div class="header-user-apphove">
-        <div class="header-user-icon icon-info">
-          <svg class="icon icon-18" aria-hidden="true">
-            <use xlink:href="#icon-b_33"></use>
-          </svg>
+        <div class="header-user-icon icon-info v5-5-cl link-btn">
+          {{locale.h5Add.download}}
         </div>
-        <div class="header-user-icon icon-active">
-          <svg class="icon icon-18" aria-hidden="true">
-            <use xlink:href="#icon-b_33_1"></use>
-          </svg>
+        <div class="header-user-icon icon-active link-btn v5-1-cl">
+          {{locale.h5Add.download}}
         </div>
       </div>
       <div class="header-user-appdown v5-10-bg">
@@ -1221,14 +1220,7 @@
 
         <div class="download-options-buttons">
           <button
-            class="common-button common-button-solid u-8-bg u-16-cl download-button"
-            style="
-              height: 40px;
-              line-height: 40px;
-              padding-left: 20px;
-              padding-right: 20px;
-              margin-top: 0px;
-            "
+            class="common-button common-button-solid v5-1-bg download-button"
           >
             <div class="common-button-slot">
               <svg aria-hidden="true" class="icon icon-18">
@@ -1237,18 +1229,9 @@
               &nbsp;
               {{ locale.appDownLoad.platform[0] }}
             </div>
-            <div class="solidBc bghover u-14-bg"></div>
-            <div class="solidBc bgactive u-15-bg"></div>
           </button>
           <button
-            class="common-button common-button-solid u-8-bg u-16-cl download-button"
-            style="
-              height: 40px;
-              line-height: 40px;
-              padding-left: 20px;
-              padding-right: 20px;
-              margin-top: 0px;
-            "
+            class="common-button common-button-solid v5-1-bg download-button"
           >
             <div class="common-button-slot">
               <svg aria-hidden="true" class="icon icon-18">
@@ -1257,8 +1240,6 @@
               &nbsp;
               {{ locale.appDownLoad.platform[1] }}
             </div>
-            <div class="solidBc bghover u-14-bg"></div>
-            <div class="solidBc bgactive u-15-bg"></div>
           </button>
         </div>
       </div>
@@ -1322,11 +1303,13 @@
         </div>
       </div>
     </div>
-    <div class="header-lang x-2-cl">
-      <div class="show-lang">
-        {% for item in lanList %} {% if currenLan === item.id %}
-        {{item.name}}
-        {% endif %} {% endfor %}
+    <div class="header-lang">
+      <div class="header-isLogin-navEven-title v5-5-cl">
+        <span class="link-btn">
+          {% for item in lanList %} {% if currenLan === item.id %}
+          {{item.name}}
+          {% endif %} {% endfor %}
+        </span>
       </div>
       <ul class="lang-list v5-10-bg v5-5-cl">
         {% for item in lanList %} {% if currenLan === item.id %}
@@ -1334,7 +1317,7 @@
           {{ item.name }}
         </li>
         {% else %}
-        <li data-key="/{{ item.id }}">
+        <li data-key="/{{ item.id }}" class="v5-5-cl">
           {{ item.name }}
         </li>
         {% endif %} {% endfor %}
@@ -1352,7 +1335,7 @@
           <use xlink:href="#icon-c_14_1"></use>
         </svg>
       </section>
-      <span class="b-1-cl">{{ item.mainClor }}</span>
+      <span class="v5-5-cl">{{ item.mainClor }}</span>
     </li>
     {% endfor %}
   </ul>

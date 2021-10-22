@@ -268,6 +268,7 @@ class StaticIndex extends Controller {
       randomToken: this.randomToken,
       recommendMarket,
       headerNavList: this.handleNavList(headerNavList, domain),
+      defaultFooter: this.getDefaultFooter(),
     });
   }
 
@@ -351,6 +352,20 @@ class StaticIndex extends Controller {
       template = header_navigation_type && header_navigation_type.toString() === '1' ? 'v5_1' : 'v5_2';
     }
     return `modules/header/${template}.njk`;
+  }
+
+  getDefaultFooter() {
+    let template = 'china';
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_temp_type } = this.publicInfo.switch;
+    if (tempList.indexOf(index_temp_type) > -1) {
+      if (index_temp_type === '51' || index_temp_type === '53') {
+        template = 'v5_3';
+      } else {
+        template = 'v5_4';
+      }
+    }
+    return `modules/footer/${template}.njk`;
   }
 
   getSelectSkin() {

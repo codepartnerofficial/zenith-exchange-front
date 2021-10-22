@@ -178,8 +178,18 @@
         {% endif %}
         {% endfor %}
         <li class="more">
-          <span class="hoverHide v5-6-cl">{{locale.home.moreMarket}}＞</span>
-          <span class="hoverShow v5-1-cl">{{locale.home.moreMarket}}＞</span>
+          <span class="hoverHide v5-6-cl">
+            {{locale.home.moreMarket}}
+            <svg aria-hidden="true" class="icon icon-12">
+              <use xlink:href="#icon-v5_3"></use>
+            </svg>
+          </span>
+          <span class="hoverShow v5-1-cl">
+            {{locale.home.moreMarket}}
+            <svg aria-hidden="true" class="icon icon-12">
+              <use xlink:href="#icon-v5_3"></use>
+            </svg>
+          </span>
         </li>
     </ul>
     <script>
@@ -201,17 +211,22 @@
                       window.emitter.on('MARKET-DATA', (data) => {
                         this.setData(data);
                       })
-                      const $market = document.querySelector('.v5-market');
-                      const { clientHeight } =  document.documentElement;
+                      this.$market = document.querySelector('.v5-market');
+                      this.clientHeight =  document.documentElement.clientHeight;
+                      this.setFade()
                       window.addEventListener('scroll', () => {
-                        const { scrollY } = window;
+                        this.setFade()
+                      })
+                    }
+
+                    setFade() {
+                      const { scrollY } = window;
                         if ($market) {
-                          const offset = $market.offsetTop;
-                          if (offset < (clientHeight + scrollY - 100)) {
-                            $market.classList.remove('effect-fade');
+                          const offset = this.$market.offsetTop;
+                          if (offset < (this.clientHeight + scrollY - 100)) {
+                            this.$market.classList.remove('effect-fade');
                           }
                         }
-                      })
                     }
 
                     setDomTree() {
