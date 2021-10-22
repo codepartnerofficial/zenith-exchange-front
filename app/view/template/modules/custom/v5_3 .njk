@@ -56,12 +56,7 @@
       line-height: 26px;
     }
     .v5-custom-info .v5-service {
-      {# margin-top: 160px; #}
-    }
-   
-    
-   
-    .v5-custom-info .v5-appDownload .app-introduce {
+      margin-bottom:160px;
     }
     .v5-custom-info .v5-appDownload  {
       
@@ -118,7 +113,7 @@
     .v5-custom-info .download img {
       margin-right: 8px;
     }
-    .v5-custom-info .v5-appDownload .header-text .download .qrcode .img {
+    .v5-custom-info .download .qrcode .img {
       display: inline-block;
       width: 44px;
       height: 44px;
@@ -127,38 +122,25 @@
       padding: 13px;
       box-sizing: border-box;
     }
-    .v5-custom-info .v5-appDownload .header-text .download .qrcode img {
+    .v5-custom-info .download .qrcode img {
       width: 18px;
       height: 18px;
     }
-     .v5-custom-info .v5-appDownload .app-preview .intro-item svg {
+     .v5-custom-info .app-preview .intro-item svg {
       margin-right: 24px;
       width:24px;
       height:17px;margin-top:10px;
     }
-    .v5-custom-info .download .qrcode .hoverShow {
-      display: none;
-    }
-    .v5-custom-info .download .qrcode .hoverHide {
-      background: #ffffff;
-    }
-    .v5-custom-info .download .qrcode:hover .hoverShow {
-      display: inline-block;
-    }
-    .v5-custom-info .download .qrcode:hover .hoverHide {
-      display: none;
-    }
+    
     .v5-custom-info .download .download-store {
       width: 160px;
     }
-    .v5-custom-info .v5-appDownload  img.left {
+    .v5-custom-info .download  img.left {
       width: 356px;
       height:714px;
     }
-    .v5-custom-info .v5-appDownload .app-preview{
-      margin-top:130px;
-    }
-    .v5-custom-info .v5-appDownload .qrcode-preview {
+    
+    .v5-custom-info .download .qrcode-preview {
       width: 0;
       height: 0;
       opacity: 0;
@@ -174,20 +156,21 @@
       box-sizing: border-box;
       background: #ffffff;
     }
-    .v5-custom-info .v5-appDownload .qrcode-preview img {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-    }
-    .v5-custom-info .v5-appDownload .qrcode-preview span {
-      font-size: 14px;
-      line-height: 20px;
-    }
-    .v5-custom-info .v5-appDownload .header-text .download .qrcode:hover +.qrcode-preview {
+    .v5-custom-info .v5-appDownload .qrcode-preview:hover {
       width: 150px;
       height: 190px;
       opacity: 1;
     }
+    .v5-custom-info .download .qrcode-preview img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+    }
+    .v5-custom-info .download .qrcode-preview span {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    
     .v5-custom-info .v5-register-guide {
       width: 100%;
       height: 300px;
@@ -248,6 +231,30 @@
     .v5-custom-info .v5-appDownload {
       margin-top: 100px;
     }
+    .v5-custom-info .download .qrcode .hoverShow {
+      display: none;
+    }
+    .v5-custom-info .download .qrcode .hoverHide {
+      background: #ffffff;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverShow {
+      display: inline-block;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverHide {
+      display: none;
+    }
+    .v5-custom-info  .download .qrcode:hover .qrcode-preview {
+      width: 150px;
+      height: 190px;
+      opacity: 1;
+    }
+    .v5-custom-info .v5-appDownload .app-introduce img{
+      width:356px;
+      height:714px;
+    }
+    .v5-custom-info .app-preview{
+      margin-top:130px;
+    }
   </style>
   {% if footer_warm_prompt %}
   <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
@@ -285,8 +292,8 @@
       
           <ul>
             <li class="intro-item">
-              <svg class="icon icon-14" aria-hidden="true">
-                <use xlink:href="#icon-a_14_1"></use>
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
               </svg>
               <div>
                 <p class='v5-5-cl'>Tokencan quality products for you</p>
@@ -294,8 +301,8 @@
               </div>
             </li>
             <li class="intro-item">
-              <svg class="icon icon-14" aria-hidden="true">
-                <use xlink:href="#icon-a_14_1"></use>
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
               </svg>
               <div>
                 <p class='v5-5-cl'>Custom trading panel</p>
@@ -303,8 +310,8 @@
               </div>
             </li>
             <li class="intro-item">
-              <svg class="icon icon-14" aria-hidden="true">
-                <use xlink:href="#icon-a_14_1"></use>
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
               </svg>
               <div>
                 <p class='v5-5-cl'>Custom trading panel</p>
@@ -321,16 +328,16 @@
             </a>
             <span class="qrcode">
               <i class="img hoverHide">
-                <img src="" alt="">
+                <img src="{{ appDownLoad.app_page_url }}" alt="">
               </i>
               <i class="img hoverShow">
-                <img src="" alt="">
+                <img src="{{ appDownLoad.app_page_url }}" alt="">
               </i>
               <aside class="qrcode-preview">
                 <div>
-                  <img src="" alt="">
+                  <img src="{{ appDownLoad.app_page_url }}" alt="">
                 </div>
-                <span>扫描二维码下载</span>
+                <span>{{ locale.appDownLoad.headerCode }}</span>
               </aside>
             </span>
           </div>
@@ -370,12 +377,12 @@
       </dl>
     </div>
   </div>
-  <div class="v5-register-guide">
-    <h1 class="title-text v5-5-cl" >Want to Start trading right away?</h1>
-    <p class='v5-6-cl'>Register your account immediately and start trading.</p>
-    <a href="/register" class='v5-1-bg' style='color:#fff'>
-      <span >Register now</span>
-      <svg aria-hidden="true" class="icon icon-16"></svg>
+  <div class="v5-register-guide v5-8-bg">
+    <h1 class="title-text v5-5-cl">Want to Start trading right away?</h1>
+    <p class="v5-6-cl">Register your account immediately and start trading.</p>
+    <a href="/register" class="v5-1-bg">
+      <span class="v5-10-cl">Register now</span>
+      <span class="v5-10-cl">→</span>
     </a>
   </div>
   {% endif %}
