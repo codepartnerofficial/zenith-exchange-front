@@ -193,7 +193,9 @@ class StaticIndex extends Controller {
     let customHeaderList = {};
     let headerNavList = [];
     if (headerFooter && headerFooter.header) {
-      headerNavList = headerFooter.header;
+      if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+        headerNavList = headerFooter.header;
+      }
       try {
         customHeaderList = JSON.parse(headerFooter.header);
       } catch (e) {
