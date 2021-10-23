@@ -223,6 +223,10 @@ class StaticIndex extends Controller {
     this.logger.error(JSON.stringify({
       message: `服务处理完成： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
+    const skin = this.publicInfo.skin;
+    const cusSkinId = this.ctx.cookies.get('cusSkin', {
+      signed: false,
+    }) || skin.default;
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -269,6 +273,7 @@ class StaticIndex extends Controller {
       recommendMarket,
       headerNavList: this.handleNavList(headerNavList, domain),
       defaultFooter: this.getDefaultFooter(),
+      cusSkinId,
     });
   }
 

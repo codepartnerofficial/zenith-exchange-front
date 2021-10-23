@@ -11,6 +11,15 @@
       background: rgba(0, 0, 0, 0.15)!important;
       border: none;
     }
+    .v5-header.static .icon-scroll {
+      display: none!important;
+    }
+    .v5-header.static .icon-static {
+      display: inline-block;
+    }
+    .v5-header .icon-static {
+      display: none;
+    }
     .v5-header.static li.header-navEven, .v5-header.static div, .v5-header.static .link-btn {
       color: #ffffff!important;
     }
@@ -197,6 +206,17 @@
       display: block;
     }
 
+    .top-common-header .common-header-linkList .header-navEven .icon-triangle svg {
+      width: 0.5em;
+      height: 0.5em;
+      vertical-align: 0.1em;
+      transition: all 0.3s;
+    }
+
+    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg {
+      transform: rotate(180deg);
+    }
+
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list {
       display: none;
       position: absolute;
@@ -301,7 +321,7 @@
     .top-common-header .common-header-optionList .header-isLogin-navEven {
       height: 60px;
       float: left;
-      margin-right: 25px;
+      margin-left: 32px;
       cursor: pointer;
       position: relative;
     }
@@ -1131,6 +1151,14 @@
     >
       {{ item.title }}
       {% if item.childList.length > 0 %}
+      <span class="icon-triangle">
+        <svg class="icon icon-8 icon-static" aria-hidden="true">
+          <use xlink:href="#icon-v5_1_1"></use>
+        </svg>
+        <svg class="icon icon-8 icon-scroll" aria-hidden="true">
+          <use xlink:href="#icon-v5_1"></use>
+        </svg>
+      </span>
       <ul class="header-navEven-list v5-10-bg">
         {% for i in item.childList%}
         <li
@@ -1248,14 +1276,31 @@
     <!-- 设置 -->
     {% if colorList.length %}
     <div class="header-user" id="color-set">
-      <div class="header-user-icon icon-info">
+      <div class="header-user-icon icon-info icon-scroll">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_2"></use>
+          {% if cusSkinId == '1' %}
+          <use xlink:href="#icon-v5_9"></use>
+          {% else %}
+          <use xlink:href="#icon-v5_8"></use>
+          {% endif %}
+        </svg>
+      </div>
+      <div class="header-user-icon icon-info icon-static">
+        <svg class="icon icon-18" aria-hidden="true">
+          {% if cusSkinId == '1' %}
+          <use xlink:href="#icon-v5_9_1"></use>
+          {% else %}
+          <use xlink:href="#icon-v5_8_1"></use>
+          {% endif %}
         </svg>
       </div>
       <div class="header-user-icon icon-active">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_2_1"></use>
+          {% if cusSkinId == '1' %}
+          <use xlink:href="#icon-v5_9_h"></use>
+          {% else %}
+          <use xlink:href="#icon-v5_8_h"></use>
+          {% endif %}
         </svg>
       </div>
     </div>
@@ -1263,14 +1308,19 @@
     <!-- 消息中心 -->
     <div class="header-user login-set" style="display: none">
       <div class="messageCount" id="messageMore" style="display: none"></div>
-      <div class="header-user-icon icon-info goMessage">
+      <div class="header-user-icon icon-info goMessage icon-scroll">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_3"></use>
+          <use xlink:href="#icon-v5_5"></use>
+        </svg>
+      </div>
+      <div class="header-user-icon icon-info goMessage icon-static">
+        <svg class="icon icon-18" aria-hidden="true">
+          <use xlink:href="#icon-v5_5_1"></use>
         </svg>
       </div>
       <div class="header-user-icon icon-active goMessage">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_3_1"></use>
+          <use xlink:href="#icon-v5_5_h"></use>
         </svg>
       </div>
       <div class="header-user-message v5-10-bg goMessage">
@@ -1282,14 +1332,19 @@
     </div>
     <!-- 个人中心 -->
     <div class="header-user login-set" style="display: none">
-      <div class="header-user-icon icon-info goPersonal">
+      <div class="header-user-icon icon-info goPersonal icon-scroll">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_4"></use>
+          <use xlink:href="#icon-v5_2"></use>
+        </svg>
+      </div>
+      <div class="header-user-icon icon-info goPersonal icon-static">
+        <svg class="icon icon-18" aria-hidden="true">
+          <use xlink:href="#icon-v5_2_1"></use>
         </svg>
       </div>
       <div class="header-user-icon icon-active goPersonal">
         <svg class="icon icon-18" aria-hidden="true">
-          <use xlink:href="#icon-b_4_1"></use>
+          <use xlink:href="#icon-v5_2_h"></use>
         </svg>
       </div>
       <div class="header-user-market v5-10-bg">
