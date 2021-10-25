@@ -258,23 +258,23 @@
   <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
   {% else %}
   <div class="v5-guide">
-    <h2 class="title-text v5-5-cl">Beginner's guide</h2>
-    <div class="title-tip v5-7-cl">Quickly understand fiat curr</div>
+    <h2 class="title-text v5-5-cl">{{locale.home.custom_text1}}</h2>
+    <div class="title-tip v5-7-cl">{{locale.home.custom_text2}}</div>
     <div class="guide-content">
       <dl class="guide-item item-1">
         <dt>
           <img src="{{sourceMap.home_guide_1}}" alt="">
           <span></span>
         </dt>
-        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>{{locale.home.custom_text3}}</dd>
       </dl>
       <dl class="guide-item item-2">
         <dt><img src="{{sourceMap.home_guide_2}}" alt=""><span></span></dt>
-        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>{{locale.home.custom_text4}}</dd>
       </dl>
       <dl class="guide-item item-3">
         <dt><img src="{{sourceMap.home_guide_3}}" alt=""><span></span></dt>
-        <dd class='v5-6-cl'>Quickly understand fiat currency transactions in three minutes</dd>
+        <dd class='v5-6-cl'>{{locale.home.custom_text5}}</dd>
       </dl>
     </div>
   </div>
@@ -284,8 +284,8 @@
       <div>
          
         <div class="app-preview">
-          <h2 class="title-text " style='color:#fff'>Trade anytime, anywhere</h2>
-          <h6 class="title-tip " style='color:#fff'>Tokencan quality products for you</h6>
+          <h2 class="title-text v5-5-cl">{{locale.home.custom_text6}}</h2>
+          <h6 class="title-tip v5-6-cl">{{locale.home.custom_text7}}</h6>
           <div class="download">
             <a href="">
               <img class="download-store" src="{{sourceMap.om_btn_1}}" alt="">
@@ -314,35 +314,36 @@
           </div>
       </div>
   </div>
-    <div class="v5-service">
-    <h2 class="title-text v5-5-cl" >Get in touch. Stay in touch.</h2>
+
+      <div class="v5-service">
+    <h2 class="title-text v5-5-cl" >{{locale.home.custom_text14}}</h2>
     <div class="service-content">
       <dl class="service-item item-1">
         <dt><img src="{{sourceMap.home_service_1}}" alt=""></dt>
         <dd>
-          <div class='v5-5-cl'>0 fee digital currency trading</div>
-          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+          <div class='v5-5-cl'>{{locale.home.custom_text15}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text16}}</span>
         </dd>
       </dl>
       <dl class="service-item item-2">
         <dt><img src="{{sourceMap.home_service_2}}" alt=""></dt>
         <dd>
-          <div class='v5-5-cl'>0 fee digital currency trading</div>
-          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+          <div class='v5-5-cl'>{{locale.home.custom_text17}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text18}}</span>
         </dd>
       </dl>
       <dl class="service-item item-3">
         <dt><img src="{{sourceMap.home_service_3}}" alt=""></dt>
         <dd>
-          <div class='v5-5-cl'>0 fee digital currency trading</div>
-          <span class='v5-6-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+          <div class='v5-5-cl'>{{locale.home.custom_text19}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text20}}</span>
         </dd>
       </dl>
       <dl class="service-item item-4">
         <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
         <dd>
-          <div class='v5-6-cl'>0 fee digital currency trading</div>
-          <span class='v5-7-cl'>Payment transactions using a variety of digital currency, 0 fee, safe and efficient</span>
+          <div class='v5-6-cl'>{{locale.home.custom_text21}}</div>
+          <span class='v5-7-cl'>{{locale.home.custom_text22}}</span>
         </dd>
       </dl>
     </div>
@@ -356,5 +357,55 @@
     </a>
   </div>
   {% endif %}
-  <script></script>
+  <script>
+    (() => {
+      class customExtend {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          this.$custom = document.querySelector('.v5-custom-info');
+          this.$guide = document.querySelector('.v5-guide');
+          this.$appDownload = document.querySelector('.v5-appDownload');
+          this.$service = document.querySelector('.v5-service');
+          this.$registerGuide = document.querySelector('.v5-register-guide');
+          this.clientHeight =  document.documentElement.clientHeight;
+          this.setFade();
+          window.addEventListener('scroll', () => {
+            this.setFade();
+          })
+        }
+
+        setFade() {
+          const { scrollY } = window;
+          if (this.$guide) {
+            const g_offset = this.$guide.offsetTop;
+            if (g_offset < (this.clientHeight + scrollY - 100)) {
+              this.$guide.classList.remove('effect-fade');
+            }
+          }
+          if (this.$appDownload) {
+            const a_offset = this.$appDownload.offsetTop;
+            if (a_offset < (this.clientHeight + scrollY - 100)) {
+              this.$appDownload.classList.remove('effect-fade');
+            }
+          }
+          if (this.$service) {
+            const s_offset = this.$service.offsetTop;
+            if (s_offset < (this.clientHeight + scrollY - 100)) {
+              this.$service.classList.remove('effect-fade');
+            }
+          }
+          if (this.$registerGuide) {
+            const r_offset = this.$registerGuide.offsetTop;
+            if (r_offset < (this.clientHeight + scrollY - 100)) {
+              this.$registerGuide.classList.remove('effect-fade');
+            }
+          }
+        }
+      }
+      new customExtend();
+    })()
+  </script>
 </section>

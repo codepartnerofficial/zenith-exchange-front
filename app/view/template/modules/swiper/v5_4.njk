@@ -70,7 +70,22 @@
       transition: all 0.3s;
     }
     .v501-swiper-base .slide-item {
+      position: relative;
       margin-right: 13px;
+    }
+    .v501-swiper-base .slide-item .layout {
+      position: absolute;
+      width: 290px;
+      height: 140px;
+      left: 0;
+      top: 0;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      display: none;
+      cursor: pointer;
+    }
+    .v501-swiper-base .slide-item:hover .layout {
+      display: block;
     }
     .v501-swiper-base .slide-item img {
       width: 290px;

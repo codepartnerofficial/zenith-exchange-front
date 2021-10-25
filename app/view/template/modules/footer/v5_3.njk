@@ -138,7 +138,9 @@
     .footer-lan {
       margin-top: 33px;
       cursor: pointer;
+      position:relative;
     }
+    
     .footer-lan p {
       width: 120px;
       height: 30px;
@@ -149,19 +151,41 @@
       padding-left: 10px;
       display: flex;
       justify-content: space-between;
+      box-sizing:border-box;
     }
     .footer-lan p span {
-      width: 6px;
-      height: 0px;
+      width: 0;
+      height: 6px;
       display: inline-block;
       border-top: 4px solid #333b4f;
       border-left: 3px solid #030b16;
       border-right: 3px solid #030b16;
       margin-right: 10px;
+      margin-top:6px
     }
+    
     .footer-template a {
       color: #525d79;
     }
+    .footer-lan ul{
+      position:absolute;
+      top:30px;
+      left:0;
+      border: 1px solid #333b4f;
+      border-radius: 4px;
+      width:120px;
+      display:none
+    }
+    .footer-lan ul li{
+      height:30px;
+      line-height:30px;
+      padding-left:10px;
+      box-sizing:border-box;
+    }
+    .footer-lan:hover ul{
+      display:block;
+    }
+    
   </style>
   <section>
     {% if switch.config_footer_open !== '1' and footerTemplate %}
@@ -190,6 +214,10 @@
           <img src="{{ helper.footer.logo(msg) }}" alt="" />
           <div class="footer-lan">
             <p>English<span></span></p>
+            <ul>
+              <li>English</li>
+              <li>Chinese</li>
+            </ul>
           </div>
         </div>
         <div class="footer-template">
@@ -248,5 +276,17 @@
 
     {% endif %}
   </section>
-  <script></script>
+  <script>
+    (()=>{
+      class footerExtend{
+        constructor(){
+          this.init()
+        }
+        init(){
+          
+        }
+      }
+      new footerExtend()
+    })()
+  </script>
 </div>
