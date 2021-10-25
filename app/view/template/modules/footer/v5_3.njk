@@ -164,8 +164,8 @@
     }
   </style>
   <section>
-    {% if switch.config_footer_open === '1' and footerTemplate %}
-    {% if footerTemplate.indexOf('foot-min-top') !== -1 %}
+    {% if switch.config_footer_open !== '1' and footerTemplate %}
+    {% if footerTemplate.indexOf('foot-min-top') === -1 %}
     <div class="footer-con">
       {{ footerTemplate | safe }}
     </div>
