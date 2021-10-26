@@ -249,10 +249,14 @@
                     data.forEach((item) => {
                       const symbol = item.showName;
                       if (this.domTree[symbol]) {
+                        let classes = item.data[2][0].classes.join(' ');
+                        if (classes) {
+                          classes = classes.replace(/(\w+-\d+-bg)/, '');
+                        }
                         this.domTree[symbol].closePrice.innerHTML = item.data[1][0].text;
-                        this.domTree[symbol].closePrice.className = `td-item td-item3 closePrice ${item.data[1][0].classes.join(' ')}`;
+                        // this.domTree[symbol].closePrice.className = `td-item td-item3 closePrice ${item.data[1][0].classes.join(' ')}`;
                         this.domTree[symbol].percentage.innerHTML = item.data[2][0].text;
-                        this.domTree[symbol].percentage.className = `td-item td-item4 percentage ${item.data[2][0].classes.join(' ')}`;
+                        this.domTree[symbol].percentage.className = `td-item td-item4 percentage ${classes}`;
                         this.domTree[symbol].vol.innerHTML = item.data[6][0].text;
                       }
                     })
