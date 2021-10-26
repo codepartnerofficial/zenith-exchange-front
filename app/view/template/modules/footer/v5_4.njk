@@ -134,6 +134,23 @@
     .footer-template dd {
       line-height: 30px;
     }
+    .footer-template dd p img{
+      width:24px;
+      height:24px;
+      border:1px solid #fff
+    }
+    .footer-template dd p .icon{
+      display:block;
+    }
+    .footer-template dd p .icon-hover{
+      display:none;
+    }
+    .footer-template dd p:hover .icon{
+      display:none;
+    }
+    .footer-template dd p:hover .icon-hover{
+      display:block;
+    }
     .footer-right svg {
       width: 24px;
       height: 24px;
@@ -186,7 +203,7 @@
             <dl>
               <dt>© 2017-2021 {{ companyName }}</dt>
               <dd>
-                <svg class="icon icon-14" aria-hidden="true">
+                {# <svg class="icon icon-14" aria-hidden="true">
                   <use xlink:href="#icon-k_7_1"></use>
                 </svg>
 
@@ -195,7 +212,20 @@
                 </svg>
                 <svg class="icon icon-14" aria-hidden="true">
                   <use xlink:href="#icon-k_5_1"></use>
-                </svg>
+                </svg> #}
+                <p>
+                  <img src="{{sourceMap.foot-icon1}}" alt="" class='icon'/>
+                  <img src="{{sourceMap.foot-icon1-hover}}" alt="" class='icon-hover'/>
+                </p>
+                <p>
+                  <img src="{{sourceMap.foot-icon2}}" alt="" class='icon'/>
+                  <img src="{{sourceMap.foot-icon2-hover}}" alt="" class='icon-hover'/>
+                </p>
+                <p>
+                  <img src="{{sourceMap.foot-icon3}}" alt="" class='icon'/>
+                  <img src="{{sourceMap.foot-icon3-hover}}" alt="" class='icon-hover'/>
+                </p>
+                
               </dd>
             </dl>
           </div>

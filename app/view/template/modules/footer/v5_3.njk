@@ -124,11 +124,11 @@
     .footer-right dt {
       height: 15px;
       margin-bottom: 20px;
-      color: #d6dbe7;
+      color: #16181D;
     }
     .footer-template dd {
       line-height: 30px;
-      color: #525d79;
+      color: #888FA1;
     }
     .footer-right img {
       width: 24px;
@@ -189,7 +189,7 @@
   </style>
   <section>
     {% if switch.config_footer_open !== '1' and footerTemplate %}
-    {% if footerTemplate.indexOf('foot-min-top') === -1 %}
+    {% if footerTemplate.indexOf('foot-min-top') !== -1 %}
     <div class="footer-con">
       {{ footerTemplate | safe }}
     </div>

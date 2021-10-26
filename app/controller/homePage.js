@@ -372,8 +372,8 @@ class StaticIndex extends Controller {
 
   getTemplate(ispc) {
     let template = 'international';
-    const indexTempType = this.publicInfo.switch.index_temp_type;
-    // const indexTempType = '53';
+    // const indexTempType = this.publicInfo.switch.index_temp_type;
+    const indexTempType = '54';
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
@@ -491,6 +491,8 @@ class StaticIndex extends Controller {
       'interBanner_4', 'interCcustom1', 'interCcustom2', 'interCcustom3', 'interCcustom4', 'interHomeA',
       'interPhone', 'home_guide_1', 'home_guide_2', 'home_guide_3', 'home_service_1', 'home_service_2',
       'home_service_3', 'home_service_4', 'home_appview_1', 'home_appview_2', 'home_appview_3', 'home_appview_4',
+      'foot-icon1', 'foot-icon2', 'foot-icon3',
+      'foot-icon1-hover', 'foot-icon1-hover', 'foot-icon1-hover',
     ];
     const imgMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
     const hImg = {};

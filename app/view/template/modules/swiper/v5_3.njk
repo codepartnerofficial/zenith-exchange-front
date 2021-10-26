@@ -7,6 +7,8 @@
             width: 100%;
             padding-top: 145px;
             box-sizing: border-box;
+            background: url("https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165644648.png") no-repeat center center;
+            background-size: 2560px 580px;
         }
 
         .v503-swiper-base .title {
@@ -48,11 +50,23 @@
         .v503-swiper-base .imgBox .img-ul li:first-child {
             margin: 0;
         }
-
-        {# .v503-swiper-base .imgBox .img-ul li:hover {
-            border-width: 1px;
-            border-style: solid;
-        } #}
+        .v503-swiper-base .imgBox .img-ul li{
+            position:relative
+        }
+        .v503-swiper-base .imgBox .img-ul .layout {
+        position: absolute;
+        width: 280px;
+        height: 140px;
+        left: 0;
+        top: 0;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.1);
+        display: none;
+        cursor: pointer;
+        }
+        .v503-swiper-base .imgBox .img-ul li:hover .layout{
+          display:block
+        }
 
         .v503-swiper-base .imgBox .img-ul li:hover img {
             width: 278px;
@@ -216,6 +230,10 @@
             left: 0;
             bottom: 0;
         }
+        
+        .v503-swiper-base .imgBox ul li:hover .layout {
+            display: block;
+        }
     </style>
     <!-- title -->
     <div class="title b-8-cl">{{title}}</div>
@@ -233,7 +251,9 @@
                 <a href="{{ item.httpUrl }}">
                     <img src="{{item.imageUrl}}"/>
                 </a>
+                <a href="{{ item.httpUrl }}" class="layout"></a>
             </li>
+            
             {% endfor %}
         </ul>
         {% else %}
@@ -243,6 +263,7 @@
                 <a href="{{ item.httpUrl }}">
                     <img src="{{item.imageUrl}}"/>
                 </a>
+                 <a href="{{ item.httpUrl }}" class="layout"></a>
             </li>
             {% endfor %}
         </ul>
