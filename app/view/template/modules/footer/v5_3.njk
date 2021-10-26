@@ -185,6 +185,30 @@
     .footer-lan:hover ul{
       display:block;
     }
+    .footer-bar dd {
+      line-height: 30px;
+      display:flex;
+    }
+    .footer-bar dd p{
+      margin-right:10px;
+    }
+    .footer-bar dd p img{
+      width:24px;
+      height:24px;
+      
+    }
+    .footer-bar dd p .icon{
+      display:block;
+    }
+    .footer-bar dd p .icon-hover{
+      display:none;
+    }
+    .footer-bar dd p:hover .icon{
+      display:none;
+    }
+    .footer-bar dd p:hover .icon-hover{
+      display:block;
+    }
     
   </style>
   <section>
@@ -254,7 +278,7 @@
           <dl>
             <dt>Social media</dt>
             <dd>
-              <svg class="icon icon-14" aria-hidden="true">
+              {# <svg class="icon icon-14" aria-hidden="true">
                 <use xlink:href="#icon-k_7_1"></use>
               </svg>
 
@@ -263,7 +287,19 @@
               </svg>
               <svg class="icon icon-14" aria-hidden="true">
                 <use xlink:href="#icon-k_5_1"></use>
-              </svg>
+              </svg> #}
+              <p>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165319671.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165048073.png" alt="" class='icon-hover'/>
+                </p>
+                <p>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165353977.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165338029.png" alt="" class='icon-hover'/>
+                </p>
+                <p>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165434153.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165414123.png" alt="" class='icon-hover'/>
+                </p>
             </dd>
           </dl>
         </div>

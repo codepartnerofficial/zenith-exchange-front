@@ -131,25 +131,8 @@
       height: 15px;
       margin-bottom: 20px;
     }
-    .footer-bar dd {
+    .footer-template dd {
       line-height: 30px;
-    }
-    .footer-bar dd p img{
-      width:24px;
-      height:24px;
-      border:1px solid #fff
-    }
-    .footer-bar dd p .icon{
-      display:block;
-    }
-    .footer-bar dd p .icon-hover{
-      display:none;
-    }
-    .footer-bar dd p:hover .icon{
-      display:none;
-    }
-    .footer-bar dd p:hover .icon-hover{
-      display:block;
     }
     .footer-right svg {
       width: 24px;
@@ -173,10 +156,34 @@
       height: 12px;
       margin-right: 8px;
     }
+    .footer-bar dd {
+      line-height: 30px;
+      display:flex;
+    }
+    .footer-bar dd p{
+      margin-right:10px;
+    }
+    .footer-bar dd p img{
+      width:24px;
+      height:24px;
+      
+    }
+    .footer-bar dd p .icon{
+      display:block;
+    }
+    .footer-bar dd p .icon-hover{
+      display:none;
+    }
+    .footer-bar dd p:hover .icon{
+      display:none;
+    }
+    .footer-bar dd p:hover .icon-hover{
+      display:block;
+    }
   </style>
   <section>
     {% if switch.config_footer_open === '1' and footerTemplate %}
-    {% if footerTemplate.indexOf('foot-min-top') === -1 %}
+    {% if footerTemplate.indexOf('foot-min-top') !== -1 %}
     <div class="footer-con">
       {{ footerTemplate | safe }}
     </div>
@@ -214,18 +221,17 @@
                   <use xlink:href="#icon-k_5_1"></use>
                 </svg> #}
                 <p>
-                  <img src="{{sourceMap.foot-icon1}}" alt="" class='icon'/>
-                  <img src="{{sourceMap.foot-icon1-hover}}" alt="" class='icon-hover'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165319671.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165048073.png" alt="" class='icon-hover'/>
                 </p>
                 <p>
-                  <img src="{{sourceMap.foot-icon2}}" alt="" class='icon'/>
-                  <img src="{{sourceMap.foot-icon2-hover}}" alt="" class='icon-hover'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165353977.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165338029.png" alt="" class='icon-hover'/>
                 </p>
                 <p>
-                  <img src="{{sourceMap.foot-icon3}}" alt="" class='icon'/>
-                  <img src="{{sourceMap.foot-icon3-hover}}" alt="" class='icon-hover'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165434153.png" alt="" class='icon'/>
+                  <img src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026165414123.png" alt="" class='icon-hover'/>
                 </p>
-                
               </dd>
             </dl>
           </div>
