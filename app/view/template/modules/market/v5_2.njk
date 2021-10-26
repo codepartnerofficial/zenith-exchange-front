@@ -233,7 +233,7 @@
                       const { scrollY } = window;
                       if (this.$market) {
                         const offset = this.$market.offsetTop;
-                        if (offset < (this.clientHeight + scrollY - 100)) {
+                        if (offset < (this.clientHeight + scrollY - 50)) {
                           this.$market.classList.remove('effect-fade');
                         }
                       }
