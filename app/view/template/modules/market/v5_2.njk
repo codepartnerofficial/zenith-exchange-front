@@ -3,7 +3,7 @@
         .v5-market-wrap {
             width: 1200px;
             margin: 50px auto 0;
-            box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.5);
+            box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.25);
             border-radius: 4px;
             background: #fff;
             position: relative;
@@ -160,7 +160,7 @@
         {% for item in recommendMarket %}
         {% if helper.recommend.symbolShow(loop.index0) %}
         <li class="market-item market-content v5-10-bg" data-coin="{{item}}">
-          <div class="hover-item v5-14-cl-h">
+          <div class="hover-item v5-19-cl-h">
             <div class="market-info v5-12-bd">
               <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>
               <div class="td-item td-item2">
