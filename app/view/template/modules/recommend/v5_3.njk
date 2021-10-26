@@ -99,7 +99,7 @@
     <ul class="recommend-ul clearfix recommend-wrap ulCenter" style="display: none">
         {% for item in headerSymbol %}
             <li class="recommend-even recommend-content" data-coin="{{item}}">
-                <div class="c-5-bg bl"></div>
+                {# <div class="c-5-bg bl"></div> #}
                 <div class="symbol v5-5-cl">
                     {{helper.recommend.getCoinShowName(item, symbolAll)}}
                     <span class="rose percentage">{{ item.roseVal }}</span>
@@ -119,7 +119,7 @@
         {% if headerSymbol.length > 4%}
         {% for item in headerSymbol %}
         <li class="recommend-even recommend-content cloned" data-coin="{{item}}-c">
-            <div class="c-5-bg bl"></div>
+            {# <div class="c-5-bg bl"></div> #}
             <div class="symbol v5-5-cl">
                 {{helper.recommend.getCoinShowName(item, symbolAll)}}
                 <span class="rose percentage">{{ item.roseVal }}</span>
