@@ -196,12 +196,14 @@
                     window.emitter.on('MARKET-DATA', (data) => {
                       this.setData(data);
                     })
-                    this.$market = document.querySelector('.v5-market');
-                    this.clientHeight =  document.documentElement.clientHeight;
-                    this.setFade();
-                    window.addEventListener('scroll', () => {
+                    setTimeout(() => {
+                      this.$market = document.querySelector('.v5-market');
+                      this.clientHeight =  document.documentElement.clientHeight;
                       this.setFade();
-                    })
+                      window.addEventListener('scroll', () => {
+                        this.setFade();
+                      })
+                    }, 500)
                   }
 
                   setFade() {
@@ -267,6 +269,9 @@
                           window.location.href = '/trade';
                       }, false);
                   }
+              }
+              if (websocketPath && !window.selfSocket) {
+                  getScript(`${window.staticDomain}/home/static/${websocketPath}`);
               }
               window.RecommendExtend = RecommendExtend;
               new RecommendExtend();

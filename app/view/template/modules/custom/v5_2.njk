@@ -88,8 +88,8 @@
       line-height: 24px;
     }
     .v5-custom-info .v5-appDownload {
-      width: 100%;
-      margin-top: 160px;
+      width: 1200px;
+      margin: 160px auto 0;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       border-radius: 4px;
     }
@@ -278,7 +278,7 @@
   {% if footer_warm_prompt %}
   <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
   {% else %}
-  <div class="v5-guide">
+  <div class="v5-guide effect-fade">
     <h2 class="title-text v5-5-cl">{{locale.home.custom_text1}}</h2>
     <div class="title-tip v5-6-cl">{{locale.home.custom_text2}}</div>
     <div class="guide-content">
@@ -305,7 +305,7 @@
       </dl>
     </div>
   </div>
-  <div class="v5-service">
+  <div class="v5-service effect-fade">
     <h2 class="title-text v5-5-cl">{{locale.home.custom_text14}}</h2>
     <div class="service-content">
       <dl class="service-item item-1">
@@ -338,7 +338,7 @@
       </dl>
     </div>
   </div>
-  <div class="v5-appDownload">
+  <div class="v5-appDownload effect-fade">
     <div class="header-text v5-10-bg">
       <div>
         <h2 class="title-text v5-5-cl">{{locale.home.custom_text6}}</h2>
@@ -406,7 +406,7 @@
       </ul>
     </div>
   </div>
-  <div class="v5-register-guide v5-8-bg">
+  <div class="v5-register-guide effect-fade v5-8-bg">
     <h1 class="title-text v5-5-cl">Want to Start trading right away?</h1>
     <p class="v5-6-cl">Register your account immediately and start trading.</p>
     <a href="/register" class="v5-1-bg">

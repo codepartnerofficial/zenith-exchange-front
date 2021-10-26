@@ -3,7 +3,7 @@
         .v5-market-wrap {
             width: 1200px;
             margin: 50px auto 0;
-            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.5);
             border-radius: 4px;
             background: #fff;
             position: relative;
@@ -15,22 +15,38 @@
             padding: 0 40px;
             transition: all 0.3s;
             display: flex;
+            position: relative;
         }
-        .v5-market-wrap .market-item:hover {
-            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
-            border-radius: 4px;
-            margin: 0 -16px;
-            padding: 0 56px;
+        .v5-market-wrap .market-item.market-content {
+            padding: 0;
+        }
+        .v5-market-wrap .market-item .hover-item {
+          width: 100%;
+          height: 100%;
+          transition: all 0.3s;
+        }
+        .v5-market-wrap .market-content.market-item .hover-item:hover {
+          box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+          border-radius: 4px;
+          transform: scale(1.06);
+          z-index: 2;
+        }
+        .v5-market-wrap .market-content.market-item .hover-item:hover .market-info {
+          border: none;
         }
         .v5-market-wrap .market-item .market-info {
+          position: absolute;
           display: flex;
           height: 76px;
           line-height: 76px;
-          border-top-style: solid;
-          border-top-width: 1px;
+          border-bottom-style: solid;
+          border-bottom-width: 1px;
+          left: 40px;
+          top: 0;
+          box-sizing: border-box;
         }
-        .v5-market-wrap .market-item:nth-child(2) .market-info {
-          border-top: none;
+        .v5-market-wrap .market-item:nth-child(6) .market-info {
+          border: none;
         }
         .v5-market-wrap .market-item .td-item {
             font-size: 20px;
@@ -114,13 +130,6 @@
         .v5-market-wrap .market-item.title-th .td-item-vol {
             padding: 0;
         }
-        .v5-market-wrap .market-item.title-th:hover {
-            background: #fff;
-            box-shadow: none;
-            border-radius: 0;
-            margin: 0;
-            padding: 0 40px;
-        }
         .v5-market-wrap .more {
             padding: 14px 0 20px;
             text-align: center;
@@ -140,7 +149,7 @@
         }
     </style>
     <ul class="market-ul market-wrap v5-10-bg">
-        <li class="market-item title-th v5-11-bd">
+        <li class="market-item title-th v5-12-bd">
             <div class="td-item td-item1 v5-7-cl">#</div>
             <div class="td-item td-item2 v5-7-cl">{{locale.home.market}}</div>
             <div class="td-item td-item3 v5-7-cl">{{locale.home.close}}</div>
@@ -151,24 +160,26 @@
         {% for item in recommendMarket %}
         {% if helper.recommend.symbolShow(loop.index0) %}
         <li class="market-item market-content v5-10-bg" data-coin="{{item}}">
-          <div class="market-info v5-11-bd">
-            <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>
-            <div class="td-item td-item2">
-                {% if helper.recommend.symbolIcon(item, coinList)%}
-                <span class="symbol-icon">
-                    <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
-                </span>
-                {% endif %}
-                <span class="b-cion v5-5-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
-                <span class="q-cion v5-6-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
-            </div>
-            <div class="td-item td-item3 closePrice v5-5-cl"></div>
-            <div class="td-item td-item4 percentage v5-5-cl"></div>
-            <div class="kline td-item td-item-vol v5-5-cl"></div>
-            <div class="td-item td-item-btn">
-                <button class="common-button common-button-solid v5-2-bg">
-                    {{locale.otcTrade.buy}}
-                </button>
+          <div class="hover-item v5-14-cl-h">
+            <div class="market-info v5-12-bd">
+              <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>
+              <div class="td-item td-item2">
+                  {% if helper.recommend.symbolIcon(item, coinList)%}
+                  <span class="symbol-icon">
+                      <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
+                  </span>
+                  {% endif %}
+                  <span class="b-cion v5-5-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
+                  <span class="q-cion v5-6-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
+              </div>
+              <div class="td-item td-item3 closePrice v5-5-cl"></div>
+              <div class="td-item td-item4 percentage v5-5-cl"></div>
+              <div class="kline td-item td-item-vol v5-5-cl"></div>
+              <div class="td-item td-item-btn">
+                  <button class="common-button common-button-solid v5-2-bg">
+                      {{locale.otcTrade.buy}}
+                  </button>
+              </div>
             </div>
           </div>
         </li>
@@ -208,19 +219,21 @@
                       window.emitter.on('MARKET-DATA', (data) => {
                         this.setData(data);
                       })
-                      this.$market = document.querySelector('.v5-market');
-                      this.clientHeight =  document.documentElement.clientHeight;
-                      this.setFade()
-                      window.addEventListener('scroll', () => {
-                        this.setFade()
-                      })
+                      setTimeout(() => {
+                        this.$market = document.querySelector('.v5-market');
+                        this.clientHeight =  document.documentElement.clientHeight;
+                        this.setFade();
+                        window.addEventListener('scroll', () => {
+                          this.setFade();
+                        })
+                      }, 500)
                     }
 
                     setFade() {
                       const { scrollY } = window;
-                      if ($market) {
+                      if (this.$market) {
                         const offset = this.$market.offsetTop;
-                        if (offset < (this.clientHeight + scrollY - 50)) {
+                        if (offset < (this.clientHeight + scrollY - 100)) {
                           this.$market.classList.remove('effect-fade');
                         }
                       }
@@ -279,6 +292,9 @@
                             window.location.href = '/trade';
                         }, false);
                     }
+                }
+                if (websocketPath && !window.selfSocket) {
+                    getScript(`${window.staticDomain}/home/static/${websocketPath}`);
                 }
                 window.RecommendExtend = RecommendExtend;
                 new RecommendExtend();

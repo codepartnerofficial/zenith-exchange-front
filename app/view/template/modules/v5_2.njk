@@ -8,6 +8,10 @@
       width: 1200px;
       margin: 60px auto 0;
     }
+    .v502-home .effect-fade {
+      transform: translate(0, 100px);
+      opacity: 0;
+    }
     .v502-Home .v502-notice-info {
       margin-top: 40px;
     }
@@ -26,7 +30,7 @@
     {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
     {% endif %}
   </div>
-  <div class="v502-market v5-market">
+  <div class="v502-market effect-fade v5-market">
     {% include "./market/v5_2.njk" %}
   </div>
   {% include "./custom/v5_2.njk"%}
