@@ -1,5 +1,5 @@
 {% macro boxStyle(slideList, extendPath, title, subTitle, bgUrl) %}
-<section class="v503-swiper-base" style="background:url({{ bgUrl }}) no-repeat center center">
+<section class="v503-swiper-base">
     <style>
         .v503-swiper-base {
             background-position: left top;
@@ -7,7 +7,7 @@
             width: 100%;
             padding-top: 145px;
             box-sizing: border-box;
-            
+            background: url('https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165644648.png') no-repeat center center;
         }
 
         .v503-swiper-base .title {
@@ -307,6 +307,10 @@
                             this.thumbPage_2 = 0;
                             this.thumbItemWidth = '270';
                             this.thumbLeft = 0;
+                            const bgUrl = "{{bgUrl}}";
+                            if (bgUrl) {
+                              this.internationalHomeWwiperBase.style = `background: url(${bgUrl}) no-repeat center center;background-size: 2560px 580px;`
+                            }
                             this.init();
                         }
                     }
