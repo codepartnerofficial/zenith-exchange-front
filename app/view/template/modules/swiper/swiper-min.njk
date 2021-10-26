@@ -2,6 +2,7 @@
   <style>
     .v501-swiper-base {
       width: 100%;
+      margin-top:60px;
     }
     .v501-swiper-base .banner {
       width: 100%;
@@ -150,7 +151,7 @@
 
   </style>
   
-  <div class="swiper-wrap v5-10-bg" id="swiper-wrap">
+    <div class="swiper-wrap v5-10-bg" id="swiper-wrap">
     {% if cmsAdvertList.length > 4 %}
     <div class="prev-btn">
       <div class="btn-bg v5-1-bg"></div>
@@ -165,6 +166,7 @@
           <a href="{{ item.httpUrl }}">
             <img src="{{ item.imageUrl }}" alt="">
           </a>
+          <a href="{{ item.httpUrl }}" class="layout"></a>
         </li>
         {% endfor %}
       </ul>

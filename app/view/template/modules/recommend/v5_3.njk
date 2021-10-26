@@ -6,6 +6,7 @@
             box-sizing: border-box;
             overflow: hidden;
             font-family: DINPro-Medium;
+            margin-bottom:48px;
             
         }
         .inter-recommend.inter-recommend-international .ulCenter {
@@ -100,7 +101,7 @@
         {% for item in headerSymbol %}
             <li class="recommend-even recommend-content" data-coin="{{item}}">
                 <div class="c-5-bg bl"></div>
-                <div class="symbol">
+                <div class="symbol v5-5-cl">
                     {{helper.recommend.getCoinShowName(item, symbolAll)}}
                     <span class="rose percentage">{{ item.roseVal }}</span>
                     <div class="coin-label" style="display: none">
@@ -109,7 +110,7 @@
                     </div>
                 </div>
                 <div class="price b-1-cl recommendPrice">{{ item.price }}</div>
-                <div class="volume recommendTime">24H Vol {{ item.volume }}</div>
+                <div class="volume recommendTime v5-5-cl">24H Vol {{ item.volume }}</div>
                 <div class="rose percentage">{{ item.roseVal }}</div>
                 <div class="kline">
                     <div class="echart-box" style="height: 32px"></div>
@@ -120,7 +121,7 @@
         {% for item in headerSymbol %}
         <li class="recommend-even recommend-content cloned" data-coin="{{item}}-c">
             <div class="c-5-bg bl"></div>
-            <div class="symbol">
+            <div class="symbol v5-5-cl">
                 {{helper.recommend.getCoinShowName(item, symbolAll)}}
                 <span class="rose percentage">{{ item.roseVal }}</span>
                 <div class="coin-label" style="display: none">
@@ -129,7 +130,7 @@
               </div>
             </div>
             <div class="price b-1-cl recommendPrice">{{ item.price }}</div>
-            <div class="volume recommendTime">24H Vol {{ item.volume }}</div>
+            <div class="volume recommendTime v5-5-cl" >24H Vol {{ item.volume }}</div>
             <div class="kline">
                 <div class="echart-box" style="height: 32px"></div>
             </div>

@@ -1,4 +1,4 @@
-<div class="homes b-2-cl c-2-bg v5-3">
+<section class="v501-Home v501-home-container v5-10-bg">
     <style>
         .homes .home-alert .noclick {
             margin-left: 50%;
@@ -554,7 +554,7 @@
             font-weight:bold;
         }
     </style>
-    <div class="home-bg">
+  
         {% import "./swiper/v5_3.njk" as swiper %}
         {{ swiper.boxStyle(
         slideList=helper.swiper.getInterMap(cmsAdvertList),
@@ -572,13 +572,13 @@
             {% endif %}
         </div>
         <div class="v501-market v5-market">
-            <h2 class="item-title v5-5-cl">Market trend</h2>
+            <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>
             {% include "./market/v5_1.njk" %}
         </div>
         {% include "./custom/v5_3.njk" %}
-    </div>
+ 
     <script>
 
     </script>
-</div>
+</section>
 

@@ -1,7 +1,7 @@
 <section class="v5-custom-info">
   <style>
     .v5-custom-info {
-      width: 1200px;
+      width:100%;
       margin: auto;
       font-family: DINPro-Medium;
       font-weight: 500;
@@ -9,6 +9,10 @@
     }
     .v5-custom-info .v5-guide, .v5-custom-info .v5-appDownload, .v5-custom-info .v5-service, .v5-custom-info .v5-register-guide {
       transition: all 0.5s;
+    }
+    .v5-guide, .v5-appDownload,.v5-service{
+      width:1200px;
+      margin:0 auto;
     }
     .v5-custom-info .title-text {
       font-size: 36px;
@@ -249,11 +253,13 @@
       opacity: 1;
     }
     .v5-custom-info .v5-appDownload .app-introduce img{
-      width:356px;
-      height:714px;
+      width:80%;
+    }
+    .v5-custom-info .app-preview ul{
+      margin-bottom:50px
     }
     .v5-custom-info .app-preview{
-      margin-top:130px;
+      margin-top:100px;
     }
   </style>
   {% if footer_warm_prompt %}
@@ -261,22 +267,22 @@
   {% else %}
   <div class="v5-guide">
     <h2 class="title-text v5-5-cl">{{locale.home.custom_text1}}</h2>
-    <div class="title-tip v5-7-cl">{{locale.home.custom_text2}}</div>
+    <div class="title-tip v5-6-cl">{{locale.home.custom_text2}}</div>
     <div class="guide-content">
       <dl class="guide-item item-1">
         <dt>
           <img src="{{sourceMap.home_guide_1}}" alt="">
           <span></span>
         </dt>
-        <dd class='v5-6-cl'>{{locale.home.custom_text3}}</dd>
+        <dd class='v5-5-cl'>{{locale.home.custom_text3}}</dd>
       </dl>
       <dl class="guide-item item-2">
         <dt><img src="{{sourceMap.home_guide_2}}" alt=""><span></span></dt>
-        <dd class='v5-6-cl'>{{locale.home.custom_text4}}</dd>
+        <dd class='v5-5-cl'>{{locale.home.custom_text4}}</dd>
       </dl>
       <dl class="guide-item item-3">
         <dt><img src="{{sourceMap.home_guide_3}}" alt=""><span></span></dt>
-        <dd class='v5-6-cl'>{{locale.home.custom_text5}}</dd>
+        <dd class='v5-5-cl'>{{locale.home.custom_text5}}</dd>
       </dl>
     </div>
   </div>
@@ -318,6 +324,7 @@
                 <span class='v5-6-cl'>{{locale.home.custom_text13}}</span>
               </div>
             </li>
+            
           </ul>
           <div class="download">
             <a href="">
@@ -377,6 +384,7 @@
       </dl>
     </div>
   </div>
+
   <div class="v5-register-guide v5-8-bg">
     <h1 class="title-text v5-5-cl">Want to Start trading right away?</h1>
     <p class="v5-6-cl">Register your account immediately and start trading.</p>
