@@ -22,6 +22,10 @@
             line-height: 46px;
             font-family: DINPro-Bold;
         }
+    .v501-home .effect-fade {
+      transform: translate(0, 100px);
+      opacity: 0;
+    }
   </style>
   {% include "./swiper/v5_4.njk" %}
   {% include "./recommend/v5_3.njk" %}
@@ -31,7 +35,7 @@
   {% endif %}
   {% include "./swiper/swiper-min.njk" %}
   
-  <div class="v501-market">
+  <div class="v501-market effect-fade">
     <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>
     {% include "./market/v5_1.njk" %}
   </div>
