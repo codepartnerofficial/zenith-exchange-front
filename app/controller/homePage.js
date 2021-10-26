@@ -227,6 +227,44 @@ class StaticIndex extends Controller {
     const cusSkinId = this.ctx.cookies.get('cusSkin', {
       signed: false,
     }) || skin.default;
+    const bannerList_1 = [
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170542557.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170637009.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170649087.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170702888.png',
+      },
+    ];
+    const bannerList_2 = [
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165743876.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165937945.png',
+      },
+    ];
+    let bannerList = [];
+    if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+      if (cmsAdvertList && cmsAdvertList.length) {
+        bannerList = cmsAdvertList;
+      } else if (this.publicInfo.switch.index_temp_type === '52') {
+        bannerList = bannerList_2;
+      } else {
+        bannerList = bannerList_1;
+      }
+    }
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -251,7 +289,7 @@ class StaticIndex extends Controller {
       number: item => Number(item),
       colorList: this.getColorList(currenLan),
       noticeList: this.getNoticeList(noticeInfoList, currenLan),
-      cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
+      cmsAdvertList: ispc ? bannerList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
       footerList: this.footerList,

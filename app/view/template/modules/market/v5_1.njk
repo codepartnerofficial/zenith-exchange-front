@@ -172,7 +172,7 @@
           <span class="hoverShow v5-1-cl">
             {{locale.home.moreMarket}}
             <svg aria-hidden="true" class="icon icon-12">
-              <use xlink:href="#icon-v5_3"></use>
+              <use xlink:href="#icon-v5_3_h"></use>
             </svg>
           </span>
       </li>
@@ -208,7 +208,7 @@
                     const { scrollY } = window;
                     if (this.$market) {
                       const offset = this.$market.offsetTop;
-                      if (offset < (this.clientHeight + scrollY - 100)) {
+                      if (offset < (this.clientHeight + scrollY - 50)) {
                         this.$market.classList.remove('effect-fade');
                       }
                     }

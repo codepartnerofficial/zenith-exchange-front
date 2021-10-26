@@ -6,6 +6,16 @@
       top: 0;
       border-bottom-width: 1px;
       border-bottom-style: solid;
+      font-family: DINPro-Medium;
+    }
+    .common-header.top-common-header.v5-header .bg-white {
+      background: #ffffff;
+    }
+    .common-header.top-common-header.v5-header .list-item-cl {
+      color: #16181D;
+    }
+    .common-header.top-common-header.v5-header .hover-bg {
+      background: #ECEFF6;
     }
     .common-header.top-common-header.v5-header.static {
       background: rgba(0, 0, 0, 0.15)!important;
@@ -213,9 +223,16 @@
       vertical-align: 0.1em;
       transition: all 0.3s;
     }
-
-    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg {
-      transform: rotate(180deg);
+    
+    .top-common-header .common-header-linkList .header-navEven .icon-triangle svg.icon-hover {
+      display: none;
+    }
+    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-hover {
+      display: inline-block;
+    }
+    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-static,
+    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-scroll {
+      display: none;
     }
 
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list {
@@ -399,6 +416,22 @@
       padding: 0 22px;
       height: 30px;
       border-radius: 4px;
+      position: relative;
+    }
+
+    .top-common-header .common-button .btn-hover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background:rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: none;
+    }
+
+    .top-common-header .common-button:hover .btn-hover {
+      display: block;
     }
 
     .top-common-header .common-header-optionList .header-user {
@@ -442,6 +475,7 @@
       height: 120px;
       left: -90px;
       z-index: 9999;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-message {
@@ -513,12 +547,11 @@
       right: 0;
       width: 160px;
       height: auto;
-      padding: 16px 16px 12px;
       border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box {
-      width: 128px;
+      padding: 16px 16px 12px;
     }
 
     .top-common-header
@@ -564,6 +597,7 @@
       .header-user-appdown
       .download-options-buttons {
         margin-top: 12px;
+        padding: 0 12px 12px;
     }
 
     .top-common-header
@@ -578,15 +612,7 @@
       line-height: 30px;
       border-radius: 4px;
       color: #ffffff;
-    }
-
-    .top-common-header
-      .common-header-optionList
-      .header-user
-      .header-user-appdown
-      .download-options-buttons
-      button:first-child {
-      margin-bottom: 10px;
+      font-size: 12px;
     }
 
     .top-common-header .common-header-optionList .header-lang {
@@ -619,6 +645,8 @@
       padding: 12px 8;
       box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
       border-radius: 4px;
+      max-height: 300px;
+      overflow: auto;
     }
 
     .top-common-header .common-header-optionList .header-lang .lang-list li {
@@ -1176,11 +1204,14 @@
         <svg class="icon icon-8 icon-scroll" aria-hidden="true">
           <use xlink:href="#icon-v5_1"></use>
         </svg>
+        <svg class="icon icon-8 icon-hover" aria-hidden="true">
+          <use xlink:href="#icon-v5_1_h"></use>
+        </svg>
       </span>
-      <ul class="header-navEven-list v5-10-bg">
+      <ul class="header-navEven-list bg-white">
         {% for i in item.childList%}
         <li
-          class="v5-5-cl"
+          class="list-item-cl"
           data-link="{{ i.link }}"
           data-id="{{ i.id }}"
           data-trades="true"
@@ -1188,8 +1219,8 @@
         >
           <img src="{{i.logo}}" alt="">
           <dl>
-            <dt>{{i.title}}</dt>
-            <dd>{{i.subTitle}}</dd>
+            <dt class="v5-5-cl">{{i.title}}</dt>
+            <dd class="v5-6-cl">{{i.subTitle}}</dd>
           </dl>
         </li>
         {% endfor %}
@@ -1217,6 +1248,7 @@
         <div class="common-button-slot">
           {{ locale.header.register }}
         </div>
+        <div class="btn-hover"></div>
       </button>
     </div>
     <div class="header-isLogin login-set" style="display: none">
@@ -1225,9 +1257,9 @@
         <div class="header-isLogin-navEven-title v5-5-cl">
           <span class="link-btn">{{ locale.header.assets }}</span>
         </div>
-        <ul class="lang-list v5-10-bg">
+        <ul class="lang-list bg-white">
           {% for item in assetsList %}
-          <li class="v5-5-cl" data-link="{{ item.link }}">{{ item.title }}</li>
+          <li class="list-item-cl" data-link="{{ item.link }}">{{ item.title }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -1241,7 +1273,7 @@
         <ul class="lang-list v5-10-bg">
           <!--  || activeMark === item.link -->
           {% for item in orderList %}
-          <li class="v5-5-cl" data-link="{{ item.link }}">{{ item.title }}</li>
+          <li class="list-item-cl" data-link="{{ item.link }}">{{ item.title }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -1273,23 +1305,9 @@
             class="common-button common-button-solid v5-1-bg download-button"
           >
             <div class="common-button-slot">
-              <svg aria-hidden="true" class="icon icon-18">
-                <use xlink:href="#icon-b_13"></use>
-              </svg>
-              &nbsp;
-              {{ locale.appDownLoad.platform[0] }}
+              {{ locale.appDownLoad.more }}
             </div>
-          </button>
-          <button
-            class="common-button common-button-solid v5-1-bg download-button"
-          >
-            <div class="common-button-slot">
-              <svg aria-hidden="true" class="icon icon-18">
-                <use xlink:href="#icon-b_14"></use>
-              </svg>
-              &nbsp;
-              {{ locale.appDownLoad.platform[1] }}
-            </div>
+            <div class="btn-hover"></div>
           </button>
         </div>
       </div>
@@ -1374,9 +1392,11 @@
           <li class="v5-1-cl userText goPersonal"></li>
           <li class="v5-5-cl userStatus"></li>
         </ul>
-        <div class="header-user-out v5-14-bg v5-1-cl logout">
-          <!-- 退出 -->
-          {{ locale.header.out }}
+        <div class="header-user-out v5-14-bg logout">
+          <span class="v5-1-cl">
+            <!-- 退出 -->
+            {{ locale.header.out }}
+          </span>
         </div>
       </div>
     </div>

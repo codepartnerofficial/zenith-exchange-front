@@ -1,13 +1,15 @@
 <section class="v5-custom-info">
   <style>
     .v5-custom-info {
-      width: 1200px;
-      margin: auto;
       font-family: DINPro-Medium;
       font-weight: 500;
     }
     .v5-custom-info .v5-guide, .v5-custom-info .v5-appDownload, .v5-custom-info .v5-service, .v5-custom-info .v5-register-guide {
       transition: all 0.5s;
+    }
+    .v5-custom-info .v5-guide, .v5-custom-info .v5-appDownload, .v5-custom-info .v5-service {
+      width: 1200px;
+      margin: auto;
     }
     .v5-custom-info .title-text {
       font-size: 36px;
@@ -45,6 +47,7 @@
     .v5-custom-info .v5-guide .guide-item dt {
       width: 100%;
       margin-bottom: 16px;
+      position: relative;
     }
     .v5-custom-info .v5-guide .guide-item dt img {
       width: 386px;
@@ -87,7 +90,7 @@
     .v5-custom-info .v5-appDownload {
       width: 100%;
       margin-top: 160px;
-      box-shadow: 0px -6px 9px -3px rgba(0,0,0,0.1);
+      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       border-radius: 4px;
     }
     .v5-custom-info .v5-appDownload .app-introduce {
@@ -132,12 +135,14 @@
       line-height: 21px;
       font-family: DINPro-Bold;
       margin-bottom: 4px;
+      color: #ffffff;
     }
     .v5-custom-info .v5-appDownload .app-preview .intro-item span {
       display: inline-block;
       width: 340px;
       font-size: 14px;
       line-height: 18px;
+      color: #ffffff;
     }
     .v5-custom-info .v5-appDownload .header-text .download {
       height: 44px;
@@ -158,7 +163,7 @@
       height: 44px;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       border-radius: 4px;
-      padding: 13px;
+      padding: 10px;
       box-sizing: border-box;
     }
     .v5-custom-info .v5-appDownload .header-text .download .qrcode .img img {
@@ -205,16 +210,13 @@
       border-radius: 8px;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       position: absolute;
-      left: 0;
+      right: 0;
       bottom: 56px;
-      padding: 15px 15px 0;
       box-sizing: border-box;
       background: #ffffff;
     }
     .v5-custom-info .v5-appDownload .qrcode-preview img {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
+      width: 100%;
     }
     .v5-custom-info .v5-appDownload .qrcode-preview span {
       font-size: 14px;
@@ -253,6 +255,21 @@
       box-sizing: border-box;
       align-items: center;
       color: #ffffff;
+      position: relative;
+      text-decoration: none;
+    }
+    .v5-custom-info .v5-register-guide a .btn-hover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background:rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: none;
+    }
+    .v5-custom-info .v5-register-guide a:hover .btn-hover {
+      display: block;
     }
     .v5-custom-info .v5-register-guide a span {
       font-size: 16px;
@@ -322,7 +339,7 @@
     </div>
   </div>
   <div class="v5-appDownload">
-    <div class="header-text">
+    <div class="header-text v5-10-bg">
       <div>
         <h2 class="title-text v5-5-cl">{{locale.home.custom_text6}}</h2>
         <div class="title-tip v5-6-cl">{{locale.home.custom_text7}}</div>
@@ -336,10 +353,14 @@
         </a>
         <span class="qrcode">
           <i class="img hoverHide">
-            <img src="{{ appDownLoad.app_page_url }}" alt="">
+            <svg aria-hidden="true" class="icon icon-24">
+              <use xlink:href="#icon-v5_10"></use>
+            </svg>
           </i>
           <i class="img hoverShow">
-            <img src="{{ appDownLoad.app_page_url }}" alt="">
+            <svg aria-hidden="true" class="icon icon-24">
+              <use xlink:href="#icon-v5_10_h"></use>
+            </svg>
           </i>
           <aside class="qrcode-preview">
             <div>
@@ -360,8 +381,8 @@
             <use xlink:href="#icon-v5_7"></use>
           </svg>
           <div>
-            <p class="v5-10-cl">{{locale.home.custom_text8}}</p>
-            <span class="v5-10-cl">{{locale.home.custom_text9}}</span>
+            <p>{{locale.home.custom_text8}}</p>
+            <span>{{locale.home.custom_text9}}</span>
           </div>
         </li>
         <li class="intro-item">
@@ -369,8 +390,8 @@
             <use xlink:href="#icon-v5_7"></use>
           </svg>
           <div>
-            <p class="v5-10-cl">{{locale.home.custom_text10}}</p>
-            <span class="v5-10-cl">{{locale.home.custom_text11}}</span>
+            <p>{{locale.home.custom_text10}}</p>
+            <span>{{locale.home.custom_text11}}</span>
           </div>
         </li>
         <li class="intro-item">
@@ -378,19 +399,20 @@
             <use xlink:href="#icon-v5_7"></use>
           </svg>
           <div>
-            <p class="v5-10-cl">{{locale.home.custom_text12}}</p>
-            <span class="v5-10-cl">{{locale.home.custom_text13}}</span>
+            <p>{{locale.home.custom_text12}}</p>
+            <span>{{locale.home.custom_text13}}</span>
           </div>
         </li>
       </ul>
     </div>
   </div>
-  <div class="v5-register-guide">
+  <div class="v5-register-guide v5-8-bg">
     <h1 class="title-text v5-5-cl">Want to Start trading right away?</h1>
     <p class="v5-6-cl">Register your account immediately and start trading.</p>
     <a href="/register" class="v5-1-bg">
       <span>Register now</span>
       <span>→</span>
+      <span class="btn-hover"></span>
     </a>
   </div>
   {% endif %}
