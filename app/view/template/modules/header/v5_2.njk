@@ -8,6 +8,9 @@
       border-bottom-style: solid;
       font-family: DINPro-Medium;
     }
+    .common-header.top-common-header.v5-header .common-button-slot {
+      font-family: DINPro-Medium;
+    }
     .common-header.top-common-header.v5-header .bg-white {
       background: #ffffff;
     }
@@ -259,6 +262,7 @@
       font-size: 14px;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li img {
@@ -266,12 +270,15 @@
       height: 28px;
       margin-right: 12px;
     }
+    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dl {
+      margin-bottom: 0;
+    }
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dt {
       line-height: 20px;
     }
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dd {
       font-size: 12px;
-      line-height: 16px;
+      line-height: 17px;
     }
     .top-common-header .common-header-linkList .header-navEven .new-label {
       position: absolute;
@@ -292,6 +299,7 @@
       height: 60px;
       vertical-align: middle;
       line-height: 58px;
+      padding: 0 40px 0 0;
     }
 
     .top-common-header .common-header-linkList .linkList-logo img {
@@ -404,7 +412,7 @@
 
     .top-common-header .common-header-optionList .header-guide {
       float: left;
-      padding: 15px 20px;
+      padding: 15px 0px;
       vertical-align: middle;
     }
 
@@ -415,7 +423,7 @@
 
     .top-common-header .common-header-optionList .header-guide .header-reg-button {
       font-size: 14px !important;
-      margin-right: 16px;
+      margin-right: 0;
       padding: 0 22px;
       height: 30px;
       border-radius: 4px;
@@ -440,7 +448,7 @@
     .top-common-header .common-header-optionList .header-user {
       float: left;
       height: 60px;
-      width: 60px;
+      margin-left: 32px;
       line-height: 60px;
       text-align: center;
       position: relative;
@@ -523,7 +531,7 @@
 
     .top-common-header .common-header-optionList .header-user .header-user-text {
       height: 80px;
-      padding: 16px 22px;
+      padding: 16px 22px 12px;
       box-sizing: border-box;
       line-height: 24px;
       text-align: left;
@@ -542,6 +550,8 @@
       text-align: left;
       font-size: 12px;
       cursor: pointer;
+      border-radius: 4px;
+      color: #2762FF!important;
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-appdown {
@@ -554,7 +564,7 @@
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-appdown .code-box {
-      padding: 16px 16px 12px;
+      padding: 10px 5px 12px;
     }
 
     .top-common-header
@@ -563,8 +573,8 @@
       .header-user-appdown
       .code-box
       .download-options-code {
-      width: 128px;
-      height: 128px;
+      width: 150px;
+      height: 150px;
       overflow: hidden;
     }
 
@@ -575,8 +585,8 @@
       .code-box
       .download-options-code
       img {
-      width: 128px;
-      height: 128px;
+      width: 150px;
+      height: 150px;
       position: relative;
     }
 
@@ -599,7 +609,6 @@
       .header-user
       .header-user-appdown
       .download-options-buttons {
-        margin-top: 12px;
         padding: 0 12px 12px;
     }
 
@@ -915,12 +924,7 @@
     }
 
     .common-header .header-user-icon .icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
+      
     }
 
     .drop-enter-active {
@@ -1236,14 +1240,14 @@
   <div class="common-header-optionList">
     <!-- 未登录时 -->
     <div class="header-guide unlogin-set">
-      <button
+      <div
         class="common-button header-login-button common-button-text-kind v5-5-cl"
         style="margin-top: 0px;vertical-align: middle;"
       >
         <div class="common-button-slot link-btn">
           {{ locale.header.login }}
         </div>
-      </button>
+      </div>
       <button
         class="common-button header-reg-button common-button-hollow-big v5-1-bg"
         style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px; color: #ffffff";

@@ -230,29 +230,29 @@ class StaticIndex extends Controller {
     const bannerList_1 = [
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170542557.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121715405.png',
       },
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170637009.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121740449.png',
       },
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170649087.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121755893.png',
       },
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022170702888.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121811060.png',
       },
     ];
     const bannerList_2 = [
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165743876.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121557004.png',
       },
       {
         httpUrl: '',
-        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211022165937945.png',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121633574.png',
       },
     ];
     let bannerList = [];
@@ -373,7 +373,7 @@ class StaticIndex extends Controller {
   getTemplate(ispc) {
     let template = 'international';
     const indexTempType = this.publicInfo.switch.index_temp_type;
-    // const indexTempType = '53';
+    // const indexTempType = '52';
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
