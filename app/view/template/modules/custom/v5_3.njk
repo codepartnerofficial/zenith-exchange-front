@@ -123,7 +123,7 @@
       height: 44px;
       box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
       border-radius: 4px;
-      padding: 13px;
+      padding: 10px;
       box-sizing: border-box;
     }
     .v5-custom-info .download .qrcode img {
@@ -335,10 +335,14 @@
             </a>
             <span class="qrcode">
               <i class="img hoverHide">
-                <img src="{{ appDownLoad.app_page_url }}" alt="">
+                <svg aria-hidden="true" class="icon icon-24">
+                  <use xlink:href="#icon-v5_10"></use>
+                </svg>
               </i>
               <i class="img hoverShow">
-                <img src="{{ appDownLoad.app_page_url }}" alt="">
+                <svg aria-hidden="true" class="icon icon-24">
+                  <use xlink:href="#icon-v5_10_h"></use>
+                </svg>
               </i>
               <aside class="qrcode-preview">
                 <div>
