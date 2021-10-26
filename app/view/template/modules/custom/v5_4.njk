@@ -71,12 +71,16 @@
       padding: 60px 0px 0;
       box-sizing: border-box;
       justify-content: space-between;
+      height:460px;
     }
     .v5-custom-info .v5-appDownload >div{
       display:flex;
     }
     .v5-custom-info .v5-appDownload >div >div{
-      width:50%;
+      width:35%;
+    }
+    .v5-custom-info .v5-appDownload >div .app-introduce{
+      width:65%;
     }
     .v5-custom-info .v5-appDownload  .title-text {
       font-size: 36px;
@@ -172,36 +176,7 @@
       line-height: 20px;
     }
     
-    .v5-custom-info .v5-register-guide {
-      width: 100%;
-      height: 300px;
-      text-align: center;
-      padding-top: 66px;
-      box-sizing: border-box;
-    }
-    .v5-custom-info .v5-register-guide .title-text {
-      margin-bottom: 16px;
-    }
-    .v5-custom-info .v5-register-guide p {
-      font-size: 16px;
-      line-height: 21px;
-      margin-bottom: 40px;
-    }
-    .v5-custom-info .v5-register-guide a {
-      display: flex;
-      margin: auto;
-      width: 240px;
-      height: 50px;
-      box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.1);
-      border-radius: 4px;
-      padding: 0 20px;
-      justify-content: space-between;
-      box-sizing: border-box;
-      align-items: center;
-    }
-    .v5-custom-info .v5-register-guide a span {
-      font-size: 16px;
-    }
+
     .v5-service .title-text {
       font-size: 32px;
       line-height: 40px;
@@ -252,11 +227,58 @@
     }
     .v5-custom-info .v5-appDownload .app-introduce img{
      
-      margin-top:-75px;
+      margin-top:-105px;
       width:95%
     }
     .v5-custom-info .app-preview{
       margin-top:50px;
+    }
+        .v5-custom-info .v5-register-guide {
+      width: 100%;
+      height: 300px;
+      text-align: center;
+      padding-top: 66px;
+      box-sizing: border-box;
+      margin-top: 204px;
+    }
+    .v5-custom-info .v5-register-guide .title-text {
+      margin-bottom: 16px;
+    }
+    .v5-custom-info .v5-register-guide p {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 40px;
+    }
+    .v5-custom-info .v5-register-guide a {
+      display: flex;
+      margin: auto;
+      width: 240px;
+      height: 50px;
+      box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      padding: 0 20px;
+      justify-content: space-between;
+      box-sizing: border-box;
+      align-items: center;
+      color: #ffffff;
+      position: relative;
+      text-decoration: none;
+    }
+    .v5-custom-info .v5-register-guide a .btn-hover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background:rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: none;
+    }
+    .v5-custom-info .v5-register-guide a:hover .btn-hover {
+      display: block;
+    }
+    .v5-custom-info .v5-register-guide a span {
+      font-size: 16px;
     }
   </style>
   {% if footer_warm_prompt %}
@@ -353,8 +375,8 @@
       <dl class="service-item item-4">
         <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
         <dd>
-          <div class='v5-6-cl'>{{locale.home.custom_text21}}</div>
-          <span class='v5-7-cl'>{{locale.home.custom_text22}}</span>
+          <div class='v5-5-cl'>{{locale.home.custom_text21}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text22}}</span>
         </dd>
       </dl>
     </div>
@@ -365,6 +387,7 @@
     <a href="/register" class="v5-1-bg">
       <span style='color:#fff'>Register now</span>
       <span style='color:#fff'>→</span>
+      <span class="btn-hover"></span>
     </a>
   </div>
   {% endif %}
