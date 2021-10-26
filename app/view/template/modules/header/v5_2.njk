@@ -14,6 +14,9 @@
     .common-header.top-common-header.v5-header .list-item-cl {
       color: #16181D;
     }
+    .common-header.top-common-header.v5-header .list-item-cl-sub {
+      color: #888FA1;
+    }
     .common-header.top-common-header.v5-header .hover-bg {
       background: #ECEFF6;
     }
@@ -1219,8 +1222,8 @@
         >
           <img src="{{i.logo}}" alt="">
           <dl>
-            <dt class="v5-5-cl">{{i.title}}</dt>
-            <dd class="v5-6-cl">{{i.subTitle}}</dd>
+            <dt class="list-item-cl">{{i.title}}</dt>
+            <dd class="list-item-cl-sub">{{i.subTitle}}</dd>
           </dl>
         </li>
         {% endfor %}
@@ -1235,7 +1238,7 @@
     <div class="header-guide unlogin-set">
       <button
         class="common-button header-login-button common-button-text-kind"
-        style="margin-top: 0px"
+        style="margin-top: 0px;vertical-align: middle;"
       >
         <div class="common-button-slot link-btn">
           {{ locale.header.login }}
@@ -1270,7 +1273,7 @@
             {{ locale.header.order }}
           </span>
         </div>
-        <ul class="lang-list v5-10-bg">
+        <ul class="lang-list bg-white">
           <!--  || activeMark === item.link -->
           {% for item in orderList %}
           <li class="list-item-cl" data-link="{{ item.link }}">{{ item.title }}</li>
@@ -1289,13 +1292,13 @@
           {{locale.h5Add.download}}
         </div>
       </div>
-      <div class="header-user-appdown v5-10-bg">
+      <div class="header-user-appdown bg-white">
         <div class="code-box">
           <div class="download-options-code">
             <img src="{{ appDownLoad.app_page_url }}" alt="" />
           </div>
           <!-- 扫描二维码下载 -->
-          <p class="download-options-codeText v5-5-cl">
+          <p class="download-options-codeText list-item-cl">
             {{ locale.appDownLoad.headerCode }}
           </p>
         </div>
@@ -1363,9 +1366,9 @@
           <use xlink:href="#icon-v5_5_h"></use>
         </svg>
       </div>
-      <div class="header-user-message v5-10-bg goMessage">
+      <div class="header-user-message bg-white goMessage">
         <ul class="header-user-text"></ul>
-        <div class="header-user-out v5-14-bg v5-3-1-cl">
+        <div class="header-user-out hover-bg v5-1-cl">
           {{ locale.header.more }}
         </div>
       </div>
@@ -1387,12 +1390,12 @@
           <use xlink:href="#icon-v5_2_h"></use>
         </svg>
       </div>
-      <div class="header-user-market v5-10-bg">
+      <div class="header-user-market bg-white">
         <ul class="header-user-text">
           <li class="v5-1-cl userText goPersonal"></li>
-          <li class="v5-5-cl userStatus"></li>
+          <li class="list-item-cl userStatus"></li>
         </ul>
-        <div class="header-user-out v5-14-bg logout">
+        <div class="header-user-out hover-bg logout">
           <span class="v5-1-cl">
             <!-- 退出 -->
             {{ locale.header.out }}
@@ -1408,13 +1411,13 @@
           {% endif %} {% endfor %}
         </span>
       </div>
-      <ul class="lang-list v5-10-bg v5-5-cl">
+      <ul class="lang-list bg-white list-item-cl">
         {% for item in lanList %} {% if currenLan === item.id %}
-        <li data-key="/{{ item.id }}" class="v5-1-cl v5-14-bg">
+        <li data-key="/{{ item.id }}" class="v5-1-cl hover-bg">
           {{ item.name }}
         </li>
         {% else %}
-        <li data-key="/{{ item.id }}" class="v5-5-cl">
+        <li data-key="/{{ item.id }}" class="list-item-cl">
           {{ item.name }}
         </li>
         {% endif %} {% endfor %}
@@ -1432,7 +1435,7 @@
           <use xlink:href="#icon-c_14_1"></use>
         </svg>
       </section>
-      <span class="v5-5-cl">{{ item.mainClor }}</span>
+      <span class="list-item-cl">{{ item.mainClor }}</span>
     </li>
     {% endfor %}
   </ul>

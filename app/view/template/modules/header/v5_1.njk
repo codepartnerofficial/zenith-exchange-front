@@ -223,11 +223,14 @@
       transition: all 0.3s;
     }
 
+    .top-common-header .common-header-linkList .header-navEven .icon-triangle svg.icon-hover {
+      display: none;
+    }
     .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-hover {
-      display: block;
+      display: inline-block;
     }
     .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-static,
-    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-static {
+    .top-common-header .common-header-linkList .header-navEven:hover .icon-triangle svg.icon-scroll {
       display: none;
     }
 
@@ -460,6 +463,7 @@
       height: 120px;
       left: -90px;
       z-index: 9999;
+      border-radius: 4px;
     }
 
     .top-common-header .common-header-optionList .header-user .header-user-message {
@@ -1210,7 +1214,7 @@
     <div class="header-guide unlogin-set">
       <div
         class="common-button header-login-button common-button-text-kind"
-        style="margin-top: 0px"
+        style="margin-top: 0px;vertical-align: middle;"
       >
         <div class="common-button-slot link-btn">
           {{ locale.header.login }}
@@ -1270,7 +1274,7 @@
             <img src="{{ appDownLoad.app_page_url }}" alt="" />
           </div>
           <!-- 扫描二维码下载 -->
-          <p class="download-options-codeText v5-5-cl">
+          <p class="download-options-codeText list-item-cl">
             {{ locale.appDownLoad.headerCode }}
           </p>
         </div>
@@ -1338,9 +1342,9 @@
           <use xlink:href="#icon-v5_5_h"></use>
         </svg>
       </div>
-      <div class="header-user-message v5-10-bg goMessage">
+      <div class="header-user-message bg-white goMessage">
         <ul class="header-user-text"></ul>
-        <div class="header-user-out v5-14-bg v5-3-1-cl">
+        <div class="header-user-out hover-bg v5-1-cl">
           {{ locale.header.more }}
         </div>
       </div>
@@ -1362,12 +1366,12 @@
           <use xlink:href="#icon-v5_2_h"></use>
         </svg>
       </div>
-      <div class="header-user-market v5-10-bg">
+      <div class="header-user-market bg-white">
         <ul class="header-user-text">
           <li class="v5-1-cl userText goPersonal"></li>
-          <li class="v5-5-cl userStatus"></li>
+          <li class="list-item-cl userStatus"></li>
         </ul>
-        <div class="header-user-out v5-14-bg v5-1-cl logout">
+        <div class="header-user-out hover-bg v5-1-cl logout">
           <!-- 退出 -->
           {{ locale.header.out }}
         </div>
@@ -1381,13 +1385,13 @@
           {% endif %} {% endfor %}
         </span>
       </div>
-      <ul class="lang-list bg-white v5-5-cl">
+      <ul class="lang-list bg-white list-item-cl">
         {% for item in lanList %} {% if currenLan === item.id %}
-        <li data-key="/{{ item.id }}" class="v5-1-cl v5-14-bg">
+        <li data-key="/{{ item.id }}" class="v5-1-cl hover-bg">
           {{ item.name }}
         </li>
         {% else %}
-        <li data-key="/{{ item.id }}" class="v5-5-cl">
+        <li data-key="/{{ item.id }}">
           {{ item.name }}
         </li>
         {% endif %} {% endfor %}
@@ -1405,7 +1409,7 @@
           <use xlink:href="#icon-c_14_1"></use>
         </svg>
       </section>
-      <span class="v5-5-cl">{{ item.mainClor }}</span>
+      <span class="list-item-cl">{{ item.mainClor }}</span>
     </li>
     {% endfor %}
   </ul>
