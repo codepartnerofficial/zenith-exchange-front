@@ -255,7 +255,7 @@ class StaticIndex extends Controller {
         imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121633574.png',
       },
     ];
-    let bannerList = [];
+    let bannerList = cmsAdvertList;
     if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
       if (cmsAdvertList && cmsAdvertList.length) {
         bannerList = cmsAdvertList;
