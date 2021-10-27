@@ -1,0 +1,164 @@
+{% macro boxStyle(height ,width, bgColor, slideList, extendPath, activeClass) %}
+<div class="swipers" id="swipers" data-height="{{height}}" data-width="{{width}}" data-bgColor="{{bgColor}}">
+    <style>
+        .carousel-wrap {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .slide-ul {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .slide-ul li {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 1s ease;
+        }
+        .slide-ul .show {
+            transition: all 1s ease;
+            opacity: 1;
+            z-index: 2;
+        }
+        .slide-ul .left {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .slide-ul .right {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .slide-ul li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: center top;
+        }
+        .carousel-items {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 2px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0;
+            z-index: 5;
+        }
+        .carousel-items span {
+            width: 16px;
+            margin: 0 4px;
+            display: inline-block;
+            height: 2px;
+            cursor: pointer;
+            border-radius: 1px;
+            background: #fff;
+            transition: all 0.3s;
+            transform-origin: center;
+        }
+        .carousel-items span.active {
+          transform: scaleX(1.5);
+        }
+        .list-enter-to {
+            transition: all 1s ease;
+            opacity: 1;
+            z-index: 9;
+        }
+        .list-leave-active {
+            transition: all 1s ease;
+            opacity: 0;
+            z-index: 1;
+        }
+        .list-enter {
+            opacity: 0;
+            z-index: 1;
+        }
+        .list-leave {
+            opacity: 1;
+            z-index: 9;
+        }
+
+    </style>
+    <div class='carousel-wrap' >
+        <ul class='slide-ul'>
+            {% for item in slideList %}
+                <li data-index="{{loop.index0}}">
+                    <a href="{{ item.httpUrl }}" data-img="{{item.imageUrl}}">
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if slideList.length > 1 %}
+            <div class="carousel-items">
+                {% for item in slideList %}
+                    <span class="v5-15-bg" data-index="{{loop.index0}}">123</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        </div>
+        <script>
+            (() => {
+                const {getScript} = window.BlockChainUtils;
+                const extendPath ="{{extendPath}}";
+                if (extendPath && !window.SwiperExtend){
+                    getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+                        class Swiper extends window.SwiperExtend{
+                            constructor() {
+                                super();
+                                this.activeClass = "{{activeClass}}";
+                                this.initData();
+                            }
+
+                            initData() {
+                              this.$swiper = document.querySelector('#swipers');
+                              this.$carouselWrap = this.$swiper.querySelector('.carousel-wrap');
+                              this.$slideUl = this.$swiper.querySelector('.slide-ul');
+                              this.$carouselItems = this.$swiper.querySelector('.carousel-items');
+                              this.lineWidth = 300;
+                              this.$slideListA = Array.prototype.slice.call(this.$slideUl.querySelectorAll('a'));
+                              this.$slideList = Array.prototype.slice.call(this.$slideUl.querySelectorAll('li'));
+                              if (this.$carouselItems) {
+                                this.$carouselItemsSapn = Array.prototype.slice.call(this.$carouselItems.querySelectorAll('span'));
+                              }
+                              this.currentIndex = 0;
+                              this.timer = null;
+                              const styleBox = this.$swiper.dataset;
+                              this.$swiper.style.height = styleBox.height;
+                              this.$swiper.style.width = styleBox.width;
+                              this.$swiper.classList.add(styleBox.bgcolor);
+                              this.$carouselWrap.style.height = styleBox.height;
+                              this.resetClass(this.currentIndex);
+                              this.$slideListA.forEach((item) => {
+                                item.style.backgroundImage = `url(${item.dataset.img})`;
+                              });
+                              let cl = 'active v5-1-bg';
+                              if (this.activeClass) {
+                                cl += this.activeClass;
+                              }
+                              if (this.$carouselItemsSapn) {
+                                this.$carouselItemsSapn.forEach((item, inx) => {
+                                  if (!inx) {
+                                    item.className = cl;
+                                  }
+                                });
+                              }
+                              this.renderBanner();
+                              this.bindEvent();
+                              if (this.$carouselItemsSapn) {
+                                this.go();
+                              }
+                            }
+                        }
+                        new Swiper();
+                    });
+                }
+            })();
+        </script>
+    </div>
+</div>
+{% endmacro %}

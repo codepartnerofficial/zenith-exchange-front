@@ -1,0 +1,237 @@
+<section class="v501-swiper-base">
+  <style>
+    .v501-swiper-base {
+      width: 100%;
+    }
+    .v501-swiper-base .banner {
+      width: 100%;
+      height: 580px;
+      background: url("http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026233511173.png") no-repeat center center;
+      background-size: 2560px 580px;
+    }
+    .v501-swiper-base .banner .banner-info {
+      width: 1200px;
+      height: 100%;
+      margin: auto;
+      position: relative;
+      box-sizing: border-box;
+      padding-top: 160px;
+    }
+    .v501-swiper-base .banner .title {
+      line-height: 51px;
+      font-size: 40px;
+      font-family: DINPro-Bold;
+      color: #ffffff;
+    }
+    .v501-swiper-base .banner .subTitle {
+      font-size: 18px;
+      line-height: 23px;
+      margin-top: 16px;
+      font-family: DINPro-Medium;
+      color: #747F91;
+    }
+    .v501-swiper-base .banner .button {
+      width: 220px;
+      height: 44px;
+      margin-top: 40px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: DINPro-Medium;
+    }
+    .v501-swiper-base .banner .button a {
+      color: #ffffff;
+    }
+    .v501-swiper-base .banner .symbol {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 77px;
+    }
+    .v501-swiper-base .swiper-wrap {
+      width: 100%;
+      min-width: 1344px;
+      padding-top: 40px;
+      border-radius: 36px 36px 0 0;
+      margin-bottom: 33px;
+      margin-top: -40px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .v501-swiper-base .swiper-wrap .slide-wrap {
+      width: 1200px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .v501-swiper-base .slide-list {
+      height: 140px;
+      display: flex;
+      transition: all 0.3s;
+    }
+    .v501-swiper-base .slide-item {
+      position: relative;
+      margin-right: 13px;
+    }
+    .v501-swiper-base .slide-item .layout {
+      position: absolute;
+      width: 290px;
+      height: 140px;
+      left: 0;
+      top: 0;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      display: none;
+      cursor: pointer;
+    }
+    .v501-swiper-base .slide-item:hover .layout {
+      display: block;
+    }
+    .v501-swiper-base .slide-item img {
+      width: 290px;
+      height: 140px;
+      border-radius: 8px;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn, .v501-swiper-base .swiper-wrap .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      position: relative;
+      margin-right: 32px;
+    }
+    .v501-swiper-base .swiper-wrap .btn-bg {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      position: absolute;
+      margin-right: 32px;
+      opacity: 0.15;
+      left: 0;
+      top: 0;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn:hover .btn-bg, .v501-swiper-base .swiper-wrap .next-btn:hover .btn-bg {
+      opacity: 0.1;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn {
+      margin-left: 32px;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn .before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      left: 10px;
+      top: 22px;
+      transform: rotate(45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+      opacity: 1;
+    }
+    .v501-swiper-base .swiper-wrap .prev-btn .after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 10px;
+      top: 14px;
+      transform: rotate(-45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+      opacity: 1;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn .before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 12px;
+      top: 22px;
+      transform: rotate(-45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+      opacity: 1;
+    }
+    .v501-swiper-base .swiper-wrap .next-btn .after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 3px;
+      background: #2762FF;
+      left: 12px;
+      top: 14px;
+      transform: rotate(45deg) scale(0.8);
+      border-radius: 0 1px 1px 0;
+      opacity: 1;
+    }
+
+  </style>
+  <div class="banner">
+    <div class="banner-info">
+      {% if backgroundInfo.title %}
+      <div class="title">{{backgroundInfo.title}}</div>
+      {% endif %}
+      {% if backgroundInfo.subTitle %}
+      <div class="subTItle">{{backgroundInfo.subTitle}}</div>
+      {% endif %}
+      {% if backgroundInfo.button %}
+      <button class="button v5-1-bg">
+        <a href="{{backgroundInfo.link}}">{{backgroundInfo.button}}</a>
+      </button>
+      {% endif %}
+      {% if headerSymbol.length %}
+      <div class="symbol">
+        {% include "../recommend/v5_1.njk" %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="swiper-wrap v5-10-bg" id="swiper-wrap">
+    {% if cmsAdvertList.length > 4 %}
+    <div class="prev-btn">
+      <div class="btn-bg v5-1-bg"></div>
+      <span class="before v5-1-bg"></span>
+      <span class="after v5-1-bg"></span>
+    </div>
+    {% endif %}
+    <div class="slide-wrap">
+      <ul class="slide-list">
+        {% for item in cmsAdvertList %}
+        <li class="slide-item">
+          <a href="{{ item.httpUrl }}">
+            <img src="{{ item.imageUrl }}" alt="">
+          </a>
+          <a href="{{ item.httpUrl }}" class="layout"></a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% if cmsAdvertList.length > 4 %}
+    <div class="next-btn">
+      <div class="btn-bg v5-1-bg"></div>
+      <span class="before v5-1-bg"></span>
+      <span class="after v5-1-bg"></span>
+    </div>
+    {% endif %}
+  </div>
+  <script>
+    (() => {
+      const {getScript} = window.BlockChainUtils;
+      const extendPath ="{{sourceMap.v5SwiperExtend}}";
+      if (extendPath && !window.SwiperExtend){
+          getScript(`${window.staticDomain}/home/static/${extendPath}`).then(() => {
+              class Swiper extends window.SwiperExtend{
+                  constructor() {
+                    super();
+                    const bgImg = "{{backgroundInfo.imageUrl}}";
+                    const banner = document.querySelector('.v501-swiper-base .banner');
+                    if (bgImg) {
+                      banner.style.background = `url("${bgImg}") no-repeat center center;background-size: 2560px 580px`;
+                    }
+                    this.init();
+                  }
+              }
+              new Swiper();
+          });
+      }
+    })();
+  </script>
+</section>

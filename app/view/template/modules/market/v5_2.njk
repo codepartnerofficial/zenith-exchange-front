@@ -1,0 +1,313 @@
+<section class="v5-market-wrap v5-10-bg v5-12-bd">
+    <style>
+        .v5-market-wrap {
+            width: 1200px;
+            margin: 50px auto 0;
+            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            background: #fff;
+            position: relative;
+            font-family: DINPro-Medium;
+            border-width: 1px;
+            border-style: solid;
+        }
+        .v5-market-wrap .market-item {
+            height: 76px;
+            line-height: 76px;
+            padding: 0 40px;
+            transition: all 0.3s;
+            display: flex;
+            position: relative;
+        }
+        .v5-market-wrap .market-wrap {
+          border-radius: 4px;
+        }
+        .v5-market-wrap .market-item.market-content {
+            padding: 0;
+        }
+        .v5-market-wrap .market-item .hover-item {
+          width: 100%;
+          height: 100%;
+          transition: all 0.3s;
+        }
+        .v5-market-wrap .market-content.market-item .hover-item:hover {
+          box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+          border-radius: 4px;
+          transform: scale(1.06);
+          z-index: 2;
+        }
+        .v5-market-wrap .market-content.market-item .hover-item:hover .market-info {
+          border: none;
+        }
+        .v5-market-wrap .market-item .market-info {
+          position: absolute;
+          display: flex;
+          height: 76px;
+          line-height: 76px;
+          border-bottom-style: solid;
+          border-bottom-width: 1px;
+          left: 40px;
+          top: 0;
+          box-sizing: border-box;
+        }
+        .v5-market-wrap .market-item:nth-child(6) .market-info {
+          border: none;
+        }
+        .v5-market-wrap .market-item .td-item {
+            font-size: 20px;
+        }
+        .v5-market-wrap .market-item .td-item1 {
+            width: 50px;
+            text-align: left;
+            color: #828ea1;
+        }
+        .v5-market-wrap .market-item .td-item2 {
+            width: 320px;
+            padding-left: 0px;
+            color: #aebacd;
+        }
+        .v5-market-wrap .market-item .td-item3 {
+            width: 225px;
+            color: #31363e;
+        }
+        .v5-market-wrap .market-item .td-item4 {
+            width: 210px;
+        }
+        .v5-market-wrap .market-item .td-item-vol {
+            width: 225px;
+        }
+        .v5-market-wrap .market-item .td-item-btn {
+            width: 80px;
+            font-size: 16px;
+            text-align: right;
+            position: relative;
+        }
+        .v5-market-wrap .market-item .td-item-btn button {
+            background: #3f78ff;
+            border-radius: 4px;
+            width: 76px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .v5-market-wrap .market-item .td-item-btn button:hover {
+            background: #5b8cff;
+        }
+        .v5-market-wrap .market-item .b-cion {
+            font-size: 20px;
+            color: #31363e;
+          }
+          .v5-market-wrap .market-item .q-cion {
+            font-size: 20px;
+            color: #31363e;
+            margin-right: 8px;
+            font-family: DINPro-Regular;
+        }
+        .v5-market-wrap .market-item .symbol-icon {
+            margin-right: 13px;
+        }
+        .v5-market-wrap .market-item .symbol-icon img {
+            vertical-align: middle;
+            width: 32px;
+            height: 32px;
+        }
+        .v5-market-wrap .market-item.title-th {
+            height: 55px;
+            line-height: 55px;
+            font-family: DINPro-Regular;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+        }
+        .v5-market-wrap .market-item.title-th .td-item2 {
+            box-sizing: border-box;
+            padding-left: 50;
+        }
+        .v5-market-wrap .market-item.title-th .td-item {
+            font-size: 12px;
+            color: #aebacd;
+        }
+        .v5-market-wrap .market-item.title-th .td-item-vol {
+            padding: 0;
+        }
+        .v5-market-wrap .more {
+            padding: 14px 0 20px;
+            text-align: center;
+        }
+        .v5-market-wrap .more span {
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .v5-market-wrap .more .hoverShow {
+          display: none;
+        }
+        .v5-market-wrap .more:hover .hoverHide {
+          display: none;
+        }
+        .v5-market-wrap .more:hover .hoverShow {
+          display: block;
+        }
+    </style>
+    <ul class="market-ul market-wrap v5-10-bg">
+        <li class="market-item title-th v5-12-bd">
+            <div class="td-item td-item1 v5-7-cl">#</div>
+            <div class="td-item td-item2 v5-7-cl">{{locale.home.market}}</div>
+            <div class="td-item td-item3 v5-7-cl">{{locale.home.close}}</div>
+            <div class="td-item td-item4 v5-7-cl">{{locale.home.applies}}</div>
+            <div class="td-item td-item-vol v5-7-cl">{{locale.home.H_volume}}</div>
+            <div class="td-item td-item-btn v5-7-cl">{{locale.h5Add.tradeList1}}</div>
+        </li>
+        {% for item in recommendMarket %}
+        {% if helper.recommend.symbolShow(loop.index0) %}
+        <li class="market-item market-content v5-10-bg" data-coin="{{item}}">
+          <div class="hover-item v5-19-cl-h">
+            <div class="market-info v5-12-bd">
+              <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>
+              <div class="td-item td-item2">
+                  {% if helper.recommend.symbolIcon(item, coinList)%}
+                  <span class="symbol-icon">
+                      <img src="{{helper.recommend.symbolIcon(item, coinList)}}" alt="">
+                  </span>
+                  {% endif %}
+                  <span class="b-cion v5-5-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'q')}}</span>
+                  <span class="q-cion v5-6-cl">{{helper.recommend.setSymbol(helper.recommend.getCoinShowName(item, symbolAll), 'b')}}</span>
+              </div>
+              <div class="td-item td-item3 closePrice v5-5-cl"></div>
+              <div class="td-item td-item4 percentage v5-5-cl"></div>
+              <div class="kline td-item td-item-vol v5-5-cl"></div>
+              <div class="td-item td-item-btn">
+                  <button class="common-button common-button-solid v5-2-bg">
+                      {{locale.otcTrade.buy}}
+                  </button>
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <li class="more">
+          <span class="hoverHide v5-6-cl">
+            {{locale.home.moreMarket}}
+            <svg aria-hidden="true" class="icon icon-12">
+              <use xlink:href="#icon-v5_3"></use>
+            </svg>
+          </span>
+          <span class="hoverShow v5-1-cl">
+            {{locale.home.moreMarket}}
+            <svg aria-hidden="true" class="icon icon-12">
+              <use xlink:href="#icon-v5_3_h"></use>
+            </svg>
+          </span>
+        </li>
+    </ul>
+    <script>
+        (() => {
+            const { myStorage, getScript } = window.BlockChainUtils;
+            const websocketPath = "{{sourceMap.webSocket}}";
+            if (!window.RecommendExtend){
+                class RecommendExtend {
+                    constructor() {
+                      this.init();
+                      this.bindMoreEvent();
+                    }
+
+                    init() {
+                      this.$marketWrap = document.querySelector('.v5-market-wrap');
+                      this.$marketList = Array.prototype.slice.call(this.$marketWrap.querySelectorAll('.market-content'));
+                      this.domTree = {};
+                      this.setDomTree();
+                      window.emitter.on('MARKET-DATA', (data) => {
+                        this.setData(data);
+                      })
+                      setTimeout(() => {
+                        this.$market = document.querySelector('.v5-market');
+                        this.clientHeight =  document.documentElement.clientHeight;
+                        this.setFade();
+                        window.addEventListener('scroll', () => {
+                          this.setFade();
+                        })
+                      }, 500)
+                    }
+
+                    setFade() {
+                      const { scrollY } = window;
+                      if (this.$market) {
+                        const offset = this.$market.offsetTop;
+                        if (offset < (this.clientHeight + scrollY - 50)) {
+                          this.$market.classList.remove('effect-fade');
+                        }
+                      }
+                    }
+
+                    setDomTree() {
+                      this.$marketList.forEach((item) => {
+                        const { coin } = item.dataset;
+                        if (coin) {
+                          if (!this.domTree[coin]) {
+                            this.domTree[coin] = {};
+                          }
+                          this.domTree[coin].closePrice = item.querySelector('.closePrice');
+                          this.domTree[coin].percentage = item.querySelector('.percentage');
+                          this.domTree[coin].vol = item.querySelector('.td-item-vol');
+                          this.domTree[coin].btn = item.querySelector('.td-item-btn');
+                          this.domTree[coin].btn.addEventListener('click', () => {
+                            let symbol = coin;
+                            if (coin) {
+                              if (coin.indexOf('-c') > -1) {
+                                symbol = coin.replace('-c', '');
+                              }
+                              myStorage.set('sSymbolName', symbol);
+                              myStorage.set('markTitle', symbol.split('/')[1]);
+                            }
+                            const { symbolAll } = window.market;
+                            let sSymbolShowName = symbol;
+                            if (symbolAll[symbol] && symbolAll[symbol].showName) {
+                              sSymbolShowName = symbolAll[symbol].showName;
+                            }
+                            window.location.href = `/trade/${sSymbolShowName.replace('/', '_')}`;
+                          })
+                        }
+                      });
+                    }
+
+                    setData(data) {
+                      data.forEach((item) => {
+                        const symbol = item.showName;
+                        if (this.domTree[symbol]) {
+                          let classes = item.data[2][0].classes.join(' ');
+                          if (classes) {
+                            classes = classes.replace(/(\w+-\d+-bg)/, '');
+                          }
+                          this.domTree[symbol].closePrice.innerHTML = item.data[1][0].text;
+                          // this.domTree[symbol].closePrice.className = `td-item td-item3 closePrice ${item.data[1][0].classes.join(' ')}`;
+                          this.domTree[symbol].percentage.innerHTML = item.data[2][0].text;
+                          this.domTree[symbol].percentage.className = `td-item td-item4 percentage ${classes}`;
+                          this.domTree[symbol].vol.innerHTML = item.data[6][0].text;
+                        }
+                      })
+                    }
+
+                    bindMoreEvent(){
+                        this.$marketWrap.querySelector('.more').addEventListener('click', () => {
+                            window.location.href = '/trade';
+                        }, false);
+                    }
+                }
+                if (websocketPath && !window.selfSocket) {
+                    getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+                }
+                window.RecommendExtend = RecommendExtend;
+                new RecommendExtend();
+            }
+            if (websocketPath && !window.selfSocket){
+                window.selfSocket = true;
+                getScript(`${window.staticDomain}/home/static/${websocketPath}`);
+            }
+        })();
+    </script>
+</section>

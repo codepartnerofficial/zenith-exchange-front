@@ -1,0 +1,37 @@
+<section class="v501-Home v501-home-container v5-10-bg">
+  <style>
+    .v501-Home {
+      position: relative;
+      width: 100%;
+    }
+    .v501-home .effect-fade {
+      transform: translate(0, 100px);
+      opacity: 0;
+    }
+    .v501-Home .v501-market {
+      width: 1200px;
+      margin: 100px auto 0;
+      transition: all 0.5s;
+    }
+    .v501-Home .item-title {
+      font-size: 36px;
+      line-height: 46px;
+      font-family: DINPro-Bold;
+    }
+    .v501-Home .v5-custom-info {
+      margin-top: 120px;
+    }
+  </style>
+  {% include "./swiper/v5_1.njk" %}
+  {% if noticeList.length > 0 %}
+  {% import "./noticeInfo/v5.njk" as notice %}
+  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
+  {% endif %}
+  <div class="v501-market effect-fade v5-market">
+    <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>
+    {% include "./market/v5_1.njk" %}
+  </div>
+  {% include "./custom/v5_1.njk"%}
+  <script>
+  </script>
+</section>

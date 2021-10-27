@@ -1,0 +1,470 @@
+<section class="v5-custom-info">
+  <style>
+    .v5-custom-info {
+      width:100%;
+      margin: auto;
+      font-family: DINPro-Medium;
+      font-weight: 500;
+      margin-top:120px;
+    }
+    .v5-custom-info .v5-guide, .v5-custom-info .v5-appDownload, .v5-custom-info .v5-service, .v5-custom-info .v5-register-guide {
+      transition: all 0.5s;
+    }
+    .v5-guide, .v5-appDownload,.v5-service{
+      width:1200px;
+      margin:0 auto;
+    }
+    .v5-custom-info .title-text {
+      font-size: 36px;
+      line-height: 46px;
+      font-family: DINPro-Bold;
+      font-weight: 700;
+    }
+    .v5-custom-info .title-tip {
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 16px;
+      font-family: DINPro-Medium;
+    }
+    .v5-custom-info .v5-guide .guide-content {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .v5-custom-info .v5-guide .guide-item {
+      width: 386px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt {
+      width: 100%;
+      margin-bottom: 16px;
+      position:relative;
+    }
+    .v5-custom-info .v5-guide .guide-item dt img {
+      width: 386px;
+      height: 240px;
+    }
+    .v5-custom-info .v5-guide .guide-item dt span{
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.1);
+      display:none;
+    }
+    .v5-custom-info .v5-guide .guide-item dt:hover span{
+      display:block;
+    }
+    .v5-custom-info .v5-guide .guide-item dd {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    .v5-custom-info .v5-service {
+      margin-bottom:160px;
+    }
+    .v5-custom-info .v5-appDownload  {
+      
+      padding: 60px 0px 0;
+      box-sizing: border-box;
+      justify-content: space-between;
+    }
+    .v5-custom-info .v5-appDownload >div{
+      display:flex;
+      padding:0 80px
+    }
+    .v5-custom-info .v5-appDownload >div >div{
+      width:47%;
+    }
+    .v5-custom-info .v5-appDownload >div .app-introduce{
+      width:53%
+    }
+    .v5-custom-info .v5-appDownload  .title-text {
+      font-size: 36px;
+      line-height: 44px;
+      margin-bottom: 14px;
+      width:100%;
+    }
+    .v5-custom-info .v5-appDownload  .title-tip {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 49px;
+      width:100%;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item {
+      margin-bottom: 28px;
+      display: flex;
+      overflow:hidden;
+    }
+   
+    .v5-custom-info .v5-appDownload .app-preview .intro-item p {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 21px;
+      font-family: DINPro-Bold;
+      margin-bottom: 8px;
+    }
+    .v5-custom-info .v5-appDownload .app-preview .intro-item span {
+      display: inline-block;
+      width: 340px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .v5-custom-info .download {
+      height: 44px;
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      width:50%
+    }
+    .v5-custom-info .download img {
+      margin-right: 8px;
+    }
+    .v5-custom-info .download .qrcode .img {
+      display: inline-block;
+      width: 44px;
+      height: 44px;
+      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+     .v5-custom-info .app-preview .intro-item svg {
+      margin-right: 24px;
+      width:24px;
+      height:17px;margin-top:10px;
+    }
+    
+    .v5-custom-info .download .download-store {
+      width: 160px;
+    }
+    .v5-custom-info .download  img.left {
+      width: 356px;
+      height:714px;
+    }
+    
+    .v5-custom-info .download .qrcode-preview {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s;
+      border-radius: 8px;
+      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+      position: absolute;
+      left: 335px;
+      bottom: 56px;
+      box-sizing: border-box;
+      background: #ffffff;
+    }
+    .v5-custom-info .v5-appDownload .qrcode-preview:hover {
+      width: 150px;
+      height: 190px;
+      opacity: 1;
+    }
+    .v5-custom-info .download .qrcode-preview img {
+      width: 100%;
+    }
+    .v5-custom-info .download .qrcode-preview span {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    
+        .v5-custom-info .v5-register-guide {
+      width: 100%;
+      height: 300px;
+      text-align: center;
+      padding-top: 66px;
+      box-sizing: border-box;
+      margin-top: 204px;
+    }
+    .v5-custom-info .v5-register-guide .title-text {
+      margin-bottom: 16px;
+    }
+    .v5-custom-info .v5-register-guide p {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 40px;
+    }
+    .v5-custom-info .v5-register-guide a {
+      display: flex;
+      margin: auto;
+      width: 240px;
+      height: 50px;
+      box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      padding: 0 20px;
+      justify-content: space-between;
+      box-sizing: border-box;
+      align-items: center;
+      color: #ffffff;
+      position: relative;
+      text-decoration: none;
+    }
+    .v5-custom-info .v5-register-guide a .btn-hover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background:rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: none;
+    }
+    .v5-custom-info .v5-register-guide a:hover .btn-hover {
+      display: block;
+    }
+    .v5-custom-info .v5-register-guide a span {
+      font-size: 16px;
+    }
+    .v5-service .title-text {
+      font-size: 32px;
+      line-height: 40px;
+      margin-bottom: 90px !important;
+    }
+    .v5-custom-info .v5-service .service-content {
+      display: flex;
+      justify-content: space-between;
+    }
+     .v5-custom-info .v5-service .service-content .service-item {
+      width: 230px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dt {
+      height: 72px;
+      line-height: 72px;
+      margin-bottom: 50px;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd div {
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: 13px;
+      font-weight: 500;
+    }
+    .v5-custom-info .v5-service .service-content .service-item dd span {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .v5-custom-info .v5-appDownload {
+      margin-top: 100px;
+    }
+    .v5-custom-info .download .qrcode .hoverShow {
+      display: none;
+    }
+    .v5-custom-info .download .qrcode .hoverHide {
+      background: #ffffff;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverShow {
+      display: inline-block;
+    }
+    .v5-custom-info .download .qrcode:hover .hoverHide {
+      display: none;
+    }
+    .v5-custom-info  .download .qrcode:hover .qrcode-preview {
+      width: 150px;
+      height: 190px;
+      opacity: 1;
+    }
+    .v5-custom-info .v5-appDownload .app-introduce img{
+      width:80%;
+    }
+    .v5-custom-info .app-preview ul{
+      margin-bottom:50px
+    }
+    .v5-custom-info .app-preview{
+      margin-top:100px;
+    }
+  </style>
+  {% if footer_warm_prompt %}
+  <section class="interHome-custom">{{ footer_warm_prompt | safe }}</section>
+  {% else %}
+  <div class="v5-guide">
+    <h2 class="title-text v5-5-cl">{{locale.home.custom_text1}}</h2>
+    <div class="title-tip v5-6-cl">{{locale.home.custom_text2}}</div>
+    <div class="guide-content">
+      <dl class="guide-item item-1">
+        <dt>
+          <img src="{{sourceMap.home_guide_1}}" alt="">
+          <span></span>
+        </dt>
+        <dd class='v5-5-cl'>{{locale.home.custom_text3}}</dd>
+      </dl>
+      <dl class="guide-item item-2">
+        <dt><img src="{{sourceMap.home_guide_2}}" alt=""><span></span></dt>
+        <dd class='v5-5-cl'>{{locale.home.custom_text4}}</dd>
+      </dl>
+      <dl class="guide-item item-3">
+        <dt><img src="{{sourceMap.home_guide_3}}" alt=""><span></span></dt>
+        <dd class='v5-5-cl'>{{locale.home.custom_text5}}</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="v5-appDownload">
+      <h2 class="title-text v5-5-cl">{{locale.home.custom_text6}}</h2>
+      <h6 class="title-tip v5-6-cl">{{locale.home.custom_text7}}</h6>
+      <div>
+          <div class="app-introduce">
+            <img src="{{sourceMap.home_appview_3}}" alt="" class='left'>
+          </div>
+          <div class="app-preview">
+      
+          <ul>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
+              </svg>
+              <div>
+                <p class='v5-5-cl'>{{locale.home.custom_text8}}</p>
+                <span class='v5-6-cl'>{{locale.home.custom_text9}}</span>
+              </div>
+            </li>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
+              </svg>
+              <div>
+                <p class='v5-5-cl'>{{locale.home.custom_text10}}</p>
+                <span class='v5-6-cl'>{{locale.home.custom_text11}}</span>
+              </div>
+            </li>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
+              </svg>
+              <div>
+                <p class='v5-5-cl'>{{locale.home.custom_text12}}</p>
+                <span class='v5-6-cl'>{{locale.home.custom_text13}}</span>
+              </div>
+            </li>
+            <li class="intro-item">
+              <svg aria-hidden="true" class="icon icon-24">
+                <use xlink:href="#icon-v5_6"></use>
+              </svg>
+              <div>
+                <p class='v5-5-cl'>{{locale.home.custom_text23}}</p>
+                <span class='v5-6-cl'>{{locale.home.custom_text24}}</span>
+              </div>
+            </li>
+            
+          </ul>
+          <div class="download">
+            <a href="/appDownload">
+              <img class="download-store" src="{{sourceMap.om_btn_1}}" alt="">
+            </a>
+            <a href="/appDownload">
+              <img class="download-store" src="{{sourceMap.om_btn_2}}" alt="">
+            </a>
+            <span class="qrcode">
+              <i class="img hoverHide v5-20-bg">
+                <svg aria-hidden="true" class="icon icon-24">
+                  <use xlink:href="#icon-v5_10"></use>
+                </svg>
+              </i>
+              <i class="img hoverShow v5-20-bg">
+                <svg aria-hidden="true" class="icon icon-24">
+                  <use xlink:href="#icon-v5_10_h"></use>
+                </svg>
+              </i>
+              <aside class="qrcode-preview">
+                <div style='width:100%'>
+                  <img src="{{ appDownLoad.app_page_url }}" alt="" style='width:100%;'>
+                </div>
+                <span style="color: #16181D">{{locale.appDownLoad.headerCode}}</span>
+              </aside>
+            </span>
+          </div>
+        </div>
+      </div>
+  </div>
+    <div class="v5-service">
+    <h2 class="title-text v5-5-cl" >{{locale.home.custom_text14}}</h2>
+    <div class="service-content">
+      <dl class="service-item item-1">
+        <dt><img src="{{sourceMap.home_service_1}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>{{locale.home.custom_text15}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text16}}</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-2">
+        <dt><img src="{{sourceMap.home_service_2}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>{{locale.home.custom_text17}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text18}}</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-3">
+        <dt><img src="{{sourceMap.home_service_3}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>{{locale.home.custom_text19}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text20}}</span>
+        </dd>
+      </dl>
+      <dl class="service-item item-4">
+        <dt><img src="{{sourceMap.home_service_4}}" alt=""></dt>
+        <dd>
+          <div class='v5-5-cl'>{{locale.home.custom_text21}}</div>
+          <span class='v5-6-cl'>{{locale.home.custom_text22}}</span>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="v5-register-guide v5-8-bg">
+    <h1 class="title-text v5-5-cl">Want to Start trading right away?</h1>
+    <p class="v5-6-cl">Register your account immediately and start trading.</p>
+    <a href="/register" class="v5-1-bg">
+      <span style='color:#fff'>Register now</span>
+      <span style='color:#fff'>→</span>
+      <span class="btn-hover"></span>
+    </a>
+  </div>
+  {% endif %}
+  <script>
+    (() => {
+      class customExtend {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          const $custom = document.querySelector('.v5-custom-info');
+          const $guide = document.querySelector('.v5-guide');
+          const $appDownload = document.querySelector('.v5-appDownload');
+          const $service = document.querySelector('.v5-service');
+          const $registerGuide = document.querySelector('.v5-register-guide');
+          const { clientHeight } =  document.documentElement;
+          window.addEventListener('scroll', () => {
+            const { scrollY } = window;
+            if ($guide) {
+              const g_offset = $guide.offsetTop;
+              if (g_offset < (clientHeight + scrollY - 100)) {
+                $guide.classList.remove('effect-fade');
+              }
+            }
+            if ($appDownload) {
+              const a_offset = $appDownload.offsetTop;
+              if (a_offset < (clientHeight + scrollY - 100)) {
+                $appDownload.classList.remove('effect-fade');
+              }
+            }
+            if ($service) {
+              const s_offset = $service.offsetTop;
+              if (s_offset < (clientHeight + scrollY - 100)) {
+                $service.classList.remove('effect-fade');
+              }
+            }
+            if ($registerGuide) {
+              const r_offset = $registerGuide.offsetTop;
+              if (r_offset < (clientHeight + scrollY - 100)) {
+                $registerGuide.classList.remove('effect-fade');
+              }
+            }
+          })
+        }
+      }
+      new customExtend();
+    })()
+  </script>
+</section>

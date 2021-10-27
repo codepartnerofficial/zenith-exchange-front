@@ -25,12 +25,53 @@ class StaticIndex extends Controller {
       }
     });
   }
+  async getHeaderAndFooter(domainArr, fileName, currenLan, options) {
+    const results = await Promise.all([
+      this.ctx.service.getFooterHeader.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options),
+    ]);
+    results.forEach(item => {
+      if (item) {
+        const k = Object.keys(item)[0];
+        const res = item[k];
+        switch (k) {
+          case 'common/footer_and_header': {
+            this.headerFooter = res;
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    });
+  }
+  async getHeaderAndFooterV2(domainArr, fileName, currenLan, options) {
+    const results = await Promise.all([
+      this.ctx.service.getFooterHeaderV2.getdataSync(domainArr[fileName], this.ctx.request.header.host, currenLan, options),
+    ]);
+    results.forEach(item => {
+      if (item) {
+        const k = Object.keys(item)[0];
+        const res = item[k];
+        switch (k) {
+          case 'common/v2/footer_and_header': {
+            if (res && res.header) {
+              this.headerFooter = res;
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    });
+  }
   async index(ctx) {
     this.randomToken = stringRandom(36);
     this.logger.error(JSON.stringify({
       message: `服务开始介入： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
     let ispc = true;
+    const tempList = [ '51', '52', '53', '54' ];
     const deviceAgent = this.ctx.request.header['user-agent'].toLowerCase();
     const reg = /^[a-z]{2}_[A-Z]{2}$/;
     const nowHost = this.ctx.request.header.host;
@@ -63,7 +104,6 @@ class StaticIndex extends Controller {
     // serviceArr.push(ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan))
     const results = await Promise.all([
       ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
-      ctx.service.getFooterHeader.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
@@ -75,10 +115,6 @@ class StaticIndex extends Controller {
         switch (k) {
           case 'common/public_info_v4': {
             this.publicInfo = res;
-            break;
-          }
-          case 'common/footer_and_header': {
-            this.headerFooter = res;
             break;
           }
           case 'common/app_download': {
@@ -100,12 +136,17 @@ class StaticIndex extends Controller {
         }
       }
     });
-    if (!this.publicInfo || !this.headerFooter || !this.appDownLoad || !this.commonIndex || !this.footerList) {
+    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
     if (this.publicInfo.switch.index_temp_type.toString() === '9') {
       await this.getCoPublicInfo(domainArr, fileName, currenLan, { randomToken: this.randomToken });
+    }
+    if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+      await this.getHeaderAndFooterV2(domainArr, fileName, currenLan, { randomToken: this.randomToken });
+    } else {
+      await this.getHeaderAndFooter(domainArr, fileName, currenLan, { randomToken: this.randomToken });
     }
     const domain = nowHost.replace(new RegExp(`^${nowHost.split('.')[0]}.`), '');
     this.setLan(domain);
@@ -150,7 +191,11 @@ class StaticIndex extends Controller {
     const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
     const { headerFooter = {} } = this;
     let customHeaderList = {};
+    let headerNavList = [];
     if (headerFooter && headerFooter.header) {
+      if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+        headerNavList = headerFooter.header;
+      }
       try {
         customHeaderList = JSON.parse(headerFooter.header);
       } catch (e) {
@@ -170,9 +215,56 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
+    let recommendMarket = [];
+    if (market && market.market && market.market.USDT) {
+      const uMarket = market.market.USDT;
+      recommendMarket = Object.keys(uMarket).slice(0, 5);
+    }
     this.logger.error(JSON.stringify({
       message: `服务处理完成： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
+    const skin = this.publicInfo.skin;
+    const cusSkinId = this.ctx.cookies.get('cusSkin', {
+      signed: false,
+    }) || skin.default;
+    const bannerList_1 = [
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121715405.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121740449.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121755893.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121811060.png',
+      },
+    ];
+    const bannerList_2 = [
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121557004.png',
+      },
+      {
+        httpUrl: '',
+        imageUrl: 'https://saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026121633574.png',
+      },
+    ];
+    let bannerList = [];
+    if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+      if (cmsAdvertList && cmsAdvertList.length) {
+        bannerList = cmsAdvertList;
+      } else if (this.publicInfo.switch.index_temp_type === '52') {
+        bannerList = bannerList_2;
+      } else {
+        bannerList = bannerList_1;
+      }
+    }
     await ctx.render('./index.njk', {
       env: this.config.env,
       locale: this.locale,
@@ -197,7 +289,7 @@ class StaticIndex extends Controller {
       number: item => Number(item),
       colorList: this.getColorList(currenLan),
       noticeList: this.getNoticeList(noticeInfoList, currenLan),
-      cmsAdvertList: ispc ? cmsAdvertList : cmsAppAdvertList,
+      cmsAdvertList: ispc ? bannerList : cmsAppAdvertList,
       symbolAll,
       footer_warm_prompt,
       footerList: this.footerList,
@@ -209,14 +301,65 @@ class StaticIndex extends Controller {
         title: index_international_title1,
         subTitle: index_international_title2,
       },
+      backgroundInfo: this.publicInfo.pc_background,
       securityUrl,
       isCoOpen: this.publicInfo.switch.index_temp_type.toString() === '9',
       coUrl: this.publicInfo.url.coUrl,
       coHeaderSymbol: (this.coPublicInfo && this.coPublicInfo.co_header_symbols && this.coPublicInfo.co_header_symbols.list && this.coPublicInfo.co_header_symbols.list.length) ? this.coPublicInfo.co_header_symbols.list : [],
       coHomeSymbol: (this.coPublicInfo && this.coPublicInfo.co_home_symbol_list && this.coPublicInfo.co_home_symbol_list.length) ? this.coPublicInfo.co_home_symbol_list : [],
       randomToken: this.randomToken,
+      recommendMarket,
+      headerNavList: this.handleNavList(headerNavList, domain),
+      defaultFooter: this.getDefaultFooter(),
+      cusSkinId,
     });
   }
+
+  handleNavList(navList, domain) {
+    const cookieDomain = domain === 'hiex.pro' ? 'bitwind.com' : domain;
+    const { url } = this.publicInfo;
+    const cookieIsNewSwap = this.ctx.cookies.get('isNewSwap', {
+      signed: false,
+    });
+    let isNewSwap = false;
+    if (cookieIsNewSwap) {
+      if (cookieIsNewSwap === '1') {
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
+    } else {
+      if (this.publicInfo
+            && this.publicInfo.switch.contract_version_settings === '1') {
+        isNewSwap = true;
+      } else {
+        isNewSwap = false;
+      }
+    }
+    this.ctx.cookies.set('isNewSwap', isNewSwap ? '1' : '0', {
+      httpOnly: false,
+      domain: cookieDomain,
+    });
+    if (url) {
+      let coUrl = url.coUrl;
+      if (url.coUrlNew || url.coUrlOld) {
+        coUrl = isNewSwap ? url.coUrlNew : url.coUrlOld;
+      }
+      const formatList = navList.map(item => {
+        const type = item.type ? item.type.toString() : '';
+        if (type === '1') {
+          item.httpUrl = url.exUrl + item.httpUrl;
+        } else if (type === '2') {
+          item.httpUrl = url.otcUrl + item.httpUrl;
+        } else if (type === '3') {
+          item.httpUrl = coUrl + item.httpUrl;
+        }
+        return item;
+      });
+      return formatList;
+    }
+  }
+
   getSEO() {
     const seo = this.publicInfo.seo || {};
     return {
@@ -230,6 +373,7 @@ class StaticIndex extends Controller {
   getTemplate(ispc) {
     let template = 'international';
     const indexTempType = this.publicInfo.switch.index_temp_type;
+    // const indexTempType = '54';
     if (this.publicInfo.switch && templateConfig[indexTempType]) {
       template = templateConfig[indexTempType];
     }
@@ -242,10 +386,29 @@ class StaticIndex extends Controller {
 
   getHeaderTemplate(ispc) {
     let template = 'china';
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_temp_type, header_navigation_type } = this.publicInfo.switch;
     if (!ispc) {
       template = 'h5';
     }
+    if (tempList.indexOf(index_temp_type) > -1) {
+      template = header_navigation_type && header_navigation_type.toString() === '1' ? 'v5_1' : 'v5_2';
+    }
     return `modules/header/${template}.njk`;
+  }
+
+  getDefaultFooter() {
+    let template = 'china';
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_temp_type } = this.publicInfo.switch;
+    if (tempList.indexOf(index_temp_type) > -1) {
+      if (index_temp_type === '51' || index_temp_type === '53') {
+        template = 'v5_3';
+      } else {
+        template = 'v5_4';
+      }
+    }
+    return `modules/footer/${template}.njk`;
   }
 
   getSelectSkin() {
@@ -326,7 +489,10 @@ class StaticIndex extends Controller {
       'home_edit_icon2', 'home_edit_icon3', 'home_edit_icon4', 'inforHeadBg', 'head', 'inforHeadBg',
       'int_banner', 'int_logo', 'interAppBg', 'interBanner_1', 'interBanner_2', 'interBanner_3',
       'interBanner_4', 'interCcustom1', 'interCcustom2', 'interCcustom3', 'interCcustom4', 'interHomeA',
-      'interPhone',
+      'interPhone', 'home_guide_1', 'home_guide_2', 'home_guide_3', 'home_service_1', 'home_service_2',
+      'home_service_3', 'home_service_4', 'home_appview_1', 'home_appview_2', 'home_appview_3', 'home_appview_4',
+      'foot-icon1', 'foot-icon2', 'foot-icon3',
+      'foot-icon1-hover', 'foot-icon1-hover', 'foot-icon1-hover',
     ];
     const imgMap = JSON.parse(fs.readFileSync(path.join(__dirname, '../view/src/utils/imgMap.json'), 'utf-8'));
     const hImg = {};
@@ -342,7 +508,18 @@ class StaticIndex extends Controller {
     if (!this.publicInfo.switch) {
       return [];
     }
-    const { index_international_open } = this.publicInfo.switch;
+    const tempList = [ '51', '52', '53', '54' ];
+    const { index_international_open, index_temp_type } = this.publicInfo.switch;
+    if (tempList.indexOf(index_temp_type) > -1) {
+      const arr = [];
+      noticeInfoList.forEach(item => {
+        arr.push({
+          noticeText: item.title,
+          id: item.id,
+        });
+      });
+      return arr.slice(0, 3);
+    }
     if (noticeInfoList && noticeInfoList.length) {
       const arr = [];
       let length = 18;
