@@ -25,7 +25,7 @@
   {% include "./swiper/v5_1.njk" %}
   {% if noticeList.length > 0 %}
   {% import "./noticeInfo/v5.njk" as notice %}
-  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
+  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length, locale=locale) }}
   {% endif %}
   <div class="v501-market effect-fade v5-market">
     <h2 class="item-title v5-5-cl">{{locale.home.market}}</h2>

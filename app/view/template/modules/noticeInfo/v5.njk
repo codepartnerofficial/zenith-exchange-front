@@ -1,4 +1,4 @@
-{% macro scroll(autoplay, noticeList, len) %}
+{% macro scroll(autoplay, noticeList, len, locale) %}
 <section class="v5-noticeInfo">
   <style>
     .v5-noticeInfo {
@@ -77,7 +77,7 @@
       </ul>
     </div>
     <div class="noticeInfo-more">
-      <a class="v5-1-cl" href="/noticeInfo">{{ locale.home.more }}</a>
+      <a class="v5-1-cl" href="/noticeInfo">{{locale.home.more}}</a>
     </div>
   </div>
   <script>

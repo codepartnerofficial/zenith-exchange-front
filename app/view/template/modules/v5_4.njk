@@ -33,7 +33,7 @@
   {% include "./recommend/v5_3.njk" %}
   {% if noticeList.length > 0 %}
   {% import "./noticeInfo/v5.njk" as notice %}
-  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length) }}
+  {{ notice.scroll(autoplay = 1, noticeList = noticeList, len = noticeList.length, locale=locale) }}
   {% endif %}
   {% include "./swiper/swiper-min.njk" %}
   
