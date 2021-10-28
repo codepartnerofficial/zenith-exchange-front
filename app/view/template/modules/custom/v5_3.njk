@@ -462,6 +462,11 @@
               }
             }
           })
+          emitter.on('login', () => {
+              if (window.isLogin && this.$registerGuide){
+                this.$registerGuide.style.display = 'none';
+              }
+          });
         }
       }
       new customExtend();
