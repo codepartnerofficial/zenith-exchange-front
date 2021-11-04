@@ -104,6 +104,7 @@ class StaticIndex extends Controller {
     // serviceArr.push(ctx.service.coPublictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan))
     const results = await Promise.all([
       ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.marketInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
@@ -113,8 +114,12 @@ class StaticIndex extends Controller {
         const k = Object.keys(item)[0];
         const res = item[k];
         switch (k) {
-          case 'common/public_info_v4': {
+          case 'common/public_info_v5': {
             this.publicInfo = res;
+            break;
+          }
+          case 'common/public_info_market': {
+            this.marketInfo = res;
             break;
           }
           case 'common/app_download': {
@@ -136,7 +141,7 @@ class StaticIndex extends Controller {
         }
       }
     });
-    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList) {
+    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList || !this.marketInfo) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
@@ -188,7 +193,9 @@ class StaticIndex extends Controller {
       }));
     }
     this.locale = defaultLocale;
-    const { msg = {}, lan = {}, market = {}, symbolAll = {} } = this.publicInfo;
+    const { market = {} } = this.marketInfo;
+    const { msg = {}, lan = {}, symbolAll = {} } = this.publicInfo;
+    // console.log(this.publicInfo, 11111111);
     const { headerFooter = {} } = this;
     let customHeaderList = {};
     let headerNavList = [];
