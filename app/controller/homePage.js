@@ -215,11 +215,11 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
-    let recommendMarket = [];
-    if (market && market.market && market.market.USDT) {
-      const uMarket = market.market.USDT;
-      recommendMarket = Object.keys(uMarket).slice(0, 5);
-    }
+    const recommendMarket = [ 'BTC/USDT', 'ETH/USDT', 'TRX/USDT', 'XRP/USDT', 'DOT/USDT' ];
+    // if (market && market.market && market.market.USDT) {
+    //   const uMarket = market.market.USDT;
+    //   recommendMarket = Object.keys(uMarket).slice(0, 5);
+    // }
     this.logger.error(JSON.stringify({
       message: `服务处理完成： 来源域名---${this.ctx.request.header.host}，来源路径---${this.ctx.request.url} 生成randomToken---${this.randomToken}`,
     }));
