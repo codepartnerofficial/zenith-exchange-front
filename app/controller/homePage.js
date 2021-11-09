@@ -192,14 +192,20 @@ class StaticIndex extends Controller {
     const { headerFooter = {} } = this;
     let customHeaderList = {};
     let headerNavList = [];
-    if (headerFooter && headerFooter.header) {
-      if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
-        headerNavList = headerFooter.header;
+    let recommendMarket = [ 'BTC/USDT', 'ETH/USDT', 'TRX/USDT', 'XRP/USDT', 'DOT/USDT' ];
+    if (headerFooter) {
+      if (headerFooter.recommendSymbol) {
+        recommendMarket = headerFooter.recommendSymbol.split(',');
       }
-      try {
-        customHeaderList = JSON.parse(headerFooter.header);
-      } catch (e) {
-        this.logger.error('自定义header不是json');
+      if (headerFooter.header) {
+        if (tempList.indexOf(this.publicInfo.switch.index_temp_type) > -1) {
+          headerNavList = headerFooter.header;
+        }
+        try {
+          customHeaderList = JSON.parse(headerFooter.header);
+        } catch (e) {
+          this.logger.error('自定义header不是json');
+        }
       }
     }
     this.headerLink = this.getHeaderLink(ispc, domain);
@@ -215,7 +221,6 @@ class StaticIndex extends Controller {
       }
       securityUrl = str;
     }
-    const recommendMarket = [ 'BTC/USDT', 'ETH/USDT', 'TRX/USDT', 'XRP/USDT', 'DOT/USDT' ];
     // if (market && market.market && market.market.USDT) {
     //   const uMarket = market.market.USDT;
     //   recommendMarket = Object.keys(uMarket).slice(0, 5);
