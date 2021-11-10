@@ -224,7 +224,8 @@
                     const bgImg = "{{backgroundInfo.imageUrl}}";
                     const banner = document.querySelector('.v501-swiper-base .banner');
                     if (bgImg) {
-                      banner.style.background = `url("${bgImg}") no-repeat center center;background-size: 2560px 580px`;
+                      banner.style.background = `url(${bgImg}) no-repeat center center`;
+                      banner.style.backgroundSize = `2560px 580px`;
                     }
                     this.init();
                   }
