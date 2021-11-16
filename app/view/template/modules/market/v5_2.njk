@@ -50,7 +50,7 @@
           top: 0;
           box-sizing: border-box;
         }
-        .v5-market-wrap .market-item:nth-child(6) .market-info {
+        .v5-market-wrap .market-item.no-border .market-info {
           border: none;
         }
         .v5-market-wrap .market-item .td-item {
@@ -164,7 +164,11 @@
         </li>
         {% for item in recommendMarket %}
         {% if helper.recommend.symbolShow(loop.index0) %}
+        {% if loop.index ===  recommendMarket.length %}
+        <li class="market-item market-content v5-10-bg no-border" data-coin="{{item}}">
+        {% else %}
         <li class="market-item market-content v5-10-bg" data-coin="{{item}}">
+        {% endif %}
           <div class="hover-item v5-19-cl-h">
             <div class="market-info v5-12-bd">
               <div class="td-item td-item1 v5-6-cl">{{loop.index}}</div>

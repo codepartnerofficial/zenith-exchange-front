@@ -246,7 +246,7 @@
       position: absolute;
       top: 60px;
       left: 0;
-      padding: 12px 8;
+      padding: 12px 8px;
       -webkit-box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
       box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.28);
       border-radius: 4px;
@@ -265,13 +265,16 @@
       border-radius: 4px;
     }
 
-    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li img {
+    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li img.nav-logo {
       width: 28px;
       height: 28px;
       margin-right: 12px;
     }
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dl {
       margin-bottom: 0;
+      flex: 1;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dt {
       line-height: 20px;
@@ -279,6 +282,17 @@
     .top-common-header .common-header-linkList .header-navEven .header-navEven-list li dd {
       font-size: 12px;
       line-height: 17px;
+    }
+    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li .active-icon {
+      width: 16px;
+      margin-left: 20px;
+    }
+    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li .active-icon img {
+      width: 16px;
+      display: none;
+    }
+    .top-common-header .common-header-linkList .header-navEven .header-navEven-list li:hover .active-icon img {
+      display: inline-block;
     }
     .top-common-header .common-header-linkList .header-navEven .new-label {
       position: absolute;
@@ -1224,11 +1238,14 @@
           data-trades="true"
           data-target="false"
         >
-          <img src="{{i.logo}}" alt="">
+          <img class="nav-logo" src="{{i.logo}}" alt="">
           <dl>
             <dt class="list-item-cl">{{i.title}}</dt>
             <dd class="list-item-cl-sub">{{i.subTitle}}</dd>
           </dl>
+          <span class="active-icon">
+            <img class="enter" src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211103160326152.svg" alt="">
+          </span>
         </li>
         {% endfor %}
       </ul>

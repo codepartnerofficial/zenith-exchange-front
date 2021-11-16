@@ -6,7 +6,6 @@
     .v501-swiper-base .banner {
       width: 100%;
       height: 580px;
-      background: url("http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026233511173.png") no-repeat center center;
       background-size: 2560px 580px;
     }
     .v501-swiper-base .banner .banner-info {
@@ -224,8 +223,11 @@
                     const bgImg = "{{backgroundInfo.imageUrl}}";
                     const banner = document.querySelector('.v501-swiper-base .banner');
                     if (bgImg) {
-                      banner.style.background = `url("${bgImg}") no-repeat center center;background-size: 2560px 580px`;
+                      banner.style.background = `url(${bgImg}) no-repeat center center`;
+                    } else {
+                      banner.style.background = `url("http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211026233511173.png") no-repeat center center`;
                     }
+                    banner.style.backgroundSize = `2560px 580px`;
                     this.init();
                   }
               }
