@@ -105,6 +105,7 @@ class StaticIndex extends Controller {
     const results = await Promise.all([
       ctx.service.publictInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.marketInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
+      ctx.service.rateInfo.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getAppDownLoad.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getBannerIndex.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
       ctx.service.getFooterList.getdataSync(domainArr[fileName], ctx.request.header.host, currenLan, { randomToken: this.randomToken }),
@@ -120,6 +121,10 @@ class StaticIndex extends Controller {
           }
           case 'common/public_info_market': {
             this.marketInfo = res;
+            break;
+          }
+          case 'common/rate': {
+            this.rateInfo = res;
             break;
           }
           case 'common/app_download': {
@@ -141,7 +146,7 @@ class StaticIndex extends Controller {
         }
       }
     });
-    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList || !this.marketInfo) {
+    if (!this.publicInfo || !this.appDownLoad || !this.commonIndex || !this.footerList || !this.marketInfo || !this.rateInfo) {
       ctx.body = '网络连接有误，请稍后重试';
       return;
     }
@@ -193,6 +198,8 @@ class StaticIndex extends Controller {
       }));
     }
     this.locale = defaultLocale;
+    // console.log(this.marketInfo);
+    this.marketInfo.market.rate = this.rateInfo.rate;
     const { market = {} } = this.marketInfo;
     const { msg = {}, lan = {}, symbolAll = {} } = this.publicInfo;
     // console.log(this.publicInfo, 11111111);
