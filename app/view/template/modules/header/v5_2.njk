@@ -1238,13 +1238,13 @@
           data-trades="true"
           data-target="false"
         >
-          <img class="nav-logo" src="{{i.logo}}" alt="">
-          <dl>
-            <dt class="list-item-cl">{{i.title}}</dt>
-            <dd class="list-item-cl-sub">{{i.subTitle}}</dd>
+          <img class="nav-logo" src="{{i.logo}}" alt="" data-link="{{ i.httpUrl }}">
+          <dl data-link="{{ i.httpUrl }}">
+            <dt class="list-item-cl" data-link="{{ i.httpUrl }}">{{i.title}}</dt>
+            <dd class="list-item-cl-sub" data-link="{{ i.httpUrl }}">{{i.subTitle}}</dd>
           </dl>
-          <span class="active-icon">
-            <img class="enter" src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211103160326152.svg" alt="">
+          <span class="active-icon" data-link="{{ i.httpUrl }}">
+            <img data-link="{{ i.httpUrl }}" class="enter" src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211103160326152.svg" alt="">
           </span>
         </li>
         {% endfor %}
