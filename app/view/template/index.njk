@@ -129,14 +129,14 @@
        data.data.symbolAll = setSymbolAll(myMarket);
        window.market = data.data;
       }
-     });
-     fetchData({
+      fetchData({
           url: '/fe-ex-api/common/rate',
-     }).then(function(data) {
-      if (data.code.toString() === '0') {
-       window.market.market.rate = data.data.rate;
-       emitter.emit('getMarket', data.data);
-      }
+        }).then(function(data) {
+        if (data.code.toString() === '0') {
+            window.market.market.rate = data.data.rate;
+            emitter.emit('getMarket', data.data);
+        }
+        });
      });
     }
     if (window.ispc === 'true'){
