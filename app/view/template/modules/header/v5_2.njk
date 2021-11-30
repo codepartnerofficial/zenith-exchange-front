@@ -1233,18 +1233,18 @@
         {% for i in item.childList%}
         <li
           class="list-item-cl"
-          data-link="{{ i.link }}"
+          data-link="{{ i.httpUrl }}"
           data-id="{{ i.id }}"
           data-trades="true"
           data-target="false"
         >
-          <img class="nav-logo" src="{{i.logo}}" alt="">
-          <dl>
-            <dt class="list-item-cl">{{i.title}}</dt>
-            <dd class="list-item-cl-sub">{{i.subTitle}}</dd>
+          <img class="nav-logo" src="{{i.logo}}" alt="" data-link="{{ i.httpUrl }}">
+          <dl data-link="{{ i.httpUrl }}">
+            <dt class="list-item-cl" data-link="{{ i.httpUrl }}">{{i.title}}</dt>
+            <dd class="list-item-cl-sub" data-link="{{ i.httpUrl }}">{{i.subTitle}}</dd>
           </dl>
-          <span class="active-icon">
-            <img class="enter" src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211103160326152.svg" alt="">
+          <span class="active-icon" data-link="{{ i.httpUrl }}">
+            <img data-link="{{ i.httpUrl }}" class="enter" src="http://dev-saas-oss.oss-cn-hongkong.aliyuncs.com/upload/20211103160326152.svg" alt="">
           </span>
         </li>
         {% endfor %}
@@ -1257,6 +1257,7 @@
   <div class="common-header-optionList">
     <!-- 未登录时 -->
     <div class="header-guide unlogin-set">
+      {% if number(switch.loginHide) === 0 %}
       <div
         class="common-button header-login-button common-button-text-kind v5-5-cl"
         style="margin-top: 0px;vertical-align: middle;"
@@ -1265,6 +1266,8 @@
           {{ locale.header.login }}
         </div>
       </div>
+      {% endif %}
+      {% if number(switch.registerHide) === 0 %}
       <button
         class="common-button header-reg-button common-button-hollow-big v5-1-bg"
         style="height: 30px; padding-left: 20px; padding-right: 20px; margin-top: 0px; color: #ffffff";
@@ -1274,6 +1277,9 @@
         </div>
         <div class="btn-hover"></div>
       </button>
+      {% endif %}
+
+
     </div>
     <div class="header-isLogin login-set" style="display: none">
       <!-- 资产 -->

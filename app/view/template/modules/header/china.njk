@@ -336,8 +336,7 @@
             float: left;
             padding: 15px 20px;
             vertical-align: middle;
-            border-left-width: 1px;
-            border-left-style: solid;
+
         }
 
         .top-common-header .common-header-optionList .header-guide .header-login-button {
@@ -1161,6 +1160,7 @@
     <div class="common-header-optionList">
         <!-- 未登录时 -->
         <div class="header-guide h-2-bd unlogin-set">
+        {% if number(switch.loginHide) === 0 %}
             <button class="common-button
              header-login-button
               common-button-text-kind
@@ -1170,6 +1170,8 @@
                     {{ locale.header.login }}
                 </div>
             </button>
+        {% endif %}
+        {% if number(switch.registerHide) === 0 %}
             <button class="
             common-button
             header-reg-button
@@ -1180,6 +1182,7 @@
                     {{ locale.header.register }}
                 </div>
             </button>
+        {% endif %}
         </div>
         <div class="header-isLogin login-set" style="display: none">
             <!-- 资产 -->
