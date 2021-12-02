@@ -225,6 +225,7 @@
                       this.$marketList = Array.prototype.slice.call(this.$marketWrap.querySelectorAll('.market-content'));
                       this.domTree = {};
                       this.setDomTree();
+                      window.emitter.emit('SWITCH-MARKET', 'USDT');
                       window.emitter.on('MARKET-DATA', (data) => {
                         this.setData(data);
                       })

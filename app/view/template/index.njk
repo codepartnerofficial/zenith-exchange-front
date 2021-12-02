@@ -134,7 +134,7 @@
         }).then(function(data) {
         if (data.code.toString() === '0') {
             window.market.market.rate = data.data.rate;
-            emitter.emit('getMarket', data.data);
+            emitter.emit('getMarket', window.market);
         }
         });
      });
