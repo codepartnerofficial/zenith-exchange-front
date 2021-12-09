@@ -425,9 +425,9 @@ class StaticIndex extends Controller {
     const { index_temp_type } = this.publicInfo.switch;
     if (tempList.indexOf(index_temp_type) > -1) {
       if (index_temp_type === '51' || index_temp_type === '53') {
-        template = 'v5_3';
+        template = 'chinaNew';
       } else {
-        template = 'v5_4';
+        template = 'chinaNew';
       }
     }
     return `modules/footer/${template}.njk`;
