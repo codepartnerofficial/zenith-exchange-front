@@ -52,15 +52,12 @@
         }
         .menu-ul-default li .hoverShow {
             display: none;
-            color:#d6dbe7 !important;
-
         }
         .menu-ul-default li:hover .hoverShow {
             display: inline-block;
         }
         .menu-ul-default li:hover .hoverHide {
             display: none;
-            color:#525D79 !important;
         }
         .menu-ul-default .tit {
             margin-bottom: 15px;
@@ -146,53 +143,28 @@
                 </div>
                 {% endif %}
         {% else %}
-            {% if switch.index_international_open === '1' %}
-                <div class="int-footer-bar">
-                    <div class="int-footer-left">
-                        <div class="int-footer-logo">
-                            <img src="{{helper.footer.logo(msg)}}" alt="">
-                        </div>
+            <div class="footer-bar footer-default">
+                <div class="footer-menu clearfix">
+                    <div class="footer-logo">
+                        <img src="{{helper.footer.logo(msg)}}" alt="">
                     </div>
-                        <div class="int-footer-template">
-                            <ul class="menu-ul-int">
-                                {% for item in footerList %}
-                                <li class="item">
-                                    <a class=" hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                                    <a class=" hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <br style="clear: both;">
-                </div>
-                <div class="int-copy z-2-cl"
-                     style="border-color: #293448 !important;">
-                    Copyright © 2021  {{msg.company_name}}. All rights reserved
-                </div>
-            {% else %}
-                <div class="footer-bar footer-default">
-                    <div class="footer-menu clearfix">
-                        <div class="footer-logo">
-                            <img src="{{helper.footer.logo(msg)}}" alt="">
-                        </div>
-                        <div class="footer-template">
-                            <ul class="menu-ul-default">
-                                {% for item in footerList %}
-                                <li class="item">
-                                    <a class=" hoverHide" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                                    <a class=" hoverShow" href="/cms/{{item.fileName}}">{{item.title}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                    <div class="footer-template">
+                        <ul class="menu-ul-default">
+                            {% for item in footerList %}
+                            <li class="item">
+                                <a class=" hoverHide" style='color:#525D79' href="/cms/{{item.fileName}}">{{item.title}}</a>
+                                <a class=" hoverShow" style='color:#d6dbe7' href="/cms/{{item.fileName}}">{{item.title}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-                <!-- 底部区域 -->
-                <div class="copy z-2-cl"
-                     style="border-color: #293448 !important;">
-                    Copyright © 2021  {{msg.company_name}}. All rights reserved
-                </div>
-            {% endif %}
+            </div>
+            <!-- 底部区域 -->
+            <div class="copy z-2-cl"
+                    style="border-color: #293448 !important;">
+                Copyright © 2021  {{msg.company_name}}. All rights reserved
+            </div>
         {% endif %}
     </section>
     <script>
