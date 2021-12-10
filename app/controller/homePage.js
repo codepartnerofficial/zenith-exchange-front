@@ -376,6 +376,19 @@ class StaticIndex extends Controller {
         } else if (type === '3') {
           item.httpUrl = coUrl + item.httpUrl;
         }
+        if (item.childList && item.childList.length) {
+          item.childList = item.childList.map(child => {
+            const subType = child.type ? child.type.toString() : '';
+            if (subType === '1') {
+              child.httpUrl = url.exUrl + child.httpUrl;
+            } else if (subType === '2') {
+              child.httpUrl = url.otcUrl + child.httpUrl;
+            } else if (subType === '3') {
+              child.httpUrl = url.coUrl + child.httpUrl;
+            }
+            return child;
+          });
+        }
         return item;
       });
       return formatList;
